@@ -268,7 +268,7 @@ freqtrade status
 ## 📞 联系方式
 
 - 📧 Email: henrylin9999@gmail.com
-- 🐙 GitHub: [henrylin9999](https://github.com/henrylin99)
+- 🐙 GitHub: [henrylin99](https://github.com/henrylin99)
 
 ## 🙏 致谢
 
