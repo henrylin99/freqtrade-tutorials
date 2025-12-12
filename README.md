@@ -5,6 +5,7 @@
 [![Freqtrade](https://img.shields.io/badge/Freqtrade-latest-green)](https://github.com/freqtrade/freqtrade)
 
 > 📚 **完整的 Freqtrade 量化交易学习体系 + 丰富的实战策略集合**
+> **完整视频教程播放地址** https://www.youtube.com/playlist?list=PL7lr3J84R0kHbupU7auXoeQ2f9wCOECrq
 
 ## 🎯 项目简介
 
