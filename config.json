@@ -1,0 +1,92 @@
+{
+    "exchange": {
+        "name": "binance",
+        "key": "",
+        "secret": "",
+        "ccxt_config": {
+            "enableRateLimit": true,
+            "defaultType": "spot"
+        },
+        "ccxt_async_config": {},
+        "pair_whitelist": [
+            "BTC/USDT",
+            "ETH/USDT",
+            "BNB/USDT",
+            "SOL/USDT",
+            "XRP/USDT"
+        ],
+        "pair_blacklist": []
+    },
+    "timeframe": "1h",
+    "dry_run": true,
+    "stake_currency": "USDT",
+    "stake_amount": 100,
+    "tradable_balance_ratio": 0.99,
+    "fiat_display_currency": "USD",
+    "dry_run_wallet": 1000,
+    "cancel_open_orders_on_exit": false,
+    "unfilledtimeout": {
+        "entry": 10,
+        "exit": 30
+    },
+    "entry_pricing": {
+        "price_side": "same",
+        "use_order_book": true,
+        "order_book_top": 1,
+        "price_last_balance": 0.0,
+        "check_depth_of_market": {
+            "enabled": false,
+            "bids_to_ask_delta": 1
+        }
+    },
+    "exit_pricing": {
+        "price_side": "same",
+        "use_order_book": true,
+        "order_book_top": 1
+    },
+    "pairlists": [
+        {"method": "StaticPairList"}
+    ],
+    "telegram": {
+        "enabled": false,
+        "token": "your token",
+        "chat_id": "your chat id",
+
+        "notification_settings": {
+        "status": "on",
+        "warning": "on",
+        "startup": "on",
+        "entry": "on",
+        "entry_fill": "on",
+        "entry_cancel": "on",
+        "exit": "on",
+        "exit_fill": "on",
+        "exit_cancel": "on",
+        "protection_trigger": "on",
+        "protection_trigger_global": "on"
+        },
+
+        "reload": true,
+        "balance_dust_level": 0.01
+    },
+    "api_server": {
+        "enabled": true,
+        "listen_ip_address": "127.0.0.1",
+        "listen_port": 8080,
+        "verbosity": "error",
+        "enable_openapi": false,
+        "jwt_secret_key": "abc123def456ghi789jkl012mno345pqr678stu901vwx234yz",
+        "ws_token": "xyz123abc456def789ghi012jkl345mno678pqr901stu234vwx567yz",
+        "CORS_origins": [],
+        "username": "freqtrader",
+        "password": "SuperSecretPassword123"
+    },
+    "bot_name": "freqtrade",
+    "initial_state": "running",
+    "force_entry_enable": false,
+    "internals": {
+        "process_throttle_secs": 5
+    },
+    "dataformat_ohlcv": "json",
+    "dataformat_trades": "json"
+}
