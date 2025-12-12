@@ -268,7 +268,7 @@ Contributions to this project are welcome!
 ## 📞 Contact
 
 - 📧 Email: henrylin9999@gmail.com
-- 🐙 GitHub: [henrylin9999](https://github.com/henrylin99)
+- 🐙 GitHub: [henrylin99](https://github.com/henrylin99)
 
 ## 🙏 Acknowledgments
 
