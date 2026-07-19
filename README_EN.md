@@ -6,6 +6,7 @@
 
 > 📚 **Complete Freqtrade Algorithmic Trading Learning System + Rich Practical Strategy Collection**
 - **Full video tutorial playback address** https://www.youtube.com/playlist?list=PL7lr3J84R0kHbupU7auXoeQ2f9wCOECrq
+- **Youtube english video link** https://www.youtube.com/playlist?list=PLaEbV4T6eLn8
 - **Telegram discussion group** https://t.me/+wJtNerQIbWw1MzE1
 
 ## 🎯 Project Introduction
