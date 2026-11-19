@@ -16,4 +16,5 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install mkdocs-material mkdocs-static-i18n
+      - run: python scripts/gen_strategy_pages.py
       - run: mkdocs gh-deploy --force

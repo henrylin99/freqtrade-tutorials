@@ -54,6 +54,7 @@ plugins:
 
 nav:
   - '🇨🇳 中文教程':
+    - '策略代码': zh/strategies/index.md
     - '第 1 课：量化交易与 Freqtrade 简介': zh/lesson-01-introduction.md
     - '第 2 课：Freqtrade 环境搭建': zh/lesson-02-environment-setup.md
     - '第 3 课：核心概念理解': zh/lesson-03-core-concepts.md
