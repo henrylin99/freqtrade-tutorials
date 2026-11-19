@@ -1,6 +1,22 @@
+!!! info "English"
+    Click the link to switch to the English version: **[Freqtrade Practical Tutorials →](en/)**
+
 # Freqtrade 实战教程
 
 从零开始学习 Freqtrade 量化交易的完整教程——覆盖环境搭建、数据管理、回测、参数优化、风险管理，直到小资金实盘。
+
+## 🚀 从这里开始
+
+| 我要… | 直接点这里 |
+|------|------|
+| 系统地从头学 | **[第 1 课：量化交易与 Freqtrade 简介 →](lesson-01-introduction/)** |
+| 马上把 Freqtrade 跑起来 | **[第 2 课：环境搭建 →](lesson-02-environment-setup/)** |
+| 看能直接回测的策略源码 | **[策略代码（18 个） →](strategies/)** |
+| 做参数优化 | **[第 11 课：Hyperopt 入门 →](lesson-11-hyperopt-basics/)** |
+| 玩机器学习 | **[第 29.1 课：FreqAI 深度实践 →](lesson-29-1-freqai-deep-dive/)** |
+| 准备实盘 | **[第 22 课：实盘前检查清单 →](lesson-22-pre-live-checklist/)** |
+
+> 📖 **全部 30 课在左侧目录**，由浅入深，可按顺序读也可按需跳读。
 
 ## 学习路径
 
@@ -22,5 +38,3 @@ cd freqtrade-tutorials
 # 按课程顺序阅读 tutorials（本站左侧目录），或直接开始：
 # 第 2 课：环境搭建
 ```
-
-点击左侧目录或顶部语言切换按钮切换到 [English](en/) 版本。
