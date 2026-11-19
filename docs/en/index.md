@@ -9,11 +9,11 @@ A complete tutorial series for learning Freqtrade quant trading from scratch —
 
 | I want to… | Go to |
 |------|------|
-| Learn systematically from the beginning | **[Lesson 1: Introduction to Quantitative Trading and Freqtrade →](../lesson-01-introduction/)** |
-| Get Freqtrade running right away | **[Lesson 2: Environment Setup →](../lesson-02-environment-setup/)** |
-| Tune parameters | **[Lesson 11: Hyperopt Basics →](../lesson-11-hyperopt-basics/)** |
-| Try machine learning | **[Lesson 29.1: FreqAI Deep Dive →](../lesson-29-1-freqai-deep-dive/)** |
-| Prepare for live trading | **[Lesson 22: Pre-Live Trading Checklist →](../lesson-22-pre-live-checklist/)** |
+| Learn systematically from the beginning | **[Lesson 1: Introduction to Quantitative Trading and Freqtrade →](lesson-01-introduction/)** |
+| Get Freqtrade running right away | **[Lesson 2: Environment Setup →](lesson-02-environment-setup/)** |
+| Tune parameters | **[Lesson 11: Hyperopt Basics →](lesson-11-hyperopt-basics/)** |
+| Try machine learning | **[Lesson 29.1: FreqAI Deep Dive →](lesson-29-1-freqai-deep-dive/)** |
+| Prepare for live trading | **[Lesson 22: Pre-Live Trading Checklist →](lesson-22-pre-live-checklist/)** |
 
 > 📖 **All 30 lessons are in the left sidebar**, from beginner to advanced — read in order or jump around.
 
