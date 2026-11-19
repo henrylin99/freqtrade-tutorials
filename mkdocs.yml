@@ -1,0 +1,126 @@
+site_name: Freqtrade 实战教程
+site_description: Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径
+site_url: https://henrylin99.github.io/freqtrade-tutorials/
+repo_url: https://github.com/henrylin99/freqtrade-tutorials
+repo_name: henrylin99/freqtrade-tutorials
+
+theme:
+  name: material
+  language: zh
+  features:
+    - navigation.tabs
+    - navigation.top
+    - navigation.indexes
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+  palette:
+    - scheme: default
+      primary: deep purple
+      toggle:
+        icon: material/brightness-7
+        name: 切换深色模式
+    - scheme: slate
+      primary: deep purple
+      toggle:
+        icon: material/brightness-4
+        name: 切换浅色模式
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.tabbed
+  - tables
+  - toc:
+      permalink: true
+
+plugins:
+  - search
+  - i18n:
+      docs_structure: folder
+      languages:
+        - locale: zh
+          name: 中文
+          default: true
+          build: true
+        - locale: en
+          name: English
+          build: true
+
+nav:
+  - '🇨🇳 中文教程':
+    - '第 1 课：量化交易与 Freqtrade 简介': zh/lesson-01-introduction.md
+    - '第 2 课：Freqtrade 环境搭建': zh/lesson-02-environment-setup.md
+    - '第 3 课：核心概念理解': zh/lesson-03-core-concepts.md
+    - '第 4 课：数据下载与管理': zh/lesson-04-data-management.md
+    - '第 5 课：第一次策略回测': zh/lesson-05-first-backtest.md
+    - '第 6 课：策略性能分析': zh/lesson-06-strategy-performance.md
+    - '第 7 课：多时间框架回测': zh/lesson-07-multi-timeframe.md
+    - '第 8 课：策略批量对比': zh/lesson-08-strategy-comparison.md
+    - '第 9 课：Freqtrade时间范围测试': zh/lesson-09-timerange-testing.md
+    - '第 10 课：Freqtrade交易对选择与测试': zh/lesson-10-pair-selection.md
+    - '第 11 课：Freqtrade参数优化入门（Hyperopt）': zh/lesson-11-hyperopt-basics.md
+    - '第 12 课：高级策略分析': zh/lesson-12-advanced-analysis.md
+    - '第 13 课：策略评分体系': zh/lesson-13-scoring-system.md
+    - '第 14 课：风险管理与资金管理': zh/lesson-14-risk-management.md
+    - '第 15 课：Freqtrade策略组合与分散': zh/lesson-15-portfolio-strategy.md
+    - '第 16 课：实时信号监控': zh/lesson-16-realtime-signals.md
+    - '第 17 课：Telegram 通知配置': zh/lesson-17-telegram-setup.md
+    - '第 18 课：Web UI 与 API 使用': zh/lesson-18-webui-api.md
+    - '第 19 课：可视化分析工具': zh/lesson-19-visualization.md
+    - '第 20 课：模拟交易验证': zh/lesson-20-dry-run-validation.md
+    - '第 21 课：交易所 API 配置': zh/lesson-21-exchange-api.md
+    - '第 22 课：实盘前检查清单': zh/lesson-22-pre-live-checklist.md
+    - '第 23 课：小资金实盘测试': zh/lesson-23-small-capital-live.md
+    - '第 24.1 课：实盘交易下单操作详解': zh/lesson-24-1-order-placement.md
+    - '第 24.2 课：实盘交易止损操作详解': zh/lesson-24-2-stop-loss-operations.md
+    - '第 24.3 课：币安合约交易操作详解': zh/lesson-24-3-futures-trading.md
+    - '第 24.4 课：杠杆交易操作详解': zh/lesson-24-4-leverage-trading.md
+    - '第 24 课：交易监控与调整': zh/lesson-24-trading-monitoring.md
+    - '第 25 课：风险控制与心态管理': zh/lesson-25-risk-management.md
+    - '第 26 课：自定义策略开发': zh/lesson-26-custom-strategy.md
+    - '第 27 课：多时间框架策略': zh/lesson-27-multi-timeframe.md
+    - '第 28 课：高频交易与网格策略': zh/lesson-28-grid-hft.md
+    - '第 29.1 课：FreqAI 深度实践': zh/lesson-29-1-freqai-deep-dive.md
+    - '第 29.2 课：高级机器学习策略': zh/lesson-29-2-advanced-ml-strategies.md
+    - '第 29 课：机器学习基础与策略优化（增强版）': zh/lesson-29-machine-learning-enhanced.md
+    - '第 29 课：机器学习与策略优化': zh/lesson-29-machine-learning.md
+    - '第 30 课：总结与持续学习': zh/lesson-30-conclusion.md
+  - '🇬🇧 English Tutorials':
+    - 'Lesson 1: Introduction to Quantitative Trading and Freqtrade': en/lesson-01-introduction.md
+    - 'Lesson 2: Freqtrade Environment Setup': en/lesson-02-environment-setup.md
+    - 'Lesson 3: Understanding Core Concepts': en/lesson-03-core-concepts.md
+    - 'Lesson 4: Data Download and Management': en/lesson-04-data-management.md
+    - 'Lesson 5: First Strategy Backtest': en/lesson-05-first-backtest.md
+    - 'Lesson 6: Strategy Performance Analysis': en/lesson-06-strategy-performance.md
+    - 'Lesson 7: Multi-Timeframe Backtesting': en/lesson-07-multi-timeframe.md
+    - 'Lesson 8: Strategy Batch Comparison': en/lesson-08-strategy-comparison.md
+    - 'Lesson 9: Time Range Testing': en/lesson-09-timerange-testing.md
+    - 'Lesson 10: Trading Pair Selection and Testing': en/lesson-10-pair-selection.md
+    - 'Lesson 11: Hyperopt Basics': en/lesson-11-hyperopt-basics.md
+    - 'Lesson 12: Advanced Strategy Analysis': en/lesson-12-advanced-analysis.md
+    - 'Lesson 13: Strategy Scoring System': en/lesson-13-scoring-system.md
+    - 'Lesson 14: Risk Management': en/lesson-14-risk-management.md
+    - 'Lesson 15: Strategy Portfolio and Diversification': en/lesson-15-portfolio-strategy.md
+    - 'Lesson 16: Real-time Signal Monitoring': en/lesson-16-realtime-signals.md
+    - 'Lesson 17: Telegram Setup': en/lesson-17-telegram-setup.md
+    - 'Lesson 18: Web UI and API Usage': en/lesson-18-webui-api.md
+    - 'Lesson 19: Visualization Analysis Tools': en/lesson-19-visualization.md
+    - 'Lesson 20: Simulated Trading Validation': en/lesson-20-dry-run-validation.md
+    - 'Lesson 21: Exchange API Configuration': en/lesson-21-exchange-api.md
+    - 'Lesson 22: Pre-Live Trading Checklist': en/lesson-22-pre-live-checklist.md
+    - 'Lesson 23: Small Capital Live Trading': en/lesson-23-small-capital-live.md
+    - 'Lesson 24.1: Live Trading Order Placement Detailed Guide': en/lesson-24-1-order-placement.md
+    - 'Lesson 24.2: Live Trading Stop Loss Operations Detailed Guide': en/lesson-24-2-stop-loss-operations.md
+    - 'Lesson 24.3: Binance Futures Trading Operations Detailed Guide': en/lesson-24-3-futures-trading.md
+    - 'Lesson 24.4: Leverage Trading Operations Detailed Guide': en/lesson-24-4-leverage-trading.md
+    - 'Lesson 24: Trading Monitoring and Adjustment': en/lesson-24-trading-monitoring.md
+    - 'Lesson 25: Risk Control and Psychology Management': en/lesson-25-risk-management.md
+    - 'Lesson 26: Custom Strategy Development': en/lesson-26-custom-strategy.md
+    - 'Lesson 27: Multi-Timeframe Strategies': en/lesson-27-multi-timeframe.md
+    - 'Lesson 28: High-Frequency Trading and Grid Strategies': en/lesson-28-grid-hft.md
+    - 'Lesson 29: Machine Learning and Strategy Optimization (Expanded)': en/lesson-29-machine-learning-expanded.md
+    - 'Lesson 29: Machine Learning and Strategy Optimization': en/lesson-29-machine-learning.md
+    - 'Lesson 30: Conclusion and Continuous Learning': en/lesson-30-conclusion.md
