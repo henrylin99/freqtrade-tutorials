@@ -12,4 +12,4 @@ A complete tutorial series for learning Freqtrade quant trading from scratch —
 | Advanced | 25–29 | Risk control, custom strategies, grid/HFT, FreqAI machine learning |
 | Wrap-up | 30 | Summary and next steps |
 
-Switch to the [中文版](../zh/) via the language selector at the top.
+Switch to the [中文版](../) via the language selector at the top.

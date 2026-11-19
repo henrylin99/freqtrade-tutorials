@@ -23,4 +23,4 @@ cd freqtrade-tutorials
 # 第 2 课：环境搭建
 ```
 
-点击左侧目录或顶部语言切换按钮切换到 [English](../en/) 版本。
+点击左侧目录或顶部语言切换按钮切换到 [English](en/) 版本。
