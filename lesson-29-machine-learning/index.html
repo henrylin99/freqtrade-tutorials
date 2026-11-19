@@ -1,0 +1,3548 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径">
+      
+      
+      
+        <link rel="canonical" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-29-machine-learning/">
+      
+      
+        <link rel="prev" href="../lesson-29-machine-learning-enhanced/">
+      
+      
+        <link rel="next" href="../lesson-30-conclusion/">
+      
+      
+        
+          <link rel="alternate" href="./" hreflang="zh">
+        
+          <link rel="alternate" href="../en/lesson-29-machine-learning/" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>第 29 课：机器学习与策略优化 - Freqtrade 实战教程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9784658154228475"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VGHZY4EELE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VGHZY4EELE");
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#29" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="Freqtrade 实战教程" class="md-header__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Freqtrade 实战教程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第 29 课：机器学习与策略优化
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="选择当前语言">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../en/lesson-29-machine-learning/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/henrylin99/freqtrade-tutorials" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../strategies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🇨🇳 中文教程
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Freqtrade 实战教程" class="md-nav__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Freqtrade 实战教程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/henrylin99/freqtrade-tutorials" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../strategies/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🇨🇳 中文教程
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🇨🇳 中文教程
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 1 课：量化交易与 Freqtrade 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-02-environment-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 2 课：Freqtrade 环境搭建
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-03-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 3 课：核心概念理解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-04-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 4 课：数据下载与管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-05-first-backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 5 课：第一次策略回测
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-06-strategy-performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 6 课：策略性能分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-07-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 7 课：多时间框架回测
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-08-strategy-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 8 课：策略批量对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-09-timerange-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 9 课：Freqtrade时间范围测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-10-pair-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 10 课：Freqtrade交易对选择与测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-11-hyperopt-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 11 课：Freqtrade参数优化入门（Hyperopt）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-12-advanced-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 12 课：高级策略分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-13-scoring-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 13 课：策略评分体系
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-14-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 14 课：风险管理与资金管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-15-portfolio-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 15 课：Freqtrade策略组合与分散
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-16-realtime-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 16 课：实时信号监控
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-17-telegram-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 17 课：Telegram 通知配置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-18-webui-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 18 课：Web UI 与 API 使用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 19 课：可视化分析工具
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-20-dry-run-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 20 课：模拟交易验证
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-21-exchange-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 21 课：交易所 API 配置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-22-pre-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 22 课：实盘前检查清单
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-23-small-capital-live/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 23 课：小资金实盘测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-1-order-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.1 课：实盘交易下单操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-2-stop-loss-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.2 课：实盘交易止损操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-3-futures-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.3 课：币安合约交易操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-4-leverage-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.4 课：杠杆交易操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-trading-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24 课：交易监控与调整
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-25-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 25 课：风险控制与心态管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-26-custom-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 26 课：自定义策略开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-27-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 27 课：多时间框架策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-28-grid-hft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 28 课：高频交易与网格策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-1-freqai-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29.1 课：FreqAI 深度实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-2-advanced-ml-strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29.2 课：高级机器学习策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning-enhanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29 课：机器学习基础与策略优化（增强版）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29 课：机器学习与策略优化
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29 课：机器学习与策略优化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        课程概述
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#freqtrade-hyperopt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一部分：Freqtrade 的 Hyperopt
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第一部分：Freqtrade 的 Hyperopt">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-hyperopt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Hyperopt 简介
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1 Hyperopt 简介">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基本概念
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        优化空间（Spaces）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-hyperopt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 准备支持 Hyperopt 的策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-hyperopt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 运行 Hyperopt
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.3 运行 Hyperopt">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基本命令
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        优化多个空间
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        输出示例
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-loss-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 损失函数（Loss Functions）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.4 损失函数（Loss Functions）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        常用损失函数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐选择
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 应用优化结果
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.5 应用优化结果">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 1：手动修改策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 2：使用参数文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#freqai-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第二部分：FreqAI - 机器学习框架
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第二部分：FreqAI - 机器学习框架">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-freqai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 FreqAI 简介
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 FreqAI 简介">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#freqai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        安装 FreqAI
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-freqai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 简单 FreqAI 策略示例
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-freqai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 FreqAI 配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 训练和回测
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第三部分：实用优化技巧
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第三部分：实用优化技巧">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 避免过拟合
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.1 避免过拟合">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        过拟合的表现
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        避免过拟合的方法
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-walk-forward" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Walk-Forward 优化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 参数稳定性测试
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 多市场验证
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第四部分：实战建议
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第四部分：实战建议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 机器学习使用建议
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 推荐学习路径
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 常见错误
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 实践任务
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 实践任务">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-hyperopt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 1：运行 Hyperopt
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 2：参数敏感度分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3walk-forward" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 3：Walk-Forward 测试
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4freqai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 4：FreqAI 实验（可选）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 核心要点
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📌 核心要点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hyperopt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hyperopt 使用要点
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        机器学习注意事项
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-30-conclusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 30 课：总结与持续学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        课程概述
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#freqtrade-hyperopt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一部分：Freqtrade 的 Hyperopt
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第一部分：Freqtrade 的 Hyperopt">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-hyperopt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Hyperopt 简介
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1 Hyperopt 简介">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基本概念
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        优化空间（Spaces）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-hyperopt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 准备支持 Hyperopt 的策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-hyperopt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 运行 Hyperopt
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.3 运行 Hyperopt">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基本命令
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        优化多个空间
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        输出示例
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-loss-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 损失函数（Loss Functions）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.4 损失函数（Loss Functions）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        常用损失函数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐选择
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 应用优化结果
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.5 应用优化结果">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 1：手动修改策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 2：使用参数文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#freqai-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第二部分：FreqAI - 机器学习框架
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第二部分：FreqAI - 机器学习框架">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-freqai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 FreqAI 简介
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 FreqAI 简介">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#freqai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        安装 FreqAI
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-freqai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 简单 FreqAI 策略示例
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-freqai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 FreqAI 配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 训练和回测
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第三部分：实用优化技巧
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第三部分：实用优化技巧">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 避免过拟合
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.1 避免过拟合">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        过拟合的表现
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        避免过拟合的方法
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-walk-forward" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Walk-Forward 优化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 参数稳定性测试
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 多市场验证
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第四部分：实战建议
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第四部分：实战建议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 机器学习使用建议
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 推荐学习路径
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 常见错误
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 实践任务
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 实践任务">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-hyperopt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 1：运行 Hyperopt
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 2：参数敏感度分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3walk-forward" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 3：Walk-Forward 测试
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4freqai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 4：FreqAI 实验（可选）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 核心要点
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📌 核心要点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hyperopt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hyperopt 使用要点
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        机器学习注意事项
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="29">第 29 课：机器学习与策略优化<a class="headerlink" href="#29" title="Permanent link">&para;</a></h1>
+<p><strong>⏱ 课时</strong>：2.5 小时
+<strong>🎯 学习目标</strong>：学习使用机器学习辅助策略开发和参数优化</p>
+<hr />
+<h2 id="_1">课程概述<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>机器学习（Machine Learning, ML）可以帮助我们：
+- 🔍 发现数据中的隐藏模式
+- 🎯 优化策略参数
+- 📊 预测价格趋势
+- 🤖 构建自适应策略</p>
+<p><strong>重要提醒</strong>：
+⚠️ 机器学习不是"圣杯"，不能保证盈利
+⚠️ 需要大量数据和计算资源
+⚠️ 容易过拟合，必须谨慎验证
+⚠️ 本课重点是实用方法，而非理论深度</p>
+<hr />
+<h2 id="freqtrade-hyperopt">第一部分：Freqtrade 的 Hyperopt<a class="headerlink" href="#freqtrade-hyperopt" title="Permanent link">&para;</a></h2>
+<h3 id="11-hyperopt">1.1 Hyperopt 简介<a class="headerlink" href="#11-hyperopt" title="Permanent link">&para;</a></h3>
+<p><strong>Hyperopt</strong> 是 Freqtrade 内置的参数优化工具，使用机器学习算法自动寻找最优参数。</p>
+<h4 id="_2">基本概念<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>什么是 Hyperopt？
+- 自动化参数搜索
+- 使用贝叶斯优化算法
+- 在指定范围内寻找最优参数
+- 基于回测结果评分
+
+能优化什么？
+- 买入条件的参数（RSI 阈值、EMA 周期）
+- 卖出条件的参数
+- ROI 配置
+- 止损配置
+- 追踪止损配置
+</code></pre></div>
+<h4 id="spaces">优化空间（Spaces）<a class="headerlink" href="#spaces" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Freqtrade 支持 5 个优化空间：
+
+1. buy - 买入条件参数
+2. sell - 卖出条件参数
+3. roi - ROI 配置
+4. stoploss - 止损配置
+5. trailing - 追踪止损配置
+
+可以单独优化，也可以组合优化
+</code></pre></div>
+<h3 id="12-hyperopt">1.2 准备支持 Hyperopt 的策略<a class="headerlink" href="#12-hyperopt" title="Permanent link">&para;</a></h3>
+<p>修改策略以支持参数优化。创建 <code>user_data/strategies/HyperoptableStrategy.py</code>：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">freqtrade.strategy</span><span class="w"> </span><span class="kn">import</span> <span class="n">IStrategy</span><span class="p">,</span> <span class="n">IntParameter</span><span class="p">,</span> <span class="n">DecimalParameter</span><span class="p">,</span> <span class="n">CategoricalParameter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataFrame</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">talib.abstract</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ta</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">freqtrade.vendor.qtpylib.indicators</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qtpylib</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">HyperoptableStrategy</span><span class="p">(</span><span class="n">IStrategy</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    支持 Hyperopt 的策略</span>
+<span class="sd">    定义可优化的参数范围</span>
+<span class="sd">    """</span>
+
+    <span class="n">INTERFACE_VERSION</span> <span class="o">=</span> <span class="mi">3</span>
+
+    <span class="c1"># ===== 可优化的参数 =====</span>
+
+    <span class="c1"># 买入参数</span>
+    <span class="n">buy_rsi_threshold</span> <span class="o">=</span> <span class="n">IntParameter</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'buy'</span><span class="p">)</span>
+    <span class="n">buy_rsi_enabled</span> <span class="o">=</span> <span class="n">CategoricalParameter</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'buy'</span><span class="p">)</span>
+
+    <span class="n">buy_ema_short</span> <span class="o">=</span> <span class="n">IntParameter</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'buy'</span><span class="p">)</span>
+    <span class="n">buy_ema_long</span> <span class="o">=</span> <span class="n">IntParameter</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">21</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'buy'</span><span class="p">)</span>
+
+    <span class="c1"># 卖出参数</span>
+    <span class="n">sell_rsi_threshold</span> <span class="o">=</span> <span class="n">IntParameter</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'sell'</span><span class="p">)</span>
+    <span class="n">sell_rsi_enabled</span> <span class="o">=</span> <span class="n">CategoricalParameter</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'sell'</span><span class="p">)</span>
+
+    <span class="c1"># ROI 参数</span>
+    <span class="n">minimal_roi</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"0"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">,</span>
+        <span class="s2">"30"</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+        <span class="s2">"60"</span><span class="p">:</span> <span class="mf">0.03</span><span class="p">,</span>
+        <span class="s2">"120"</span><span class="p">:</span> <span class="mf">0.01</span>
+    <span class="p">}</span>
+
+    <span class="c1"># 止损参数</span>
+    <span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.10</span>
+
+    <span class="c1"># 追踪止损参数</span>
+    <span class="n">trailing_stop</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">trailing_stop_positive</span> <span class="o">=</span> <span class="mf">0.01</span>
+    <span class="n">trailing_stop_positive_offset</span> <span class="o">=</span> <span class="mf">0.02</span>
+    <span class="n">trailing_only_offset_is_reached</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="n">timeframe</span> <span class="o">=</span> <span class="s1">'5m'</span>
+    <span class="n">startup_candle_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_indicators</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        计算指标</span>
+<span class="sd">        """</span>
+        <span class="c1"># EMA（使用可优化的周期）</span>
+        <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">buy_ema_short</span><span class="o">.</span><span class="n">range</span><span class="p">:</span>
+            <span class="n">dataframe</span><span class="p">[</span><span class="sa">f</span><span class="s1">'ema_short_</span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s1">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">EMA</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="n">val</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">buy_ema_long</span><span class="o">.</span><span class="n">range</span><span class="p">:</span>
+            <span class="n">dataframe</span><span class="p">[</span><span class="sa">f</span><span class="s1">'ema_long_</span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s1">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">EMA</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="n">val</span><span class="p">)</span>
+
+        <span class="c1"># RSI</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">RSI</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+
+        <span class="c1"># 成交量</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume_mean'</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_entry_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        买入信号（使用优化后的参数）</span>
+<span class="sd">        """</span>
+        <span class="n">conditions</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># 条件 1：EMA 金叉</span>
+        <span class="n">conditions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">qtpylib</span><span class="o">.</span><span class="n">crossed_above</span><span class="p">(</span>
+                <span class="n">dataframe</span><span class="p">[</span><span class="sa">f</span><span class="s1">'ema_short_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">buy_ema_short</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">'</span><span class="p">],</span>
+                <span class="n">dataframe</span><span class="p">[</span><span class="sa">f</span><span class="s1">'ema_long_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">buy_ema_long</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">'</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="c1"># 条件 2：RSI（如果启用）</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">buy_rsi_enabled</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+            <span class="n">conditions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">buy_rsi_threshold</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">conditions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">70</span><span class="p">)</span>
+
+        <span class="c1"># 条件 3：成交量</span>
+        <span class="n">conditions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume_mean'</span><span class="p">])</span>
+
+        <span class="c1"># 确保有成交量</span>
+        <span class="n">conditions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># 合并所有条件</span>
+        <span class="k">if</span> <span class="n">conditions</span><span class="p">:</span>
+            <span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+                <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">&amp;</span> <span class="n">y</span><span class="p">,</span> <span class="n">conditions</span><span class="p">),</span>
+                <span class="s1">'enter_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_exit_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        卖出信号（使用优化后的参数）</span>
+<span class="sd">        """</span>
+        <span class="n">conditions</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># 条件 1：EMA 死叉</span>
+        <span class="n">conditions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">qtpylib</span><span class="o">.</span><span class="n">crossed_below</span><span class="p">(</span>
+                <span class="n">dataframe</span><span class="p">[</span><span class="sa">f</span><span class="s1">'ema_short_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">buy_ema_short</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">'</span><span class="p">],</span>
+                <span class="n">dataframe</span><span class="p">[</span><span class="sa">f</span><span class="s1">'ema_long_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">buy_ema_long</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">'</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="c1"># 条件 2：RSI（如果启用）</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sell_rsi_enabled</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+            <span class="n">conditions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">sell_rsi_threshold</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+        <span class="c1"># 确保有成交量</span>
+        <span class="n">conditions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># 合并所有条件</span>
+        <span class="k">if</span> <span class="n">conditions</span><span class="p">:</span>
+            <span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+                <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">&amp;</span> <span class="n">y</span><span class="p">,</span> <span class="n">conditions</span><span class="p">),</span>
+                <span class="s1">'exit_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+</code></pre></div>
+<p><strong>关键点</strong>：
+<div class="highlight"><pre><span></span><code><span class="c1"># 整数参数</span>
+<span class="n">buy_rsi_threshold</span> <span class="o">=</span> <span class="n">IntParameter</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'buy'</span><span class="p">)</span>
+<span class="c1"># 在 20-40 范围内搜索，默认值 30</span>
+
+<span class="c1"># 小数参数</span>
+<span class="n">stoploss</span> <span class="o">=</span> <span class="n">DecimalParameter</span><span class="p">(</span><span class="o">-</span><span class="mf">0.15</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">default</span><span class="o">=-</span><span class="mf">0.10</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'stoploss'</span><span class="p">)</span>
+<span class="c1"># 在 -0.15 到 -0.05 范围内搜索</span>
+
+<span class="c1"># 分类参数（True/False 或多个选项）</span>
+<span class="n">buy_rsi_enabled</span> <span class="o">=</span> <span class="n">CategoricalParameter</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'buy'</span><span class="p">)</span>
+</code></pre></div></p>
+<h3 id="13-hyperopt">1.3 运行 Hyperopt<a class="headerlink" href="#13-hyperopt" title="Permanent link">&para;</a></h3>
+<h4 id="_3">基本命令<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 优化买入参数</span>
+freqtrade<span class="w"> </span>hyperopt<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--strategy<span class="w"> </span>HyperoptableStrategy<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--hyperopt-loss<span class="w"> </span>SharpeHyperOptLoss<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--spaces<span class="w"> </span>buy<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--epochs<span class="w"> </span><span class="m">100</span>
+
+<span class="c1"># 参数说明：</span>
+<span class="c1"># --hyperopt-loss：优化目标（后面详解）</span>
+<span class="c1"># --spaces：优化哪些参数空间</span>
+<span class="c1"># --epochs：优化迭代次数</span>
+</code></pre></div>
+<h4 id="_4">优化多个空间<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 同时优化买入和卖出</span>
+freqtrade<span class="w"> </span>hyperopt<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--strategy<span class="w"> </span>HyperoptableStrategy<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--hyperopt-loss<span class="w"> </span>SharpeHyperOptLoss<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--spaces<span class="w"> </span>buy<span class="w"> </span>sell<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--epochs<span class="w"> </span><span class="m">200</span>
+
+<span class="c1"># 优化所有空间</span>
+freqtrade<span class="w"> </span>hyperopt<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--strategy<span class="w"> </span>HyperoptableStrategy<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--hyperopt-loss<span class="w"> </span>SharpeHyperOptLoss<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--spaces<span class="w"> </span>all<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--epochs<span class="w"> </span><span class="m">500</span>
+</code></pre></div>
+<h4 id="_5">输出示例<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Best result:
+
+    188/500:    145 trades. Avg profit  0.85%. Total profit  0.01234 BTC ( 123.45%). Avg duration 234.5 m. Objective: -2.34567
+
+
+Buy hyperspace params:
+{
+    "buy_ema_short": 12,
+    "buy_ema_long": 26,
+    "buy_rsi_threshold": 35,
+    "buy_rsi_enabled": True
+}
+
+Sell hyperspace params:
+{
+    "sell_rsi_threshold": 65,
+    "sell_rsi_enabled": True
+}
+
+ROI table:
+{
+    "0": 0.088,
+    "25": 0.045,
+    "51": 0.019,
+    "139": 0
+}
+
+Stoploss: -0.089
+</code></pre></div>
+<h3 id="14-loss-functions">1.4 损失函数（Loss Functions）<a class="headerlink" href="#14-loss-functions" title="Permanent link">&para;</a></h3>
+<p>损失函数定义了"什么是最优"。</p>
+<h4 id="_6">常用损失函数<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. SharpeHyperOptLoss（推荐）</span>
+<span class="c1"># 最大化 Sharpe 比率（风险调整后收益）</span>
+<span class="o">--</span><span class="n">hyperopt</span><span class="o">-</span><span class="n">loss</span> <span class="n">SharpeHyperOptLoss</span>
+
+<span class="c1"># 2. SortinoHyperOptLoss</span>
+<span class="c1"># 类似 Sharpe，但只考虑下行风险</span>
+<span class="o">--</span><span class="n">hyperopt</span><span class="o">-</span><span class="n">loss</span> <span class="n">SortinoHyperOptLoss</span>
+
+<span class="c1"># 3. CalmarHyperOptLoss</span>
+<span class="c1"># 最大化 Calmar 比率（收益 / 最大回撤）</span>
+<span class="o">--</span><span class="n">hyperopt</span><span class="o">-</span><span class="n">loss</span> <span class="n">CalmarHyperOptLoss</span>
+
+<span class="c1"># 4. OnlyProfitHyperOptLoss</span>
+<span class="c1"># 只关注总利润（不考虑风险）</span>
+<span class="o">--</span><span class="n">hyperopt</span><span class="o">-</span><span class="n">loss</span> <span class="n">OnlyProfitHyperOptLoss</span>
+
+<span class="c1"># 5. MaxDrawDownHyperOptLoss</span>
+<span class="c1"># 最小化最大回撤</span>
+<span class="o">--</span><span class="n">hyperopt</span><span class="o">-</span><span class="n">loss</span> <span class="n">MaxDrawDownHyperOptLoss</span>
+</code></pre></div>
+<h4 id="_7">推荐选择<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>追求稳定：SharpeHyperOptLoss
+追求收益：OnlyProfitHyperOptLoss
+控制回撤：CalmarHyperOptLoss
+
+一般推荐：SharpeHyperOptLoss
+平衡了收益和风险
+</code></pre></div>
+<h3 id="15">1.5 应用优化结果<a class="headerlink" href="#15" title="Permanent link">&para;</a></h3>
+<p>Hyperopt 找到最优参数后，有两种应用方式：</p>
+<h4 id="1">方法 1：手动修改策略<a class="headerlink" href="#1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 将 Hyperopt 输出的参数写入策略</span>
+
+<span class="c1"># 修改前：</span>
+<span class="n">buy_rsi_threshold</span> <span class="o">=</span> <span class="n">IntParameter</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'buy'</span><span class="p">)</span>
+
+<span class="c1"># 修改后：</span>
+<span class="n">buy_rsi_threshold</span> <span class="o">=</span> <span class="n">IntParameter</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'buy'</span><span class="p">)</span>
+<span class="c1"># 或直接固定：</span>
+<span class="n">buy_rsi_threshold</span> <span class="o">=</span> <span class="mi">35</span>
+</code></pre></div>
+<h4 id="2">方法 2：使用参数文件<a class="headerlink" href="#2" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Hyperopt 会自动保存参数到文件</span>
+<span class="c1"># user_data/hyperopt_results/strategy_*.json</span>
+
+<span class="c1"># 回测时加载参数</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--strategy<span class="w"> </span>HyperoptableStrategy<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--hyperopt-paramfile<span class="w"> </span>user_data/hyperopt_results/strategy_HyperoptableStrategy.json
+</code></pre></div>
+<hr />
+<h2 id="freqai-">第二部分：FreqAI - 机器学习框架<a class="headerlink" href="#freqai-" title="Permanent link">&para;</a></h2>
+<h3 id="21-freqai">2.1 FreqAI 简介<a class="headerlink" href="#21-freqai" title="Permanent link">&para;</a></h3>
+<p><strong>FreqAI</strong> 是 Freqtrade 的机器学习扩展，支持：
+- 使用 ML 模型预测价格方向
+- 自动特征工程
+- 模型训练和评估
+- 实时预测</p>
+<h4 id="freqai">安装 FreqAI<a class="headerlink" href="#freqai" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 安装依赖</span>
+pip<span class="w"> </span>install<span class="w"> </span>freqtrade<span class="o">[</span>freqai<span class="o">]</span>
+
+<span class="c1"># 或安装完整版本</span>
+pip<span class="w"> </span>install<span class="w"> </span>freqtrade<span class="o">[</span>all<span class="o">]</span>
+</code></pre></div>
+<h3 id="22-freqai">2.2 简单 FreqAI 策略示例<a class="headerlink" href="#22-freqai" title="Permanent link">&para;</a></h3>
+<p>创建 <code>user_data/strategies/FreqAIStrategy.py</code>：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">freqtrade.strategy</span><span class="w"> </span><span class="kn">import</span> <span class="n">IStrategy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataFrame</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">talib.abstract</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ta</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">freqtrade.freqai.data_kitchen</span><span class="w"> </span><span class="kn">import</span> <span class="n">FreqaiDataKitchen</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">FreqAIStrategy</span><span class="p">(</span><span class="n">IStrategy</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    使用 FreqAI 的简单策略</span>
+<span class="sd">    预测价格方向，辅助交易决策</span>
+<span class="sd">    """</span>
+
+    <span class="n">INTERFACE_VERSION</span> <span class="o">=</span> <span class="mi">3</span>
+
+    <span class="n">minimal_roi</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"0"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">}</span>
+    <span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.05</span>
+    <span class="n">timeframe</span> <span class="o">=</span> <span class="s1">'5m'</span>
+    <span class="n">startup_candle_count</span> <span class="o">=</span> <span class="mi">100</span>
+
+    <span class="c1"># FreqAI 配置</span>
+    <span class="n">process_only_new_candles</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_indicators</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        添加基础指标</span>
+<span class="sd">        """</span>
+        <span class="c1"># 这些指标会被 FreqAI 用作特征</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">RSI</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_5'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">EMA</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_10'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">EMA</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_20'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">EMA</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+        <span class="n">macd</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">MACD</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'macd'</span><span class="p">]</span> <span class="o">=</span> <span class="n">macd</span><span class="p">[</span><span class="s1">'macd'</span><span class="p">]</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'macdsignal'</span><span class="p">]</span> <span class="o">=</span> <span class="n">macd</span><span class="p">[</span><span class="s1">'macdsignal'</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">feature_engineering_expand_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">period</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                                       <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        特征工程：创建用于 ML 的特征</span>
+<span class="sd">        """</span>
+        <span class="c1"># 价格变化</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="sa">f</span><span class="s1">'%-price_change_</span><span class="si">{</span><span class="n">period</span><span class="si">}</span><span class="s1">'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span><span class="o">.</span><span class="n">pct_change</span><span class="p">(</span><span class="n">period</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+        <span class="p">)</span>
+
+        <span class="c1"># RSI 变化</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="sa">f</span><span class="s1">'%-rsi_change_</span><span class="si">{</span><span class="n">period</span><span class="si">}</span><span class="s1">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">period</span><span class="p">)</span>
+
+        <span class="c1"># EMA 距离</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="sa">f</span><span class="s1">'%-ema_dist_</span><span class="si">{</span><span class="n">period</span><span class="si">}</span><span class="s1">'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">-</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_20'</span><span class="p">])</span> <span class="o">/</span>
+            <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_20'</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span>
+        <span class="p">)</span>
+
+        <span class="c1"># 成交量变化</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="sa">f</span><span class="s1">'%-volume_change_</span><span class="si">{</span><span class="n">period</span><span class="si">}</span><span class="s1">'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span><span class="o">.</span><span class="n">pct_change</span><span class="p">(</span><span class="n">period</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">feature_engineering_expand_basic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span>
+                                         <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        基础特征</span>
+<span class="sd">        """</span>
+        <span class="c1"># 当前 RSI</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'</span><span class="si">%-r</span><span class="s1">si'</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span>
+
+        <span class="c1"># MACD 差值</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'%-macd_diff'</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'macd'</span><span class="p">]</span> <span class="o">-</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'macdsignal'</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">feature_engineering_standard</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span>
+                                     <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        标准化特征</span>
+<span class="sd">        """</span>
+        <span class="c1"># 相对价格位置（0-1 之间）</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'%-price_position'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">-</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'low'</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">/</span>
+            <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'high'</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'low'</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_freqai_targets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        设置预测目标（监督学习的标签）</span>
+<span class="sd">        """</span>
+        <span class="c1"># 预测未来 3 根 K 线的价格方向</span>
+        <span class="c1"># 1 = 上涨，0 = 下跌</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'&amp;s-up_or_down'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_entry_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        买入信号：基于 ML 预测</span>
+<span class="sd">        """</span>
+        <span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+            <span class="p">(</span>
+                <span class="c1"># ML 预测上涨</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'&amp;s-up_or_down'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="c1"># 预测置信度高</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'do_predict'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="c1"># RSI 不在超买区</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">70</span><span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="p">),</span>
+            <span class="s1">'enter_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_exit_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        卖出信号：基于 ML 预测</span>
+<span class="sd">        """</span>
+        <span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+            <span class="p">(</span>
+                <span class="c1"># ML 预测下跌</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'&amp;s-up_or_down'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="c1"># 预测置信度高</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'do_predict'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="p">),</span>
+            <span class="s1">'exit_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+</code></pre></div>
+<h3 id="23-freqai">2.3 FreqAI 配置<a class="headerlink" href="#23-freqai" title="Permanent link">&para;</a></h3>
+<p>在 <code>config.json</code> 中添加 FreqAI 配置：</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"freqai"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"purge_old_models"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"train_period_days"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"backtest_period_days"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my_freqai_model"</span><span class="p">,</span>
+
+<span class="w">    </span><span class="nt">"feature_parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"include_timeframes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"5m"</span><span class="p">,</span><span class="w"> </span><span class="s2">"15m"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1h"</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">"include_corr_pairlist"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">"ETH/USDT"</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">"BNB/USDT"</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">"label_period_candles"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"include_shifted_candles"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"DI_threshold"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"weight_factor"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.9</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"principal_component_analysis"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"use_SVM_to_remove_outliers"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"indicator_periods_candles"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+
+<span class="w">    </span><span class="nt">"data_split_parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"test_size"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.33</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"random_state"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="p">},</span>
+
+<span class="w">    </span><span class="nt">"model_training_parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"n_estimators"</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"learning_rate"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.02</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"max_depth"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"min_child_weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="24">2.4 训练和回测<a class="headerlink" href="#24" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. 训练模型（会自动下载数据并训练）</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--strategy<span class="w"> </span>FreqAIStrategy<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--timerange<span class="w"> </span><span class="m">20230101</span>-20230331<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--freqaimodel<span class="w"> </span>LightGBMRegressor
+
+<span class="c1"># 2. 查看训练结果</span>
+<span class="c1"># 模型会保存在 user_data/models/</span>
+
+<span class="c1"># 3. 使用训练好的模型进行 Dry-run</span>
+freqtrade<span class="w"> </span>trade<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--strategy<span class="w"> </span>FreqAIStrategy<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--freqaimodel<span class="w"> </span>LightGBMRegressor
+</code></pre></div>
+<hr />
+<h2 id="_8">第三部分：实用优化技巧<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<h3 id="31">3.1 避免过拟合<a class="headerlink" href="#31" title="Permanent link">&para;</a></h3>
+<p>过拟合是机器学习最大的敌人。</p>
+<h4 id="_9">过拟合的表现<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>回测表现：
+- 总收益：+50%
+- 胜率：75%
+- 最大回撤：-5%
+- 看起来完美！
+
+实盘表现：
+- 总收益：-10%
+- 胜率：40%
+- 最大回撤：-25%
+- 完全失效！
+
+原因：策略记住了历史数据的噪音，而非真正的规律
+</code></pre></div>
+<h4 id="_10">避免过拟合的方法<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>1. 使用足够多的数据
+   ✓ 至少 6 个月
+   ✓ 经历不同市场环境
+   ✓ 牛市 + 熊市 + 震荡
+
+2. Walk-Forward 分析
+   ✓ 将数据分为多段
+   ✓ 在前 70% 优化，在后 30% 验证
+   ✓ 重复多次
+
+3. 保持策略简单
+   ✓ 参数少（&lt; 10 个）
+   ✓ 逻辑清晰
+   ✓ 避免过度复杂
+
+4. 限制 Hyperopt 次数
+   ✓ epochs &lt; 500
+   ✓ 不要一直优化到"完美"
+   ✓ 适可而止
+
+5. Out-of-Sample 测试
+   ✓ 在新数据上测试
+   ✓ 如果表现差异 &gt; 50%，可能过拟合
+</code></pre></div>
+<h3 id="32-walk-forward">3.2 Walk-Forward 优化<a class="headerlink" href="#32-walk-forward" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. 在 2023-01 到 2023-02 的数据上优化</span>
+freqtrade<span class="w"> </span>hyperopt<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--strategy<span class="w"> </span>HyperoptableStrategy<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--timerange<span class="w"> </span><span class="m">20230101</span>-20230228<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--spaces<span class="w"> </span>buy<span class="w"> </span>sell<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--epochs<span class="w"> </span><span class="m">200</span>
+
+<span class="c1"># 2. 在 2023-03 的数据上验证（不优化）</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--strategy<span class="w"> </span>HyperoptableStrategy<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--timerange<span class="w"> </span><span class="m">20230301</span>-20230331<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--hyperopt-paramfile<span class="w"> </span>user_data/hyperopt_results/strategy_*.json
+
+<span class="c1"># 3. 对比结果</span>
+<span class="c1"># 如果 2023-03 表现与优化期相近，说明策略稳健</span>
+<span class="c1"># 如果差异很大，说明可能过拟合</span>
+
+<span class="c1"># 4. 重复上述步骤，每次前移 1 个月</span>
+<span class="c1"># 这就是 Walk-Forward 分析</span>
+</code></pre></div>
+<h3 id="33">3.3 参数稳定性测试<a class="headerlink" href="#33" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 测试参数的稳定性</span>
+<span class="c1"># 创建脚本 parameter_stability_test.py</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="c1"># 要测试的参数范围</span>
+<span class="n">rsi_values</span> <span class="o">=</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">40</span><span class="p">]</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">rsi</span> <span class="ow">in</span> <span class="n">rsi_values</span><span class="p">:</span>
+    <span class="c1"># 临时修改策略参数</span>
+    <span class="c1"># 运行回测</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"freqtrade backtesting -c config.json --strategy TestStrategy --timerange 20230101-20230331"</span>
+    <span class="c1"># 记录结果</span>
+    <span class="c1"># ...</span>
+
+<span class="c1"># 分析：如果 RSI 25-40 都能盈利，说明策略稳健</span>
+<span class="c1"># 如果只有 RSI=35 盈利，其他都亏损，说明过拟合</span>
+</code></pre></div>
+<h3 id="34">3.4 多市场验证<a class="headerlink" href="#34" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>在不同市场条件下测试：
+
+1. 牛市（2023-01 到 2023-03）
+   - 策略收益：+25%
+   - 市场收益：+30%
+   - 相对表现：落后
+
+2. 震荡市（2023-04 到 2023-06）
+   - 策略收益：+8%
+   - 市场收益：+2%
+   - 相对表现：优秀 ✓
+
+3. 熊市（2023-07 到 2023-09）
+   - 策略收益：-5%
+   - 市场收益：-15%
+   - 相对表现：优秀 ✓
+
+结论：策略在震荡和熊市表现好，适合当前环境
+</code></pre></div>
+<hr />
+<h2 id="_11">第四部分：实战建议<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
+<h3 id="41">4.1 机器学习使用建议<a class="headerlink" href="#41" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>✅ 适合使用 ML 的场景：
+1. 参数优化（Hyperopt）
+   - 找出指标的最佳阈值
+   - 优化止损止盈
+   - 这是最实用的应用
+
+2. 特征选择
+   - 找出最有预测力的指标
+   - 去除冗余指标
+
+3. 市场状态识别
+   - 判断趋势 vs 震荡
+   - 判断波动率高低
+   - 辅助策略选择
+
+❌ 不适合使用 ML 的场景：
+1. 直接预测价格
+   - 价格变化高度随机
+   - 短期预测准确率低
+   - 不如传统技术分析
+
+2. 过度依赖 ML
+   - 忽视基本逻辑
+   - "黑箱"策略难以理解
+   - 出问题难以调试
+
+3. 数据不足时
+   - &lt; 3 个月数据
+   - 只有单一市场环境
+   - 容易过拟合
+</code></pre></div>
+<h3 id="42">4.2 推荐学习路径<a class="headerlink" href="#42" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>阶段 1：掌握基础（1-2 个月）
+□ 学习传统策略开发
+□ 理解技术指标
+□ 手动调参，建立直觉
+
+阶段 2：使用 Hyperopt（1 个月）
+□ 学习 Hyperopt 基础
+□ 优化现有策略的参数
+□ 对比优化前后效果
+
+阶段 3：FreqAI 入门（2-3 个月）
+□ 学习 FreqAI 基础
+□ 理解特征工程
+□ 实验简单 ML 模型
+
+阶段 4：进阶应用（持续）
+□ 深入学习 ML 理论
+□ 尝试不同模型
+□ 开发自定义 ML 策略
+</code></pre></div>
+<h3 id="43">4.3 常见错误<a class="headerlink" href="#43" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>错误 1：盲目相信 ML
+"ML 说会涨，一定会涨！"
+✗ 错误：ML 只是概率，不是确定性
+✓ 正确：ML 辅助决策，需要结合其他因素
+
+错误 2：过度优化
+"我跑了 10000 次 Hyperopt，找到完美参数！"
+✗ 错误：过度优化必然过拟合
+✓ 正确：200-500 次足够，适可而止
+
+错误 3：只在历史数据验证
+"回测收益 100%，策略完美！"
+✗ 错误：历史不代表未来
+✓ 正确：必须 Dry-run 验证，小资金实盘
+
+错误 4：忽视基础
+"不学技术分析，直接用 ML！"
+✗ 错误：不理解市场，ML 是空中楼阁
+✓ 正确：先学基础，再用 ML 优化
+
+错误 5：使用不足数据
+"我用 1 个月数据训练 ML 模型"
+✗ 错误：数据太少，必然过拟合
+✓ 正确：至少 6 个月，最好 1 年以上
+</code></pre></div>
+<hr />
+<h2 id="_12">📝 实践任务<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h2>
+<h3 id="1-hyperopt">任务 1：运行 Hyperopt<a class="headerlink" href="#1-hyperopt" title="Permanent link">&para;</a></h3>
+<ol>
+<li>准备 <code>HyperoptableStrategy</code></li>
+<li>优化买入参数：
+   <div class="highlight"><pre><span></span><code>freqtrade<span class="w"> </span>hyperopt<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--strategy<span class="w"> </span>HyperoptableStrategy<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--spaces<span class="w"> </span>buy<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--epochs<span class="w"> </span><span class="m">100</span>
+</code></pre></div></li>
+<li>记录最优参数和收益率</li>
+<li>在新数据上验证</li>
+</ol>
+<h3 id="2_1">任务 2：参数敏感度分析<a class="headerlink" href="#2_1" title="Permanent link">&para;</a></h3>
+<ol>
+<li>手动测试不同的 RSI 阈值（25, 30, 35, 40）</li>
+<li>分别回测，记录结果</li>
+<li>绘制图表：RSI 阈值 vs 收益率</li>
+<li>分析：策略对参数是否敏感？</li>
+</ol>
+<h3 id="3walk-forward">任务 3：Walk-Forward 测试<a class="headerlink" href="#3walk-forward" title="Permanent link">&para;</a></h3>
+<ol>
+<li>将 6 个月数据分为 3 段（每段 2 个月）</li>
+<li>在第 1 段优化参数</li>
+<li>在第 2 段验证</li>
+<li>记录表现差异</li>
+<li>重复步骤 2-4（第 2 段优化，第 3 段验证）</li>
+</ol>
+<h3 id="4freqai">任务 4：FreqAI 实验（可选）<a class="headerlink" href="#4freqai" title="Permanent link">&para;</a></h3>
+<p>如果对 ML 感兴趣：
+1. 安装 FreqAI 依赖
+2. 准备 <code>FreqAIStrategy</code>
+3. 训练模型（至少 3 个月数据）
+4. 在 Dry-run 中测试
+5. 记录：预测准确率、实际收益</p>
+<hr />
+<h2 id="_13">📌 核心要点<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h2>
+<h3 id="hyperopt">Hyperopt 使用要点<a class="headerlink" href="#hyperopt" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>1. 定义合理的参数范围
+   - 不要太宽（20-100）
+   - 不要太窄（28-32）
+   - 基于经验和常识
+
+2. 选择合适的损失函数
+   - SharpeHyperOptLoss（推荐）
+   - 平衡收益和风险
+
+3. 限制优化次数
+   - 100-500 次足够
+   - 避免过拟合
+
+4. 验证优化结果
+   - Out-of-sample 测试
+   - Dry-run 验证
+   - 小资金实盘
+</code></pre></div>
+<h3 id="_14">机器学习注意事项<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>1. 数据质量 &gt; 模型复杂度
+   - 足够多的数据（&gt; 6 个月）
+   - 多样的市场环境
+   - 清洗异常数据
+
+2. 简单 &gt; 复杂
+   - 简单模型更稳健
+   - 复杂模型容易过拟合
+   - 可解释性很重要
+
+3. 持续验证
+   - 定期重新训练
+   - 监控实时表现
+   - 及时调整
+
+4. 风险控制
+   - ML 不是万能的
+   - 仍需止损保护
+   - 不要盲目相信预测
+</code></pre></div>
+<hr />
+<h2 id="_15">🎯 总结<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h2>
+<p>本课介绍了机器学习在量化交易中的应用：
+- <strong>Hyperopt</strong>：参数自动优化，最实用
+- <strong>FreqAI</strong>：深度 ML 集成，进阶功能
+- <strong>优化技巧</strong>：避免过拟合，确保稳健</p>
+<p><strong>重要提醒</strong>：
+⚠️ ML 是辅助工具，不是圣杯
+⚠️ 过度优化必然过拟合
+⚠️ 必须在新数据上验证
+⚠️ 风险控制永远第一</p>
+<p>下节课是最后一课，我们将总结整个课程，并建立持续学习体系。</p>
+<hr />
+<p><strong>🎓 学习建议</strong>：
+1. <strong>从 Hyperopt 开始</strong>：最实用，风险最低
+2. <strong>保持怀疑</strong>：对 ML 结果保持批判性思维
+3. <strong>持续验证</strong>：在新数据上反复测试
+4. <strong>记录一切</strong>：详细记录优化过程和结果
+5. <strong>不要过度依赖</strong>：ML 是工具，不是全部</p>
+<p>记住：<strong>最好的策略是简单、稳健、可解释的。ML 应该让策略更好，而不是更复杂。</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

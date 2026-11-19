@@ -1,0 +1,3610 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径">
+      
+      
+      
+        <link rel="canonical" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-21-exchange-api/">
+      
+      
+        <link rel="prev" href="../lesson-20-dry-run-validation/">
+      
+      
+        <link rel="next" href="../lesson-22-pre-live-checklist/">
+      
+      
+        
+          <link rel="alternate" href="./" hreflang="zh">
+        
+          <link rel="alternate" href="../en/lesson-21-exchange-api/" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>第 21 课：交易所 API 配置 - Freqtrade 实战教程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9784658154228475"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VGHZY4EELE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VGHZY4EELE");
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#21-api" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="Freqtrade 实战教程" class="md-header__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Freqtrade 实战教程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第 21 课：交易所 API 配置
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="选择当前语言">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../en/lesson-21-exchange-api/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/henrylin99/freqtrade-tutorials" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../strategies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🇨🇳 中文教程
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Freqtrade 实战教程" class="md-nav__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Freqtrade 实战教程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/henrylin99/freqtrade-tutorials" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../strategies/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🇨🇳 中文教程
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🇨🇳 中文教程
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 1 课：量化交易与 Freqtrade 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-02-environment-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 2 课：Freqtrade 环境搭建
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-03-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 3 课：核心概念理解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-04-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 4 课：数据下载与管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-05-first-backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 5 课：第一次策略回测
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-06-strategy-performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 6 课：策略性能分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-07-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 7 课：多时间框架回测
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-08-strategy-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 8 课：策略批量对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-09-timerange-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 9 课：Freqtrade时间范围测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-10-pair-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 10 课：Freqtrade交易对选择与测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-11-hyperopt-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 11 课：Freqtrade参数优化入门（Hyperopt）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-12-advanced-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 12 课：高级策略分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-13-scoring-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 13 课：策略评分体系
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-14-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 14 课：风险管理与资金管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-15-portfolio-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 15 课：Freqtrade策略组合与分散
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-16-realtime-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 16 课：实时信号监控
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-17-telegram-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 17 课：Telegram 通知配置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-18-webui-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 18 课：Web UI 与 API 使用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 19 课：可视化分析工具
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-20-dry-run-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 20 课：模拟交易验证
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 21 课：交易所 API 配置
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 21 课：交易所 API 配置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        课程概述
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#211-api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.1 API Key 创建与权限设置
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.1 API Key 创建与权限设置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2111" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.1.1 支持的交易所
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2112-binance-api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.1.2 Binance API Key 创建步骤
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.1.2 Binance API Key 创建步骤">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        步骤 1：登录账户
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        步骤 2：进入 API 管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        步骤 3：创建 API Key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-api-key-secret" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        步骤 4：保存 API Key 和 Secret
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        步骤 5：配置 API 权限
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-ip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        步骤 6：配置 IP 白名单（强烈推荐）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2113-freqtrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.1.3 配置 Freqtrade
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.1.3 配置 Freqtrade">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configjson-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        在 config.json 中配置 API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 1：使用环境变量（推荐）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 2：使用独立的私密配置文件（推荐）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2114-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.1.4 测试 API 连接
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2115" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.1.5 其他交易所配置
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.1.5 其他交易所配置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#okx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OKX 配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bybit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bybit 配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#212" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.2 安全注意事项
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.2 安全注意事项">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2121-api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.2.1 API Key 安全清单
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.2.1 API Key 安全清单">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ 必须做到
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❌ 绝对禁止
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2122" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.2.2 常见安全漏洞
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.2.2 常见安全漏洞">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1git" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        漏洞 1：Git 泄露
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        漏洞 2：日志泄露
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        漏洞 3：屏幕共享泄露
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2123" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.2.3 应急处理流程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.2.3 应急处理流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        如果怀疑 API Key 泄露
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        如果发现异常交易
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2124" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.2.4 子账户隔离（推荐）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.2.4 子账户隔离（推荐）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        为什么使用子账户
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#binance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Binance 子账户创建
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2125" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.2.5 安全检查清单
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 实践任务
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 实践任务">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 1：创建测试 API Key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 2：配置环境变量
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 3：测试 API 连接
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 4：安全审查
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 5：模拟泄露演练
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧪 知识检查
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧪 知识检查">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        选择题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        简答题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        实践题
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 核心要点
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📌 核心要点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API 安全的"三不原则"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        最小权限配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        安全检查流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        常见错误
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 下节预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-22-pre-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 22 课：实盘前检查清单
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-23-small-capital-live/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 23 课：小资金实盘测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-1-order-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.1 课：实盘交易下单操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-2-stop-loss-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.2 课：实盘交易止损操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-3-futures-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.3 课：币安合约交易操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-4-leverage-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.4 课：杠杆交易操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-trading-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24 课：交易监控与调整
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-25-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 25 课：风险控制与心态管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-26-custom-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 26 课：自定义策略开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-27-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 27 课：多时间框架策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-28-grid-hft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 28 课：高频交易与网格策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-1-freqai-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29.1 课：FreqAI 深度实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-2-advanced-ml-strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29.2 课：高级机器学习策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning-enhanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29 课：机器学习基础与策略优化（增强版）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29 课：机器学习与策略优化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-30-conclusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 30 课：总结与持续学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        课程概述
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#211-api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.1 API Key 创建与权限设置
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.1 API Key 创建与权限设置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2111" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.1.1 支持的交易所
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2112-binance-api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.1.2 Binance API Key 创建步骤
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.1.2 Binance API Key 创建步骤">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        步骤 1：登录账户
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        步骤 2：进入 API 管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        步骤 3：创建 API Key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-api-key-secret" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        步骤 4：保存 API Key 和 Secret
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        步骤 5：配置 API 权限
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-ip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        步骤 6：配置 IP 白名单（强烈推荐）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2113-freqtrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.1.3 配置 Freqtrade
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.1.3 配置 Freqtrade">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configjson-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        在 config.json 中配置 API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 1：使用环境变量（推荐）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 2：使用独立的私密配置文件（推荐）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2114-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.1.4 测试 API 连接
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2115" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.1.5 其他交易所配置
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.1.5 其他交易所配置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#okx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OKX 配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bybit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bybit 配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#212" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.2 安全注意事项
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.2 安全注意事项">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2121-api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.2.1 API Key 安全清单
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.2.1 API Key 安全清单">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ 必须做到
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❌ 绝对禁止
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2122" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.2.2 常见安全漏洞
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.2.2 常见安全漏洞">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1git" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        漏洞 1：Git 泄露
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        漏洞 2：日志泄露
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        漏洞 3：屏幕共享泄露
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2123" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.2.3 应急处理流程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.2.3 应急处理流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        如果怀疑 API Key 泄露
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        如果发现异常交易
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2124" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.2.4 子账户隔离（推荐）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.2.4 子账户隔离（推荐）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        为什么使用子账户
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#binance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Binance 子账户创建
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2125" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.2.5 安全检查清单
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 实践任务
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 实践任务">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 1：创建测试 API Key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 2：配置环境变量
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 3：测试 API 连接
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 4：安全审查
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 5：模拟泄露演练
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧪 知识检查
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧪 知识检查">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        选择题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        简答题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        实践题
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 核心要点
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📌 核心要点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API 安全的"三不原则"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        最小权限配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        安全检查流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        常见错误
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 下节预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="21-api">第 21 课：交易所 API 配置<a class="headerlink" href="#21-api" title="Permanent link">&para;</a></h1>
+<p><strong>⏱ 课时</strong>：1.5 小时
+<strong>🎯 学习目标</strong>：学会安全配置交易所 API，为实盘交易做好准备</p>
+<p><strong>📚 课程大纲</strong>：
+- 21.1 API Key 创建与权限设置
+- 21.2 安全注意事项</p>
+<hr />
+<h2 id="_1">课程概述<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>API（Application Programming Interface）是程序与交易所通信的桥梁。通过 API Key，Freqtrade 可以：
+- 📊 获取实时市场数据
+- 💰 查询账户余额
+- 📈 下单买入卖出
+- 📋 查询订单状态</p>
+<p><strong>本课重点</strong>：安全是第一位的。配置错误的 API Key 可能导致资金被盗、账户被封，甚至更严重的损失。</p>
+<hr />
+<h2 id="211-api-key">21.1 API Key 创建与权限设置<a class="headerlink" href="#211-api-key" title="Permanent link">&para;</a></h2>
+<h3 id="2111">21.1.1 支持的交易所<a class="headerlink" href="#2111" title="Permanent link">&para;</a></h3>
+<p>Freqtrade 通过 CCXT 库支持 100+ 交易所，常用的包括：</p>
+<table>
+<thead>
+<tr>
+<th>交易所</th>
+<th>推荐等级</th>
+<th>特点</th>
+<th>注意事项</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Binance</strong></td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>流动性最好，手续费低</td>
+<td>需要完成 KYC</td>
+</tr>
+<tr>
+<td><strong>OKX</strong></td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>功能完善，API 稳定</td>
+<td>支持多种合约</td>
+</tr>
+<tr>
+<td><strong>Bybit</strong></td>
+<td>⭐⭐⭐⭐</td>
+<td>衍生品强，API 友好</td>
+<td>现货流动性稍弱</td>
+</tr>
+<tr>
+<td><strong>Kraken</strong></td>
+<td>⭐⭐⭐⭐</td>
+<td>安全性高，监管合规</td>
+<td>API 限流较严格</td>
+</tr>
+<tr>
+<td><strong>Gate.io</strong></td>
+<td>⭐⭐⭐</td>
+<td>币种多，手续费低</td>
+<td>流动性一般</td>
+</tr>
+</tbody>
+</table>
+<p><strong>推荐新手使用</strong>：Binance 或 OKX（本教程以 Binance 为例）</p>
+<h3 id="2112-binance-api-key">21.1.2 Binance API Key 创建步骤<a class="headerlink" href="#2112-binance-api-key" title="Permanent link">&para;</a></h3>
+<h4 id="1">步骤 1：登录账户<a class="headerlink" href="#1" title="Permanent link">&para;</a></h4>
+<ol>
+<li>访问 <a href="https://www.binance.com">Binance</a></li>
+<li>登录你的账户</li>
+<li>确保已完成身份验证（KYC）</li>
+<li>启用双重认证（2FA）- <strong>必须</strong></li>
+</ol>
+<h4 id="2-api">步骤 2：进入 API 管理<a class="headerlink" href="#2-api" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>导航路径：
+账户 → API Management → Create API
+
+或直接访问：
+https://www.binance.com/en/my/settings/api-management
+</code></pre></div>
+<h4 id="3-api-key">步骤 3：创建 API Key<a class="headerlink" href="#3-api-key" title="Permanent link">&para;</a></h4>
+<ol>
+<li>点击 <strong>"Create API"</strong></li>
+<li>选择 <strong>"System generated"</strong>（系统生成，推荐）</li>
+<li>输入 API 标签名称（如 <code>Freqtrade-Bot</code>）</li>
+<li>完成安全验证（邮件 + 2FA 验证码）</li>
+</ol>
+<h4 id="4-api-key-secret">步骤 4：保存 API Key 和 Secret<a class="headerlink" href="#4-api-key-secret" title="Permanent link">&para;</a></h4>
+<p>创建成功后，会显示：
+<div class="highlight"><pre><span></span><code>API Key: xxxxxxxxxxxxxxxxxxxxxxxxxxx
+Secret Key: yyyyyyyyyyyyyyyyyyyyyyyyyyy
+</code></pre></div></p>
+<p><strong>⚠️ 重要</strong>：
+- ✅ <strong>立即复制并保存</strong> Secret Key（只显示一次）
+- ✅ 保存到安全的地方（密码管理器）
+- ❌ <strong>不要截图或发送给任何人</strong>
+- ❌ <strong>不要保存在云盘或聊天记录中</strong></p>
+<h4 id="5-api">步骤 5：配置 API 权限<a class="headerlink" href="#5-api" title="Permanent link">&para;</a></h4>
+<p>在 API 管理页面，设置权限：</p>
+<div class="highlight"><pre><span></span><code>✅ 必须开启：
+□ Enable Reading (读取权限)
+□ Enable Spot &amp; Margin Trading (现货交易权限)
+
+❌ 禁止开启：
+□ Enable Withdrawals (提币权限) - 永远不要开启！
+□ Enable Futures (合约交易) - 除非你需要
+□ Enable Margin (杠杆交易) - 除非你需要
+</code></pre></div>
+<p><strong>权限配置原则</strong>：</p>
+<blockquote>
+<p><strong>最小权限原则</strong>：只开启必需的权限，降低风险。</p>
+</blockquote>
+<h4 id="6-ip">步骤 6：配置 IP 白名单（强烈推荐）<a class="headerlink" href="#6-ip" title="Permanent link">&para;</a></h4>
+<ol>
+<li>在 API 管理页面，找到 <strong>"Restrict access to trusted IPs only"</strong></li>
+<li>点击 <strong>"Edit"</strong></li>
+<li>添加你的服务器 IP 地址</li>
+</ol>
+<p><strong>如何获取你的 IP 地址</strong>：
+<div class="highlight"><pre><span></span><code><span class="c1"># 在运行 Freqtrade 的服务器上执行</span>
+curl<span class="w"> </span>ifconfig.me
+</code></pre></div></p>
+<p>输出示例：
+<div class="highlight"><pre><span></span><code>203.0.113.42
+</code></pre></div></p>
+<p>将这个 IP 添加到白名单中。</p>
+<p><strong>IP 白名单的作用</strong>：
+- ✅ 即使 API Key 泄露，其他人也无法使用
+- ✅ 大幅提高安全性
+- ⚠️ 如果你的服务器 IP 会变化（动态 IP），需要定期更新</p>
+<h3 id="2113-freqtrade">21.1.3 配置 Freqtrade<a class="headerlink" href="#2113-freqtrade" title="Permanent link">&para;</a></h3>
+<h4 id="configjson-api">在 config.json 中配置 API<a class="headerlink" href="#configjson-api" title="Permanent link">&para;</a></h4>
+<p><strong>⚠️ 安全警告</strong>：
+- ❌ <strong>不要直接在 config.json 中写入 API Key</strong>
+- ✅ <strong>使用环境变量存储敏感信息</strong></p>
+<h4 id="1_1">方法 1：使用环境变量（推荐）<a class="headerlink" href="#1_1" title="Permanent link">&para;</a></h4>
+<ol>
+<li>创建环境变量文件 <code>.env</code>（在项目根目录）：</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c1"># .env 文件</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">BINANCE_API_KEY</span><span class="o">=</span><span class="s2">"your_api_key_here"</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">BINANCE_API_SECRET</span><span class="o">=</span><span class="s2">"your_secret_key_here"</span>
+</code></pre></div>
+<ol>
+<li>在 <code>config.json</code> 中引用环境变量：</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"exchange"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"binance"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${BINANCE_API_KEY}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${BINANCE_API_SECRET}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"ccxt_config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"enableRateLimit"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"rateLimit"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"ccxt_async_config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"enableRateLimit"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"rateLimit"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"pair_whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">"BTC/USDT"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"ETH/USDT"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"BNB/USDT"</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">"pair_blacklist"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<ol>
+<li>启动前加载环境变量：</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c1"># 加载环境变量</span>
+<span class="nb">source</span><span class="w"> </span>.env
+
+<span class="c1"># 启动 Freqtrade</span>
+freqtrade<span class="w"> </span>trade<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>YourStrategy
+</code></pre></div>
+<ol>
+<li><strong>重要</strong>：将 <code>.env</code> 添加到 <code>.gitignore</code>：</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">".env"</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>.gitignore
+</code></pre></div>
+<h4 id="2">方法 2：使用独立的私密配置文件（推荐）<a class="headerlink" href="#2" title="Permanent link">&para;</a></h4>
+<ol>
+<li>创建 <code>config.private.json</code>（不提交到 Git）：</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"exchange"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"your_api_key_here"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"your_secret_key_here"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<ol>
+<li>在主配置文件 <code>config.json</code> 中：</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"exchange"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"binance"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"ccxt_config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"enableRateLimit"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"pair_whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">"BTC/USDT"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"ETH/USDT"</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<ol>
+<li>启动时合并配置：</li>
+</ol>
+<div class="highlight"><pre><span></span><code>freqtrade<span class="w"> </span>trade<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-c<span class="w"> </span>config.private.json<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--strategy<span class="w"> </span>YourStrategy
+</code></pre></div>
+<ol>
+<li>添加到 <code>.gitignore</code>：</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">"config.private.json"</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>.gitignore
+</code></pre></div>
+<h3 id="2114-api">21.1.4 测试 API 连接<a class="headerlink" href="#2114-api" title="Permanent link">&para;</a></h3>
+<p>在启用实盘交易前，测试 API 连接是否正常：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 测试 API 连接</span>
+freqtrade<span class="w"> </span>test-pairlist<span class="w"> </span>-c<span class="w"> </span>config.json
+</code></pre></div>
+<p>成功输出示例：
+<div class="highlight"><pre><span></span><code>2023-04-15 10:00:00 - freqtrade.exchange.exchange - INFO - Using Exchange "Binance"
+2023-04-15 10:00:01 - freqtrade.resolvers.exchange_resolver - INFO - Using resolved exchange 'Binance'
+2023-04-15 10:00:02 - freqtrade.plugins.pairlistmanager - INFO - Whitelist with 3 pairs: ['BTC/USDT', 'ETH/USDT', 'BNB/USDT']
+
+Pair       Last Price    Change 24h
+---------  ------------  ------------
+BTC/USDT   30250.00      +2.5%
+ETH/USDT   1890.50       +3.1%
+BNB/USDT   320.75        +1.8%
+</code></pre></div></p>
+<p>如果出现错误，检查：
+- API Key 和 Secret 是否正确
+- API 权限是否已开启
+- IP 白名单是否包含你的 IP
+- 网络连接是否正常</p>
+<h3 id="2115">21.1.5 其他交易所配置<a class="headerlink" href="#2115" title="Permanent link">&para;</a></h3>
+<h4 id="okx">OKX 配置<a class="headerlink" href="#okx" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"exchange"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"okx"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${OKX_API_KEY}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${OKX_API_SECRET}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${OKX_API_PASSPHRASE}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"ccxt_config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"enableRateLimit"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"pair_whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">"BTC/USDT"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"ETH/USDT"</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>注意</strong>：OKX 需要额外的 <code>password</code>（API Passphrase）。</p>
+<h4 id="bybit">Bybit 配置<a class="headerlink" href="#bybit" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"exchange"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bybit"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${BYBIT_API_KEY}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${BYBIT_API_SECRET}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"ccxt_config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"enableRateLimit"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"pair_whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">"BTC/USDT:USDT"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"ETH/USDT:USDT"</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>注意</strong>：Bybit 的交易对格式为 <code>BTC/USDT:USDT</code>（合约）或 <code>BTC/USDT</code>（现货）。</p>
+<hr />
+<h2 id="212">21.2 安全注意事项<a class="headerlink" href="#212" title="Permanent link">&para;</a></h2>
+<h3 id="2121-api-key">21.2.1 API Key 安全清单<a class="headerlink" href="#2121-api-key" title="Permanent link">&para;</a></h3>
+<h4 id="_2">✅ 必须做到<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>1. 权限设置
+   □ 只开启"读取"和"现货交易"权限
+   □ 永远不要开启"提币"权限
+   □ 不需要的功能一律不开启
+
+2. IP 白名单
+   □ 启用 IP 白名单限制
+   □ 只添加运行 Freqtrade 的服务器 IP
+   □ 定期检查 IP 是否变化
+
+3. 存储安全
+   □ 使用环境变量或私密配置文件
+   □ 不要将 API Key 提交到 Git
+   □ 添加 .env 和 config.private.json 到 .gitignore
+   □ 使用密码管理器保存备份
+
+4. 定期更新
+   □ 每 3-6 个月更换一次 API Key
+   □ 发现异常立即更换
+   □ 停用不再使用的 API Key
+
+5. 监控异常
+   □ 启用交易所的登录通知
+   □ 定期检查 API 访问日志
+   □ 关注账户余额变化
+</code></pre></div>
+<h4 id="_3">❌ 绝对禁止<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>1. 泄露风险
+   ✗ 不要在代码中硬编码 API Key
+   ✗ 不要将 API Key 上传到 GitHub
+   ✗ 不要截图含有 API Key 的页面
+   ✗ 不要通过聊天工具发送 API Key
+   ✗ 不要保存在云盘或笔记软件中
+
+2. 权限过度
+   ✗ 不要开启提币权限
+   ✗ 不要开启不必要的交易权限
+   ✗ 不要使用主账户 API（使用子账户）
+
+3. 环境不安全
+   ✗ 不要在公共电脑上使用
+   ✗ 不要在不信任的服务器上运行
+   ✗ 不要在未加密的网络传输
+</code></pre></div>
+<h3 id="2122">21.2.2 常见安全漏洞<a class="headerlink" href="#2122" title="Permanent link">&para;</a></h3>
+<h4 id="1git">漏洞 1：Git 泄露<a class="headerlink" href="#1git" title="Permanent link">&para;</a></h4>
+<p><strong>问题</strong>：不小心将含有 API Key 的配置文件提交到 GitHub。</p>
+<p><strong>后果</strong>：
+- 任何人都可以看到你的 API Key
+- 自动化机器人会在几分钟内发现并盗用
+- 可能导致账户资金被转移</p>
+<p><strong>防范措施</strong>：
+<div class="highlight"><pre><span></span><code><span class="c1"># 检查 .gitignore 是否包含敏感文件</span>
+cat<span class="w"> </span>.gitignore
+
+<span class="c1"># 应该包含：</span>
+.env
+config.private.json
+*.log
+.DS_Store
+
+<span class="c1"># 如果已经提交，立即：</span>
+<span class="m">1</span>.<span class="w"> </span>删除<span class="w"> </span>GitHub<span class="w"> </span>上的仓库
+<span class="m">2</span>.<span class="w"> </span>更换<span class="w"> </span>API<span class="w"> </span>Key
+<span class="m">3</span>.<span class="w"> </span>重新创建仓库，确保<span class="w"> </span>.gitignore<span class="w"> </span>正确
+</code></pre></div></p>
+<p><strong>检查历史提交</strong>：
+<div class="highlight"><pre><span></span><code><span class="c1"># 检查 Git 历史中是否有敏感信息</span>
+git<span class="w"> </span>log<span class="w"> </span>--all<span class="w"> </span>--full-history<span class="w"> </span>--<span class="w"> </span>config.json
+
+<span class="c1"># 如果发现泄露，使用 git filter-branch 清除历史</span>
+<span class="c1"># 但最安全的做法是：立即更换 API Key</span>
+</code></pre></div></p>
+<h4 id="2_1">漏洞 2：日志泄露<a class="headerlink" href="#2_1" title="Permanent link">&para;</a></h4>
+<p><strong>问题</strong>：日志文件中包含 API Key 或敏感信息。</p>
+<p><strong>防范措施</strong>：
+<div class="highlight"><pre><span></span><code><span class="c1">// config.json</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"internals"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"verbosity"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p>设置适当的日志级别，避免输出敏感信息。</p>
+<h4 id="3">漏洞 3：屏幕共享泄露<a class="headerlink" href="#3" title="Permanent link">&para;</a></h4>
+<p><strong>问题</strong>：在屏幕共享、直播、录制视频时不小心展示 API Key。</p>
+<p><strong>防范措施</strong>：
+- 共享屏幕前关闭含有 API Key 的窗口
+- 使用环境变量，避免明文显示
+- 录制教程时使用假的 API Key 示例</p>
+<h3 id="2123">21.2.3 应急处理流程<a class="headerlink" href="#2123" title="Permanent link">&para;</a></h3>
+<h4 id="api-key">如果怀疑 API Key 泄露<a class="headerlink" href="#api-key" title="Permanent link">&para;</a></h4>
+<p><strong>立即执行（5 分钟内）</strong>：</p>
+<div class="highlight"><pre><span></span><code>1. 登录交易所
+   □ 立即禁用或删除泄露的 API Key
+
+2. 检查账户
+   □ 查看最近的交易记录
+   □ 检查账户余额是否异常
+   □ 查看 API 访问日志
+
+3. 创建新的 API Key
+   □ 使用更严格的权限设置
+   □ 启用 IP 白名单
+   □ 更新 Freqtrade 配置
+
+4. 安全审查
+   □ 检查其他可能的泄露途径
+   □ 更新所有密码
+   □ 启用更强的 2FA
+</code></pre></div>
+<h4 id="_4">如果发现异常交易<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h4>
+<p><strong>立即执行</strong>：</p>
+<div class="highlight"><pre><span></span><code>1. 停止所有 API 访问
+   □ 禁用所有 API Key
+   □ 暂停自动交易
+
+2. 联系交易所
+   □ 通过官方客服报告异常
+   □ 申请冻结账户（如有必要）
+   □ 配合调查
+
+3. 安全加固
+   □ 修改账户密码
+   □ 更新 2FA 设备
+   □ 审查账户安全设置
+
+4. 资金转移
+   □ 将资金转移到更安全的账户
+   □ 考虑使用硬件钱包
+</code></pre></div>
+<h3 id="2124">21.2.4 子账户隔离（推荐）<a class="headerlink" href="#2124" title="Permanent link">&para;</a></h3>
+<p>许多交易所支持子账户功能，可以用于隔离风险：</p>
+<h4 id="_5">为什么使用子账户<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>优势：
+✅ 限制损失范围（主账户资金安全）
+✅ 方便管理多个策略
+✅ 更精细的权限控制
+✅ 主账户不暴露 API Key
+
+劣势：
+⚠️ 需要手动转账到子账户
+⚠️ 部分交易所子账户功能受限
+</code></pre></div>
+<h4 id="binance">Binance 子账户创建<a class="headerlink" href="#binance" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>1. 登录 Binance 主账户
+2. 导航到 "账户" → "子账户管理"
+3. 创建虚拟子账户
+4. 为子账户充值（从主账户转账）
+5. 在子账户中创建 API Key
+6. 使用子账户的 API Key 配置 Freqtrade
+</code></pre></div>
+<p><strong>推荐配置</strong>：
+- 主账户：存放大部分资金，不创建 API Key
+- 子账户 1：策略 A，初始资金 $1000
+- 子账户 2：策略 B，初始资金 $1000</p>
+<p>这样即使某个子账户的 API Key 泄露，也只影响该子账户的资金。</p>
+<h3 id="2125">21.2.5 安全检查清单<a class="headerlink" href="#2125" title="Permanent link">&para;</a></h3>
+<p>在启用实盘交易前，逐项检查：</p>
+<div class="highlight"><pre><span></span><code>□ API Key 配置
+  □ 使用环境变量或私密配置文件
+  □ config.private.json 已添加到 .gitignore
+  □ 检查 Git 历史无 API Key 泄露
+
+□ 权限设置
+  □ 只开启"读取"和"现货交易"权限
+  □ 提币权限已禁用
+  □ 不需要的功能已关闭
+
+□ IP 白名单
+  □ 已启用 IP 白名单限制
+  □ 只包含运行 Freqtrade 的服务器 IP
+  □ 定期检查机制已建立
+
+□ 账户安全
+  □ 已启用 2FA（Google Authenticator 或硬件密钥）
+  □ 已设置交易密码
+  □ 已启用邮件和短信通知
+  □ 考虑使用子账户隔离
+
+□ 监控机制
+  □ 已配置 Telegram 通知
+  □ 定期检查交易记录
+  □ 设置余额异常警报
+
+□ 应急预案
+  □ 记录交易所客服联系方式
+  □ 准备好 API Key 快速禁用流程
+  □ 主账户登录信息已安全保存
+</code></pre></div>
+<hr />
+<h2 id="_6">📝 实践任务<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h3 id="1-api-key">任务 1：创建测试 API Key<a class="headerlink" href="#1-api-key" title="Permanent link">&para;</a></h3>
+<ol>
+<li>在 Binance（或你选择的交易所）创建 API Key</li>
+<li>配置权限：</li>
+<li>✅ 启用"读取"</li>
+<li>✅ 启用"现货交易"</li>
+<li>❌ 禁用"提币"</li>
+<li>配置 IP 白名单（添加你的服务器 IP）</li>
+<li>保存 API Key 和 Secret 到密码管理器</li>
+</ol>
+<h3 id="2_2">任务 2：配置环境变量<a class="headerlink" href="#2_2" title="Permanent link">&para;</a></h3>
+<ol>
+<li>创建 <code>.env</code> 文件：
+   <div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">BINANCE_API_KEY</span><span class="o">=</span><span class="s2">"your_api_key"</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">BINANCE_API_SECRET</span><span class="o">=</span><span class="s2">"your_secret_key"</span>
+</code></pre></div></li>
+<li>添加到 <code>.gitignore</code>：
+   <div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">".env"</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>.gitignore
+</code></pre></div></li>
+<li>修改 <code>config.json</code>，使用 <code>${BINANCE_API_KEY}</code> 引用</li>
+</ol>
+<h3 id="3-api">任务 3：测试 API 连接<a class="headerlink" href="#3-api" title="Permanent link">&para;</a></h3>
+<ol>
+<li>加载环境变量：
+   <div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>.env
+</code></pre></div></li>
+<li>测试连接：
+   <div class="highlight"><pre><span></span><code>freqtrade<span class="w"> </span>test-pairlist<span class="w"> </span>-c<span class="w"> </span>config.json
+</code></pre></div></li>
+<li>确认输出正常，可以获取市场数据</li>
+</ol>
+<h3 id="4">任务 4：安全审查<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
+<ol>
+<li>检查 Git 历史是否有 API Key 泄露：
+   <div class="highlight"><pre><span></span><code>git<span class="w"> </span>log<span class="w"> </span>--all<span class="w"> </span>--full-history<span class="w"> </span>--<span class="w"> </span>config.json<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">"key\|secret"</span>
+</code></pre></div></li>
+<li>确认 <code>.gitignore</code> 包含敏感文件</li>
+<li>验证 API 权限配置正确</li>
+<li>测试 IP 白名单是否生效（从其他 IP 访问会被拒绝）</li>
+</ol>
+<h3 id="5">任务 5：模拟泄露演练<a class="headerlink" href="#5" title="Permanent link">&para;</a></h3>
+<ol>
+<li>在测试环境中故意"泄露"一个测试 API Key</li>
+<li>练习快速禁用流程：</li>
+<li>登录交易所</li>
+<li>找到 API 管理页面</li>
+<li>禁用 API Key</li>
+<li>计时：应在 2 分钟内完成</li>
+<li>创建新的 API Key 并更新配置</li>
+<li>验证 Freqtrade 可以正常连接</li>
+</ol>
+<hr />
+<h2 id="_7">🧪 知识检查<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<h3 id="_8">选择题<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<ol>
+<li>创建 API Key 时，应该开启哪些权限？</li>
+<li>A. 读取 + 现货交易 + 提币</li>
+<li>B. 只开启读取</li>
+<li>C. 读取 + 现货交易</li>
+<li>
+<p>D. 所有权限</p>
+</li>
+<li>
+<p>API Key 应该如何存储？</p>
+</li>
+<li>A. 直接写在 config.json 中</li>
+<li>B. 使用环境变量或私密配置文件</li>
+<li>C. 保存在云盘中</li>
+<li>
+<p>D. 发送到邮箱备份</p>
+</li>
+<li>
+<p>IP 白名单的作用是：</p>
+</li>
+<li>A. 提高 API 访问速度</li>
+<li>B. 限制只有指定 IP 可以使用 API Key</li>
+<li>C. 隐藏你的 IP 地址</li>
+<li>
+<p>D. 绕过交易所限制</p>
+</li>
+<li>
+<p>如果怀疑 API Key 泄露，应该立即：</p>
+</li>
+<li>A. 修改密码</li>
+<li>B. 禁用或删除该 API Key</li>
+<li>C. 清空账户</li>
+<li>
+<p>D. 等待观察</p>
+</li>
+<li>
+<p>以下哪个不是推荐的安全措施？</p>
+</li>
+<li>A. 使用子账户隔离风险</li>
+<li>B. 定期更换 API Key</li>
+<li>C. 开启所有权限以方便使用</li>
+<li>D. 启用 IP 白名单</li>
+</ol>
+<h3 id="_9">简答题<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>解释为什么永远不要开启 API 的"提币"权限？</p>
+</li>
+<li>
+<p>描述使用环境变量存储 API Key 的步骤和优势。</p>
+</li>
+<li>
+<p>如果不小心将含有 API Key 的 config.json 提交到 GitHub，应该如何处理？</p>
+</li>
+<li>
+<p>为什么推荐使用子账户进行自动交易？</p>
+</li>
+<li>
+<p>列出 API Key 泄露的 3 种常见途径和预防方法。</p>
+</li>
+</ol>
+<h3 id="_10">实践题<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<ol>
+<li>创建一个完整的 API 安全配置方案：</li>
+<li>权限配置</li>
+<li>存储方式</li>
+<li>IP 白名单</li>
+<li>监控机制</li>
+<li>
+<p>应急预案</p>
+</li>
+<li>
+<p>编写一个脚本，定期检查 API Key 是否正常工作，并在异常时发送 Telegram 警报。</p>
+</li>
+</ol>
+<hr />
+<h2 id="_11">📌 核心要点<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
+<h3 id="api">API 安全的"三不原则"<a class="headerlink" href="#api" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>1. 不开启提币权限
+   - 即使 API Key 泄露，资金也无法被提走
+   - 这是最后一道防线
+
+2. 不明文存储
+   - 使用环境变量或私密配置文件
+   - 添加到 .gitignore，不提交到 Git
+
+3. 不忽视监控
+   - 定期检查交易记录
+   - 启用交易所的安全通知
+   - 设置异常警报
+</code></pre></div>
+<h3 id="_12">最小权限配置<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"exchange"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"binance"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${BINANCE_API_KEY}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${BINANCE_API_SECRET}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"ccxt_config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"enableRateLimit"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="err">API</span><span class="w"> </span><span class="err">权限设置：</span>
+<span class="err">✅</span><span class="w"> </span><span class="err">E</span><span class="kc">na</span><span class="err">ble</span><span class="w"> </span><span class="err">Readi</span><span class="kc">n</span><span class="err">g</span><span class="w"> </span><span class="err">(读取)</span>
+<span class="err">✅</span><span class="w"> </span><span class="err">E</span><span class="kc">na</span><span class="err">ble</span><span class="w"> </span><span class="err">Spo</span><span class="kc">t</span><span class="w"> </span><span class="err">&amp;</span><span class="w"> </span><span class="err">Margi</span><span class="kc">n</span><span class="w"> </span><span class="err">Tradi</span><span class="kc">n</span><span class="err">g</span><span class="w"> </span><span class="err">(现货交易)</span>
+<span class="err">❌</span><span class="w"> </span><span class="err">E</span><span class="kc">na</span><span class="err">ble</span><span class="w"> </span><span class="err">Wi</span><span class="kc">t</span><span class="err">hdrawals</span><span class="w"> </span><span class="err">(提币)</span><span class="w"> </span><span class="mi">-</span><span class="w"> </span><span class="err">永远不要开启</span>
+<span class="err">❌</span><span class="w"> </span><span class="err">E</span><span class="kc">na</span><span class="err">ble</span><span class="w"> </span><span class="err">Fu</span><span class="kc">tures</span><span class="w"> </span><span class="err">(合约)</span><span class="w"> </span><span class="mi">-</span><span class="w"> </span><span class="err">除非需要</span>
+</code></pre></div>
+<h3 id="_13">安全检查流程<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>创建前：
+□ 确认交易所已完成 KYC
+□ 启用 2FA 双重认证
+□ 准备好 IP 白名单地址
+
+创建时：
+□ 选择"系统生成"方式
+□ 立即保存 API Key 和 Secret
+□ 配置最小权限
+□ 启用 IP 白名单
+
+创建后：
+□ 测试 API 连接
+□ 验证权限配置
+□ 检查安全设置
+□ 建立监控机制
+</code></pre></div>
+<h3 id="_14">常见错误<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>错误</th>
+<th>后果</th>
+<th>正确做法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>开启提币权限</td>
+<td>资金可能被盗</td>
+<td>永远不要开启</td>
+</tr>
+<tr>
+<td>硬编码在代码中</td>
+<td>Git 泄露风险</td>
+<td>使用环境变量</td>
+</tr>
+<tr>
+<td>不使用 IP 白名单</td>
+<td>泄露后立即被盗用</td>
+<td>始终启用白名单</td>
+</tr>
+<tr>
+<td>主账户直接交易</td>
+<td>风险过于集中</td>
+<td>使用子账户隔离</td>
+</tr>
+<tr>
+<td>从不更换</td>
+<td>长期暴露风险</td>
+<td>每 3-6 个月更换</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_15">🎯 下节预告<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h2>
+<p><strong>第 22 课：实盘前检查清单</strong></p>
+<p>在下一课中,我们将学习：
+- 系统化的实盘准备流程
+- 完整的检查清单
+- 风险评估方法
+- 启动实盘的标准</p>
+<p><strong>关键内容</strong>：
+- 策略准备检查
+- 资金管理检查
+- 系统稳定性检查
+- 心理准备评估</p>
+<p>配置好 API 只是第一步，在真正启动实盘交易前，还需要完成一系列的检查，确保一切准备就绪。</p>
+<hr />
+<p><strong>🎓 学习建议</strong>：
+1. <strong>安全第一</strong>：宁可麻烦也要做好安全措施
+2. <strong>测试充分</strong>：在 Dry-run 中充分测试 API 连接
+3. <strong>最小权限</strong>：只开启必需的权限
+4. <strong>定期检查</strong>：建立定期更换和检查机制
+5. <strong>应急预案</strong>：提前准备好应急处理流程</p>
+<p>记住：<strong>API Key 就是你的银行卡密码，任何人拿到都可以操作你的账户</strong>。对待 API Key 的态度，决定了你的资金安全。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

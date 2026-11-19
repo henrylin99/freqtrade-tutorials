@@ -1,0 +1,3373 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径">
+      
+      
+      
+        <link rel="canonical" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-28-grid-hft/">
+      
+      
+        <link rel="prev" href="../lesson-27-multi-timeframe/">
+      
+      
+        <link rel="next" href="../lesson-29-1-freqai-deep-dive/">
+      
+      
+        
+          <link rel="alternate" href="../../lesson-28-grid-hft/" hreflang="zh">
+        
+          <link rel="alternate" href="./" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>Lesson 28: High-Frequency Trading and Grid Strategies - Freqtrade 实战教程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9784658154228475"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VGHZY4EELE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VGHZY4EELE");
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lesson-28-high-frequency-trading-and-grid-strategies" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Freqtrade 实战教程" class="md-header__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Freqtrade 实战教程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lesson 28: High-Frequency Trading and Grid Strategies
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../lesson-28-grid-hft/" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../strategies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  English Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Freqtrade 实战教程" class="md-nav__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Freqtrade 实战教程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../strategies/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    English Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    English Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 1: Introduction to Quantitative Trading and Freqtrade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-02-environment-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 2: Freqtrade Environment Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-03-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 3: Understanding Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-04-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 4: Data Download and Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-05-first-backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 5: First Strategy Backtest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-06-strategy-performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 6: Strategy Performance Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-07-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 7: Multi-Timeframe Backtesting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-08-strategy-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 8: Strategy Batch Comparison
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-09-timerange-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 9: Time Range Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-10-pair-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 10: Trading Pair Selection and Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-11-hyperopt-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 11: Hyperopt Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-12-advanced-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 12: Advanced Strategy Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-13-scoring-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 13: Strategy Scoring System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-14-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 14: Risk and Money Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-15-portfolio-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 15: Strategy Portfolio and Diversification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-16-realtime-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 16: Real-time Signal Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-17-telegram-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 17: Telegram Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-18-webui-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 18: Web UI and API Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 19: Visualization Analysis Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-20-dry-run-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 20: Simulated Trading Validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-21-exchange-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 21: Exchange API Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-22-pre-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 22: Pre-Live Trading Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-23-small-capital-live/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 23: Small Capital Live Trading
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-1-order-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.1: Live Trading Order Placement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-2-stop-loss-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.2: Live Trading Stop Loss Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-3-futures-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.3: Binance Futures Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-4-leverage-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.4: Leverage Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-trading-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24: Trading Monitoring and Adjustment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-25-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 25: Risk Control and Psychology Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-26-custom-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 26: Custom Strategy Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-27-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 27: Multi-Timeframe Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 28: HFT and Grid Strategies
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 28: HFT and Grid Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#course-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Course Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-1-grid-trading-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 1: Grid Trading Strategies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 1: Grid Trading Strategies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-grid-trading-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Grid Trading Principles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1 Grid Trading Principles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Concepts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advantages-and-disadvantages-of-grid-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advantages and Disadvantages of Grid Trading
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-simple-grid-strategy-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Simple Grid Strategy Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-advanced-grid-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Advanced Grid Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-grid-strategy-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Grid Strategy Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-2-high-frequency-trading-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 2: High-Frequency Trading Strategies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 2: High-Frequency Trading Strategies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-high-frequency-trading-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 High-Frequency Trading Principles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 High-Frequency Trading Principles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#characteristics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Characteristics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#challenges-of-high-frequency-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Challenges of High-Frequency Trading
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-medium-high-frequency-strategy-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Medium-High Frequency Strategy Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-high-frequency-strategy-optimization-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 High-Frequency Strategy Optimization Tips
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 High-Frequency Strategy Optimization Tips">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tip-1-use-market-orders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tip 1: Use Market Orders
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tip-2-strict-holding-time-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tip 2: Strict Holding Time Limits
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tip-3-quick-take-profit-and-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tip 3: Quick Take Profit and Stop Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tip-4-volume-filter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tip 4: Volume Filter
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-high-frequency-strategy-risk-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 High-Frequency Strategy Risk Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-3-strategy-comparison-and-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 3: Strategy Comparison and Selection
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 3: Strategy Comparison and Selection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-three-strategy-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Three Strategy Comparison
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-how-to-choose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 How to Choose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-portfolio-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Portfolio Strategies
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 Practical Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 Practical Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-backtest-grid-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Backtest Grid Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-optimize-grid-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Optimize Grid Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-high-frequency-strategy-experiment-caution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: High-Frequency Strategy Experiment (Caution)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-4-fee-sensitivity-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 4: Fee Sensitivity Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Key Points
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📌 Key Points">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#grid-trading-key-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grid Trading Key Points
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#high-frequency-trading-key-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        High-Frequency Trading Key Points
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unsuitable-situations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unsuitable Situations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-1-freqai-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.1: FreqAI Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-2-advanced-ml-strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.2: Advanced ML Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning-enhanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: ML Basics and Strategy Optimization (Enhanced)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: Machine Learning and Strategy Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-30-conclusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 30: Conclusion and Continuous Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#course-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Course Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-1-grid-trading-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 1: Grid Trading Strategies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 1: Grid Trading Strategies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-grid-trading-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Grid Trading Principles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1 Grid Trading Principles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Concepts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advantages-and-disadvantages-of-grid-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advantages and Disadvantages of Grid Trading
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-simple-grid-strategy-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Simple Grid Strategy Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-advanced-grid-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Advanced Grid Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-grid-strategy-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Grid Strategy Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-2-high-frequency-trading-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 2: High-Frequency Trading Strategies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 2: High-Frequency Trading Strategies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-high-frequency-trading-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 High-Frequency Trading Principles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 High-Frequency Trading Principles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#characteristics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Characteristics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#challenges-of-high-frequency-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Challenges of High-Frequency Trading
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-medium-high-frequency-strategy-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Medium-High Frequency Strategy Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-high-frequency-strategy-optimization-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 High-Frequency Strategy Optimization Tips
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 High-Frequency Strategy Optimization Tips">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tip-1-use-market-orders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tip 1: Use Market Orders
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tip-2-strict-holding-time-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tip 2: Strict Holding Time Limits
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tip-3-quick-take-profit-and-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tip 3: Quick Take Profit and Stop Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tip-4-volume-filter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tip 4: Volume Filter
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-high-frequency-strategy-risk-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 High-Frequency Strategy Risk Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-3-strategy-comparison-and-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 3: Strategy Comparison and Selection
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 3: Strategy Comparison and Selection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-three-strategy-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Three Strategy Comparison
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-how-to-choose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 How to Choose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-portfolio-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Portfolio Strategies
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 Practical Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 Practical Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-backtest-grid-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Backtest Grid Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-optimize-grid-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Optimize Grid Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-high-frequency-strategy-experiment-caution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: High-Frequency Strategy Experiment (Caution)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-4-fee-sensitivity-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 4: Fee Sensitivity Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Key Points
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📌 Key Points">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#grid-trading-key-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grid Trading Key Points
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#high-frequency-trading-key-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        High-Frequency Trading Key Points
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unsuitable-situations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unsuitable Situations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="lesson-28-high-frequency-trading-and-grid-strategies">Lesson 28: High-Frequency Trading and Grid Strategies<a class="headerlink" href="#lesson-28-high-frequency-trading-and-grid-strategies" title="Permanent link">&para;</a></h1>
+<p><strong>⏱ Duration</strong>: 2 hours
+<strong>🎯 Learning Objectives</strong>: Learn about special strategy types—grid trading and high-frequency trading principles and implementation</p>
+<hr />
+<h2 id="course-overview">Course Overview<a class="headerlink" href="#course-overview" title="Permanent link">&para;</a></h2>
+<p>Previously, we learned trend-following and mean reversion strategies. This lesson introduces two special types of strategies:
+- <strong>Grid Trading</strong>: Profit in ranging markets
+- <strong>High-Frequency Trading</strong>: Capture short-term price fluctuations</p>
+<p><strong>Warning</strong>:
+⚠️ Both strategies have higher risks and complexity
+⚠️ Require deeper understanding and stricter risk control
+⚠️ Recommend thorough testing in Dry-run first</p>
+<hr />
+<h2 id="part-1-grid-trading-strategies">Part 1: Grid Trading Strategies<a class="headerlink" href="#part-1-grid-trading-strategies" title="Permanent link">&para;</a></h2>
+<h3 id="11-grid-trading-principles">1.1 Grid Trading Principles<a class="headerlink" href="#11-grid-trading-principles" title="Permanent link">&para;</a></h3>
+<p><strong>Core Concept</strong>:
+Set multiple buy and sell grids within a price range, profiting from frequent low-buy high-sell operations.</p>
+<h4 id="basic-concepts">Basic Concepts<a class="headerlink" href="#basic-concepts" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Price Grid Example:
+────────────────────────────────────
+ $32,000  Sell Grid 5  →  Sell
+ $31,500  Sell Grid 4  →  Sell
+ $31,000  Sell Grid 3  →  Sell
+────────────────────────────────────
+ $30,500  Center Price
+────────────────────────────────────
+ $30,000  Buy Grid 1  ←  Buy
+ $29,500  Buy Grid 2  ←  Buy
+ $29,000  Buy Grid 3  ←  Buy
+────────────────────────────────────
+
+How it works:
+1. Buy at $30,000
+2. Price rises to $31,000, sell (profit $1,000)
+3. Price falls back to $30,000, buy again
+4. Repeat cycle
+</code></pre></div>
+<h4 id="advantages-and-disadvantages-of-grid-trading">Advantages and Disadvantages of Grid Trading<a class="headerlink" href="#advantages-and-disadvantages-of-grid-trading" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>✅ Advantages:
+1. Suitable for ranging markets
+   - Profit from price fluctuations
+   - Don't rely on trend judgment
+
+2. Simple operation
+   - Clear rules
+   - Easy to automate
+
+3. Frequent profits
+   - Capture every small fluctuation
+   - Strong psychological satisfaction
+
+4. No need to predict direction
+   - Don't need to judge up/down
+   - Just need volatility
+
+❌ Disadvantages:
+1. One-sided market risk
+   - Continuous rise: sell too early, miss out
+   - Continuous fall: catch falling knife, buy more as it drops
+
+2. High capital requirements
+   - Need to buy in multiple batches
+   - Reserve sufficient funds
+
+3. Fee erosion
+   - Frequent trading
+   - High cumulative fees
+
+4. Capital utilization
+   - Low returns when range is weak
+   - Large amount of capital tied up
+</code></pre></div>
+<h3 id="12-simple-grid-strategy-implementation">1.2 Simple Grid Strategy Implementation<a class="headerlink" href="#12-simple-grid-strategy-implementation" title="Permanent link">&para;</a></h3>
+<p>Create <code>user_data/strategies/SimpleGridStrategy.py</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">freqtrade.strategy</span><span class="w"> </span><span class="kn">import</span> <span class="n">IStrategy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataFrame</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">talib.abstract</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ta</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">SimpleGridStrategy</span><span class="p">(</span><span class="n">IStrategy</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Simple grid trading strategy</span>
+<span class="sd">    Buy low and sell high at fixed price grids</span>
+<span class="sd">    """</span>
+
+    <span class="n">INTERFACE_VERSION</span> <span class="o">=</span> <span class="mi">3</span>
+
+    <span class="c1"># Disable ROI (grid strategy controls its own sells)</span>
+    <span class="n">minimal_roi</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"0"</span><span class="p">:</span> <span class="mi">100</span>  <span class="c1"># Very high value, won't actually trigger</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Disable global stop loss (grid strategy has its own stop logic)</span>
+    <span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.99</span>
+
+    <span class="n">timeframe</span> <span class="o">=</span> <span class="s1">'5m'</span>
+    <span class="n">startup_candle_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span>
+
+    <span class="c1"># === Grid Parameters ===</span>
+    <span class="c1"># Grid spacing (percentage)</span>
+    <span class="n">grid_spacing</span> <span class="o">=</span> <span class="mf">0.01</span>  <span class="c1"># 1%</span>
+
+    <span class="c1"># Number of grids</span>
+    <span class="n">num_grids</span> <span class="o">=</span> <span class="mi">5</span>
+
+    <span class="c1"># Center price (dynamically calculated, using average of last N candles)</span>
+    <span class="n">center_price_period</span> <span class="o">=</span> <span class="mi">100</span>
+
+    <span class="c1"># Enable dynamic center price</span>
+    <span class="n">dynamic_center</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_indicators</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Calculate center price</span>
+<span class="sd">        """</span>
+        <span class="c1"># Dynamic center price (using SMA)</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'center_price'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">SMA</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">],</span> <span class="n">timeperiod</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">center_price_period</span><span class="p">)</span>
+
+        <span class="c1"># Calculate price deviation from center</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'price_deviation'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">-</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'center_price'</span><span class="p">])</span> <span class="o">/</span>
+            <span class="n">dataframe</span><span class="p">[</span><span class="s1">'center_price'</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Mark which grid level we're currently at</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'grid_level'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">dataframe</span><span class="p">[</span><span class="s1">'price_deviation'</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid_spacing</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_entry_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Buy signal: price grids below center price</span>
+<span class="sd">        """</span>
+        <span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+            <span class="p">(</span>
+                <span class="c1"># Price below center price</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'center_price'</span><span class="p">])</span> <span class="o">&amp;</span>
+
+                <span class="c1"># At least 1 grid deviation</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'grid_level'</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="c1"># Maximum num_grids deviation (avoid buying during excessive drops)</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'grid_level'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">num_grids</span><span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="p">),</span>
+            <span class="s1">'enter_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_exit_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Sell signal: price above buy price by 1 grid or more</span>
+<span class="sd">        """</span>
+        <span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+            <span class="p">(</span>
+                <span class="c1"># Price above center price</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'center_price'</span><span class="p">])</span> <span class="o">&amp;</span>
+
+                <span class="c1"># At least 1 grid deviation</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'grid_level'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="p">),</span>
+            <span class="s1">'exit_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">custom_exit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pair</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">trade</span><span class="p">:</span> <span class="s1">'Trade'</span><span class="p">,</span> <span class="n">current_time</span><span class="p">:</span> <span class="s1">'datetime'</span><span class="p">,</span>
+                    <span class="n">current_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">current_profit</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Custom sell: sell when 1 grid spacing profit is reached</span>
+<span class="sd">        """</span>
+        <span class="c1"># If profit reaches grid spacing, sell</span>
+        <span class="k">if</span> <span class="n">current_profit</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid_spacing</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="kc">False</span>
+</code></pre></div>
+<h3 id="13-advanced-grid-strategy">1.3 Advanced Grid Strategy<a class="headerlink" href="#13-advanced-grid-strategy" title="Permanent link">&para;</a></h3>
+<p>Enhanced version with dynamic grids and risk control:</p>
+<p>Create <code>user_data/strategies/AdvancedGridStrategy.py</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">freqtrade.strategy</span><span class="w"> </span><span class="kn">import</span> <span class="n">IStrategy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataFrame</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">talib.abstract</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ta</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">AdvancedGridStrategy</span><span class="p">(</span><span class="n">IStrategy</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Advanced grid strategy</span>
+<span class="sd">    - Dynamically adjust grid spacing (based on volatility)</span>
+<span class="sd">    - Trend filter (avoid one-sided markets)</span>
+<span class="sd">    - Capital management (limit maximum positions)</span>
+<span class="sd">    """</span>
+
+    <span class="n">INTERFACE_VERSION</span> <span class="o">=</span> <span class="mi">3</span>
+
+    <span class="n">minimal_roi</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"0"</span><span class="p">:</span> <span class="mi">100</span><span class="p">}</span>
+    <span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.15</span>  <span class="c1"># Set a safety stop loss (prevent extreme cases)</span>
+
+    <span class="n">timeframe</span> <span class="o">=</span> <span class="s1">'5m'</span>
+    <span class="n">startup_candle_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">200</span>
+
+    <span class="c1"># Maximum simultaneous open grid positions</span>
+    <span class="n">max_open_grids</span> <span class="o">=</span> <span class="mi">3</span>
+
+    <span class="c1"># Base grid spacing</span>
+    <span class="n">base_grid_spacing</span> <span class="o">=</span> <span class="mf">0.01</span>  <span class="c1"># 1%</span>
+
+    <span class="c1"># Grid range (number of grids up and down)</span>
+    <span class="n">grid_range</span> <span class="o">=</span> <span class="mi">5</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_indicators</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Calculate indicators</span>
+<span class="sd">        """</span>
+        <span class="c1"># 1. Center price (EMA)</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'center_price'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">EMA</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">],</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+        <span class="c1"># 2. ATR (for dynamic grid spacing adjustment)</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'atr'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">ATR</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'atr_pct'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'atr'</span><span class="p">]</span> <span class="o">/</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">])</span> <span class="o">*</span> <span class="mi">100</span>
+
+        <span class="c1"># 3. ADX (judge trend strength, avoid one-sided markets)</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'adx'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">ADX</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+
+        <span class="c1"># 4. Dynamic grid spacing (based on ATR)</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'grid_spacing'</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'atr_pct'</span><span class="p">]</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
+            <span class="n">lower</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">base_grid_spacing</span><span class="p">,</span>  <span class="c1"># Minimum 1%</span>
+            <span class="n">upper</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">base_grid_spacing</span> <span class="o">*</span> <span class="mi">3</span>  <span class="c1"># Maximum 3%</span>
+        <span class="p">)</span>
+
+        <span class="c1"># 5. Price deviation percentage</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'price_deviation_pct'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">-</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'center_price'</span><span class="p">])</span> <span class="o">/</span>
+            <span class="n">dataframe</span><span class="p">[</span><span class="s1">'center_price'</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span>
+        <span class="p">)</span>
+
+        <span class="c1"># 6. Current grid level</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'grid_level'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">dataframe</span><span class="p">[</span><span class="s1">'price_deviation_pct'</span><span class="p">]</span> <span class="o">/</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'grid_spacing'</span><span class="p">]</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">()</span>
+
+        <span class="c1"># 7. Volume</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume_mean'</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_entry_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Buy signal:</span>
+<span class="sd">        1. Price below center price</span>
+<span class="sd">        2. No strong trend (ADX &lt; 25, avoid downtrends)</span>
+<span class="sd">        3. Within grid range</span>
+<span class="sd">        """</span>
+        <span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+            <span class="p">(</span>
+                <span class="c1"># Condition 1: Price below center price</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'center_price'</span><span class="p">])</span> <span class="o">&amp;</span>
+
+                <span class="c1"># Condition 2: Trend not too strong (avoid one-sided markets)</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'adx'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">30</span><span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="c1"># Condition 3: Within buy grid range</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'grid_level'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">grid_range</span><span class="p">)</span> <span class="o">&amp;</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'grid_level'</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="c1"># Condition 4: Normal volume</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume_mean'</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="p">),</span>
+            <span class="s1">'enter_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_exit_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Sell signal: price returns above center price</span>
+<span class="sd">        """</span>
+        <span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+            <span class="p">(</span>
+                <span class="c1"># Price above center price</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'center_price'</span><span class="p">])</span> <span class="o">&amp;</span>
+
+                <span class="c1"># At least 1 grid</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'grid_level'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="p">),</span>
+            <span class="s1">'exit_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">custom_stake_amount</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pair</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">current_time</span><span class="p">:</span> <span class="s1">'datetime'</span><span class="p">,</span>
+                            <span class="n">current_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">proposed_stake</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                            <span class="n">min_stake</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">max_stake</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Custom position: adjust based on grid level</span>
+<span class="sd">        """</span>
+        <span class="n">dataframe</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dp</span><span class="o">.</span><span class="n">get_analyzed_dataframe</span><span class="p">(</span><span class="n">pair</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeframe</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">proposed_stake</span>
+
+        <span class="n">last_candle</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+        <span class="n">grid_level</span> <span class="o">=</span> <span class="n">last_candle</span><span class="p">[</span><span class="s1">'grid_level'</span><span class="p">]</span>
+
+        <span class="c1"># Lower grids get larger positions (but control total)</span>
+        <span class="c1"># For example:</span>
+        <span class="c1"># Grid -1: 100% position</span>
+        <span class="c1"># Grid -2: 120% position</span>
+        <span class="c1"># Grid -3: 150% position</span>
+
+        <span class="n">multiplier</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">grid_level</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.2</span>
+        <span class="n">multiplier</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">multiplier</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">)</span>  <span class="c1"># Maximum 150%</span>
+
+        <span class="k">return</span> <span class="n">proposed_stake</span> <span class="o">*</span> <span class="n">multiplier</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">custom_exit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pair</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">trade</span><span class="p">:</span> <span class="s1">'Trade'</span><span class="p">,</span> <span class="n">current_time</span><span class="p">:</span> <span class="s1">'datetime'</span><span class="p">,</span>
+                    <span class="n">current_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">current_profit</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Custom sell: sell when 1 grid spacing is reached</span>
+<span class="sd">        """</span>
+        <span class="n">dataframe</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dp</span><span class="o">.</span><span class="n">get_analyzed_dataframe</span><span class="p">(</span><span class="n">pair</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeframe</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="n">last_candle</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+        <span class="n">grid_spacing</span> <span class="o">=</span> <span class="n">last_candle</span><span class="p">[</span><span class="s1">'grid_spacing'</span><span class="p">]</span> <span class="o">/</span> <span class="mi">100</span>  <span class="c1"># Convert to decimal</span>
+
+        <span class="c1"># Profit exceeds current grid spacing, sell</span>
+        <span class="k">if</span> <span class="n">current_profit</span> <span class="o">&gt;=</span> <span class="n">grid_spacing</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="kc">False</span>
+</code></pre></div>
+<h3 id="14-grid-strategy-testing">1.4 Grid Strategy Testing<a class="headerlink" href="#14-grid-strategy-testing" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Download data</span>
+freqtrade<span class="w"> </span>download-data<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--days<span class="w"> </span><span class="m">90</span><span class="w"> </span>--timeframe<span class="w"> </span>5m
+
+<span class="c1"># 2. Backtest simple grid strategy</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--strategy<span class="w"> </span>SimpleGridStrategy<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--timerange<span class="w"> </span><span class="m">20230101</span>-20230331
+
+<span class="c1"># 3. Backtest advanced grid strategy</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--strategy<span class="w"> </span>AdvancedGridStrategy<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--timerange<span class="w"> </span><span class="m">20230101</span>-20230331
+</code></pre></div>
+<p><strong>Important Notes</strong>:
+<div class="highlight"><pre><span></span><code>1. Set fees accurately
+   - Grid strategies trade frequently
+   - Fees have big impact
+   - "fee": 0.001  # 0.1%
+
+2. Choose appropriate trading pairs
+   - Good liquidity (BTC/USDT, ETH/USDT)
+   - Moderate volatility (not too extreme)
+   - Avoid coins with long-term one-sided trends
+
+3. Capital management
+   - Reserve sufficient funds for downtrends
+   - Don't go all in
+   - Recommend using 50-70% of total capital
+</code></pre></div></p>
+<hr />
+<h2 id="part-2-high-frequency-trading-strategies">Part 2: High-Frequency Trading Strategies<a class="headerlink" href="#part-2-high-frequency-trading-strategies" title="Permanent link">&para;</a></h2>
+<h3 id="21-high-frequency-trading-principles">2.1 High-Frequency Trading Principles<a class="headerlink" href="#21-high-frequency-trading-principles" title="Permanent link">&para;</a></h3>
+<p><strong>Definition</strong>:
+High-Frequency Trading (HFT) is a strategy that profits from extremely short-term price fluctuations.</p>
+<h4 id="characteristics">Characteristics<a class="headerlink" href="#characteristics" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Time Scale:
+- Traditional strategies: Hold for hours to days
+- HFT strategies: Hold for seconds to minutes
+
+Trading Frequency:
+- Traditional strategies: 3-5 trades per day
+- HFT strategies: 50-500 trades per day
+
+Profit Model:
+- Traditional strategies: Capture trends, large single-trade profits
+- HFT strategies: Capture micro fluctuations, small but frequent profits
+</code></pre></div>
+<h4 id="challenges-of-high-frequency-trading">Challenges of High-Frequency Trading<a class="headerlink" href="#challenges-of-high-frequency-trading" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>1. Technical Requirements
+   ✗ Need extremely low latency
+   ✗ Need stable network
+   ✗ Need high-performance servers
+   ✗ Freqtrade is not a professional HFT system
+
+2. Cost Issues
+   ✗ High cumulative fees
+   ✗ Large slippage impact
+   ✗ API rate limits
+
+3. Strategy Difficulty
+   ✗ Unstable signals
+   ✗ Many false signals
+   ✗ Difficult to backtest and verify
+
+Conclusion:
+⚠️ Freqtrade is not suitable for true HFT (millisecond level)
+✅ But can do medium-high frequency (minute level, 20-50 trades/day)
+</code></pre></div>
+<h3 id="22-medium-high-frequency-strategy-example">2.2 Medium-High Frequency Strategy Example<a class="headerlink" href="#22-medium-high-frequency-strategy-example" title="Permanent link">&para;</a></h3>
+<p>Create <code>user_data/strategies/ScalpingStrategy.py</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">freqtrade.strategy</span><span class="w"> </span><span class="kn">import</span> <span class="n">IStrategy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataFrame</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">talib.abstract</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ta</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">freqtrade.vendor.qtpylib.indicators</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qtpylib</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ScalpingStrategy</span><span class="p">(</span><span class="n">IStrategy</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Scalping Strategy</span>
+<span class="sd">    Capture fast fluctuations on 1-minute charts</span>
+<span class="sd">    Target: Small profits of 0.3-1% per trade, quick entry and exit</span>
+<span class="sd">    """</span>
+
+    <span class="n">INTERFACE_VERSION</span> <span class="o">=</span> <span class="mi">3</span>
+
+    <span class="c1"># Quick take profit</span>
+    <span class="n">minimal_roi</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"0"</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>   <span class="c1"># 1% immediate take profit</span>
+        <span class="s2">"5"</span><span class="p">:</span> <span class="mf">0.008</span><span class="p">,</span>  <span class="c1"># 0.8% after 5 minutes</span>
+        <span class="s2">"10"</span><span class="p">:</span> <span class="mf">0.005</span><span class="p">,</span> <span class="c1"># 0.5% after 10 minutes</span>
+        <span class="s2">"15"</span><span class="p">:</span> <span class="mf">0.003</span>  <span class="c1"># 0.3% after 15 minutes</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Tight stop loss</span>
+    <span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.015</span>  <span class="c1"># -1.5%</span>
+
+    <span class="c1"># Use 1-minute charts</span>
+    <span class="n">timeframe</span> <span class="o">=</span> <span class="s1">'1m'</span>
+    <span class="n">startup_candle_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span>
+
+    <span class="c1"># Order types (market orders for fast execution)</span>
+    <span class="n">order_types</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">'entry'</span><span class="p">:</span> <span class="s1">'market'</span><span class="p">,</span>  <span class="c1"># Market buy</span>
+        <span class="s1">'exit'</span><span class="p">:</span> <span class="s1">'market'</span><span class="p">,</span>   <span class="c1"># Market sell</span>
+        <span class="s1">'stoploss'</span><span class="p">:</span> <span class="s1">'market'</span><span class="p">,</span>
+        <span class="s1">'stoploss_on_exchange'</span><span class="p">:</span> <span class="kc">True</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Don't allow holding more than 30 minutes (forced close)</span>
+    <span class="n">max_holding_minutes</span> <span class="o">=</span> <span class="mi">30</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_indicators</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Use fast indicators</span>
+<span class="sd">        """</span>
+        <span class="c1"># Ultra-short term EMA</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_5'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">EMA</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_10'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">EMA</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+        <span class="c1"># RSI</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">RSI</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>  <span class="c1"># Shorter period</span>
+
+        <span class="c1"># Bollinger Bands (narrow period)</span>
+        <span class="n">bollinger</span> <span class="o">=</span> <span class="n">qtpylib</span><span class="o">.</span><span class="n">bollinger_bands</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">],</span> <span class="n">window</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">stds</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'bb_lower'</span><span class="p">]</span> <span class="o">=</span> <span class="n">bollinger</span><span class="p">[</span><span class="s1">'lower'</span><span class="p">]</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'bb_middle'</span><span class="p">]</span> <span class="o">=</span> <span class="n">bollinger</span><span class="p">[</span><span class="s1">'mid'</span><span class="p">]</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'bb_upper'</span><span class="p">]</span> <span class="o">=</span> <span class="n">bollinger</span><span class="p">[</span><span class="s1">'upper'</span><span class="p">]</span>
+
+        <span class="c1"># Volume surge</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume_mean'</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume_surge'</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">/</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume_mean'</span><span class="p">]</span>
+
+        <span class="c1"># Price momentum</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'price_momentum'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">-</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span> <span class="o">/</span>
+            <span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_entry_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Buy signal: Quick bounce</span>
+<span class="sd">        """</span>
+        <span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+            <span class="p">(</span>
+                <span class="c1"># Condition 1: Fast EMA golden cross</span>
+                <span class="p">(</span><span class="n">qtpylib</span><span class="o">.</span><span class="n">crossed_above</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_5'</span><span class="p">],</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_10'</span><span class="p">]))</span> <span class="o">&amp;</span>
+
+                <span class="c1"># Condition 2: RSI recovering from oversold</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">30</span><span class="p">)</span> <span class="o">&amp;</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">60</span><span class="p">)</span> <span class="o">&amp;</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="o">&amp;</span>  <span class="c1"># RSI rising</span>
+
+                <span class="c1"># Condition 3: Price in lower half of Bollinger Bands (room to rise)</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'bb_middle'</span><span class="p">])</span> <span class="o">&amp;</span>
+
+                <span class="c1"># Condition 4: Volume surge (confirm momentum)</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume_surge'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">1.5</span><span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="c1"># Condition 5: Short-term momentum upward</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'price_momentum'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="p">),</span>
+            <span class="s1">'enter_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_exit_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Sell signal: Quick profit or reversal</span>
+<span class="sd">        """</span>
+        <span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+            <span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="c1"># Condition 1: EMA death cross</span>
+                    <span class="p">(</span><span class="n">qtpylib</span><span class="o">.</span><span class="n">crossed_below</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_5'</span><span class="p">],</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_10'</span><span class="p">]))</span> <span class="o">|</span>
+
+                    <span class="c1"># Or condition 2: RSI overbought</span>
+                    <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">70</span><span class="p">)</span> <span class="o">|</span>
+
+                    <span class="c1"># Or condition 3: Price touches Bollinger upper band</span>
+                    <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'bb_upper'</span><span class="p">])</span>
+                <span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="p">),</span>
+            <span class="s1">'exit_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">custom_exit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pair</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">trade</span><span class="p">:</span> <span class="s1">'Trade'</span><span class="p">,</span> <span class="n">current_time</span><span class="p">:</span> <span class="s1">'datetime'</span><span class="p">,</span>
+                    <span class="n">current_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">current_profit</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Forced close: exceed maximum holding time</span>
+<span class="sd">        """</span>
+        <span class="c1"># Calculate holding time (minutes)</span>
+        <span class="n">trade_duration</span> <span class="o">=</span> <span class="p">(</span><span class="n">current_time</span> <span class="o">-</span> <span class="n">trade</span><span class="o">.</span><span class="n">open_date_utc</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">/</span> <span class="mi">60</span>
+
+        <span class="c1"># Over 30 minutes, close regardless of profit/loss</span>
+        <span class="k">if</span> <span class="n">trade_duration</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_holding_minutes</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="c1"># Quick take profit: leave at 0.5%</span>
+        <span class="k">if</span> <span class="n">current_profit</span> <span class="o">&gt;=</span> <span class="mf">0.005</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="kc">False</span>
+</code></pre></div>
+<h3 id="23-high-frequency-strategy-optimization-tips">2.3 High-Frequency Strategy Optimization Tips<a class="headerlink" href="#23-high-frequency-strategy-optimization-tips" title="Permanent link">&para;</a></h3>
+<h4 id="tip-1-use-market-orders">Tip 1: Use Market Orders<a class="headerlink" href="#tip-1-use-market-orders" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># High-frequency strategies must use market orders</span>
+<span class="n">order_types</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'entry'</span><span class="p">:</span> <span class="s1">'market'</span><span class="p">,</span>
+    <span class="s1">'exit'</span><span class="p">:</span> <span class="s1">'market'</span><span class="p">,</span>
+    <span class="s1">'stoploss'</span><span class="p">:</span> <span class="s1">'market'</span><span class="p">,</span>
+    <span class="s1">'stoploss_on_exchange'</span><span class="p">:</span> <span class="kc">True</span>
+<span class="p">}</span>
+
+<span class="c1"># Reasons:</span>
+<span class="c1"># 1. Limit orders may not fill, missing opportunities</span>
+<span class="c1"># 2. High frequency pursues speed, not optimal price</span>
+<span class="c1"># 3. 1 second delay can cause signal failure</span>
+</code></pre></div>
+<h4 id="tip-2-strict-holding-time-limits">Tip 2: Strict Holding Time Limits<a class="headerlink" href="#tip-2-strict-holding-time-limits" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">custom_exit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pair</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">trade</span><span class="p">:</span> <span class="s1">'Trade'</span><span class="p">,</span> <span class="n">current_time</span><span class="p">:</span> <span class="s1">'datetime'</span><span class="p">,</span>
+                <span class="n">current_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">current_profit</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Forced time stop loss</span>
+<span class="sd">    """</span>
+    <span class="n">trade_duration</span> <span class="o">=</span> <span class="p">(</span><span class="n">current_time</span> <span class="o">-</span> <span class="n">trade</span><span class="o">.</span><span class="n">open_date_utc</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">/</span> <span class="mi">60</span>
+
+    <span class="c1"># Force close after 30 minutes</span>
+    <span class="k">if</span> <span class="n">trade_duration</span> <span class="o">&gt;</span> <span class="mi">30</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">return</span> <span class="kc">False</span>
+</code></pre></div>
+<h4 id="tip-3-quick-take-profit-and-stop-loss">Tip 3: Quick Take Profit and Stop Loss<a class="headerlink" href="#tip-3-quick-take-profit-and-stop-loss" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Small take profit target</span>
+<span class="n">minimal_roi</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"0"</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>   <span class="c1"># 1%</span>
+    <span class="s2">"10"</span><span class="p">:</span> <span class="mf">0.005</span>  <span class="c1"># 0.5% after 10 minutes</span>
+<span class="p">}</span>
+
+<span class="c1"># Tight stop loss</span>
+<span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.015</span>  <span class="c1"># -1.5%</span>
+
+<span class="c1"># Risk/reward ratio about 1:1.5 (acceptable due to high frequency)</span>
+</code></pre></div>
+<h4 id="tip-4-volume-filter">Tip 4: Volume Filter<a class="headerlink" href="#tip-4-volume-filter" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Must have volume surge</span>
+<span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume_surge'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">1.5</span><span class="p">)</span> <span class="o">&amp;</span>
+
+<span class="c1"># Reasons:</span>
+<span class="c1"># High frequency needs liquidity support</span>
+<span class="c1"># Small volume causes large slippage</span>
+</code></pre></div>
+<h3 id="24-high-frequency-strategy-risk-management">2.4 High-Frequency Strategy Risk Management<a class="headerlink" href="#24-high-frequency-strategy-risk-management" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Risk 1: Fee Erosion
+- Problem: 100 trades, fees 0.1% × 2 × 100 = 20%
+- Solutions:
+  ✓ Use VIP level to reduce fees
+  ✓ Use exchange token for fee discount (like BNB)
+  ✓ Deduct fees when calculating profit/loss
+  ✓ Ensure average profit &gt; fees
+
+Risk 2: Slippage
+- Problem: Market order execution price differs from expected
+- Solutions:
+  ✓ Only trade high liquidity coins (BTC/ETH)
+  ✓ Avoid large orders
+  ✓ Avoid trading during extreme market volatility
+
+Risk 3: Overtrading
+- Problem: 200 trades a day, mostly false signals
+- Solutions:
+  ✓ Set daily maximum trades (e.g., 50)
+  ✓ Raise entry conditions
+  ✓ Add volume filters
+
+Risk 4: System Failure
+- Problem: Network delay, API rate limits
+- Solutions:
+  ✓ Use stable servers
+  ✓ Backup network connection
+  ✓ Monitor API call frequency
+  ✓ Set maximum position protection
+</code></pre></div>
+<hr />
+<h2 id="part-3-strategy-comparison-and-selection">Part 3: Strategy Comparison and Selection<a class="headerlink" href="#part-3-strategy-comparison-and-selection" title="Permanent link">&para;</a></h2>
+<h3 id="31-three-strategy-comparison">3.1 Three Strategy Comparison<a class="headerlink" href="#31-three-strategy-comparison" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Trend Following</th>
+<th>Grid Trading</th>
+<th>High-Frequency Trading</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Timeframe</strong></td>
+<td>5m-1h</td>
+<td>5m-15m</td>
+<td>1m-5m</td>
+</tr>
+<tr>
+<td><strong>Holding Time</strong></td>
+<td>Hours-Days</td>
+<td>Hours</td>
+<td>Minutes</td>
+</tr>
+<tr>
+<td><strong>Trading Frequency</strong></td>
+<td>Low (3-5/day)</td>
+<td>Medium (10-20/day)</td>
+<td>High (50+/day)</td>
+</tr>
+<tr>
+<td><strong>Single Trade Profit</strong></td>
+<td>2-5%</td>
+<td>1-2%</td>
+<td>0.3-1%</td>
+</tr>
+<tr>
+<td><strong>Win Rate</strong></td>
+<td>50-60%</td>
+<td>60-70%</td>
+<td>55-65%</td>
+</tr>
+<tr>
+<td><strong>Suitable Market</strong></td>
+<td>Trending</td>
+<td>Ranging</td>
+<td>High Volatility</td>
+</tr>
+<tr>
+<td><strong>Capital Requirement</strong></td>
+<td>Medium</td>
+<td>High</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td><strong>Technical Requirement</strong></td>
+<td>Low</td>
+<td>Medium</td>
+<td>High</td>
+</tr>
+<tr>
+<td><strong>Fee Impact</strong></td>
+<td>Small</td>
+<td>Medium</td>
+<td>Large</td>
+</tr>
+<tr>
+<td><strong>Risk Level</strong></td>
+<td>Medium</td>
+<td>Medium-High</td>
+<td>High</td>
+</tr>
+</tbody>
+</table>
+<h3 id="32-how-to-choose">3.2 How to Choose<a class="headerlink" href="#32-how-to-choose" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Choose Trend Following if you:
+✓ Are a beginner
+✓ Can only monitor a few times a day
+✓ Don't want frequent trading
+✓ Pursue stable growth
+✓ Have limited capital
+
+Choose Grid Trading if you:
+✓ Have some experience
+✓ Market is in ranging period
+✓ Have enough capital to buy in batches
+✓ Can accept capital being tied up
+✓ Pursue frequent small wins
+
+Choose High-Frequency Trading if you:
+✓ Have rich experience
+✓ Have stable technical environment
+✓ Can accept high risk
+✓ Have very low fee rates
+✓ Pursue excitement and challenge
+
+⚠️ Not recommended for beginners to use grid or high-frequency strategies
+</code></pre></div>
+<h3 id="33-portfolio-strategies">3.3 Portfolio Strategies<a class="headerlink" href="#33-portfolio-strategies" title="Permanent link">&para;</a></h3>
+<p>Can run multiple strategies simultaneously:</p>
+<div class="highlight"><pre><span></span><code>Configuration Example:
+
+Account 1 (70% capital):
+- Trend following strategy
+- 5m timeframe
+- Focus on stability
+
+Account 2 (20% capital):
+- Grid strategy
+- 5m timeframe
+- Use in ranging markets
+
+Account 3 (10% capital):
+- Scalping strategy
+- 1m timeframe
+- Experimental nature
+
+Advantages:
+✓ Diversify risk
+✓ Adapt to different markets
+✓ Smooth return curve
+</code></pre></div>
+<hr />
+<h2 id="practical-tasks">📝 Practical Tasks<a class="headerlink" href="#practical-tasks" title="Permanent link">&para;</a></h2>
+<h3 id="task-1-backtest-grid-strategy">Task 1: Backtest Grid Strategy<a class="headerlink" href="#task-1-backtest-grid-strategy" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Copy <code>SimpleGridStrategy</code> to your environment</li>
+<li>Backtest 3 months of data</li>
+<li>Compare different grid spacings (0.5%, 1%, 2%)</li>
+<li>Record:</li>
+<li>Trade count</li>
+<li>Win rate</li>
+<li>Fee percentage</li>
+<li>Maximum drawdown</li>
+</ol>
+<h3 id="task-2-optimize-grid-parameters">Task 2: Optimize Grid Parameters<a class="headerlink" href="#task-2-optimize-grid-parameters" title="Permanent link">&para;</a></h3>
+<p>Modify <code>AdvancedGridStrategy</code>:
+1. Adjust ADX threshold (20, 25, 30)
+2. Adjust grid range (3, 5, 7)
+3. Test different dynamic grid calculation methods
+4. Find optimal combination</p>
+<h3 id="task-3-high-frequency-strategy-experiment-caution">Task 3: High-Frequency Strategy Experiment (Caution)<a class="headerlink" href="#task-3-high-frequency-strategy-experiment-caution" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Test <code>ScalpingStrategy</code> in Dry-run</li>
+<li>Run for 3-7 days</li>
+<li>Statistics:</li>
+<li>Daily trade count</li>
+<li>Average holding time</li>
+<li>Average single trade P&amp;L</li>
+<li>Total fees</li>
+<li>Judge: Is it suitable for live trading?</li>
+</ol>
+<h3 id="task-4-fee-sensitivity-analysis">Task 4: Fee Sensitivity Analysis<a class="headerlink" href="#task-4-fee-sensitivity-analysis" title="Permanent link">&para;</a></h3>
+<p>For the same strategy, test impact of different fee rates:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 0.1% fee</span>
+<span class="s2">"fee"</span>:<span class="w"> </span><span class="m">0</span>.001
+
+<span class="c1"># 0.05% fee (VIP discount)</span>
+<span class="s2">"fee"</span>:<span class="w"> </span><span class="m">0</span>.0005
+
+<span class="c1"># 0.2% fee (worst case)</span>
+<span class="s2">"fee"</span>:<span class="w"> </span><span class="m">0</span>.002
+</code></pre></div>
+<p>Compare backtest results to understand fee impact.</p>
+<hr />
+<h2 id="key-points">📌 Key Points<a class="headerlink" href="#key-points" title="Permanent link">&para;</a></h2>
+<h3 id="grid-trading-key-points">Grid Trading Key Points<a class="headerlink" href="#grid-trading-key-points" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>1. Suitable for ranging markets
+   - ADX &lt; 25
+   - Price fluctuates within range
+   - Avoid one-sided trends
+
+2. Capital management
+   - Buy in batches
+   - Reserve funds for downtrends
+   - Don't go all in
+
+3. Parameter settings
+   - Grid spacing 1-2%
+   - Number of grids 5-10
+   - Dynamic adjustment is better
+
+4. Risk control
+   - Set maximum open positions
+   - Set stop loss protection
+   - Monitor one-sided trends
+</code></pre></div>
+<h3 id="high-frequency-trading-key-points">High-Frequency Trading Key Points<a class="headerlink" href="#high-frequency-trading-key-points" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>1. Technical requirements
+   - Low latency network
+   - Stable servers
+   - Use market orders
+
+2. Cost control
+   - Reduce fees
+   - Calculate slippage
+   - Only trade high liquidity coins
+
+3. Quick in and out
+   - Holding time &lt; 30 minutes
+   - Take profit 0.5-1%
+   - Stop loss 1-1.5%
+
+4. Strict discipline
+   - Set trade count limits
+   - Avoid overtrading
+   - Timely stop loss
+</code></pre></div>
+<h3 id="unsuitable-situations">Unsuitable Situations<a class="headerlink" href="#unsuitable-situations" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>❌ Don't use grid if:
+- Market is in strong trend
+- Insufficient capital
+- Cannot accept capital being tied up
+
+❌ Don't use high-frequency if:
+- Are a beginner
+- Unstable network
+- High fee rates (&gt; 0.1%)
+- Little capital (&lt; $5000)
+</code></pre></div>
+<hr />
+<h2 id="summary">🎯 Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>This lesson introduced two special strategies:
+- <strong>Grid Trading</strong>: Suitable for ranging markets, profit from frequent low-buy high-sell
+- <strong>High-Frequency Trading</strong>: Capture short-term fluctuations, quick in and out</p>
+<p><strong>Important Reminders</strong>:
+⚠️ Both strategies are riskier than trend-following strategies
+⚠️ Require more experience and stricter risk control
+⚠️ Recommend mastering basic strategies first before trying these advanced ones
+⚠️ Must test thoroughly in Dry-run</p>
+<p>Next lesson, we'll learn how to use machine learning to optimize strategies.</p>
+<hr />
+<p><strong>🎓 Learning Suggestions</strong>:
+1. <strong>Progressive learning</strong>: Master trend strategies first, then try grid and high-frequency
+2. <strong>Thorough testing</strong>: Test in Dry-run for at least 2 weeks
+3. <strong>Start with small capital</strong>: Even if testing succeeds, start with small capital
+4. <strong>Strict risk control</strong>: These strategies need stricter risk control
+5. <strong>Continuous monitoring</strong>: Need more frequent monitoring and adjustment</p>
+<p>Remember: <strong>Simple and effective &gt; complex and fancy. Don't pursue high frequency for the sake of it; what suits you is best.</strong></p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

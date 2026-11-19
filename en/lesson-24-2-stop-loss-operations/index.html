@@ -1,0 +1,4018 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径">
+      
+      
+      
+        <link rel="canonical" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-24-2-stop-loss-operations/">
+      
+      
+        <link rel="prev" href="../lesson-24-1-order-placement/">
+      
+      
+        <link rel="next" href="../lesson-24-3-futures-trading/">
+      
+      
+        
+          <link rel="alternate" href="../../lesson-24-2-stop-loss-operations/" hreflang="zh">
+        
+          <link rel="alternate" href="./" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>Lesson 24.2: Live Trading Stop Loss Operations Detailed Guide - Freqtrade 实战教程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9784658154228475"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VGHZY4EELE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VGHZY4EELE");
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lesson-242-live-trading-stop-loss-operations-detailed-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Freqtrade 实战教程" class="md-header__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Freqtrade 实战教程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lesson 24.2: Live Trading Stop Loss Operations Detailed Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../lesson-24-2-stop-loss-operations/" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../strategies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  English Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Freqtrade 实战教程" class="md-nav__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Freqtrade 实战教程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../strategies/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    English Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    English Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 1: Introduction to Quantitative Trading and Freqtrade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-02-environment-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 2: Freqtrade Environment Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-03-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 3: Understanding Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-04-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 4: Data Download and Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-05-first-backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 5: First Strategy Backtest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-06-strategy-performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 6: Strategy Performance Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-07-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 7: Multi-Timeframe Backtesting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-08-strategy-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 8: Strategy Batch Comparison
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-09-timerange-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 9: Time Range Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-10-pair-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 10: Trading Pair Selection and Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-11-hyperopt-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 11: Hyperopt Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-12-advanced-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 12: Advanced Strategy Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-13-scoring-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 13: Strategy Scoring System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-14-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 14: Risk and Money Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-15-portfolio-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 15: Strategy Portfolio and Diversification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-16-realtime-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 16: Real-time Signal Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-17-telegram-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 17: Telegram Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-18-webui-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 18: Web UI and API Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 19: Visualization Analysis Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-20-dry-run-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 20: Simulated Trading Validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-21-exchange-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 21: Exchange API Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-22-pre-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 22: Pre-Live Trading Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-23-small-capital-live/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 23: Small Capital Live Trading
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-1-order-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.1: Live Trading Order Placement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.2: Live Trading Stop Loss Operations
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.2: Live Trading Stop Loss Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#course-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Course Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-1-stop-loss-types-explained" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 1: Stop Loss Types Explained
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 1: Stop Loss Types Explained">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-fixed-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Fixed Stop Loss
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1 Fixed Stop Loss">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#111-basic-concept" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.1 Basic Concept
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#112-freqtrade-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.2 Freqtrade Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#113-pros-and-cons-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.3 Pros and Cons Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-dynamic-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Dynamic Stop Loss
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.2 Dynamic Stop Loss">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#121-atr-based-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2.1 ATR-Based Stop Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#122-volatility-based-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2.2 Volatility-Based Stop Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-trailing-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Trailing Stop Loss
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.3 Trailing Stop Loss">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#131-basic-principle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3.1 Basic Principle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#132-freqtrade-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3.2 Freqtrade Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#133-custom-trailing-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3.3 Custom Trailing Stop Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-2-advanced-stop-loss-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 2: Advanced Stop Loss Strategies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 2: Advanced Stop Loss Strategies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-technical-indicator-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Technical Indicator Stop Loss
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 Technical Indicator Stop Loss">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#211-moving-average-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1.1 Moving Average Stop Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#212-bollinger-bands-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1.2 Bollinger Bands Stop Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#213-support-level-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1.3 Support Level Stop Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-time-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Time Stop Loss
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 Time Stop Loss">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#221-holding-time-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.1 Holding Time Stop Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#222-hourly-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.2 Hourly Stop Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-combined-stop-loss-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Combined Stop Loss Strategies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 Combined Stop Loss Strategies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#231-multi-condition-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3.1 Multi-Condition Stop Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-3-stop-loss-execution-mechanisms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 3: Stop Loss Execution Mechanisms
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 3: Stop Loss Execution Mechanisms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-local-stop-loss-vs-exchange-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Local Stop Loss vs Exchange Stop Loss
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.1 Local Stop Loss vs Exchange Stop Loss">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#311-local-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1.1 Local Stop Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#312-exchange-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1.2 Exchange Stop Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-stop-loss-order-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Stop Loss Order Types
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2 Stop Loss Order Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#321-stop-loss-market-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2.1 Stop Loss Market Order
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#322-stop-loss-limit-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2.2 Stop Loss Limit Order
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-stop-loss-monitoring-and-adjustment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Stop Loss Monitoring and Adjustment
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.3 Stop Loss Monitoring and Adjustment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#331-stop-loss-status-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3.1 Stop Loss Status Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#332-dynamic-stop-loss-adjustment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3.2 Dynamic Stop Loss Adjustment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-4-stop-loss-optimization-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 4: Stop Loss Optimization Strategies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 4: Stop Loss Optimization Strategies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-stop-loss-backtest-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Stop Loss Backtest Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 Stop Loss Backtest Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#411-stop-loss-effectiveness-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.1 Stop Loss Effectiveness Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#412-different-stop-loss-strategy-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.2 Different Stop Loss Strategy Comparison
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-stop-loss-parameter-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Stop Loss Parameter Optimization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.2 Stop Loss Parameter Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#421-stop-loss-percentage-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.1 Stop Loss Percentage Optimization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#422-trailing-stop-loss-parameter-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.2 Trailing Stop Loss Parameter Optimization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-5-practical-configuration-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 5: Practical Configuration Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 5: Practical Configuration Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-conservative-stop-loss-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Conservative Stop Loss Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-aggressive-stop-loss-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Aggressive Stop Loss Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-intelligent-stop-loss-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Intelligent Stop Loss Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 Practical Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 Practical Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-stop-loss-strategy-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Stop Loss Strategy Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-trailing-stop-loss-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Trailing Stop Loss Optimization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-live-stop-loss-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: Live Stop Loss Verification
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Key Points
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📌 Key Points">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stop-loss-setting-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stop Loss Setting Principles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-stop-loss-mistakes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Stop Loss Mistakes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stop-loss-optimization-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stop Loss Optimization Checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-lesson-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Next Lesson Preview
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-3-futures-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.3: Binance Futures Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-4-leverage-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.4: Leverage Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-trading-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24: Trading Monitoring and Adjustment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-25-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 25: Risk Control and Psychology Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-26-custom-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 26: Custom Strategy Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-27-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 27: Multi-Timeframe Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-28-grid-hft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 28: HFT and Grid Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-1-freqai-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.1: FreqAI Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-2-advanced-ml-strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.2: Advanced ML Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning-enhanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: ML Basics and Strategy Optimization (Enhanced)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: Machine Learning and Strategy Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-30-conclusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 30: Conclusion and Continuous Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#course-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Course Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-1-stop-loss-types-explained" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 1: Stop Loss Types Explained
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 1: Stop Loss Types Explained">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-fixed-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Fixed Stop Loss
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1 Fixed Stop Loss">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#111-basic-concept" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.1 Basic Concept
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#112-freqtrade-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.2 Freqtrade Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#113-pros-and-cons-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.3 Pros and Cons Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-dynamic-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Dynamic Stop Loss
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.2 Dynamic Stop Loss">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#121-atr-based-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2.1 ATR-Based Stop Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#122-volatility-based-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2.2 Volatility-Based Stop Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-trailing-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Trailing Stop Loss
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.3 Trailing Stop Loss">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#131-basic-principle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3.1 Basic Principle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#132-freqtrade-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3.2 Freqtrade Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#133-custom-trailing-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3.3 Custom Trailing Stop Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-2-advanced-stop-loss-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 2: Advanced Stop Loss Strategies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 2: Advanced Stop Loss Strategies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-technical-indicator-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Technical Indicator Stop Loss
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 Technical Indicator Stop Loss">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#211-moving-average-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1.1 Moving Average Stop Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#212-bollinger-bands-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1.2 Bollinger Bands Stop Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#213-support-level-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1.3 Support Level Stop Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-time-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Time Stop Loss
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 Time Stop Loss">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#221-holding-time-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.1 Holding Time Stop Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#222-hourly-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.2 Hourly Stop Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-combined-stop-loss-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Combined Stop Loss Strategies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 Combined Stop Loss Strategies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#231-multi-condition-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3.1 Multi-Condition Stop Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-3-stop-loss-execution-mechanisms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 3: Stop Loss Execution Mechanisms
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 3: Stop Loss Execution Mechanisms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-local-stop-loss-vs-exchange-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Local Stop Loss vs Exchange Stop Loss
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.1 Local Stop Loss vs Exchange Stop Loss">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#311-local-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1.1 Local Stop Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#312-exchange-stop-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1.2 Exchange Stop Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-stop-loss-order-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Stop Loss Order Types
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2 Stop Loss Order Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#321-stop-loss-market-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2.1 Stop Loss Market Order
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#322-stop-loss-limit-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2.2 Stop Loss Limit Order
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-stop-loss-monitoring-and-adjustment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Stop Loss Monitoring and Adjustment
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.3 Stop Loss Monitoring and Adjustment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#331-stop-loss-status-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3.1 Stop Loss Status Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#332-dynamic-stop-loss-adjustment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3.2 Dynamic Stop Loss Adjustment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-4-stop-loss-optimization-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 4: Stop Loss Optimization Strategies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 4: Stop Loss Optimization Strategies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-stop-loss-backtest-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Stop Loss Backtest Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 Stop Loss Backtest Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#411-stop-loss-effectiveness-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.1 Stop Loss Effectiveness Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#412-different-stop-loss-strategy-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.2 Different Stop Loss Strategy Comparison
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-stop-loss-parameter-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Stop Loss Parameter Optimization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.2 Stop Loss Parameter Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#421-stop-loss-percentage-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.1 Stop Loss Percentage Optimization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#422-trailing-stop-loss-parameter-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.2 Trailing Stop Loss Parameter Optimization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-5-practical-configuration-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 5: Practical Configuration Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 5: Practical Configuration Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-conservative-stop-loss-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Conservative Stop Loss Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-aggressive-stop-loss-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Aggressive Stop Loss Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-intelligent-stop-loss-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Intelligent Stop Loss Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 Practical Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 Practical Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-stop-loss-strategy-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Stop Loss Strategy Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-trailing-stop-loss-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Trailing Stop Loss Optimization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-live-stop-loss-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: Live Stop Loss Verification
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Key Points
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📌 Key Points">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stop-loss-setting-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stop Loss Setting Principles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-stop-loss-mistakes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Stop Loss Mistakes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stop-loss-optimization-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stop Loss Optimization Checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-lesson-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Next Lesson Preview
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="lesson-242-live-trading-stop-loss-operations-detailed-guide">Lesson 24.2: Live Trading Stop Loss Operations Detailed Guide<a class="headerlink" href="#lesson-242-live-trading-stop-loss-operations-detailed-guide" title="Permanent link">&para;</a></h1>
+<p><strong>⏱ Duration</strong>: 2 hours
+<strong>🎯 Learning Objectives</strong>: Master various stop loss strategies, learn effective risk control in live trading</p>
+<hr />
+<h2 id="course-overview">Course Overview<a class="headerlink" href="#course-overview" title="Permanent link">&para;</a></h2>
+<p>Stop loss is the most important risk control tool in live trading. A trading system without a stop loss strategy is like a car without brakes.</p>
+<p><strong>Key Focus of This Lesson</strong>:</p>
+<blockquote>
+<p><strong>Stop loss is not failure, but protection of capital to keep trading going.</strong></p>
+</blockquote>
+<p>This lesson will cover in detail:
+- Implementation and application of various stop loss types
+- Stop loss configuration in Freqtrade
+- Dynamic and trailing stop losses
+- Stop loss optimization techniques</p>
+<hr />
+<h2 id="part-1-stop-loss-types-explained">Part 1: Stop Loss Types Explained<a class="headerlink" href="#part-1-stop-loss-types-explained" title="Permanent link">&para;</a></h2>
+<h3 id="11-fixed-stop-loss">1.1 Fixed Stop Loss<a class="headerlink" href="#11-fixed-stop-loss" title="Permanent link">&para;</a></h3>
+<h4 id="111-basic-concept">1.1.1 Basic Concept<a class="headerlink" href="#111-basic-concept" title="Permanent link">&para;</a></h4>
+<p>Fixed stop loss is the simplest stop loss method, setting a fixed percentage based on the entry price.</p>
+<p><strong>Calculation Formula</strong>:
+<div class="highlight"><pre><span></span><code>Stop Loss Price = Entry Price × (1 - Stop Loss Percentage)
+</code></pre></div></p>
+<p><strong>Example</strong>:
+<div class="highlight"><pre><span></span><code>Entry Price: $30,000
+Stop Loss: -5%
+Stop Loss Price: $30,000 × (1 - 0.05) = $28,500
+</code></pre></div></p>
+<h4 id="112-freqtrade-configuration">1.1.2 Freqtrade Configuration<a class="headerlink" href="#112-freqtrade-configuration" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"stoploss"</span><span class="p">:</span><span class="w"> </span><span class="mf">-0.05</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"stoploss_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"standard"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"stoploss_on_exchange"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"stoploss_on_exchange_interval"</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Strategy Example</strong>:
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">FixedStopLossStrategy</span><span class="p">(</span><span class="n">IStrategy</span><span class="p">):</span>
+    <span class="c1"># Set 5% fixed stop loss</span>
+    <span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.05</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_entry_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+        <span class="c1"># Buy signal logic</span>
+        <span class="k">return</span> <span class="n">dataframe</span>
+</code></pre></div></p>
+<h4 id="113-pros-and-cons-analysis">1.1.3 Pros and Cons Analysis<a class="headerlink" href="#113-pros-and-cons-analysis" title="Permanent link">&para;</a></h4>
+<p><strong>Advantages</strong>:
+<div class="highlight"><pre><span></span><code>✅ Simple and intuitive, easy to understand
+✅ Simple calculation, low system overhead
+✅ Suitable for beginners
+✅ Stable performance in normal markets
+</code></pre></div></p>
+<p><strong>Disadvantages</strong>:
+<div class="highlight"><pre><span></span><code>❌ Cannot adapt to market volatility changes
+❌ May be triggered by normal fluctuations
+❌ May be too aggressive in high-volatility markets
+❌ Cannot track profits
+</code></pre></div></p>
+<h3 id="12-dynamic-stop-loss">1.2 Dynamic Stop Loss<a class="headerlink" href="#12-dynamic-stop-loss" title="Permanent link">&para;</a></h3>
+<h4 id="121-atr-based-stop-loss">1.2.1 ATR-Based Stop Loss<a class="headerlink" href="#121-atr-based-stop-loss" title="Permanent link">&para;</a></h4>
+<p><strong>ATR (Average True Range)</strong>: Average True Range, measures market volatility.</p>
+<p><strong>Calculation Formula</strong>:
+<div class="highlight"><pre><span></span><code>ATR = Average of true ranges over past N days
+Stop Loss Price = Current Price - (ATR × N times multiplier)
+</code></pre></div></p>
+<p><strong>Strategy Implementation</strong>:
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">talib.abstract</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ta</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ATRStopLossStrategy</span><span class="p">(</span><span class="n">IStrategy</span><span class="p">):</span>
+    <span class="c1"># Use dynamic stop loss</span>
+    <span class="n">use_custom_stoploss</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># Minimum stop loss</span>
+    <span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.10</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">custom_stoploss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pair</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">trade</span><span class="p">:</span> <span class="s1">'Trade'</span><span class="p">,</span> <span class="n">current_time</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span>
+                       <span class="n">current_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">current_profit</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+
+        <span class="c1"># Get historical data</span>
+        <span class="n">dataframe</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dp</span><span class="o">.</span><span class="n">get_analyzed_dataframe</span><span class="p">(</span><span class="n">pair</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeframe</span><span class="p">)</span>
+        <span class="n">last_candle</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+
+        <span class="c1"># Calculate ATR</span>
+        <span class="n">atr</span> <span class="o">=</span> <span class="n">last_candle</span><span class="p">[</span><span class="s1">'atr'</span><span class="p">]</span>
+
+        <span class="c1"># Calculate dynamic stop loss (2×ATR)</span>
+        <span class="n">atr_multiplier</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="n">stoploss_pct</span> <span class="o">=</span> <span class="p">(</span><span class="n">atr</span> <span class="o">*</span> <span class="n">atr_multiplier</span><span class="p">)</span> <span class="o">/</span> <span class="n">current_rate</span>
+
+        <span class="c1"># Ensure stop loss does not exceed -15%</span>
+        <span class="n">stoploss_pct</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">stoploss_pct</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">)</span>
+
+        <span class="c1"># Ensure stop loss is not less than -2%</span>
+        <span class="n">stoploss_pct</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">stoploss_pct</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="o">-</span><span class="n">stoploss_pct</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_indicators</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+        <span class="c1"># Calculate ATR indicator</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'atr'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">ATR</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+</code></pre></div></p>
+<h4 id="122-volatility-based-stop-loss">1.2.2 Volatility-Based Stop Loss<a class="headerlink" href="#122-volatility-based-stop-loss" title="Permanent link">&para;</a></h4>
+<p><strong>Concept</strong>: Adjust stop loss distance based on historical volatility.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">VolatilityStopLossStrategy</span><span class="p">(</span><span class="n">IStrategy</span><span class="p">):</span>
+    <span class="n">use_custom_stoploss</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.15</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">custom_stoploss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pair</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">trade</span><span class="p">:</span> <span class="s1">'Trade'</span><span class="p">,</span> <span class="n">current_time</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span>
+                       <span class="n">current_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">current_profit</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+
+        <span class="n">dataframe</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dp</span><span class="o">.</span><span class="n">get_analyzed_dataframe</span><span class="p">(</span><span class="n">pair</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeframe</span><span class="p">)</span>
+
+        <span class="c1"># Calculate standard deviation of 20-day returns</span>
+        <span class="n">returns</span> <span class="o">=</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+        <span class="n">volatility</span> <span class="o">=</span> <span class="n">returns</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">()</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">252</span><span class="p">)</span>  <span class="c1"># Annualized volatility</span>
+
+        <span class="c1"># Adjust stop loss based on volatility</span>
+        <span class="k">if</span> <span class="n">volatility</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">:</span>  <span class="c1"># High volatility</span>
+            <span class="n">multiplier</span> <span class="o">=</span> <span class="mf">2.0</span>
+        <span class="k">elif</span> <span class="n">volatility</span> <span class="o">&gt;</span> <span class="mf">0.3</span><span class="p">:</span>  <span class="c1"># Medium volatility</span>
+            <span class="n">multiplier</span> <span class="o">=</span> <span class="mf">1.5</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># Low volatility</span>
+            <span class="n">multiplier</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+        <span class="n">base_stoploss</span> <span class="o">=</span> <span class="mf">0.03</span>  <span class="c1"># Base 3% stop loss</span>
+        <span class="n">stoploss_pct</span> <span class="o">=</span> <span class="n">base_stoploss</span> <span class="o">*</span> <span class="n">multiplier</span>
+
+        <span class="k">return</span> <span class="o">-</span><span class="nb">min</span><span class="p">(</span><span class="n">stoploss_pct</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">)</span>  <span class="c1"># Maximum -15%</span>
+</code></pre></div>
+<h3 id="13-trailing-stop-loss">1.3 Trailing Stop Loss<a class="headerlink" href="#13-trailing-stop-loss" title="Permanent link">&para;</a></h3>
+<h4 id="131-basic-principle">1.3.1 Basic Principle<a class="headerlink" href="#131-basic-principle" title="Permanent link">&para;</a></h4>
+<p>Trailing stop loss adjusts the stop loss price as price moves favorably, but never adjusts downward.</p>
+<p><strong>Example</strong>:
+<div class="highlight"><pre><span></span><code>Entry Price: $30,000
+Setting: 5% trailing stop loss
+
+Price rises to $31,000: Stop loss adjusted to $29,450 ($31,000 × 0.95)
+Price rises to $32,000: Stop loss adjusted to $30,400 ($32,000 × 0.95)
+Price drops to $31,500: Stop loss remains $30,400
+Price drops to $30,400: Stop loss triggered
+</code></pre></div></p>
+<h4 id="132-freqtrade-implementation">1.3.2 Freqtrade Implementation<a class="headerlink" href="#132-freqtrade-implementation" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">TrailingStopLossStrategy</span><span class="p">(</span><span class="n">IStrategy</span><span class="p">):</span>
+    <span class="c1"># Enable trailing stop loss</span>
+    <span class="n">trailing_stop</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">trailing_stop_positive</span> <span class="o">=</span> <span class="mf">0.01</span>  <span class="c1"># 1% trailing after profit</span>
+    <span class="n">trailing_stop_positive_offset</span> <span class="o">=</span> <span class="mf">0.03</span>  <span class="c1"># Start trailing after 3% profit</span>
+    <span class="n">trailing_only_offset_is_reached</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Only start trailing after offset reached</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_entry_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+        <span class="c1"># Buy signals</span>
+        <span class="k">return</span> <span class="n">dataframe</span>
+</code></pre></div>
+<p><strong>Configuration Explanation</strong>:
+- <code>trailing_stop</code>: Enable trailing stop loss
+- <code>trailing_stop_positive</code>: Trailing distance after profit
+- <code>trailing_stop_positive_offset</code>: Profit threshold to start trailing
+- <code>trailing_only_offset_is_reached</code>: Only start trailing after offset reached</p>
+<h4 id="133-custom-trailing-stop-loss">1.3.3 Custom Trailing Stop Loss<a class="headerlink" href="#133-custom-trailing-stop-loss" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CustomTrailingStopLossStrategy</span><span class="p">(</span><span class="n">IStrategy</span><span class="p">):</span>
+    <span class="n">use_custom_stoploss</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.10</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+        <span class="c1"># Store highest price for each trade</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">highest_prices</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">custom_stoploss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pair</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">trade</span><span class="p">:</span> <span class="s1">'Trade'</span><span class="p">,</span> <span class="n">current_time</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span>
+                       <span class="n">current_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">current_profit</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+
+        <span class="c1"># Get trade ID</span>
+        <span class="n">trade_id</span> <span class="o">=</span> <span class="n">trade</span><span class="o">.</span><span class="n">id</span>
+
+        <span class="c1"># Initialize highest price</span>
+        <span class="k">if</span> <span class="n">trade_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">highest_prices</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">highest_prices</span><span class="p">[</span><span class="n">trade_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">trade</span><span class="o">.</span><span class="n">open_rate</span>
+
+        <span class="c1"># Update highest price</span>
+        <span class="k">if</span> <span class="n">current_rate</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">highest_prices</span><span class="p">[</span><span class="n">trade_id</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">highest_prices</span><span class="p">[</span><span class="n">trade_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">current_rate</span>
+
+        <span class="n">highest_price</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">highest_prices</span><span class="p">[</span><span class="n">trade_id</span><span class="p">]</span>
+
+        <span class="c1"># If current profit exceeds 3%, use trailing stop loss</span>
+        <span class="k">if</span> <span class="n">current_profit</span> <span class="o">&gt;</span> <span class="mf">0.03</span><span class="p">:</span>
+            <span class="c1"># 2% trailing stop loss</span>
+            <span class="n">trailing_distance</span> <span class="o">=</span> <span class="mf">0.02</span>
+            <span class="n">stoploss_price</span> <span class="o">=</span> <span class="n">highest_price</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">trailing_distance</span><span class="p">)</span>
+            <span class="n">stoploss_pct</span> <span class="o">=</span> <span class="p">(</span><span class="n">current_rate</span> <span class="o">-</span> <span class="n">stoploss_price</span><span class="p">)</span> <span class="o">/</span> <span class="n">current_rate</span>
+
+            <span class="k">return</span> <span class="o">-</span><span class="n">stoploss_pct</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Otherwise use 5% fixed stop loss</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mf">0.05</span>
+</code></pre></div>
+<hr />
+<h2 id="part-2-advanced-stop-loss-strategies">Part 2: Advanced Stop Loss Strategies<a class="headerlink" href="#part-2-advanced-stop-loss-strategies" title="Permanent link">&para;</a></h2>
+<h3 id="21-technical-indicator-stop-loss">2.1 Technical Indicator Stop Loss<a class="headerlink" href="#21-technical-indicator-stop-loss" title="Permanent link">&para;</a></h3>
+<h4 id="211-moving-average-stop-loss">2.1.1 Moving Average Stop Loss<a class="headerlink" href="#211-moving-average-stop-loss" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">MAStopLossStrategy</span><span class="p">(</span><span class="n">IStrategy</span><span class="p">):</span>
+    <span class="n">use_custom_stoploss</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.15</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">custom_stoploss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pair</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">trade</span><span class="p">:</span> <span class="s1">'Trade'</span><span class="p">,</span> <span class="n">current_time</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span>
+                       <span class="n">current_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">current_profit</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+
+        <span class="n">dataframe</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dp</span><span class="o">.</span><span class="n">get_analyzed_dataframe</span><span class="p">(</span><span class="n">pair</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeframe</span><span class="p">)</span>
+        <span class="n">last_candle</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+
+        <span class="c1"># Use 20-day moving average as stop loss</span>
+        <span class="n">ma20</span> <span class="o">=</span> <span class="n">last_candle</span><span class="p">[</span><span class="s1">'ma20'</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">current_rate</span> <span class="o">&gt;</span> <span class="n">ma20</span><span class="p">:</span>
+            <span class="c1"># Current price above MA, use MA stop loss</span>
+            <span class="n">stoploss_pct</span> <span class="o">=</span> <span class="p">(</span><span class="n">current_rate</span> <span class="o">-</span> <span class="n">ma20</span><span class="p">)</span> <span class="o">/</span> <span class="n">current_rate</span>
+            <span class="k">return</span> <span class="o">-</span><span class="nb">min</span><span class="p">(</span><span class="n">stoploss_pct</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Price below MA, use fixed stop loss</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mf">0.08</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_indicators</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ma20'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">SMA</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ma50'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">SMA</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dataframe</span>
+</code></pre></div>
+<h4 id="212-bollinger-bands-stop-loss">2.1.2 Bollinger Bands Stop Loss<a class="headerlink" href="#212-bollinger-bands-stop-loss" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BollingerStopLossStrategy</span><span class="p">(</span><span class="n">IStrategy</span><span class="p">):</span>
+    <span class="n">use_custom_stoploss</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.15</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">custom_stoploss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pair</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">trade</span><span class="p">:</span> <span class="s1">'Trade'</span><span class="p">,</span> <span class="n">current_time</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span>
+                       <span class="n">current_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">current_profit</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+
+        <span class="n">dataframe</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dp</span><span class="o">.</span><span class="n">get_analyzed_dataframe</span><span class="p">(</span><span class="n">pair</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeframe</span><span class="p">)</span>
+        <span class="n">last_candle</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+
+        <span class="c1"># Use Bollinger Band lower band as stop loss</span>
+        <span class="n">lower_band</span> <span class="o">=</span> <span class="n">last_candle</span><span class="p">[</span><span class="s1">'bb_lowerband'</span><span class="p">]</span>
+
+        <span class="c1"># Ensure stop loss price not lower than BB lower band</span>
+        <span class="k">if</span> <span class="n">current_rate</span> <span class="o">&gt;</span> <span class="n">lower_band</span><span class="p">:</span>
+            <span class="n">stoploss_pct</span> <span class="o">=</span> <span class="p">(</span><span class="n">current_rate</span> <span class="o">-</span> <span class="n">lower_band</span><span class="p">)</span> <span class="o">/</span> <span class="n">current_rate</span>
+            <span class="k">return</span> <span class="o">-</span><span class="nb">min</span><span class="p">(</span><span class="n">stoploss_pct</span><span class="p">,</span> <span class="mf">0.20</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mf">0.10</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_indicators</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+        <span class="n">bollinger</span> <span class="o">=</span> <span class="n">qtpylib</span><span class="o">.</span><span class="n">bollinger_bands</span><span class="p">(</span><span class="n">qtpylib</span><span class="o">.</span><span class="n">typical_price</span><span class="p">(</span><span class="n">dataframe</span><span class="p">),</span> <span class="n">window</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">stds</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'bb_lowerband'</span><span class="p">]</span> <span class="o">=</span> <span class="n">bollinger</span><span class="p">[</span><span class="s1">'lower'</span><span class="p">]</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'bb_middleband'</span><span class="p">]</span> <span class="o">=</span> <span class="n">bollinger</span><span class="p">[</span><span class="s1">'mid'</span><span class="p">]</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'bb_upperband'</span><span class="p">]</span> <span class="o">=</span> <span class="n">bollinger</span><span class="p">[</span><span class="s1">'upper'</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">dataframe</span>
+</code></pre></div>
+<h4 id="213-support-level-stop-loss">2.1.3 Support Level Stop Loss<a class="headerlink" href="#213-support-level-stop-loss" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">SupportStopLossStrategy</span><span class="p">(</span><span class="n">IStrategy</span><span class="p">):</span>
+    <span class="n">use_custom_stoploss</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.15</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">find_support_levels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Find support levels"""</span>
+        <span class="c1"># Simple support level identification: local lows</span>
+        <span class="n">lows</span> <span class="o">=</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'low'</span><span class="p">]</span>
+
+        <span class="c1"># Find support levels (simplified version)</span>
+        <span class="n">support_levels</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">lows</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="n">current_low</span> <span class="o">=</span> <span class="n">lows</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">current_low</span> <span class="o">&lt;</span> <span class="n">lows</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span>
+                <span class="n">current_low</span> <span class="o">&lt;</span> <span class="n">lows</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="ow">and</span>
+                <span class="n">current_low</span> <span class="o">&lt;</span> <span class="n">lows</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span>
+                <span class="n">current_low</span> <span class="o">&lt;</span> <span class="n">lows</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">]):</span>
+                <span class="n">support_levels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_low</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">support_levels</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[:</span><span class="mi">5</span><span class="p">]</span>  <span class="c1"># Return top 5 support levels</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">custom_stoploss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pair</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">trade</span><span class="p">:</span> <span class="s1">'Trade'</span><span class="p">,</span> <span class="n">current_time</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span>
+                       <span class="n">current_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">current_profit</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+
+        <span class="n">dataframe</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dp</span><span class="o">.</span><span class="n">get_analyzed_dataframe</span><span class="p">(</span><span class="n">pair</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeframe</span><span class="p">)</span>
+        <span class="n">support_levels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_support_levels</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">support_levels</span><span class="p">:</span>
+            <span class="c1"># Use nearest support level as stop loss</span>
+            <span class="n">nearest_support</span> <span class="o">=</span> <span class="n">support_levels</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">current_rate</span> <span class="o">&gt;</span> <span class="n">nearest_support</span><span class="p">:</span>
+                <span class="n">stoploss_pct</span> <span class="o">=</span> <span class="p">(</span><span class="n">current_rate</span> <span class="o">-</span> <span class="n">nearest_support</span><span class="p">)</span> <span class="o">/</span> <span class="n">current_rate</span>
+                <span class="c1"># At least 2% stop loss, maximum 15%</span>
+                <span class="n">stoploss_pct</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">stoploss_pct</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">)</span>
+                <span class="n">stoploss_pct</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">stoploss_pct</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">)</span>
+                <span class="k">return</span> <span class="o">-</span><span class="n">stoploss_pct</span>
+
+        <span class="k">return</span> <span class="o">-</span><span class="mf">0.08</span>  <span class="c1"># Default stop loss</span>
+</code></pre></div>
+<h3 id="22-time-stop-loss">2.2 Time Stop Loss<a class="headerlink" href="#22-time-stop-loss" title="Permanent link">&para;</a></h3>
+<h4 id="221-holding-time-stop-loss">2.2.1 Holding Time Stop Loss<a class="headerlink" href="#221-holding-time-stop-loss" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">TimeStopLossStrategy</span><span class="p">(</span><span class="n">IStrategy</span><span class="p">):</span>
+    <span class="n">use_custom_stoploss</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.15</span>
+
+    <span class="c1"># Maximum holding time (hours)</span>
+    <span class="n">max_hold_time</span> <span class="o">=</span> <span class="mi">24</span>  <span class="c1"># 24 hours</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">custom_stoploss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pair</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">trade</span><span class="p">:</span> <span class="s1">'Trade'</span><span class="p">,</span> <span class="n">current_time</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span>
+                       <span class="n">current_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">current_profit</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+
+        <span class="c1"># Calculate holding time</span>
+        <span class="n">hold_time</span> <span class="o">=</span> <span class="n">current_time</span> <span class="o">-</span> <span class="n">trade</span><span class="o">.</span><span class="n">open_date</span>
+
+        <span class="c1"># If holding time exceeds limit, reduce stop loss</span>
+        <span class="k">if</span> <span class="n">hold_time</span> <span class="o">&gt;</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_hold_time</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">current_profit</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># Holding too long with profit, use small stop loss for quick exit</span>
+                <span class="k">return</span> <span class="o">-</span><span class="mf">0.01</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Holding too long with loss, stop loss exit</span>
+                <span class="k">return</span> <span class="o">-</span><span class="mf">0.001</span>
+
+        <span class="c1"># Normal stop loss logic</span>
+        <span class="k">if</span> <span class="n">current_profit</span> <span class="o">&gt;</span> <span class="mf">0.05</span><span class="p">:</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mf">0.03</span>  <span class="c1"># Profit over 5%, 3% stop loss</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mf">0.08</span>  <span class="c1"># Default stop loss</span>
+</code></pre></div>
+<h4 id="222-hourly-stop-loss">2.2.2 Hourly Stop Loss<a class="headerlink" href="#222-hourly-stop-loss" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">HourlyStopLossStrategy</span><span class="p">(</span><span class="n">IStrategy</span><span class="p">):</span>
+    <span class="n">use_custom_stoploss</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.15</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">custom_stoploss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pair</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">trade</span><span class="p">:</span> <span class="s1">'Trade'</span><span class="p">,</span> <span class="n">current_time</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span>
+                       <span class="n">current_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">current_profit</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+
+        <span class="n">hour</span> <span class="o">=</span> <span class="n">current_time</span><span class="o">.</span><span class="n">hour</span>
+
+        <span class="c1"># Adjust stop loss based on time period</span>
+        <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">hour</span> <span class="o">&lt;</span> <span class="mi">6</span><span class="p">:</span>  <span class="c1"># Late night, lower volatility</span>
+            <span class="k">if</span> <span class="n">current_profit</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="o">-</span><span class="mf">0.02</span>  <span class="c1"># Tighter stop loss</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="o">-</span><span class="mf">0.05</span>
+
+        <span class="k">elif</span> <span class="mi">6</span> <span class="o">&lt;=</span> <span class="n">hour</span> <span class="o">&lt;</span> <span class="mi">12</span><span class="p">:</span>  <span class="c1"># Morning session</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mf">0.08</span>
+
+        <span class="k">elif</span> <span class="mi">12</span> <span class="o">&lt;=</span> <span class="n">hour</span> <span class="o">&lt;</span> <span class="mi">18</span><span class="p">:</span>  <span class="c1"># Afternoon session, higher volatility</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mf">0.10</span>
+
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># Evening session</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mf">0.06</span>
+</code></pre></div>
+<h3 id="23-combined-stop-loss-strategies">2.3 Combined Stop Loss Strategies<a class="headerlink" href="#23-combined-stop-loss-strategies" title="Permanent link">&para;</a></h3>
+<h4 id="231-multi-condition-stop-loss">2.3.1 Multi-Condition Stop Loss<a class="headerlink" href="#231-multi-condition-stop-loss" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CombinedStopLossStrategy</span><span class="p">(</span><span class="n">IStrategy</span><span class="p">):</span>
+    <span class="n">use_custom_stoploss</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.20</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">custom_stoploss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pair</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">trade</span><span class="p">:</span> <span class="s1">'Trade'</span><span class="p">,</span> <span class="n">current_time</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span>
+                       <span class="n">current_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">current_profit</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+
+        <span class="n">dataframe</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dp</span><span class="o">.</span><span class="n">get_analyzed_dataframe</span><span class="p">(</span><span class="n">pair</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeframe</span><span class="p">)</span>
+        <span class="n">last_candle</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+
+        <span class="c1"># 1. ATR stop loss</span>
+        <span class="n">atr</span> <span class="o">=</span> <span class="n">last_candle</span><span class="p">[</span><span class="s1">'atr'</span><span class="p">]</span>
+        <span class="n">atr_stoploss</span> <span class="o">=</span> <span class="p">(</span><span class="n">atr</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">current_rate</span>
+
+        <span class="c1"># 2. Moving average stop loss</span>
+        <span class="n">ma20</span> <span class="o">=</span> <span class="n">last_candle</span><span class="p">[</span><span class="s1">'ma20'</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">current_rate</span> <span class="o">&gt;</span> <span class="n">ma20</span><span class="p">:</span>
+            <span class="n">ma_stoploss</span> <span class="o">=</span> <span class="p">(</span><span class="n">current_rate</span> <span class="o">-</span> <span class="n">ma20</span><span class="p">)</span> <span class="o">/</span> <span class="n">current_rate</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ma_stoploss</span> <span class="o">=</span> <span class="mf">0.15</span>
+
+        <span class="c1"># 3. Time stop loss</span>
+        <span class="n">hold_time</span> <span class="o">=</span> <span class="n">current_time</span> <span class="o">-</span> <span class="n">trade</span><span class="o">.</span><span class="n">open_date</span>
+        <span class="k">if</span> <span class="n">hold_time</span> <span class="o">&gt;</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">12</span><span class="p">):</span>
+            <span class="n">time_stoploss</span> <span class="o">=</span> <span class="mf">0.03</span> <span class="k">if</span> <span class="n">current_profit</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">0.08</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">time_stoploss</span> <span class="o">=</span> <span class="mf">0.15</span>
+
+        <span class="c1"># 4. Profit trailing stop loss</span>
+        <span class="k">if</span> <span class="n">current_profit</span> <span class="o">&gt;</span> <span class="mf">0.05</span><span class="p">:</span>
+            <span class="n">trailing_stoploss</span> <span class="o">=</span> <span class="mf">0.02</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">trailing_stoploss</span> <span class="o">=</span> <span class="mf">0.15</span>
+
+        <span class="c1"># Take the strictest stop loss (minimum value)</span>
+        <span class="n">final_stoploss</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">atr_stoploss</span><span class="p">,</span> <span class="n">ma_stoploss</span><span class="p">,</span> <span class="n">time_stoploss</span><span class="p">,</span> <span class="n">trailing_stoploss</span><span class="p">)</span>
+        <span class="n">final_stoploss</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">final_stoploss</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">)</span>  <span class="c1"># At least 2%</span>
+        <span class="n">final_stoploss</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">final_stoploss</span><span class="p">,</span> <span class="mf">0.20</span><span class="p">)</span>  <span class="c1"># At most 20%</span>
+
+        <span class="k">return</span> <span class="o">-</span><span class="n">final_stoploss</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_indicators</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'atr'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">ATR</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ma20'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">SMA</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dataframe</span>
+</code></pre></div>
+<hr />
+<h2 id="part-3-stop-loss-execution-mechanisms">Part 3: Stop Loss Execution Mechanisms<a class="headerlink" href="#part-3-stop-loss-execution-mechanisms" title="Permanent link">&para;</a></h2>
+<h3 id="31-local-stop-loss-vs-exchange-stop-loss">3.1 Local Stop Loss vs Exchange Stop Loss<a class="headerlink" href="#31-local-stop-loss-vs-exchange-stop-loss" title="Permanent link">&para;</a></h3>
+<h4 id="311-local-stop-loss">3.1.1 Local Stop Loss<a class="headerlink" href="#311-local-stop-loss" title="Permanent link">&para;</a></h4>
+<p><strong>Features</strong>:
+<div class="highlight"><pre><span></span><code>✅ High flexibility, can implement complex logic
+✅ Does not consume exchange API limits
+✅ Can monitor and adjust in real-time
+❌ Depends on system stability
+❌ Network issues may cause delays
+❌ Requires system to run continuously
+</code></pre></div></p>
+<p><strong>Configuration</strong>:
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"stoploss_on_exchange"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"stoploss"</span><span class="p">:</span><span class="w"> </span><span class="mf">-0.05</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h4 id="312-exchange-stop-loss">3.1.2 Exchange Stop Loss<a class="headerlink" href="#312-exchange-stop-loss" title="Permanent link">&para;</a></h4>
+<p><strong>Features</strong>:
+<div class="highlight"><pre><span></span><code>✅ Reliable execution, not affected by local system
+✅ Fast response speed
+✅ Does not consume local resources
+❌ Limited functionality, only supports basic stop loss
+❌ Consumes API limits
+❌ Less flexible adjustment
+</code></pre></div></p>
+<p><strong>Configuration</strong>:
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"stoploss_on_exchange"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"stoploss_on_exchange_interval"</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"stoploss"</span><span class="p">:</span><span class="w"> </span><span class="mf">-0.05</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h3 id="32-stop-loss-order-types">3.2 Stop Loss Order Types<a class="headerlink" href="#32-stop-loss-order-types" title="Permanent link">&para;</a></h3>
+<h4 id="321-stop-loss-market-order">3.2.1 Stop Loss Market Order<a class="headerlink" href="#321-stop-loss-market-order" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Set stop loss market order on exchange</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_stop_market_order</span><span class="p">(</span><span class="n">exchange</span><span class="p">,</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">amount</span><span class="p">,</span> <span class="n">stop_price</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Create stop loss market order</span>
+<span class="sd">    """</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="n">exchange</span><span class="o">.</span><span class="n">create_order</span><span class="p">(</span>
+            <span class="n">symbol</span><span class="o">=</span><span class="n">symbol</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s1">'stop_market'</span><span class="p">,</span>
+            <span class="n">side</span><span class="o">=</span><span class="s1">'sell'</span><span class="p">,</span>
+            <span class="n">amount</span><span class="o">=</span><span class="n">amount</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">'stopPrice'</span><span class="p">:</span> <span class="n">stop_price</span><span class="p">}</span>
+        <span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Stop loss market order created: </span><span class="si">{</span><span class="n">order</span><span class="p">[</span><span class="s1">'id'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Trigger price: $</span><span class="si">{</span><span class="n">stop_price</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">order</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Failed to create stop loss order: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+</code></pre></div>
+<h4 id="322-stop-loss-limit-order">3.2.2 Stop Loss Limit Order<a class="headerlink" href="#322-stop-loss-limit-order" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">create_stop_limit_order</span><span class="p">(</span><span class="n">exchange</span><span class="p">,</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">amount</span><span class="p">,</span> <span class="n">stop_price</span><span class="p">,</span> <span class="n">limit_price</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Create stop loss limit order</span>
+<span class="sd">    """</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="n">exchange</span><span class="o">.</span><span class="n">create_order</span><span class="p">(</span>
+            <span class="n">symbol</span><span class="o">=</span><span class="n">symbol</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s1">'stop_limit'</span><span class="p">,</span>
+            <span class="n">side</span><span class="o">=</span><span class="s1">'sell'</span><span class="p">,</span>
+            <span class="n">amount</span><span class="o">=</span><span class="n">amount</span><span class="p">,</span>
+            <span class="n">price</span><span class="o">=</span><span class="n">limit_price</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">'stopPrice'</span><span class="p">:</span> <span class="n">stop_price</span><span class="p">}</span>
+        <span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Stop loss limit order created: </span><span class="si">{</span><span class="n">order</span><span class="p">[</span><span class="s1">'id'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Trigger price: $</span><span class="si">{</span><span class="n">stop_price</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Limit price: $</span><span class="si">{</span><span class="n">limit_price</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">order</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Failed to create stop loss order: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+</code></pre></div>
+<h3 id="33-stop-loss-monitoring-and-adjustment">3.3 Stop Loss Monitoring and Adjustment<a class="headerlink" href="#33-stop-loss-monitoring-and-adjustment" title="Permanent link">&para;</a></h3>
+<h4 id="331-stop-loss-status-monitoring">3.3.1 Stop Loss Status Monitoring<a class="headerlink" href="#331-stop-loss-status-monitoring" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">StopLossMonitor</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">active_stop_orders</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stop_history</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_stop_order</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trade_id</span><span class="p">,</span> <span class="n">stop_price</span><span class="p">,</span> <span class="n">order_type</span><span class="o">=</span><span class="s1">'market'</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Add stop loss order"""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">active_stop_orders</span><span class="p">[</span><span class="n">trade_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">'stop_price'</span><span class="p">:</span> <span class="n">stop_price</span><span class="p">,</span>
+            <span class="s1">'order_type'</span><span class="p">:</span> <span class="n">order_type</span><span class="p">,</span>
+            <span class="s1">'created_time'</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span>
+            <span class="s1">'adjusted_times'</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_stop_price</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trade_id</span><span class="p">,</span> <span class="n">new_stop_price</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Update stop loss price"""</span>
+        <span class="k">if</span> <span class="n">trade_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_stop_orders</span><span class="p">:</span>
+            <span class="n">old_price</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_stop_orders</span><span class="p">[</span><span class="n">trade_id</span><span class="p">][</span><span class="s1">'stop_price'</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">active_stop_orders</span><span class="p">[</span><span class="n">trade_id</span><span class="p">][</span><span class="s1">'stop_price'</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_stop_price</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">active_stop_orders</span><span class="p">[</span><span class="n">trade_id</span><span class="p">][</span><span class="s1">'adjusted_times'</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Stop loss price updated: </span><span class="si">{</span><span class="n">old_price</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="n">new_stop_price</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_stop_trigger</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_price</span><span class="p">,</span> <span class="n">trade_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Check if stop loss is triggered"""</span>
+        <span class="k">if</span> <span class="n">trade_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_stop_orders</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="n">stop_price</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_stop_orders</span><span class="p">[</span><span class="n">trade_id</span><span class="p">][</span><span class="s1">'stop_price'</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">current_price</span> <span class="o">&lt;=</span> <span class="n">stop_price</span><span class="p">:</span>
+            <span class="c1"># Record stop loss history</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stop_history</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">'trade_id'</span><span class="p">:</span> <span class="n">trade_id</span><span class="p">,</span>
+                <span class="s1">'stop_price'</span><span class="p">:</span> <span class="n">stop_price</span><span class="p">,</span>
+                <span class="s1">'trigger_price'</span><span class="p">:</span> <span class="n">current_price</span><span class="p">,</span>
+                <span class="s1">'trigger_time'</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span>
+                <span class="s1">'order_type'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_stop_orders</span><span class="p">[</span><span class="n">trade_id</span><span class="p">][</span><span class="s1">'order_type'</span><span class="p">]</span>
+            <span class="p">})</span>
+
+            <span class="c1"># Remove active stop loss</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_stop_orders</span><span class="p">[</span><span class="n">trade_id</span><span class="p">]</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_stop_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Get stop loss statistics"""</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop_history</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">total_stops</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stop_history</span><span class="p">)</span>
+        <span class="n">market_stops</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop_history</span> <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="s1">'order_type'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'market'</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">'total_stops'</span><span class="p">:</span> <span class="n">total_stops</span><span class="p">,</span>
+            <span class="s1">'market_stops'</span><span class="p">:</span> <span class="n">market_stops</span><span class="p">,</span>
+            <span class="s1">'limit_stops'</span><span class="p">:</span> <span class="n">total_stops</span> <span class="o">-</span> <span class="n">market_stops</span><span class="p">,</span>
+            <span class="s1">'stop_efficiency'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_stop_efficiency</span><span class="p">()</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">calculate_stop_efficiency</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Calculate stop loss efficiency"""</span>
+        <span class="c1"># Simplified calculation: difference between actual and set stop loss prices</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop_history</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="n">total_slippage</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">stop</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop_history</span><span class="p">:</span>
+            <span class="n">slippage</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">stop</span><span class="p">[</span><span class="s1">'trigger_price'</span><span class="p">]</span> <span class="o">-</span> <span class="n">stop</span><span class="p">[</span><span class="s1">'stop_price'</span><span class="p">])</span> <span class="o">/</span> <span class="n">stop</span><span class="p">[</span><span class="s1">'stop_price'</span><span class="p">]</span>
+            <span class="n">total_slippage</span> <span class="o">+=</span> <span class="n">slippage</span>
+
+        <span class="n">avg_slippage</span> <span class="o">=</span> <span class="n">total_slippage</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stop_history</span><span class="p">)</span>
+        <span class="n">efficiency</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">avg_slippage</span><span class="p">)</span>  <span class="c1"># Efficiency = 1 - average slippage</span>
+
+        <span class="k">return</span> <span class="n">efficiency</span>
+</code></pre></div>
+<h4 id="332-dynamic-stop-loss-adjustment">3.3.2 Dynamic Stop Loss Adjustment<a class="headerlink" href="#332-dynamic-stop-loss-adjustment" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">dynamic_stop_adjustment</span><span class="p">(</span><span class="n">trade</span><span class="p">,</span> <span class="n">current_price</span><span class="p">,</span> <span class="n">current_profit</span><span class="p">,</span> <span class="n">indicators</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Dynamically adjust stop loss based on market conditions</span>
+<span class="sd">    """</span>
+    <span class="n">original_stop</span> <span class="o">=</span> <span class="n">trade</span><span class="o">.</span><span class="n">stop_loss</span>
+
+    <span class="c1"># Adjust based on profit</span>
+    <span class="k">if</span> <span class="n">current_profit</span> <span class="o">&gt;</span> <span class="mf">0.10</span><span class="p">:</span>
+        <span class="c1"># Profit over 10%, tighten stop loss</span>
+        <span class="n">new_stop</span> <span class="o">=</span> <span class="n">current_price</span> <span class="o">*</span> <span class="mf">0.97</span>  <span class="c1"># 3% stop loss</span>
+    <span class="k">elif</span> <span class="n">current_profit</span> <span class="o">&gt;</span> <span class="mf">0.05</span><span class="p">:</span>
+        <span class="c1"># Profit 5-10%, moderately tighten</span>
+        <span class="n">new_stop</span> <span class="o">=</span> <span class="n">current_price</span> <span class="o">*</span> <span class="mf">0.95</span>  <span class="c1"># 5% stop loss</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Small profit, keep original stop loss</span>
+        <span class="n">new_stop</span> <span class="o">=</span> <span class="n">original_stop</span>
+
+    <span class="c1"># Adjust based on volatility</span>
+    <span class="n">volatility</span> <span class="o">=</span> <span class="n">indicators</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'volatility'</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">volatility</span> <span class="o">&gt;</span> <span class="mf">0.05</span><span class="p">:</span>  <span class="c1"># High volatility</span>
+        <span class="n">new_stop</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">new_stop</span><span class="p">,</span> <span class="n">original_stop</span> <span class="o">*</span> <span class="mf">1.2</span><span class="p">)</span>  <span class="c1"># Widen stop loss</span>
+    <span class="k">elif</span> <span class="n">volatility</span> <span class="o">&lt;</span> <span class="mf">0.01</span><span class="p">:</span>  <span class="c1"># Low volatility</span>
+        <span class="n">new_stop</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">new_stop</span><span class="p">,</span> <span class="n">original_stop</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">)</span>  <span class="c1"># Tighten stop loss</span>
+
+    <span class="c1"># Adjust based on technical indicators</span>
+    <span class="k">if</span> <span class="n">indicators</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'trend'</span><span class="p">)</span> <span class="o">==</span> <span class="s1">'strong_bullish'</span><span class="p">:</span>
+        <span class="n">new_stop</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">new_stop</span><span class="p">,</span> <span class="n">current_price</span> <span class="o">*</span> <span class="mf">0.95</span><span class="p">)</span>  <span class="c1"># Uptrend, widen stop loss</span>
+
+    <span class="k">return</span> <span class="n">new_stop</span>
+</code></pre></div>
+<hr />
+<h2 id="part-4-stop-loss-optimization-strategies">Part 4: Stop Loss Optimization Strategies<a class="headerlink" href="#part-4-stop-loss-optimization-strategies" title="Permanent link">&para;</a></h2>
+<h3 id="41-stop-loss-backtest-analysis">4.1 Stop Loss Backtest Analysis<a class="headerlink" href="#41-stop-loss-backtest-analysis" title="Permanent link">&para;</a></h3>
+<h4 id="411-stop-loss-effectiveness-analysis">4.1.1 Stop Loss Effectiveness Analysis<a class="headerlink" href="#411-stop-loss-effectiveness-analysis" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">analyze_stoploss_effectiveness</span><span class="p">(</span><span class="n">trades_dataframe</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Analyze the effectiveness of stop loss strategies</span>
+<span class="sd">    """</span>
+    <span class="n">total_trades</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">trades_dataframe</span><span class="p">)</span>
+    <span class="n">stopped_trades</span> <span class="o">=</span> <span class="n">trades_dataframe</span><span class="p">[</span><span class="n">trades_dataframe</span><span class="p">[</span><span class="s1">'stoploss_reason'</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()]</span>
+
+    <span class="c1"># Stop loss trigger statistics</span>
+    <span class="n">stop_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">stopped_trades</span><span class="p">)</span>
+    <span class="n">stop_rate</span> <span class="o">=</span> <span class="n">stop_count</span> <span class="o">/</span> <span class="n">total_trades</span> <span class="k">if</span> <span class="n">total_trades</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+
+    <span class="c1"># Loss avoided by stop loss</span>
+    <span class="n">avg_stop_loss</span> <span class="o">=</span> <span class="n">stopped_trades</span><span class="p">[</span><span class="s1">'profit_ratio'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">max_potential_loss</span> <span class="o">=</span> <span class="n">stopped_trades</span><span class="p">[</span><span class="s1">'max_drawdown'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">loss_saved</span> <span class="o">=</span> <span class="n">max_potential_loss</span> <span class="o">-</span> <span class="n">avg_stop_loss</span>
+
+    <span class="c1"># Stop loss type distribution</span>
+    <span class="n">stop_types</span> <span class="o">=</span> <span class="n">stopped_trades</span><span class="p">[</span><span class="s1">'stoploss_reason'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+
+    <span class="n">analysis</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">'total_trades'</span><span class="p">:</span> <span class="n">total_trades</span><span class="p">,</span>
+        <span class="s1">'stop_count'</span><span class="p">:</span> <span class="n">stop_count</span><span class="p">,</span>
+        <span class="s1">'stop_rate'</span><span class="p">:</span> <span class="n">stop_rate</span><span class="p">,</span>
+        <span class="s1">'avg_stop_loss'</span><span class="p">:</span> <span class="n">avg_stop_loss</span><span class="p">,</span>
+        <span class="s1">'loss_saved_per_trade'</span><span class="p">:</span> <span class="n">loss_saved</span><span class="p">,</span>
+        <span class="s1">'total_loss_saved'</span><span class="p">:</span> <span class="n">loss_saved</span> <span class="o">*</span> <span class="n">stop_count</span><span class="p">,</span>
+        <span class="s1">'stop_type_distribution'</span><span class="p">:</span> <span class="n">stop_types</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">analysis</span>
+
+<span class="c1"># Usage example</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="c1"># Assume we have a trade record DataFrame</span>
+<span class="n">trades_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'backtest_results.csv'</span><span class="p">)</span>
+<span class="n">analysis</span> <span class="o">=</span> <span class="n">analyze_stoploss_effectiveness</span><span class="p">(</span><span class="n">trades_df</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Total trades: </span><span class="si">{</span><span class="n">analysis</span><span class="p">[</span><span class="s1">'total_trades'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Stop loss triggers: </span><span class="si">{</span><span class="n">analysis</span><span class="p">[</span><span class="s1">'stop_count'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Stop loss trigger rate: </span><span class="si">{</span><span class="n">analysis</span><span class="p">[</span><span class="s1">'stop_rate'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Average loss avoided by stop loss: </span><span class="si">{</span><span class="n">analysis</span><span class="p">[</span><span class="s1">'loss_saved_per_trade'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Total loss avoided by stop loss: </span><span class="si">{</span><span class="n">analysis</span><span class="p">[</span><span class="s1">'total_loss_saved'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="412-different-stop-loss-strategy-comparison">4.1.2 Different Stop Loss Strategy Comparison<a class="headerlink" href="#412-different-stop-loss-strategy-comparison" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compare_stoploss_strategies</span><span class="p">(</span><span class="n">backtest_results</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Compare performance of different stop loss strategies</span>
+<span class="sd">    """</span>
+    <span class="n">comparison</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">strategy_name</span><span class="p">,</span> <span class="n">results</span> <span class="ow">in</span> <span class="n">backtest_results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">trades</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">'trades'</span><span class="p">]</span>
+
+        <span class="c1"># Calculate key metrics</span>
+        <span class="n">total_profit</span> <span class="o">=</span> <span class="n">trades</span><span class="p">[</span><span class="s1">'profit_abs'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="n">win_rate</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">trades</span><span class="p">[</span><span class="n">trades</span><span class="p">[</span><span class="s1">'profit_abs'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">trades</span><span class="p">)</span>
+        <span class="n">max_drawdown</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">'max_drawdown'</span><span class="p">]</span>
+        <span class="n">sharpe_ratio</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">'sharpe'</span><span class="p">]</span>
+
+        <span class="c1"># Stop loss related metrics</span>
+        <span class="n">stopped_trades</span> <span class="o">=</span> <span class="n">trades</span><span class="p">[</span><span class="n">trades</span><span class="p">[</span><span class="s1">'stoploss_reason'</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()]</span>
+        <span class="n">stop_rate</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">stopped_trades</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">trades</span><span class="p">)</span>
+        <span class="n">avg_stop_loss</span> <span class="o">=</span> <span class="n">stopped_trades</span><span class="p">[</span><span class="s1">'profit_ratio'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">stopped_trades</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+
+        <span class="n">comparison</span><span class="p">[</span><span class="n">strategy_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">'total_profit'</span><span class="p">:</span> <span class="n">total_profit</span><span class="p">,</span>
+            <span class="s1">'win_rate'</span><span class="p">:</span> <span class="n">win_rate</span><span class="p">,</span>
+            <span class="s1">'max_drawdown'</span><span class="p">:</span> <span class="n">max_drawdown</span><span class="p">,</span>
+            <span class="s1">'sharpe_ratio'</span><span class="p">:</span> <span class="n">sharpe_ratio</span><span class="p">,</span>
+            <span class="s1">'stop_rate'</span><span class="p">:</span> <span class="n">stop_rate</span><span class="p">,</span>
+            <span class="s1">'avg_stop_loss'</span><span class="p">:</span> <span class="n">avg_stop_loss</span>
+        <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">comparison</span>
+
+<span class="c1"># Visualize comparison</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_stoploss_comparison</span><span class="p">(</span><span class="n">comparison</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Plot stop loss strategy comparison chart</span>
+<span class="sd">    """</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+    <span class="n">strategies</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">comparison</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="n">metrics</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'total_profit'</span><span class="p">,</span> <span class="s1">'win_rate'</span><span class="p">,</span> <span class="s1">'max_drawdown'</span><span class="p">,</span> <span class="s1">'sharpe_ratio'</span><span class="p">]</span>
+
+    <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+    <span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">metric</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">metrics</span><span class="p">):</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">comparison</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">strategies</span><span class="p">]</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">strategies</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">metric</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"_"</span><span class="p">,</span><span class="w"> </span><span class="s2">" "</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">'x'</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="42-stop-loss-parameter-optimization">4.2 Stop Loss Parameter Optimization<a class="headerlink" href="#42-stop-loss-parameter-optimization" title="Permanent link">&para;</a></h3>
+<h4 id="421-stop-loss-percentage-optimization">4.2.1 Stop Loss Percentage Optimization<a class="headerlink" href="#421-stop-loss-percentage-optimization" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">optimize_stoploss_percentage</span><span class="p">(</span><span class="n">strategy_class</span><span class="p">,</span> <span class="n">timeframe</span><span class="p">,</span> <span class="n">pair_list</span><span class="p">,</span>
+                               <span class="n">stoploss_range</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">0.02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.03</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.04</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.06</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.08</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.10</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Optimize stop loss percentage</span>
+<span class="sd">    """</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">stoploss</span> <span class="ow">in</span> <span class="n">stoploss_range</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Testing stop loss: </span><span class="si">{</span><span class="n">stoploss</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+        <span class="c1"># Create strategy instance</span>
+        <span class="n">strategy</span> <span class="o">=</span> <span class="n">strategy_class</span><span class="p">({</span>
+            <span class="s1">'strategy'</span><span class="p">:</span> <span class="n">strategy_class</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+            <span class="s1">'stoploss'</span><span class="p">:</span> <span class="n">stoploss</span>
+        <span class="p">})</span>
+
+        <span class="c1"># Run backtest</span>
+        <span class="n">backtest_result</span> <span class="o">=</span> <span class="n">run_backtest</span><span class="p">(</span><span class="n">strategy</span><span class="p">,</span> <span class="n">timeframe</span><span class="p">,</span> <span class="n">pair_list</span><span class="p">)</span>
+
+        <span class="n">results</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">stoploss</span><span class="p">)]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">'total_profit'</span><span class="p">:</span> <span class="n">backtest_result</span><span class="p">[</span><span class="s1">'total_profit'</span><span class="p">],</span>
+            <span class="s1">'profit_mean'</span><span class="p">:</span> <span class="n">backtest_result</span><span class="p">[</span><span class="s1">'profit_mean'</span><span class="p">],</span>
+            <span class="s1">'win_rate'</span><span class="p">:</span> <span class="n">backtest_result</span><span class="p">[</span><span class="s1">'wins'</span><span class="p">]</span> <span class="o">/</span> <span class="n">backtest_result</span><span class="p">[</span><span class="s1">'total_trades'</span><span class="p">],</span>
+            <span class="s1">'max_drawdown'</span><span class="p">:</span> <span class="n">backtest_result</span><span class="p">[</span><span class="s1">'max_drawdown_abs'</span><span class="p">],</span>
+            <span class="s1">'sharpe'</span><span class="p">:</span> <span class="n">backtest_result</span><span class="p">[</span><span class="s1">'sharpe'</span><span class="p">]</span>
+        <span class="p">}</span>
+
+    <span class="c1"># Find optimal stop loss</span>
+    <span class="n">best_stoploss</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
+                       <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">results</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s1">'sharpe'</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">'results'</span><span class="p">:</span> <span class="n">results</span><span class="p">,</span>
+        <span class="s1">'best_stoploss'</span><span class="p">:</span> <span class="n">best_stoploss</span><span class="p">,</span>
+        <span class="s1">'best_performance'</span><span class="p">:</span> <span class="n">results</span><span class="p">[</span><span class="n">best_stoploss</span><span class="p">]</span>
+    <span class="p">}</span>
+</code></pre></div>
+<h4 id="422-trailing-stop-loss-parameter-optimization">4.2.2 Trailing Stop Loss Parameter Optimization<a class="headerlink" href="#422-trailing-stop-loss-parameter-optimization" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">optimize_trailing_stop</span><span class="p">(</span><span class="n">strategy_class</span><span class="p">,</span> <span class="n">timeframe</span><span class="p">,</span> <span class="n">pair_list</span><span class="p">,</span>
+                          <span class="n">trailing_offsets</span><span class="o">=</span><span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.04</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">],</span>
+                          <span class="n">trailing_stops</span><span class="o">=</span><span class="p">[</span><span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.015</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Optimize trailing stop loss parameters</span>
+<span class="sd">    """</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">offset</span> <span class="ow">in</span> <span class="n">trailing_offsets</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">stop</span> <span class="ow">in</span> <span class="n">trailing_stops</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Testing trailing parameters: offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2">, stop=</span><span class="si">{</span><span class="n">stop</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+            <span class="c1"># Create strategy instance</span>
+            <span class="n">strategy</span> <span class="o">=</span> <span class="n">strategy_class</span><span class="p">({</span>
+                <span class="s1">'strategy'</span><span class="p">:</span> <span class="n">strategy_class</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                <span class="s1">'trailing_stop'</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s1">'trailing_stop_positive_offset'</span><span class="p">:</span> <span class="n">offset</span><span class="p">,</span>
+                <span class="s1">'trailing_stop_positive'</span><span class="p">:</span> <span class="n">stop</span>
+            <span class="p">})</span>
+
+            <span class="c1"># Run backtest</span>
+            <span class="n">backtest_result</span> <span class="o">=</span> <span class="n">run_backtest</span><span class="p">(</span><span class="n">strategy</span><span class="p">,</span> <span class="n">timeframe</span><span class="p">,</span> <span class="n">pair_list</span><span class="p">)</span>
+
+            <span class="n">key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"offset_</span><span class="si">{</span><span class="n">offset</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2">_stop_</span><span class="si">{</span><span class="n">stop</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2">"</span>
+            <span class="n">results</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">'offset'</span><span class="p">:</span> <span class="n">offset</span><span class="p">,</span>
+                <span class="s1">'stop'</span><span class="p">:</span> <span class="n">stop</span><span class="p">,</span>
+                <span class="s1">'total_profit'</span><span class="p">:</span> <span class="n">backtest_result</span><span class="p">[</span><span class="s1">'total_profit'</span><span class="p">],</span>
+                <span class="s1">'win_rate'</span><span class="p">:</span> <span class="n">backtest_result</span><span class="p">[</span><span class="s1">'wins'</span><span class="p">]</span> <span class="o">/</span> <span class="n">backtest_result</span><span class="p">[</span><span class="s1">'total_trades'</span><span class="p">],</span>
+                <span class="s1">'max_drawdown'</span><span class="p">:</span> <span class="n">backtest_result</span><span class="p">[</span><span class="s1">'max_drawdown_abs'</span><span class="p">],</span>
+                <span class="s1">'sharpe'</span><span class="p">:</span> <span class="n">backtest_result</span><span class="p">[</span><span class="s1">'sharpe'</span><span class="p">]</span>
+            <span class="p">}</span>
+
+    <span class="c1"># Find optimal parameters</span>
+    <span class="n">best_params</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
+                     <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">results</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s1">'sharpe'</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">'results'</span><span class="p">:</span> <span class="n">results</span><span class="p">,</span>
+        <span class="s1">'best_parameters'</span><span class="p">:</span> <span class="n">best_params</span><span class="p">,</span>
+        <span class="s1">'best_performance'</span><span class="p">:</span> <span class="n">results</span><span class="p">[</span><span class="n">best_params</span><span class="p">]</span>
+    <span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="part-5-practical-configuration-examples">Part 5: Practical Configuration Examples<a class="headerlink" href="#part-5-practical-configuration-examples" title="Permanent link">&para;</a></h2>
+<h3 id="51-conservative-stop-loss-configuration">5.1 Conservative Stop Loss Configuration<a class="headerlink" href="#51-conservative-stop-loss-configuration" title="Permanent link">&para;</a></h3>
+<p><strong>Suitable for</strong>: Beginners, low-risk preference</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"stoploss"</span><span class="p">:</span><span class="w"> </span><span class="mf">-0.06</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"trailing_stop"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"stoploss_on_exchange"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"stoploss_on_exchange_interval"</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"order_types"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"stoploss"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stoploss_on_exchange"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stoploss_on_exchange_interval"</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Features</strong>:
+- 6% fixed stop loss, relatively conservative
+- Use exchange stop loss for high reliability
+- No trailing stop loss, simple and direct</p>
+<h3 id="52-aggressive-stop-loss-configuration">5.2 Aggressive Stop Loss Configuration<a class="headerlink" href="#52-aggressive-stop-loss-configuration" title="Permanent link">&para;</a></h3>
+<p><strong>Suitable for</strong>: High-frequency trading, high-risk preference</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"stoploss"</span><span class="p">:</span><span class="w"> </span><span class="mf">-0.08</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"trailing_stop"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"trailing_stop_positive"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.01</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"trailing_stop_positive_offset"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.02</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"trailing_only_offset_is_reached"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"stoploss_on_exchange"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"order_types"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"stoploss"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stoploss_on_exchange"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Features</strong>:
+- Start 1% trailing stop loss after 2% profit
+- Use local stop loss for complex logic implementation
+- Stop loss limit order to control execution price</p>
+<h3 id="53-intelligent-stop-loss-configuration">5.3 Intelligent Stop Loss Configuration<a class="headerlink" href="#53-intelligent-stop-loss-configuration" title="Permanent link">&para;</a></h3>
+<p><strong>Suitable for</strong>: Experienced traders</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">IntelligentStopLossStrategy</span><span class="p">(</span><span class="n">IStrategy</span><span class="p">):</span>
+    <span class="n">use_custom_stoploss</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.15</span>
+
+    <span class="c1"># Configuration parameters</span>
+    <span class="n">atr_multiplier</span> <span class="o">=</span> <span class="mf">2.0</span>
+    <span class="n">trailing_start_profit</span> <span class="o">=</span> <span class="mf">0.03</span>
+    <span class="n">trailing_distance</span> <span class="o">=</span> <span class="mf">0.02</span>
+    <span class="n">max_stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.20</span>
+    <span class="n">min_stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.02</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">custom_stoploss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pair</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">trade</span><span class="p">:</span> <span class="s1">'Trade'</span><span class="p">,</span> <span class="n">current_time</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span>
+                       <span class="n">current_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">current_profit</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+
+        <span class="n">dataframe</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dp</span><span class="o">.</span><span class="n">get_analyzed_dataframe</span><span class="p">(</span><span class="n">pair</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeframe</span><span class="p">)</span>
+        <span class="n">last_candle</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+
+        <span class="c1"># 1. ATR dynamic stop loss</span>
+        <span class="n">atr</span> <span class="o">=</span> <span class="n">last_candle</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'atr'</span><span class="p">,</span> <span class="n">current_rate</span> <span class="o">*</span> <span class="mf">0.02</span><span class="p">)</span>  <span class="c1"># Default 2%</span>
+        <span class="n">atr_stoploss</span> <span class="o">=</span> <span class="p">(</span><span class="n">atr</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">atr_multiplier</span><span class="p">)</span> <span class="o">/</span> <span class="n">current_rate</span>
+
+        <span class="c1"># 2. Trailing stop loss</span>
+        <span class="k">if</span> <span class="n">current_profit</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">trailing_start_profit</span><span class="p">:</span>
+            <span class="n">trailing_stoploss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trailing_distance</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">trailing_stoploss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stoploss</span> <span class="o">*</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="c1"># 3. Time stop loss</span>
+        <span class="n">hold_time</span> <span class="o">=</span> <span class="n">current_time</span> <span class="o">-</span> <span class="n">trade</span><span class="o">.</span><span class="n">open_date</span>
+        <span class="k">if</span> <span class="n">hold_time</span> <span class="o">&gt;</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">48</span><span class="p">):</span>
+            <span class="n">time_stoploss</span> <span class="o">=</span> <span class="mf">0.05</span> <span class="k">if</span> <span class="n">current_profit</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">0.15</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">time_stoploss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stoploss</span> <span class="o">*</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="c1"># Choose optimal stop loss</span>
+        <span class="n">final_stoploss</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">atr_stoploss</span><span class="p">,</span> <span class="n">trailing_stoploss</span><span class="p">,</span> <span class="n">time_stoploss</span><span class="p">)</span>
+
+        <span class="c1"># Limit stop loss range</span>
+        <span class="n">final_stoploss</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">final_stoploss</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_stoploss</span><span class="p">)</span>
+        <span class="n">final_stoploss</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">final_stoploss</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_stoploss</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="o">-</span><span class="n">final_stoploss</span>
+</code></pre></div>
+<hr />
+<h2 id="practical-tasks">📝 Practical Tasks<a class="headerlink" href="#practical-tasks" title="Permanent link">&para;</a></h2>
+<h3 id="task-1-stop-loss-strategy-testing">Task 1: Stop Loss Strategy Testing<a class="headerlink" href="#task-1-stop-loss-strategy-testing" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Test different stop loss percentages (2%, 3%, 5%, 8%, 10%) in backtest</li>
+<li>Record win rate, return rate, maximum drawdown for each stop loss</li>
+<li>Choose the stop loss setting most suitable for your strategy</li>
+</ol>
+<h3 id="task-2-trailing-stop-loss-optimization">Task 2: Trailing Stop Loss Optimization<a class="headerlink" href="#task-2-trailing-stop-loss-optimization" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Test different trailing parameter combinations</li>
+<li>Analyze the impact of trailing stop loss on return rate</li>
+<li>Find optimal trailing distance and trigger conditions</li>
+</ol>
+<h3 id="task-3-live-stop-loss-verification">Task 3: Live Stop Loss Verification<a class="headerlink" href="#task-3-live-stop-loss-verification" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Test stop loss configuration with small capital in live trading</li>
+<li>Observe timeliness and accuracy of stop loss triggers</li>
+<li>Record actual slippage situations</li>
+<li>Adjust parameters based on live performance</li>
+</ol>
+<hr />
+<h2 id="key-points">📌 Key Points<a class="headerlink" href="#key-points" title="Permanent link">&para;</a></h2>
+<h3 id="stop-loss-setting-principles">Stop Loss Setting Principles<a class="headerlink" href="#stop-loss-setting-principles" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>1. Protect Capital First
+   ✅ Stop loss is a tool to protect capital
+   ✅ Any stop loss is better than no stop loss
+   ✅ Don't set stop loss too large due to fear of stops
+
+2. Adapt to Strategy Characteristics
+   ✅ Trend strategies need looser stop losses
+   ✅ Range-bound strategies need tighter stop losses
+   ✅ High-frequency strategies need fast stops
+
+3. Consider Market Environment
+   ✅ Loosen stops in high-volatility markets
+   ✅ Tighten stops in low-volatility markets
+   ✅ Adjust stops before major events
+</code></pre></div>
+<h3 id="common-stop-loss-mistakes">Common Stop Loss Mistakes<a class="headerlink" href="#common-stop-loss-mistakes" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Mistake</th>
+<th>Consequence</th>
+<th>Correct Approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stop loss set too large</td>
+<td>Excessive losses</td>
+<td>Set reasonably based on strategy</td>
+</tr>
+<tr>
+<td>Stop loss set too small</td>
+<td>Frequent stops</td>
+<td>Consider normal volatility range</td>
+</tr>
+<tr>
+<td>Moving stops after profit</td>
+<td>May exit too early</td>
+<td>Use trailing stop loss</td>
+</tr>
+<tr>
+<td>Ignoring stop loss execution</td>
+<td>Actual losses exceed expectations</td>
+<td>Ensure reliable stop loss execution</td>
+</tr>
+</tbody>
+</table>
+<h3 id="stop-loss-optimization-checklist">Stop Loss Optimization Checklist<a class="headerlink" href="#stop-loss-optimization-checklist" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>□ Verify stop loss effectiveness through backtest
+□ Test performance under different market conditions
+□ Optimize stop loss parameters
+□ Ensure reliable stop loss execution mechanism
+□ Verify stop loss performance in live trading
+□ Regularly review and adjust stop loss strategies
+</code></pre></div>
+<hr />
+<h2 id="next-lesson-preview">🎯 Next Lesson Preview<a class="headerlink" href="#next-lesson-preview" title="Permanent link">&para;</a></h2>
+<p><strong>Lesson 24.3: Futures Trading Operations Detailed Guide</strong></p>
+<p>In the next lesson, we will learn:
+- Binance futures trading API usage
+- Leverage and margin management
+- Futures order types and operations
+- Capital management and risk control</p>
+<p>After mastering spot trading stop loss techniques, we will enter the higher-risk futures trading domain.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

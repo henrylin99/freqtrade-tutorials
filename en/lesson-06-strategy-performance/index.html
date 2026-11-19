@@ -1,0 +1,3831 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径">
+      
+      
+      
+        <link rel="canonical" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-06-strategy-performance/">
+      
+      
+        <link rel="prev" href="../lesson-05-first-backtest/">
+      
+      
+        <link rel="next" href="../lesson-07-multi-timeframe/">
+      
+      
+        
+          <link rel="alternate" href="../../lesson-06-strategy-performance/" hreflang="zh">
+        
+          <link rel="alternate" href="./" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>Lesson 6: Strategy Performance Analysis - Freqtrade 实战教程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9784658154228475"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VGHZY4EELE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VGHZY4EELE");
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lesson-6-strategy-performance-analysis" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Freqtrade 实战教程" class="md-header__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Freqtrade 实战教程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lesson 6: Strategy Performance Analysis
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../lesson-06-strategy-performance/" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../strategies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  English Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Freqtrade 实战教程" class="md-nav__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Freqtrade 实战教程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../strategies/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    English Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    English Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 1: Introduction to Quantitative Trading and Freqtrade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-02-environment-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 2: Freqtrade Environment Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-03-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 3: Understanding Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-04-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 4: Data Download and Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-05-first-backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 5: First Strategy Backtest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 6: Strategy Performance Analysis
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 6: Strategy Performance Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#course-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 Course Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#61-key-metrics-interpretation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Key Metrics Interpretation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.1 Key Metrics Interpretation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#total-profit-vs-average-profit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Total Profit vs Average Profit
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Total Profit vs Average Profit">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#total-profit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Total Profit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#average-profit-per-trade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Average Profit per Trade
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparison-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#win-rate-vs-profit-factor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Win Rate vs Profit Factor
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Win Rate vs Profit Factor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#win-rate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Win Rate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#profit-factor-risk-reward-ratio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Profit Factor / Risk-Reward Ratio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relationship-between-win-rate-and-profit-factor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relationship Between Win Rate and Profit Factor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#profit-model-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Profit Model Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-type-is-your-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Type is Your Strategy?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#maximum-drawdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Maximum Drawdown
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Maximum Drawdown">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#drawdown-classification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Drawdown Classification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-drawdown-is-important" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Drawdown is Important?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#drawdown-duration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Drawdown Duration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sharpe-ratio-sortino-ratio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sharpe Ratio / Sortino Ratio
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sharpe Ratio / Sortino Ratio">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sharpe-ratio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sharpe Ratio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sortino-ratio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sortino Ratio
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#62-trade-count-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Trade Count Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.2 Trade Count Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#impact-of-trading-frequency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Impact of Trading Frequency
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fee-cost-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fee Cost Calculation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fee Cost Calculation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fee-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fee Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#impact-of-fees-on-returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Impact of Fees on Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#break-even-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Break-even Point
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#risks-of-over-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Risks of Over-trading
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#63-exit-reason-statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Exit Reason Statistics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.3 Exit Reason Statistics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exit-reason-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exit Reason Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exit-reason-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exit Reason Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exit Reason Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Report
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interpretation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interpretation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-diagnosis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem Diagnosis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Problem Diagnosis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problem-1-stop-loss-proportion-too-high-30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 1: Stop Loss Proportion Too High (&gt; 30%)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-2-force-exit-proportion-high-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 2: Force Exit Proportion High (&gt; 10%)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-3-roi-proportion-too-low-20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 3: ROI Proportion Too Low (&lt; 20%)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#64-holding-time-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Holding Time Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.4 Holding Time Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#average-holding-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Average Holding Time
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relationship-between-holding-time-and-returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relationship Between Holding Time and Returns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Relationship Between Holding Time and Returns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ideal-curve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideal Curve
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-curve-1-time-drag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem Curve 1: Time Drag
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-curve-2-early-exit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem Curve 2: Early Exit
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#holding-time-distribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Holding Time Distribution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#overnight-risk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overnight Risk
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Practical Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 Practical Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-backtest-three-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Backtest Three Strategies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-create-strategy-comparison-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Create Strategy Comparison Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-analyze-pros-and-cons-of-each-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: Analyze Pros and Cons of Each Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-4-select-the-best-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 4: Select the Best Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#knowledge-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Knowledge Check
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Knowledge Check">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Answers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advanced-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#thought-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Thought Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reference-materials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔗 Reference Materials
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔗 Reference Materials">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#supporting-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supporting Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommended Reading
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-points-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Key Points Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-lesson-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ➡️ Next Lesson Preview
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-07-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 7: Multi-Timeframe Backtesting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-08-strategy-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 8: Strategy Batch Comparison
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-09-timerange-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 9: Time Range Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-10-pair-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 10: Trading Pair Selection and Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-11-hyperopt-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 11: Hyperopt Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-12-advanced-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 12: Advanced Strategy Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-13-scoring-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 13: Strategy Scoring System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-14-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 14: Risk and Money Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-15-portfolio-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 15: Strategy Portfolio and Diversification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-16-realtime-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 16: Real-time Signal Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-17-telegram-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 17: Telegram Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-18-webui-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 18: Web UI and API Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 19: Visualization Analysis Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-20-dry-run-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 20: Simulated Trading Validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-21-exchange-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 21: Exchange API Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-22-pre-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 22: Pre-Live Trading Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-23-small-capital-live/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 23: Small Capital Live Trading
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-1-order-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.1: Live Trading Order Placement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-2-stop-loss-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.2: Live Trading Stop Loss Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-3-futures-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.3: Binance Futures Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-4-leverage-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.4: Leverage Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-trading-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24: Trading Monitoring and Adjustment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-25-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 25: Risk Control and Psychology Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-26-custom-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 26: Custom Strategy Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-27-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 27: Multi-Timeframe Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-28-grid-hft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 28: HFT and Grid Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-1-freqai-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.1: FreqAI Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-2-advanced-ml-strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.2: Advanced ML Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning-enhanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: ML Basics and Strategy Optimization (Enhanced)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: Machine Learning and Strategy Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-30-conclusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 30: Conclusion and Continuous Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#course-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 Course Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#61-key-metrics-interpretation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Key Metrics Interpretation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.1 Key Metrics Interpretation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#total-profit-vs-average-profit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Total Profit vs Average Profit
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Total Profit vs Average Profit">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#total-profit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Total Profit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#average-profit-per-trade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Average Profit per Trade
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparison-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#win-rate-vs-profit-factor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Win Rate vs Profit Factor
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Win Rate vs Profit Factor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#win-rate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Win Rate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#profit-factor-risk-reward-ratio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Profit Factor / Risk-Reward Ratio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relationship-between-win-rate-and-profit-factor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relationship Between Win Rate and Profit Factor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#profit-model-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Profit Model Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-type-is-your-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Type is Your Strategy?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#maximum-drawdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Maximum Drawdown
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Maximum Drawdown">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#drawdown-classification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Drawdown Classification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-drawdown-is-important" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Drawdown is Important?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#drawdown-duration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Drawdown Duration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sharpe-ratio-sortino-ratio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sharpe Ratio / Sortino Ratio
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sharpe Ratio / Sortino Ratio">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sharpe-ratio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sharpe Ratio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sortino-ratio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sortino Ratio
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#62-trade-count-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Trade Count Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.2 Trade Count Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#impact-of-trading-frequency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Impact of Trading Frequency
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fee-cost-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fee Cost Calculation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fee Cost Calculation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fee-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fee Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#impact-of-fees-on-returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Impact of Fees on Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#break-even-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Break-even Point
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#risks-of-over-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Risks of Over-trading
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#63-exit-reason-statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Exit Reason Statistics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.3 Exit Reason Statistics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exit-reason-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exit Reason Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exit-reason-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exit Reason Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exit Reason Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Report
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interpretation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interpretation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-diagnosis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem Diagnosis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Problem Diagnosis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problem-1-stop-loss-proportion-too-high-30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 1: Stop Loss Proportion Too High (&gt; 30%)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-2-force-exit-proportion-high-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 2: Force Exit Proportion High (&gt; 10%)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-3-roi-proportion-too-low-20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 3: ROI Proportion Too Low (&lt; 20%)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#64-holding-time-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Holding Time Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.4 Holding Time Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#average-holding-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Average Holding Time
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relationship-between-holding-time-and-returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relationship Between Holding Time and Returns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Relationship Between Holding Time and Returns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ideal-curve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideal Curve
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-curve-1-time-drag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem Curve 1: Time Drag
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-curve-2-early-exit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem Curve 2: Early Exit
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#holding-time-distribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Holding Time Distribution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#overnight-risk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overnight Risk
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Practical Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 Practical Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-backtest-three-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Backtest Three Strategies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-create-strategy-comparison-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Create Strategy Comparison Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-analyze-pros-and-cons-of-each-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: Analyze Pros and Cons of Each Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-4-select-the-best-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 4: Select the Best Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#knowledge-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Knowledge Check
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Knowledge Check">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Answers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advanced-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#thought-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Thought Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reference-materials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔗 Reference Materials
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔗 Reference Materials">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#supporting-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supporting Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommended Reading
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-points-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Key Points Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-lesson-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ➡️ Next Lesson Preview
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="lesson-6-strategy-performance-analysis">Lesson 6: Strategy Performance Analysis<a class="headerlink" href="#lesson-6-strategy-performance-analysis" title="Permanent link">&para;</a></h1>
+<p><strong>⏱ Duration</strong>: 2 hours
+<strong>🎯 Learning Objectives</strong>: Learn to evaluate strategy quality
+<strong>📚 Difficulty</strong>: ⭐⭐ Backtesting practical</p>
+<hr />
+<h2 id="course-overview">📖 Course Overview<a class="headerlink" href="#course-overview" title="Permanent link">&para;</a></h2>
+<p>Backtesting reports contain numerous metrics. How can you judge strategy quality from these metrics? This lesson will teach you to deeply understand key metrics in backtesting reports and establish a scientific strategy evaluation system.</p>
+<hr />
+<h2 id="61-key-metrics-interpretation">6.1 Key Metrics Interpretation<a class="headerlink" href="#61-key-metrics-interpretation" title="Permanent link">&para;</a></h2>
+<h3 id="total-profit-vs-average-profit">Total Profit vs Average Profit<a class="headerlink" href="#total-profit-vs-average-profit" title="Permanent link">&para;</a></h3>
+<h4 id="total-profit">Total Profit<a class="headerlink" href="#total-profit" title="Permanent link">&para;</a></h4>
+<p>Cumulative profit during the entire backtesting period.</p>
+<p><strong>Example</strong>:
+<div class="highlight"><pre><span></span><code>Total profit: 3.64 USDT (0.36%)
+</code></pre></div></p>
+<p><strong>Interpretation</strong>:
+- 1000 USDT principal, earned 3.64 USDT
+- Total return rate: 0.36%</p>
+<p><strong>Limitations</strong>:
+- Doesn't consider number of trades
+- Doesn't consider time duration
+- Doesn't consider risk</p>
+<h4 id="average-profit-per-trade">Average Profit per Trade<a class="headerlink" href="#average-profit-per-trade" title="Permanent link">&para;</a></h4>
+<p>Average profit per trade.</p>
+<p><strong>Example</strong>:
+<div class="highlight"><pre><span></span><code>Avg. profit per trade: 0.52%
+</code></pre></div></p>
+<p><strong>Interpretation</strong>:
+- Average profit of 0.52% per trade
+- Reflects individual trade quality</p>
+<p><strong>Importance</strong>:
+- ✅ Better reflects strategy quality than total profit
+- ✅ High average profit = efficient strategy
+- ⚠️ Need to combine with trade frequency for comprehensive judgment</p>
+<h3 id="comparison-example">Comparison Example<a class="headerlink" href="#comparison-example" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>Trade Count</th>
+<th>Total Profit</th>
+<th>Avg Profit</th>
+<th>Evaluation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Strategy A</strong></td>
+<td>100</td>
+<td>+10%</td>
+<td>+0.1%</td>
+<td>❌ Inefficient: many trades, low profit</td>
+</tr>
+<tr>
+<td><strong>Strategy B</strong></td>
+<td>10</td>
+<td>+10%</td>
+<td>+1.0%</td>
+<td>✅ Efficient: few trades, high profit</td>
+</tr>
+<tr>
+<td><strong>Strategy C</strong></td>
+<td>50</td>
+<td>+10%</td>
+<td>+0.2%</td>
+<td>⭐ Balanced: moderate</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Conclusion</strong>: Strategy B is the best because it achieves the same profit with fewer trades.</p>
+<hr />
+<h3 id="win-rate-vs-profit-factor">Win Rate vs Profit Factor<a class="headerlink" href="#win-rate-vs-profit-factor" title="Permanent link">&para;</a></h3>
+<p>This is the most important pair of metrics in strategy analysis.</p>
+<h4 id="win-rate">Win Rate<a class="headerlink" href="#win-rate" title="Permanent link">&para;</a></h4>
+<p>Percentage of profitable trades out of total trades.</p>
+<p><strong>Calculation Formula</strong>:
+<div class="highlight"><pre><span></span><code>Win Rate = Number of profitable trades / Total number of trades × 100%
+</code></pre></div></p>
+<p><strong>Example</strong>:
+<div class="highlight"><pre><span></span><code>Win rate: 85.7% (6 wins / 7 trades)
+</code></pre></div></p>
+<p><strong>Classification</strong>:
+- <strong>High Win Rate</strong>: &gt; 70%
+- <strong>Medium Win Rate</strong>: 50-70%
+- <strong>Low Win Rate</strong>: &lt; 50%</p>
+<h4 id="profit-factor-risk-reward-ratio">Profit Factor / Risk-Reward Ratio<a class="headerlink" href="#profit-factor-risk-reward-ratio" title="Permanent link">&para;</a></h4>
+<p>Ratio of average profit to average loss.</p>
+<p><strong>Calculation Formula</strong>:
+<div class="highlight"><pre><span></span><code>Profit Factor = Average Profit / Average Loss
+</code></pre></div></p>
+<p><strong>Example</strong>:
+- Average profit: +2%
+- Average loss: -1%
+- Profit factor: 2:1</p>
+<h4 id="relationship-between-win-rate-and-profit-factor">Relationship Between Win Rate and Profit Factor<a class="headerlink" href="#relationship-between-win-rate-and-profit-factor" title="Permanent link">&para;</a></h4>
+<p>This is a classic trade-off:</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Win Rate</th>
+<th>Profit Factor</th>
+<th>Trading Style</th>
+<th>Psychological Pressure</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>High Win Rate Low Profit Factor</strong></td>
+<td>70-90%</td>
+<td>1:1 ~ 1.5:1</td>
+<td>Frequent small profits</td>
+<td>Low</td>
+</tr>
+<tr>
+<td><strong>Balanced</strong></td>
+<td>50-70%</td>
+<td>1.5:1 ~ 2:1</td>
+<td>Moderate</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td><strong>Low Win Rate High Profit Factor</strong></td>
+<td>30-50%</td>
+<td>3:1 ~ 5:1</td>
+<td>Occasional large profits</td>
+<td>High</td>
+</tr>
+</tbody>
+</table>
+<h4 id="profit-model-calculation">Profit Model Calculation<a class="headerlink" href="#profit-model-calculation" title="Permanent link">&para;</a></h4>
+<p><strong>High Win Rate Low Profit Factor Strategy</strong>:
+<div class="highlight"><pre><span></span><code>Win Rate: 80%, Average Profit: +1%, Average Loss: -1%
+Expected Return = 0.80 × 1% + 0.20 × (-1%) = 0.6%
+</code></pre></div></p>
+<p><strong>Low Win Rate High Profit Factor Strategy</strong>:
+<div class="highlight"><pre><span></span><code>Win Rate: 40%, Average Profit: +5%, Average Loss: -2%
+Expected Return = 0.40 × 5% + 0.60 × (-2%) = 0.8%
+</code></pre></div></p>
+<p><strong>Conclusion</strong>: Low win rate strategy has higher returns but requires enduring more consecutive losses.</p>
+<h4 id="what-type-is-your-strategy">What Type is Your Strategy?<a class="headerlink" href="#what-type-is-your-strategy" title="Permanent link">&para;</a></h4>
+<p><strong>Judgment Criteria</strong>:
+<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="n">win_rate</span> <span class="o">&gt;</span> <span class="mi">70</span><span class="o">%</span> <span class="ow">and</span> <span class="n">profit_factor</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"High win rate low profit factor - suitable for conservative investors"</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">win_rate</span> <span class="o">&lt;</span> <span class="mi">50</span><span class="o">%</span> <span class="ow">and</span> <span class="n">profit_factor</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Low win rate high profit factor - suitable for aggressive investors"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Balanced strategy - suitable for most people"</span><span class="p">)</span>
+</code></pre></div></p>
+<hr />
+<h3 id="maximum-drawdown">Maximum Drawdown<a class="headerlink" href="#maximum-drawdown" title="Permanent link">&para;</a></h3>
+<h4 id="definition">Definition<a class="headerlink" href="#definition" title="Permanent link">&para;</a></h4>
+<p>The largest decline from the highest equity point to the lowest point.</p>
+<p><strong>Calculation Example</strong>:
+<div class="highlight"><pre><span></span><code>Initial Capital: $1,000
+Highest Point: $1,200 (2025-09-15)
+Lowest Point: $1,080 (2025-09-22, after the highest point)
+
+Maximum Drawdown = (1,080 - 1,200) / 1,200 = -10%
+</code></pre></div></p>
+<h4 id="drawdown-classification">Drawdown Classification<a class="headerlink" href="#drawdown-classification" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Drawdown Level</th>
+<th>Rating</th>
+<th>Psychological Tolerance</th>
+<th>Recovery Difficulty</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>&lt; 5%</strong></td>
+<td>🟢 Excellent</td>
+<td>Easy to accept</td>
+<td>Very easy</td>
+</tr>
+<tr>
+<td><strong>5-10%</strong></td>
+<td>🟡 Good</td>
+<td>Acceptable</td>
+<td>Easy</td>
+</tr>
+<tr>
+<td><strong>10-20%</strong></td>
+<td>🟠 Warning</td>
+<td>Psychological pressure</td>
+<td>Takes time</td>
+</tr>
+<tr>
+<td><strong>&gt; 20%</strong></td>
+<td>🔴 Dangerous</td>
+<td>Hard to bear</td>
+<td>Very difficult</td>
+</tr>
+</tbody>
+</table>
+<h4 id="why-drawdown-is-important">Why Drawdown is Important?<a class="headerlink" href="#why-drawdown-is-important" title="Permanent link">&para;</a></h4>
+<p><strong>Required Return to Recover</strong>:
+<div class="highlight"><pre><span></span><code>10% drawdown → Need 11.1% gain to break even
+20% drawdown → Need 25% gain to break even
+50% drawdown → Need 100% gain to break even
+</code></pre></div></p>
+<p><strong>Conclusion</strong>: The larger the drawdown, the harder to recover, the higher the risk.</p>
+<h4 id="drawdown-duration">Drawdown Duration<a class="headerlink" href="#drawdown-duration" title="Permanent link">&para;</a></h4>
+<p>Time from highest point to lowest point, then back to highest point.</p>
+<p><strong>Example</strong>:
+<div class="highlight"><pre><span></span><code>2025-09-15: Equity peak $1,200
+2025-09-22: Dropped to lowest $1,080 (drawdown starts)
+2025-10-10: Recovered to $1,200 (drawdown ends)
+
+Drawdown Duration: 25 days
+</code></pre></div></p>
+<p><strong>Impact of Long Drawdown Duration</strong>:
+- Capital cannot grow for extended periods
+- Increased psychological pressure
+- May miss other opportunities</p>
+<hr />
+<h3 id="sharpe-ratio-sortino-ratio">Sharpe Ratio / Sortino Ratio<a class="headerlink" href="#sharpe-ratio-sortino-ratio" title="Permanent link">&para;</a></h3>
+<h4 id="sharpe-ratio">Sharpe Ratio<a class="headerlink" href="#sharpe-ratio" title="Permanent link">&para;</a></h4>
+<p>Risk-adjusted return, measuring how much excess return is obtained per unit of risk taken.</p>
+<p><strong>Calculation Formula</strong>:
+<div class="highlight"><pre><span></span><code>Sharpe Ratio = (Strategy Return - Risk-Free Rate) / Standard Deviation of Returns
+</code></pre></div></p>
+<p><strong>Interpretation Standards</strong>:
+<div class="highlight"><pre><span></span><code>Sharpe &gt; 3.0   🟢 Excellent - Excellent risk-return ratio
+Sharpe 2.0-3.0 🟡 Good - Acceptable risk-return ratio
+Sharpe 1.0-2.0 🟠 Fair - Slightly high risk
+Sharpe &lt; 1.0   🔴 Poor - Risk too high
+Sharpe &lt; 0     ⛔ Loss - Worse than risk-free investment
+</code></pre></div></p>
+<p><strong>Example Comparison</strong>:
+<div class="highlight"><pre><span></span><code>Strategy A: Return 10%, Standard Deviation 5%, Sharpe = 2.0
+Strategy B: Return 15%, Standard Deviation 10%, Sharpe = 1.5
+
+Conclusion: Strategy A is better (higher risk-adjusted return)
+</code></pre></div></p>
+<h4 id="sortino-ratio">Sortino Ratio<a class="headerlink" href="#sortino-ratio" title="Permanent link">&para;</a></h4>
+<p>Sharpe Ratio that only considers downside risk (more reasonable).</p>
+<p><strong>Difference</strong>:
+- <strong>Sharpe</strong>: Penalizes all volatility (including upward volatility)
+- <strong>Sortino</strong>: Only penalizes downward volatility (more aligned with investor concerns)</p>
+<p><strong>Interpretation</strong>:
+<div class="highlight"><pre><span></span><code>Sortino &gt; Sharpe → Strategy has more upward than downward volatility (good)
+Sortino ≈ Sharpe → Strategy has symmetric up-down volatility
+Sortino &lt; Sharpe → Strategy has more severe downward volatility (bad)
+</code></pre></div></p>
+<hr />
+<h2 id="62-trade-count-analysis">6.2 Trade Count Analysis<a class="headerlink" href="#62-trade-count-analysis" title="Permanent link">&para;</a></h2>
+<h3 id="impact-of-trading-frequency">Impact of Trading Frequency<a class="headerlink" href="#impact-of-trading-frequency" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Trade Count</th>
+<th>Frequency</th>
+<th>Advantages</th>
+<th>Disadvantages</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>&gt; 100/month</strong></td>
+<td>Ultra-high frequency</td>
+<td>Full capital utilization</td>
+<td>High fees, large slippage</td>
+</tr>
+<tr>
+<td><strong>30-100/month</strong></td>
+<td>High frequency</td>
+<td>Many opportunities</td>
+<td>Significant fees</td>
+</tr>
+<tr>
+<td><strong>10-30/month</strong></td>
+<td>Medium frequency</td>
+<td>Balanced ✅</td>
+<td>Requires patience</td>
+</tr>
+<tr>
+<td><strong>&lt; 10/month</strong></td>
+<td>Low frequency</td>
+<td>High signal quality</td>
+<td>Low capital utilization</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fee-cost-calculation">Fee Cost Calculation<a class="headerlink" href="#fee-cost-calculation" title="Permanent link">&para;</a></h3>
+<h4 id="fee-model">Fee Model<a class="headerlink" href="#fee-model" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Binance spot trading fees (no discounts)</span>
+<span class="n">maker_fee</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">%</span>  <span class="c1"># Maker fee</span>
+<span class="n">taker_fee</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">%</span>  <span class="c1"># Taker fee</span>
+
+<span class="c1"># One complete trade (buy + sell)</span>
+<span class="n">round_trip_fee</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">%</span> <span class="o">+</span> <span class="mf">0.1</span><span class="o">%</span> <span class="o">=</span> <span class="mf">0.2</span><span class="o">%</span>
+</code></pre></div>
+<h4 id="impact-of-fees-on-returns">Impact of Fees on Returns<a class="headerlink" href="#impact-of-fees-on-returns" title="Permanent link">&para;</a></h4>
+<p><strong>Case 1: High-frequency Strategy</strong>
+<div class="highlight"><pre><span></span><code>Trade Count: 100/month
+Average Profit per Trade: +0.5%
+Fees: 0.2% × 100 = 20%
+
+Net Profit = 50% - 20% = 30% (fees consume 40% of profit)
+</code></pre></div></p>
+<p><strong>Case 2: Low-frequency Strategy</strong>
+<div class="highlight"><pre><span></span><code>Trade Count: 10/month
+Average Profit per Trade: +2%
+Fees: 0.2% × 10 = 2%
+
+Net Profit = 20% - 2% = 18% (fees consume only 10% of profit)
+</code></pre></div></p>
+<h4 id="break-even-point">Break-even Point<a class="headerlink" href="#break-even-point" title="Permanent link">&para;</a></h4>
+<p>To be profitable, average profit per trade must exceed fees:</p>
+<div class="highlight"><pre><span></span><code>Minimum profit requirement &gt; 0.2% (one complete trade)
+
+If average profit is 0.5%:
+Net profit = 0.5% - 0.2% = 0.3% (acceptable)
+
+If average profit is 0.3%:
+Net profit = 0.3% - 0.2% = 0.1% (barely)
+
+If average profit is 0.15%:
+Net profit = 0.15% - 0.2% = -0.05% (loss!)
+</code></pre></div>
+<h3 id="risks-of-over-trading">Risks of Over-trading<a class="headerlink" href="#risks-of-over-trading" title="Permanent link">&para;</a></h3>
+<p><strong>Signs of Over-trading</strong>:
+- ✅ Trade count &gt; 100/month (5m timeframe)
+- ✅ Average profit per trade &lt; 0.3%
+- ✅ Fees &gt; 30% of total profit
+- ✅ Many small profit/loss trades</p>
+<p><strong>Consequences</strong>:
+- Fees erode profits
+- Increased slippage losses
+- Risk of strategy overfitting
+- Exchange risk control risks</p>
+<hr />
+<h2 id="63-exit-reason-statistics">6.3 Exit Reason Statistics<a class="headerlink" href="#63-exit-reason-statistics" title="Permanent link">&para;</a></h2>
+<p>Freqtrade backtesting reports show exit reasons for each trade:</p>
+<h3 id="exit-reason-types">Exit Reason Types<a class="headerlink" href="#exit-reason-types" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Exit Reason</th>
+<th>Description</th>
+<th>Ideal Percentage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>roi</strong></td>
+<td>ROI take profit exit</td>
+<td>30-50%</td>
+</tr>
+<tr>
+<td><strong>exit_signal</strong></td>
+<td>Sell signal triggered</td>
+<td>20-40%</td>
+</tr>
+<tr>
+<td><strong>trailing_stop_loss</strong></td>
+<td>Trailing stop loss</td>
+<td>10-20%</td>
+</tr>
+<tr>
+<td><strong>stop_loss</strong></td>
+<td>Fixed stop loss</td>
+<td>&lt; 20%</td>
+</tr>
+<tr>
+<td><strong>force_exit</strong></td>
+<td>Forced close (backtest end)</td>
+<td>0-5%</td>
+</tr>
+</tbody>
+</table>
+<h3 id="exit-reason-analysis">Exit Reason Analysis<a class="headerlink" href="#exit-reason-analysis" title="Permanent link">&para;</a></h3>
+<h4 id="example-report">Example Report<a class="headerlink" href="#example-report" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>EXIT REASON STATS
+┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Exit Reason          ┃ Exits  ┃ Wins      ┃ Avg Profit % ┃
+┡━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━━━┩
+│ roi                  │     45 │        45 │         2.1% │
+│ exit_signal          │     28 │        25 │         0.8% │
+│ trailing_stop_loss   │     15 │        15 │         3.5% │
+│ stop_loss            │     12 │         0 │        -5.0% │
+└──────────────────────┴────────┴───────────┴──────────────┘
+</code></pre></div>
+<h4 id="interpretation">Interpretation<a class="headerlink" href="#interpretation" title="Permanent link">&para;</a></h4>
+<p><strong>ROI Take Profit (45 times, 100% win rate)</strong>:
+- ✅ Strategy can quickly reach profit targets
+- ✅ Average 2.1% return, good performance
+- 45% proportion, shows strategy captures trends accurately</p>
+<p><strong>Exit Signal (28 times, 89% win rate)</strong>:
+- ✅ Most exit signals are profitable
+- ⚠️ 3 losing exits, signals may be too early
+- Average 0.8% return, lower than ROI</p>
+<p><strong>Trailing Stop Loss (15 times, 100% win rate)</strong>:
+- ✅ All profitable, trailing stop loss set reasonably
+- ✅ Average 3.5% return, highest exit method
+- Successfully locked in most profits</p>
+<p><strong>Fixed Stop Loss (12 times, 0% win rate)</strong>:
+- ❌ All losses, average -5%
+- ⚠️ 12% proportion, acceptable
+- If proportion &gt; 30%, need to adjust strategy</p>
+<h3 id="problem-diagnosis">Problem Diagnosis<a class="headerlink" href="#problem-diagnosis" title="Permanent link">&para;</a></h3>
+<h4 id="problem-1-stop-loss-proportion-too-high-30">Problem 1: Stop Loss Proportion Too High (&gt; 30%)<a class="headerlink" href="#problem-1-stop-loss-proportion-too-high-30" title="Permanent link">&para;</a></h4>
+<p><strong>Causes</strong>:
+- Stop loss set too tight
+- Poor entry timing
+- Market volatility too high</p>
+<p><strong>Solutions</strong>:
+- Widen stop loss range (e.g., -5% → -7%)
+- Add entry confirmation conditions
+- Enable trailing stop loss</p>
+<h4 id="problem-2-force-exit-proportion-high-10">Problem 2: Force Exit Proportion High (&gt; 10%)<a class="headerlink" href="#problem-2-force-exit-proportion-high-10" title="Permanent link">&para;</a></h4>
+<p><strong>Causes</strong>:
+- Strategy holding time too long
+- Lack of clear exit signals
+- ROI set too high</p>
+<p><strong>Solutions</strong>:
+- Add exit signals
+- Adjust ROI gradient
+- Set maximum holding time</p>
+<h4 id="problem-3-roi-proportion-too-low-20">Problem 3: ROI Proportion Too Low (&lt; 20%)<a class="headerlink" href="#problem-3-roi-proportion-too-low-20" title="Permanent link">&para;</a></h4>
+<p><strong>Causes</strong>:
+- ROI set too high, hard to reach
+- Strategy cannot capture big trends
+- Exit signals triggered too early</p>
+<p><strong>Solutions</strong>:
+- Lower ROI targets
+- Optimize entry timing
+- Adjust exit signal logic</p>
+<hr />
+<h2 id="64-holding-time-analysis">6.4 Holding Time Analysis<a class="headerlink" href="#64-holding-time-analysis" title="Permanent link">&para;</a></h2>
+<h3 id="average-holding-time">Average Holding Time<a class="headerlink" href="#average-holding-time" title="Permanent link">&para;</a></h3>
+<p><strong>Example</strong>:
+<div class="highlight"><pre><span></span><code>Avg. holding time: 4h 35m
+</code></pre></div></p>
+<p><strong>Classification</strong>:
+- <strong>&lt; 1h</strong>: Ultra-short term
+- <strong>1-6h</strong>: Short term
+- <strong>6-24h</strong>: Intraday
+- <strong>&gt; 24h</strong>: Swing</p>
+<h3 id="relationship-between-holding-time-and-returns">Relationship Between Holding Time and Returns<a class="headerlink" href="#relationship-between-holding-time-and-returns" title="Permanent link">&para;</a></h3>
+<h4 id="ideal-curve">Ideal Curve<a class="headerlink" href="#ideal-curve" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Return ↑
+    │     ┌──────────  (ROI take profit zone)
+    │    ╱
+    │   ╱
+    │  ╱
+    │ ╱
+────┼──────────────────→ Holding Time
+    │
+    │ (Profit growth)
+</code></pre></div>
+<h4 id="problem-curve-1-time-drag">Problem Curve 1: Time Drag<a class="headerlink" href="#problem-curve-1-time-drag" title="Permanent link">&para;</a></h4>
+<p><div class="highlight"><pre><span></span><code>Return ↑
+    │  ┌───┐
+    │ ╱     ╲
+    │╱       ╲___  (Profit giveback)
+────┼───────────────→ Holding Time
+</code></pre></div>
+<strong>Problem</strong>: Holding too long, profit giveback
+<strong>Solution</strong>: Shorten ROI gradient time</p>
+<h4 id="problem-curve-2-early-exit">Problem Curve 2: Early Exit<a class="headerlink" href="#problem-curve-2-early-exit" title="Permanent link">&para;</a></h4>
+<p><div class="highlight"><pre><span></span><code>Return ↑
+    │
+    │ │ │ │ │  (Frequent small profits)
+────┼─┴─┴─┴─┴───────→ Holding Time
+</code></pre></div>
+<strong>Problem</strong>: Failed to capture big trends
+<strong>Solution</strong>: Relax exit conditions, use trailing stop loss</p>
+<h3 id="holding-time-distribution">Holding Time Distribution<a class="headerlink" href="#holding-time-distribution" title="Permanent link">&para;</a></h3>
+<p><strong>Ideal Distribution</strong>:
+<div class="highlight"><pre><span></span><code>┏━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━┓
+┃ Duration   ┃ Trades ┃ Avg Profit ┃
+┡━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━┩
+│ &lt; 1h       │     15 │       0.5% │
+│ 1-4h       │     40 │       1.2% │
+│ 4-12h      │     30 │       2.5% │
+│ &gt; 12h      │     15 │       3.8% │
+└────────────┴────────┴────────────┘
+</code></pre></div></p>
+<p><strong>Analysis</strong>:
+- Longer holding time, higher returns (normal)
+- Most trades in 1-4h (strategy's main battlefield)
+- Few long-term trades contribute high returns</p>
+<h3 id="overnight-risk">Overnight Risk<a class="headerlink" href="#overnight-risk" title="Permanent link">&para;</a></h3>
+<p>If strategy holds positions over 24 hours, consider:</p>
+<p><strong>Risk Factors</strong>:
+- US stock market close impact
+- Asian opening volatility
+- Sudden news events
+- Weekend gaps</p>
+<p><strong>Countermeasures</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Avoid overnight holding (advanced feature)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">custom_exit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pair</span><span class="p">,</span> <span class="n">trade</span><span class="p">,</span> <span class="n">current_time</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="c1"># Force exit if holding over 20 hours</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">current_time</span> <span class="o">-</span> <span class="n">trade</span><span class="o">.</span><span class="n">open_date_utc</span><span class="p">)</span><span class="o">.</span><span class="n">seconds</span> <span class="o">&gt;</span> <span class="mi">72000</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">'holding_too_long'</span>
+</code></pre></div></p>
+<hr />
+<h2 id="practical-tasks">💡 Practical Tasks<a class="headerlink" href="#practical-tasks" title="Permanent link">&para;</a></h2>
+<h3 id="task-1-backtest-three-strategies">Task 1: Backtest Three Strategies<a class="headerlink" href="#task-1-backtest-three-strategies" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Backtest Strategy001</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250901</span>-20250930
+
+<span class="c1"># Backtest Strategy002</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy002<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250901</span>-20250930
+
+<span class="c1"># Backtest Strategy003</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy003<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250901</span>-20250930
+</code></pre></div>
+<h3 id="task-2-create-strategy-comparison-table">Task 2: Create Strategy Comparison Table<a class="headerlink" href="#task-2-create-strategy-comparison-table" title="Permanent link">&para;</a></h3>
+<p>Create Excel or Google Sheets, record the following metrics:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Strategy001</th>
+<th>Strategy002</th>
+<th>Strategy003</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Trade Count</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>Win Rate</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>Total Profit %</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>Avg Profit %</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>Max Drawdown %</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>Sharpe Ratio</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>ROI Exit %</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>Stop Loss Exit %</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>Avg Holding Time</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+</tbody>
+</table>
+<h3 id="task-3-analyze-pros-and-cons-of-each-strategy">Task 3: Analyze Pros and Cons of Each Strategy<a class="headerlink" href="#task-3-analyze-pros-and-cons-of-each-strategy" title="Permanent link">&para;</a></h3>
+<p><strong>Strategy001</strong>:
+- Advantages:
+- Disadvantages:
+- Suitable Market:</p>
+<p><strong>Strategy002</strong>:
+- Advantages:
+- Disadvantages:
+- Suitable Market:</p>
+<p><strong>Strategy003</strong>:
+- Advantages:
+- Disadvantages:
+- Suitable Market:</p>
+<h3 id="task-4-select-the-best-strategy">Task 4: Select the Best Strategy<a class="headerlink" href="#task-4-select-the-best-strategy" title="Permanent link">&para;</a></h3>
+<p>Choose the best strategy based on the following criteria:</p>
+<p><strong>Scoring Criteria</strong> (100 points):
+- Total Profit (30 points)
+- Win Rate (20 points)
+- Max Drawdown (20 points)
+- Sharpe Ratio (15 points)
+- Trade Count Reasonableness (15 points)</p>
+<p><strong>My Choice</strong>: ___________
+<strong>Reason</strong>: ___________</p>
+<hr />
+<h2 id="knowledge-check">📚 Knowledge Check<a class="headerlink" href="#knowledge-check" title="Permanent link">&para;</a></h2>
+<h3 id="basic-questions">Basic Questions<a class="headerlink" href="#basic-questions" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Win rate 80%, average profit 1%, average loss -1%, what is expected return?</li>
+<li>Maximum drawdown 20%, how much gain is needed to break even?</li>
+<li>What does Sharpe Ratio &gt; 3.0 indicate?</li>
+<li>What does high ROI exit proportion indicate?</li>
+</ol>
+<h3 id="answers">Answers<a class="headerlink" href="#answers" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>0.6%</strong> (0.80 × 1% + 0.20 × -1%)</li>
+<li><strong>25%</strong> (1 / (1 - 0.20) - 1)</li>
+<li><strong>Excellent risk-return ratio</strong>, strategy quality is very high</li>
+<li><strong>Strategy can quickly reach profit targets</strong>, trend capture is accurate</li>
+</ol>
+<h3 id="advanced-questions">Advanced Questions<a class="headerlink" href="#advanced-questions" title="Permanent link">&para;</a></h3>
+<ol>
+<li>A strategy has 40% win rate, average profit 5%, average loss -1%, is this strategy good?</li>
+<li>If two strategies have same returns, but one has 5% drawdown, another has 15% drawdown, which do you choose?</li>
+<li>What does negative Sharpe Ratio mean?</li>
+</ol>
+<h3 id="thought-questions">Thought Questions<a class="headerlink" href="#thought-questions" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Why is average profit per trade more important than total profit?</li>
+<li>Are high win rate strategies always good?</li>
+<li>How to determine if a strategy is over-trading?</li>
+</ol>
+<hr />
+<h2 id="reference-materials">🔗 Reference Materials<a class="headerlink" href="#reference-materials" title="Permanent link">&para;</a></h2>
+<h3 id="supporting-documentation">Supporting Documentation<a class="headerlink" href="#supporting-documentation" title="Permanent link">&para;</a></h3>
+<ul>
+<li>📄 <a href="../STRATEGY_SELECTION_GUIDE.md">STRATEGY_SELECTION_GUIDE.md</a> - Strategy scoring criteria</li>
+<li>📄 <a href="../TESTING_GUIDE.md">TESTING_GUIDE.md</a> - Backtesting report interpretation</li>
+</ul>
+<h3 id="recommended-reading">Recommended Reading<a class="headerlink" href="#recommended-reading" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://www.investopedia.com/terms/s/sharperatio.asp">Sharpe Ratio Detailed Explanation</a></li>
+<li><a href="https://www.investopedia.com/terms/m/maximum-drawdown-mdd.asp">Maximum Drawdown Analysis</a></li>
+<li><a href="https://www.babypips.com/learn/forex/risk-reward-ratio">Profit Factor and Win Rate Balance</a></li>
+</ul>
+<hr />
+<h2 id="key-points-summary">📌 Key Points Summary<a class="headerlink" href="#key-points-summary" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Average Profit per Trade &gt; Total Profit</strong>: Better reflects strategy quality</li>
+<li><strong>Win Rate and Profit Factor Need Balance</strong>: Don't just look at win rate</li>
+<li><strong>Maximum Drawdown &lt; 10%</strong>: Standard for controllable risk</li>
+<li><strong>Sharpe Ratio &gt; 2.0</strong>: Threshold for excellent strategies</li>
+<li><strong>Exit Reason Statistics</strong>: Key to diagnosing strategy problems</li>
+<li><strong>Fee Costs</strong>: Biggest enemy of high-frequency strategies</li>
+</ol>
+<hr />
+<h2 id="next-lesson-preview">➡️ Next Lesson Preview<a class="headerlink" href="#next-lesson-preview" title="Permanent link">&para;</a></h2>
+<p><strong>Lesson 7: Multi-Timeframe Backtesting</strong></p>
+<p>In the next lesson, we will:
+- Test the same strategy's performance on different timeframes
+- Understand the impact of timeframes on strategies
+- Find the most suitable timeframe for the strategy
+- Learn timeframe selection principles</p>
+<p><strong>Preparation</strong>:
+- ✅ Download BTC/USDT multiple timeframe data (5m, 15m, 1h, 1d)
+- ✅ Select a strategy for testing
+- ✅ Prepare to record test results from different timeframes</p>
+<hr />
+<p><strong>🎯 Learning Check Standards</strong>:
+- ✅ Can independently interpret all key metrics in backtesting reports
+- ✅ Can compare multiple strategies and select the best
+- ✅ Understand the trade-off between win rate and profit factor
+- ✅ Can diagnose problems based on exit reason statistics</p>
+<p>After completing these tasks, you have professional strategy analysis capabilities! 🎯</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

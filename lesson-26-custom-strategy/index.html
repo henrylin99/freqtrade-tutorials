@@ -1,0 +1,3875 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径">
+      
+      
+      
+        <link rel="canonical" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-26-custom-strategy/">
+      
+      
+        <link rel="prev" href="../lesson-25-risk-management/">
+      
+      
+        <link rel="next" href="../lesson-27-multi-timeframe/">
+      
+      
+        
+          <link rel="alternate" href="./" hreflang="zh">
+        
+          <link rel="alternate" href="../en/lesson-26-custom-strategy/" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>第 26 课：自定义策略开发 - Freqtrade 实战教程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9784658154228475"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VGHZY4EELE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VGHZY4EELE");
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#26" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="Freqtrade 实战教程" class="md-header__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Freqtrade 实战教程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第 26 课：自定义策略开发
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="选择当前语言">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../en/lesson-26-custom-strategy/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/henrylin99/freqtrade-tutorials" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../strategies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🇨🇳 中文教程
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Freqtrade 实战教程" class="md-nav__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Freqtrade 实战教程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/henrylin99/freqtrade-tutorials" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../strategies/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🇨🇳 中文教程
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🇨🇳 中文教程
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 1 课：量化交易与 Freqtrade 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-02-environment-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 2 课：Freqtrade 环境搭建
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-03-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 3 课：核心概念理解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-04-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 4 课：数据下载与管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-05-first-backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 5 课：第一次策略回测
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-06-strategy-performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 6 课：策略性能分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-07-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 7 课：多时间框架回测
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-08-strategy-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 8 课：策略批量对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-09-timerange-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 9 课：Freqtrade时间范围测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-10-pair-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 10 课：Freqtrade交易对选择与测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-11-hyperopt-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 11 课：Freqtrade参数优化入门（Hyperopt）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-12-advanced-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 12 课：高级策略分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-13-scoring-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 13 课：策略评分体系
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-14-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 14 课：风险管理与资金管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-15-portfolio-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 15 课：Freqtrade策略组合与分散
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-16-realtime-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 16 课：实时信号监控
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-17-telegram-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 17 课：Telegram 通知配置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-18-webui-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 18 课：Web UI 与 API 使用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 19 课：可视化分析工具
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-20-dry-run-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 20 课：模拟交易验证
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-21-exchange-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 21 课：交易所 API 配置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-22-pre-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 22 课：实盘前检查清单
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-23-small-capital-live/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 23 课：小资金实盘测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-1-order-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.1 课：实盘交易下单操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-2-stop-loss-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.2 课：实盘交易止损操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-3-futures-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.3 课：币安合约交易操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-4-leverage-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.4 课：杠杆交易操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-trading-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24 课：交易监控与调整
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-25-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 25 课：风险控制与心态管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 26 课：自定义策略开发
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 26 课：自定义策略开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        课程概述
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一部分：策略基础结构
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第一部分：策略基础结构">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 策略模板
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 关键组件说明
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.2 关键组件说明">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        必需参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        可选参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三个核心函数
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第二部分：实战案例 - 简单均线策略
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第二部分：实战案例 - 简单均线策略">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 策略逻辑设计
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 完整代码实现
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 测试策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第三部分：常用技术指标
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第三部分：常用技术指标">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 趋势指标
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.1 趋势指标">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EMA（指数移动平均）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SMA（简单移动平均）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#macdmoving-average-convergence-divergence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MACD（Moving Average Convergence Divergence）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adxaverage-directional-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ADX（Average Directional Index）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 震荡指标
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2 震荡指标">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rsirelative-strength-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RSI（Relative Strength Index）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stochastic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stochastic（随机指标）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ccicommodity-channel-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CCI（Commodity Channel Index）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 波动指标
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.3 波动指标">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bollinger-bands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bollinger Bands（布林带）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#atraverage-true-range" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ATR（Average True Range）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 成交量指标
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.4 成交量指标">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#volume" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Volume
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#obvon-balance-volume" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OBV（On-Balance Volume）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#-rsi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第四部分：进阶实战 - RSI 均值回归策略
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第四部分：进阶实战 - RSI 均值回归策略">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 策略逻辑
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 完整代码
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 测试和优化
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第五部分：高级技巧
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第五部分：高级技巧">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 自定义指标
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-informative-pairs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 信息列（Informative Pairs）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 自定义止损
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 自定义仓位大小
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第六部分：策略开发流程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第六部分：策略开发流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 完整开发流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 策略评估标准
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 常见错误
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 实践任务
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 实践任务">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 1：实现简单策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 2：修改策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 3：开发自己的策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 4：策略对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 核心要点
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📌 核心要点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        策略开发三要素
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        常用指标组合
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        避免的陷阱
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 下节预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-27-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 27 课：多时间框架策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-28-grid-hft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 28 课：高频交易与网格策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-1-freqai-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29.1 课：FreqAI 深度实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-2-advanced-ml-strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29.2 课：高级机器学习策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning-enhanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29 课：机器学习基础与策略优化（增强版）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29 课：机器学习与策略优化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-30-conclusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 30 课：总结与持续学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        课程概述
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一部分：策略基础结构
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第一部分：策略基础结构">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 策略模板
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 关键组件说明
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.2 关键组件说明">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        必需参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        可选参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三个核心函数
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第二部分：实战案例 - 简单均线策略
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第二部分：实战案例 - 简单均线策略">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 策略逻辑设计
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 完整代码实现
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 测试策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第三部分：常用技术指标
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第三部分：常用技术指标">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 趋势指标
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.1 趋势指标">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EMA（指数移动平均）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SMA（简单移动平均）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#macdmoving-average-convergence-divergence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MACD（Moving Average Convergence Divergence）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adxaverage-directional-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ADX（Average Directional Index）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 震荡指标
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2 震荡指标">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rsirelative-strength-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RSI（Relative Strength Index）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stochastic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stochastic（随机指标）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ccicommodity-channel-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CCI（Commodity Channel Index）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 波动指标
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.3 波动指标">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bollinger-bands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bollinger Bands（布林带）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#atraverage-true-range" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ATR（Average True Range）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 成交量指标
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.4 成交量指标">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#volume" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Volume
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#obvon-balance-volume" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OBV（On-Balance Volume）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#-rsi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第四部分：进阶实战 - RSI 均值回归策略
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第四部分：进阶实战 - RSI 均值回归策略">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 策略逻辑
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 完整代码
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 测试和优化
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第五部分：高级技巧
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第五部分：高级技巧">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 自定义指标
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-informative-pairs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 信息列（Informative Pairs）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 自定义止损
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 自定义仓位大小
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第六部分：策略开发流程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第六部分：策略开发流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 完整开发流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 策略评估标准
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 常见错误
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 实践任务
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 实践任务">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 1：实现简单策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 2：修改策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 3：开发自己的策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 4：策略对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 核心要点
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📌 核心要点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        策略开发三要素
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        常用指标组合
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        避免的陷阱
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 下节预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="26">第 26 课：自定义策略开发<a class="headerlink" href="#26" title="Permanent link">&para;</a></h1>
+<p><strong>⏱ 课时</strong>：2.5 小时
+<strong>🎯 学习目标</strong>：学会从零开始编写自己的交易策略</p>
+<hr />
+<h2 id="_1">课程概述<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>到目前为止，我们一直在使用现成的策略。但真正的进阶是能够根据自己的交易理念，开发属于自己的策略。</p>
+<p><strong>本课将教你</strong>：
+- Freqtrade 策略的基本结构
+- 如何实现买入和卖出逻辑
+- 如何添加和使用技术指标
+- 完整的策略开发流程
+- 从简单到复杂的实战案例</p>
+<hr />
+<h2 id="_2">第一部分：策略基础结构<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="11">1.1 策略模板<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
+<p>创建 <code>user_data/strategies/MyFirstStrategy.py</code>：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">freqtrade.strategy</span><span class="w"> </span><span class="kn">import</span> <span class="n">IStrategy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataFrame</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">talib.abstract</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ta</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyFirstStrategy</span><span class="p">(</span><span class="n">IStrategy</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    我的第一个自定义策略</span>
+<span class="sd">    """</span>
+
+    <span class="c1"># 策略基本信息</span>
+    <span class="n">INTERFACE_VERSION</span> <span class="o">=</span> <span class="mi">3</span>
+
+    <span class="c1"># 最小 ROI（可选，如果策略有自己的卖出逻辑可以设置很高）</span>
+    <span class="n">minimal_roi</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"0"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">,</span>   <span class="c1"># 10% 止盈</span>
+        <span class="s2">"30"</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>  <span class="c1"># 30 分钟后 5% 止盈</span>
+        <span class="s2">"60"</span><span class="p">:</span> <span class="mf">0.03</span><span class="p">,</span>  <span class="c1"># 60 分钟后 3% 止盈</span>
+        <span class="s2">"120"</span><span class="p">:</span> <span class="mf">0.01</span>  <span class="c1"># 120 分钟后 1% 止盈</span>
+    <span class="p">}</span>
+
+    <span class="c1"># 止损</span>
+    <span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.03</span>  <span class="c1"># -3%</span>
+
+    <span class="c1"># 追踪止损（可选）</span>
+    <span class="n">trailing_stop</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">trailing_stop_positive</span> <span class="o">=</span> <span class="mf">0.01</span>
+    <span class="n">trailing_stop_positive_offset</span> <span class="o">=</span> <span class="mf">0.02</span>
+
+    <span class="c1"># 时间框架</span>
+    <span class="n">timeframe</span> <span class="o">=</span> <span class="s1">'5m'</span>
+
+    <span class="c1"># 启动时下载的历史数据长度</span>
+    <span class="n">startup_candle_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span>
+
+    <span class="c1"># 订单类型</span>
+    <span class="n">order_types</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">'entry'</span><span class="p">:</span> <span class="s1">'limit'</span><span class="p">,</span>
+        <span class="s1">'exit'</span><span class="p">:</span> <span class="s1">'limit'</span><span class="p">,</span>
+        <span class="s1">'stoploss'</span><span class="p">:</span> <span class="s1">'market'</span><span class="p">,</span>
+        <span class="s1">'stoploss_on_exchange'</span><span class="p">:</span> <span class="kc">True</span>
+    <span class="p">}</span>
+
+    <span class="c1"># 订单超时</span>
+    <span class="n">order_time_in_force</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">'entry'</span><span class="p">:</span> <span class="s1">'GTC'</span><span class="p">,</span>
+        <span class="s1">'exit'</span><span class="p">:</span> <span class="s1">'GTC'</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_indicators</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        添加技术指标</span>
+<span class="sd">        这个函数在每次新数据到来时被调用</span>
+<span class="sd">        """</span>
+        <span class="c1"># 在这里添加你需要的指标</span>
+        <span class="c1"># dataframe['indicator_name'] = ta.INDICATOR(dataframe)</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_entry_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        定义买入信号</span>
+<span class="sd">        """</span>
+        <span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+            <span class="p">(</span>
+                <span class="c1"># 在这里添加你的买入条件</span>
+                <span class="c1"># (dataframe['indicator'] &gt; threshold) &amp;</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># 确保有成交量</span>
+            <span class="p">),</span>
+            <span class="s1">'enter_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_exit_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        定义卖出信号</span>
+<span class="sd">        """</span>
+        <span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+            <span class="p">(</span>
+                <span class="c1"># 在这里添加你的卖出条件</span>
+                <span class="c1"># (dataframe['indicator'] &lt; threshold) &amp;</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="p">),</span>
+            <span class="s1">'exit_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+</code></pre></div>
+<h3 id="12">1.2 关键组件说明<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<h4 id="_3">必需参数<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. 接口版本（必需）</span>
+<span class="n">INTERFACE_VERSION</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="c1"># 2. 时间框架（必需）</span>
+<span class="n">timeframe</span> <span class="o">=</span> <span class="s1">'5m'</span>  <span class="c1"># 可选：1m, 3m, 5m, 15m, 30m, 1h, 2h, 4h, 1d</span>
+
+<span class="c1"># 3. 止损（强烈推荐）</span>
+<span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.03</span>  <span class="c1"># -3%</span>
+</code></pre></div>
+<h4 id="_4">可选参数<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># ROI（投资回报率）配置</span>
+<span class="n">minimal_roi</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"0"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">,</span>    <span class="c1"># 立即达到 10% 就卖出</span>
+    <span class="s2">"30"</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>   <span class="c1"># 持仓 30 分钟后，5% 就卖出</span>
+    <span class="s2">"60"</span><span class="p">:</span> <span class="mf">0.03</span><span class="p">,</span>   <span class="c1"># 持仓 60 分钟后，3% 就卖出</span>
+<span class="p">}</span>
+
+<span class="c1"># 追踪止损</span>
+<span class="n">trailing_stop</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">trailing_stop_positive</span> <span class="o">=</span> <span class="mf">0.01</span>       <span class="c1"># 盈利 1% 后启用追踪止损</span>
+<span class="n">trailing_stop_positive_offset</span> <span class="o">=</span> <span class="mf">0.02</span>  <span class="c1"># 在盈利 2% 后激活</span>
+<span class="n">trailing_only_offset_is_reached</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="c1"># 启动时需要的历史数据</span>
+<span class="n">startup_candle_count</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># 加载 100 根历史 K 线</span>
+</code></pre></div>
+<h4 id="_5">三个核心函数<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. populate_indicators()</span>
+<span class="c1">#    作用：计算技术指标</span>
+<span class="c1">#    调用时机：每次收到新 K 线数据时</span>
+
+<span class="c1"># 2. populate_entry_trend()</span>
+<span class="c1">#    作用：定义买入条件</span>
+<span class="c1">#    调用时机：指标计算完成后</span>
+
+<span class="c1"># 3. populate_exit_trend()</span>
+<span class="c1">#    作用：定义卖出条件</span>
+<span class="c1">#    调用时机：指标计算完成后</span>
+</code></pre></div>
+<hr />
+<h2 id="-">第二部分：实战案例 - 简单均线策略<a class="headerlink" href="#-" title="Permanent link">&para;</a></h2>
+<h3 id="21">2.1 策略逻辑设计<a class="headerlink" href="#21" title="Permanent link">&para;</a></h3>
+<p><strong>交易理念</strong>：
+- 使用快速均线（EMA 9）和慢速均线（EMA 21）
+- 快速均线向上穿越慢速均线时买入（金叉）
+- 快速均线向下穿越慢速均线时卖出（死叉）
+- 使用 RSI 过滤过度买卖区域</p>
+<p><strong>具体规则</strong>：
+- 买入条件：
+  1. EMA 9 向上穿越 EMA 21
+  2. RSI &gt; 30（避免超卖）
+  3. 成交量 &gt; 平均成交量</p>
+<ul>
+<li>卖出条件：</li>
+<li>EMA 9 向下穿越 EMA 21</li>
+<li>或 RSI &gt; 70（超买区域）</li>
+</ul>
+<h3 id="22">2.2 完整代码实现<a class="headerlink" href="#22" title="Permanent link">&para;</a></h3>
+<p>创建 <code>user_data/strategies/SimpleCrossStrategy.py</code>：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">freqtrade.strategy</span><span class="w"> </span><span class="kn">import</span> <span class="n">IStrategy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataFrame</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">talib.abstract</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ta</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">freqtrade.vendor.qtpylib.indicators</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qtpylib</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">SimpleCrossStrategy</span><span class="p">(</span><span class="n">IStrategy</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    简单均线交叉策略</span>
+<span class="sd">    EMA 9/21 金叉死叉 + RSI 过滤</span>
+<span class="sd">    """</span>
+
+    <span class="n">INTERFACE_VERSION</span> <span class="o">=</span> <span class="mi">3</span>
+
+    <span class="c1"># ROI 配置（相对保守）</span>
+    <span class="n">minimal_roi</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"0"</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span>
+        <span class="s2">"30"</span><span class="p">:</span> <span class="mf">0.08</span><span class="p">,</span>
+        <span class="s2">"60"</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+        <span class="s2">"120"</span><span class="p">:</span> <span class="mf">0.02</span>
+    <span class="p">}</span>
+
+    <span class="c1"># 止损 -3%</span>
+    <span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.03</span>
+
+    <span class="c1"># 追踪止损</span>
+    <span class="n">trailing_stop</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">trailing_stop_positive</span> <span class="o">=</span> <span class="mf">0.01</span>
+    <span class="n">trailing_stop_positive_offset</span> <span class="o">=</span> <span class="mf">0.02</span>
+    <span class="n">trailing_only_offset_is_reached</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># 时间框架</span>
+    <span class="n">timeframe</span> <span class="o">=</span> <span class="s1">'5m'</span>
+
+    <span class="c1"># 启动时加载 50 根 K 线（足够计算 EMA 21）</span>
+    <span class="n">startup_candle_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span>
+
+    <span class="c1"># 订单配置</span>
+    <span class="n">order_types</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">'entry'</span><span class="p">:</span> <span class="s1">'limit'</span><span class="p">,</span>
+        <span class="s1">'exit'</span><span class="p">:</span> <span class="s1">'limit'</span><span class="p">,</span>
+        <span class="s1">'stoploss'</span><span class="p">:</span> <span class="s1">'market'</span><span class="p">,</span>
+        <span class="s1">'stoploss_on_exchange'</span><span class="p">:</span> <span class="kc">True</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_indicators</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        添加技术指标</span>
+<span class="sd">        """</span>
+        <span class="c1"># 1. 计算 EMA</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_fast'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">EMA</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_slow'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">EMA</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">21</span><span class="p">)</span>
+
+        <span class="c1"># 2. 计算 RSI</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">RSI</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+
+        <span class="c1"># 3. 计算平均成交量</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume_mean'</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_entry_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        买入信号：EMA 金叉 + RSI 过滤</span>
+<span class="sd">        """</span>
+        <span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+            <span class="p">(</span>
+                <span class="c1"># 条件 1：金叉（快线上穿慢线）</span>
+                <span class="p">(</span><span class="n">qtpylib</span><span class="o">.</span><span class="n">crossed_above</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_fast'</span><span class="p">],</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_slow'</span><span class="p">]))</span> <span class="o">&amp;</span>
+
+                <span class="c1"># 条件 2：RSI 不在超卖区（避免买在底部反弹）</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">30</span><span class="p">)</span> <span class="o">&amp;</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">70</span><span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="c1"># 条件 3：成交量确认</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume_mean'</span><span class="p">])</span> <span class="o">&amp;</span>
+
+                <span class="c1"># 确保有成交量</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="p">),</span>
+            <span class="s1">'enter_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_exit_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        卖出信号：EMA 死叉或 RSI 超买</span>
+<span class="sd">        """</span>
+        <span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+            <span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="c1"># 条件 1：死叉（快线下穿慢线）</span>
+                    <span class="p">(</span><span class="n">qtpylib</span><span class="o">.</span><span class="n">crossed_below</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_fast'</span><span class="p">],</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_slow'</span><span class="p">]))</span> <span class="o">|</span>
+
+                    <span class="c1"># 或条件 2：RSI 超买</span>
+                    <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">70</span><span class="p">)</span>
+                <span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="c1"># 确保有成交量</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="p">),</span>
+            <span class="s1">'exit_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+</code></pre></div>
+<h3 id="23">2.3 测试策略<a class="headerlink" href="#23" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. 下载数据（如果还没有）</span>
+freqtrade<span class="w"> </span>download-data<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--days<span class="w"> </span><span class="m">30</span><span class="w"> </span>--timeframe<span class="w"> </span>5m
+
+<span class="c1"># 2. 回测</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--strategy<span class="w"> </span>SimpleCrossStrategy<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--timerange<span class="w"> </span><span class="m">20230101</span>-20230131
+
+<span class="c1"># 3. 查看结果</span>
+<span class="c1"># 输出类似：</span>
+<span class="c1"># =============== SUMMARY METRICS ===============</span>
+<span class="c1"># | Metric                 | Value               |</span>
+<span class="c1"># |------------------------|---------------------|</span>
+<span class="c1"># | Total Trades           | 45                  |</span>
+<span class="c1"># | Win Rate               | 55.6%               |</span>
+<span class="c1"># | Total Profit           | 12.50 USDT (12.5%)  |</span>
+<span class="c1"># | Avg Profit             | 0.28 USDT           |</span>
+<span class="c1"># | Best Trade             | 2.50 USDT (2.5%)    |</span>
+<span class="c1"># | Worst Trade            | -0.95 USDT (-0.95%) |</span>
+<span class="c1"># | Max Drawdown           | -3.2%               |</span>
+</code></pre></div>
+<hr />
+<h2 id="_6">第三部分：常用技术指标<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h3 id="31">3.1 趋势指标<a class="headerlink" href="#31" title="Permanent link">&para;</a></h3>
+<h4 id="ema">EMA（指数移动平均）<a class="headerlink" href="#ema" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 快速 EMA</span>
+<span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_fast'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">EMA</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+
+<span class="c1"># 慢速 EMA</span>
+<span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_slow'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">EMA</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">21</span><span class="p">)</span>
+
+<span class="c1"># 买入：金叉</span>
+<span class="p">(</span><span class="n">qtpylib</span><span class="o">.</span><span class="n">crossed_above</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_fast'</span><span class="p">],</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_slow'</span><span class="p">]))</span>
+
+<span class="c1"># 卖出：死叉</span>
+<span class="p">(</span><span class="n">qtpylib</span><span class="o">.</span><span class="n">crossed_below</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_fast'</span><span class="p">],</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_slow'</span><span class="p">]))</span>
+</code></pre></div>
+<h4 id="sma">SMA（简单移动平均）<a class="headerlink" href="#sma" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">dataframe</span><span class="p">[</span><span class="s1">'sma_20'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">SMA</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">dataframe</span><span class="p">[</span><span class="s1">'sma_50'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">SMA</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="macdmoving-average-convergence-divergence">MACD（Moving Average Convergence Divergence）<a class="headerlink" href="#macdmoving-average-convergence-divergence" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">macd</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">MACD</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">fastperiod</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">slowperiod</span><span class="o">=</span><span class="mi">26</span><span class="p">,</span> <span class="n">signalperiod</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">dataframe</span><span class="p">[</span><span class="s1">'macd'</span><span class="p">]</span> <span class="o">=</span> <span class="n">macd</span><span class="p">[</span><span class="s1">'macd'</span><span class="p">]</span>
+<span class="n">dataframe</span><span class="p">[</span><span class="s1">'macdsignal'</span><span class="p">]</span> <span class="o">=</span> <span class="n">macd</span><span class="p">[</span><span class="s1">'macdsignal'</span><span class="p">]</span>
+<span class="n">dataframe</span><span class="p">[</span><span class="s1">'macdhist'</span><span class="p">]</span> <span class="o">=</span> <span class="n">macd</span><span class="p">[</span><span class="s1">'macdhist'</span><span class="p">]</span>
+
+<span class="c1"># 买入：MACD 上穿信号线</span>
+<span class="p">(</span><span class="n">qtpylib</span><span class="o">.</span><span class="n">crossed_above</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'macd'</span><span class="p">],</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'macdsignal'</span><span class="p">]))</span>
+
+<span class="c1"># 卖出：MACD 下穿信号线</span>
+<span class="p">(</span><span class="n">qtpylib</span><span class="o">.</span><span class="n">crossed_below</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'macd'</span><span class="p">],</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'macdsignal'</span><span class="p">]))</span>
+</code></pre></div>
+<h4 id="adxaverage-directional-index">ADX（Average Directional Index）<a class="headerlink" href="#adxaverage-directional-index" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">dataframe</span><span class="p">[</span><span class="s1">'adx'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">ADX</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+
+<span class="c1"># 趋势过滤：ADX &gt; 25 表示有明确趋势</span>
+<span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'adx'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">25</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="32">3.2 震荡指标<a class="headerlink" href="#32" title="Permanent link">&para;</a></h3>
+<h4 id="rsirelative-strength-index">RSI（Relative Strength Index）<a class="headerlink" href="#rsirelative-strength-index" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">RSI</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+
+<span class="c1"># 超卖：RSI &lt; 30</span>
+<span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">30</span><span class="p">)</span>
+
+<span class="c1"># 超买：RSI &gt; 70</span>
+<span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">70</span><span class="p">)</span>
+
+<span class="c1"># 中性区：30 &lt; RSI &lt; 70</span>
+<span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">30</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">70</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="stochastic">Stochastic（随机指标）<a class="headerlink" href="#stochastic" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">stoch</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">STOCH</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span>
+<span class="n">dataframe</span><span class="p">[</span><span class="s1">'slowk'</span><span class="p">]</span> <span class="o">=</span> <span class="n">stoch</span><span class="p">[</span><span class="s1">'slowk'</span><span class="p">]</span>
+<span class="n">dataframe</span><span class="p">[</span><span class="s1">'slowd'</span><span class="p">]</span> <span class="o">=</span> <span class="n">stoch</span><span class="p">[</span><span class="s1">'slowd'</span><span class="p">]</span>
+
+<span class="c1"># 超卖：Stoch &lt; 20</span>
+<span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'slowk'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">20</span><span class="p">)</span>
+
+<span class="c1"># 超买：Stoch &gt; 80</span>
+<span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'slowk'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">80</span><span class="p">)</span>
+
+<span class="c1"># 金叉</span>
+<span class="p">(</span><span class="n">qtpylib</span><span class="o">.</span><span class="n">crossed_above</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'slowk'</span><span class="p">],</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'slowd'</span><span class="p">]))</span>
+</code></pre></div>
+<h4 id="ccicommodity-channel-index">CCI（Commodity Channel Index）<a class="headerlink" href="#ccicommodity-channel-index" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">dataframe</span><span class="p">[</span><span class="s1">'cci'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">CCI</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="c1"># 超卖：CCI &lt; -100</span>
+<span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'cci'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="c1"># 超买：CCI &gt; 100</span>
+<span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'cci'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="33">3.3 波动指标<a class="headerlink" href="#33" title="Permanent link">&para;</a></h3>
+<h4 id="bollinger-bands">Bollinger Bands（布林带）<a class="headerlink" href="#bollinger-bands" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">bollinger</span> <span class="o">=</span> <span class="n">qtpylib</span><span class="o">.</span><span class="n">bollinger_bands</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">],</span> <span class="n">window</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">stds</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">dataframe</span><span class="p">[</span><span class="s1">'bb_lower'</span><span class="p">]</span> <span class="o">=</span> <span class="n">bollinger</span><span class="p">[</span><span class="s1">'lower'</span><span class="p">]</span>
+<span class="n">dataframe</span><span class="p">[</span><span class="s1">'bb_middle'</span><span class="p">]</span> <span class="o">=</span> <span class="n">bollinger</span><span class="p">[</span><span class="s1">'mid'</span><span class="p">]</span>
+<span class="n">dataframe</span><span class="p">[</span><span class="s1">'bb_upper'</span><span class="p">]</span> <span class="o">=</span> <span class="n">bollinger</span><span class="p">[</span><span class="s1">'upper'</span><span class="p">]</span>
+
+<span class="c1"># 买入：价格触及下轨</span>
+<span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'bb_lower'</span><span class="p">])</span>
+
+<span class="c1"># 卖出：价格触及上轨</span>
+<span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'bb_upper'</span><span class="p">])</span>
+
+<span class="c1"># 计算带宽（波动率）</span>
+<span class="n">dataframe</span><span class="p">[</span><span class="s1">'bb_width'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'bb_upper'</span><span class="p">]</span> <span class="o">-</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'bb_lower'</span><span class="p">])</span> <span class="o">/</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'bb_middle'</span><span class="p">]</span>
+</code></pre></div>
+<h4 id="atraverage-true-range">ATR（Average True Range）<a class="headerlink" href="#atraverage-true-range" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">dataframe</span><span class="p">[</span><span class="s1">'atr'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">ATR</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+
+<span class="c1"># 用于动态止损</span>
+<span class="c1"># 止损 = 当前价格 - 2 × ATR</span>
+</code></pre></div>
+<h3 id="34">3.4 成交量指标<a class="headerlink" href="#34" title="Permanent link">&para;</a></h3>
+<h4 id="volume">Volume<a class="headerlink" href="#volume" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 平均成交量</span>
+<span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume_mean'</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="c1"># 成交量激增（&gt; 1.5 倍平均）</span>
+<span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume_mean'</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1.5</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="obvon-balance-volume">OBV（On-Balance Volume）<a class="headerlink" href="#obvon-balance-volume" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">dataframe</span><span class="p">[</span><span class="s1">'obv'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">OBV</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span>
+
+<span class="c1"># OBV 上升趋势</span>
+<span class="n">dataframe</span><span class="p">[</span><span class="s1">'obv_ema'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">EMA</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'obv'</span><span class="p">],</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'obv'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'obv_ema'</span><span class="p">])</span>
+</code></pre></div>
+<hr />
+<h2 id="-rsi">第四部分：进阶实战 - RSI 均值回归策略<a class="headerlink" href="#-rsi" title="Permanent link">&para;</a></h2>
+<h3 id="41">4.1 策略逻辑<a class="headerlink" href="#41" title="Permanent link">&para;</a></h3>
+<p><strong>交易理念</strong>：
+- RSI 均值回归：价格过度偏离后会回归均值
+- 在超卖区买入，等待反弹
+- 使用布林带辅助确认</p>
+<p><strong>具体规则</strong>：
+- 买入条件：
+  1. RSI &lt; 30（超卖）
+  2. 价格低于布林带下轨
+  3. 成交量放大（确认）</p>
+<ul>
+<li>卖出条件：</li>
+<li>RSI &gt; 50（回到中性）</li>
+<li>或价格触及布林带中轨</li>
+<li>或达到止盈目标</li>
+</ul>
+<h3 id="42">4.2 完整代码<a class="headerlink" href="#42" title="Permanent link">&para;</a></h3>
+<p>创建 <code>user_data/strategies/RSIMeanReversionStrategy.py</code>：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">freqtrade.strategy</span><span class="w"> </span><span class="kn">import</span> <span class="n">IStrategy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataFrame</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">talib.abstract</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ta</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">freqtrade.vendor.qtpylib.indicators</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qtpylib</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">RSIMeanReversionStrategy</span><span class="p">(</span><span class="n">IStrategy</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    RSI 均值回归策略</span>
+<span class="sd">    在超卖区买入，等待价格回归</span>
+<span class="sd">    """</span>
+
+    <span class="n">INTERFACE_VERSION</span> <span class="o">=</span> <span class="mi">3</span>
+
+    <span class="c1"># ROI 配置（快速止盈）</span>
+    <span class="n">minimal_roi</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"0"</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>   <span class="c1"># 5% 立即止盈</span>
+        <span class="s2">"15"</span><span class="p">:</span> <span class="mf">0.03</span><span class="p">,</span>  <span class="c1"># 15 分钟后 3%</span>
+        <span class="s2">"30"</span><span class="p">:</span> <span class="mf">0.02</span><span class="p">,</span>  <span class="c1"># 30 分钟后 2%</span>
+        <span class="s2">"60"</span><span class="p">:</span> <span class="mf">0.01</span>   <span class="c1"># 60 分钟后 1%</span>
+    <span class="p">}</span>
+
+    <span class="c1"># 止损</span>
+    <span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.04</span>  <span class="c1"># -4%（稍微宽一些，给反弹空间）</span>
+
+    <span class="c1"># 时间框架</span>
+    <span class="n">timeframe</span> <span class="o">=</span> <span class="s1">'5m'</span>
+
+    <span class="n">startup_candle_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span>
+
+    <span class="c1"># 自定义参数（可优化）</span>
+    <span class="n">buy_rsi_threshold</span> <span class="o">=</span> <span class="mi">30</span>
+    <span class="n">sell_rsi_threshold</span> <span class="o">=</span> <span class="mi">50</span>
+    <span class="n">volume_factor</span> <span class="o">=</span> <span class="mf">1.5</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_indicators</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        添加指标</span>
+<span class="sd">        """</span>
+        <span class="c1"># RSI</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">RSI</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+
+        <span class="c1"># 布林带</span>
+        <span class="n">bollinger</span> <span class="o">=</span> <span class="n">qtpylib</span><span class="o">.</span><span class="n">bollinger_bands</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">],</span> <span class="n">window</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">stds</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'bb_lower'</span><span class="p">]</span> <span class="o">=</span> <span class="n">bollinger</span><span class="p">[</span><span class="s1">'lower'</span><span class="p">]</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'bb_middle'</span><span class="p">]</span> <span class="o">=</span> <span class="n">bollinger</span><span class="p">[</span><span class="s1">'mid'</span><span class="p">]</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'bb_upper'</span><span class="p">]</span> <span class="o">=</span> <span class="n">bollinger</span><span class="p">[</span><span class="s1">'upper'</span><span class="p">]</span>
+
+        <span class="c1"># 成交量</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume_mean'</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+        <span class="c1"># EMA（辅助判断趋势）</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_50'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">EMA</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_entry_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        买入信号：超卖 + 价格低于布林带下轨</span>
+<span class="sd">        """</span>
+        <span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+            <span class="p">(</span>
+                <span class="c1"># 条件 1：RSI 超卖</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">buy_rsi_threshold</span><span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="c1"># 条件 2：价格低于布林带下轨（过度偏离）</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'bb_lower'</span><span class="p">])</span> <span class="o">&amp;</span>
+
+                <span class="c1"># 条件 3：成交量放大（确认真实突破）</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume_mean'</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">volume_factor</span><span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="c1"># 条件 4：价格在 EMA 50 附近或以上（避免下跌趋势）</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_50'</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.95</span><span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="c1"># 确保有成交量</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="p">),</span>
+            <span class="s1">'enter_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_exit_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        卖出信号：RSI 回到中性区或价格触及中轨</span>
+<span class="sd">        """</span>
+        <span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+            <span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="c1"># 条件 1：RSI 回到 50 以上（回归完成）</span>
+                    <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">sell_rsi_threshold</span><span class="p">)</span> <span class="o">|</span>
+
+                    <span class="c1"># 或条件 2：价格回到布林带中轨</span>
+                    <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'bb_middle'</span><span class="p">])</span>
+                <span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="c1"># 确保有成交量</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="p">),</span>
+            <span class="s1">'exit_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">custom_stoploss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pair</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">trade</span><span class="p">:</span> <span class="s1">'Trade'</span><span class="p">,</span> <span class="n">current_time</span><span class="p">:</span> <span class="s1">'datetime'</span><span class="p">,</span>
+                        <span class="n">current_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">current_profit</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        自定义止损：盈利后移动止损</span>
+<span class="sd">        """</span>
+        <span class="c1"># 如果盈利超过 2%，将止损移动到 +1%</span>
+        <span class="k">if</span> <span class="n">current_profit</span> <span class="o">&gt;</span> <span class="mf">0.02</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">0.01</span>
+
+        <span class="c1"># 否则使用默认止损</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stoploss</span>
+</code></pre></div>
+<h3 id="43">4.3 测试和优化<a class="headerlink" href="#43" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 回测</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--strategy<span class="w"> </span>RSIMeanReversionStrategy<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--timerange<span class="w"> </span><span class="m">20230101</span>-20230331
+
+<span class="c1"># 使用 Hyperopt 优化参数（后面会详细讲）</span>
+freqtrade<span class="w"> </span>hyperopt<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--strategy<span class="w"> </span>RSIMeanReversionStrategy<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--hyperopt-loss<span class="w"> </span>SharpeHyperOptLoss<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--epochs<span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--spaces<span class="w"> </span>buy<span class="w"> </span>sell
+</code></pre></div>
+<hr />
+<h2 id="_7">第五部分：高级技巧<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<h3 id="51">5.1 自定义指标<a class="headerlink" href="#51" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">custom_indicator</span><span class="p">(</span><span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    自定义指标示例：计算价格动量</span>
+<span class="sd">    """</span>
+    <span class="c1"># 计算 N 期价格变化率</span>
+    <span class="n">dataframe</span><span class="p">[</span><span class="s1">'price_momentum'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">-</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span> <span class="o">/</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">dataframe</span>
+
+<span class="c1"># 在 populate_indicators 中调用</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">populate_indicators</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+    <span class="n">dataframe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">custom_indicator</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dataframe</span>
+</code></pre></div>
+<h3 id="52-informative-pairs">5.2 信息列（Informative Pairs）<a class="headerlink" href="#52-informative-pairs" title="Permanent link">&para;</a></h3>
+<p>使用更长的时间框架辅助决策：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">freqtrade.strategy</span><span class="w"> </span><span class="kn">import</span> <span class="n">informative</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MultiTimeframeStrategy</span><span class="p">(</span><span class="n">IStrategy</span><span class="p">):</span>
+
+    <span class="nd">@informative</span><span class="p">(</span><span class="s1">'1h'</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_indicators_1h</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        添加 1 小时时间框架的指标</span>
+<span class="sd">        """</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_50_1h'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">EMA</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi_1h'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">RSI</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_indicators</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+        <span class="c1"># 5 分钟指标</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_20'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">EMA</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">RSI</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_entry_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+        <span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+            <span class="p">(</span>
+                <span class="c1"># 5 分钟条件</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">30</span><span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="c1"># 1 小时条件（确认大趋势向上）</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_50_1h'</span><span class="p">])</span> <span class="o">&amp;</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi_1h'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">40</span><span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="p">),</span>
+            <span class="s1">'enter_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+</code></pre></div>
+<h3 id="53">5.3 自定义止损<a class="headerlink" href="#53" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">custom_stoploss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pair</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">trade</span><span class="p">:</span> <span class="s1">'Trade'</span><span class="p">,</span> <span class="n">current_time</span><span class="p">:</span> <span class="s1">'datetime'</span><span class="p">,</span>
+                    <span class="n">current_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">current_profit</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    基于时间和盈利的动态止损</span>
+<span class="sd">    """</span>
+    <span class="c1"># 计算持仓时间（分钟）</span>
+    <span class="n">trade_duration</span> <span class="o">=</span> <span class="p">(</span><span class="n">current_time</span> <span class="o">-</span> <span class="n">trade</span><span class="o">.</span><span class="n">open_date_utc</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">/</span> <span class="mi">60</span>
+
+    <span class="c1"># 第一阶段（0-30 分钟）：-3% 止损</span>
+    <span class="k">if</span> <span class="n">trade_duration</span> <span class="o">&lt;</span> <span class="mi">30</span><span class="p">:</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mf">0.03</span>
+
+    <span class="c1"># 第二阶段（30-60 分钟）：-2% 止损</span>
+    <span class="k">elif</span> <span class="n">trade_duration</span> <span class="o">&lt;</span> <span class="mi">60</span><span class="p">:</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mf">0.02</span>
+
+    <span class="c1"># 第三阶段（60+ 分钟）：</span>
+    <span class="c1"># 如果盈利 &gt; 2%，止损移到盈亏平衡点</span>
+    <span class="k">if</span> <span class="n">current_profit</span> <span class="o">&gt;</span> <span class="mf">0.02</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="c1"># 否则 -1% 止损</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mf">0.01</span>
+</code></pre></div>
+<h3 id="54">5.4 自定义仓位大小<a class="headerlink" href="#54" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">custom_stake_amount</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pair</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">current_time</span><span class="p">:</span> <span class="s1">'datetime'</span><span class="p">,</span>
+                        <span class="n">current_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">proposed_stake</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                        <span class="n">min_stake</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">max_stake</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    根据市场波动调整仓位</span>
+<span class="sd">    """</span>
+    <span class="n">dataframe</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dp</span><span class="o">.</span><span class="n">get_analyzed_dataframe</span><span class="p">(</span><span class="n">pair</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeframe</span><span class="p">)</span>
+    <span class="n">last_candle</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+
+    <span class="c1"># 获取 ATR（波动率）</span>
+    <span class="n">atr</span> <span class="o">=</span> <span class="n">last_candle</span><span class="p">[</span><span class="s1">'atr'</span><span class="p">]</span>
+    <span class="n">atr_percentage</span> <span class="o">=</span> <span class="p">(</span><span class="n">atr</span> <span class="o">/</span> <span class="n">last_candle</span><span class="p">[</span><span class="s1">'close'</span><span class="p">])</span> <span class="o">*</span> <span class="mi">100</span>
+
+    <span class="c1"># 高波动时降低仓位</span>
+    <span class="k">if</span> <span class="n">atr_percentage</span> <span class="o">&gt;</span> <span class="mf">2.0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">proposed_stake</span> <span class="o">*</span> <span class="mf">0.5</span>  <span class="c1"># 50% 仓位</span>
+
+    <span class="c1"># 低波动时增加仓位</span>
+    <span class="k">elif</span> <span class="n">atr_percentage</span> <span class="o">&lt;</span> <span class="mf">1.0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">proposed_stake</span> <span class="o">*</span> <span class="mf">1.5</span>  <span class="c1"># 150% 仓位</span>
+
+    <span class="c1"># 正常波动</span>
+    <span class="k">return</span> <span class="n">proposed_stake</span>
+</code></pre></div>
+<hr />
+<h2 id="_8">第六部分：策略开发流程<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<h3 id="61">6.1 完整开发流程<a class="headerlink" href="#61" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>1. 构思阶段
+   □ 确定交易理念（趋势跟随？均值回归？）
+   □ 选择时间框架
+   □ 确定使用的指标
+   □ 画出逻辑流程图
+
+2. 编码阶段
+   □ 创建策略文件
+   □ 实现 populate_indicators()
+   □ 实现 populate_entry_trend()
+   □ 实现 populate_exit_trend()
+   □ 添加注释和说明
+
+3. 测试阶段
+   □ 语法检查：freqtrade test-strategy
+   □ 快速回测：30 天数据
+   □ 检查交易次数是否合理
+   □ 检查信号是否符合预期
+
+4. 优化阶段
+   □ 使用 plot-dataframe 可视化信号
+   □ 分析最佳/最差交易
+   □ 调整参数或逻辑
+   □ 再次回测验证
+
+5. 验证阶段
+   □ 完整回测：3-6 个月数据
+   □ Out-of-sample 测试
+   □ 不同市场环境测试
+   □ 对比其他策略
+
+6. Dry-run 阶段
+   □ 运行 1-2 周 Dry-run
+   □ 验证实时表现
+   □ 对比回测结果
+   □ 确认无技术问题
+
+7. 实盘阶段
+   □ 小资金起步
+   □ 密集监控
+   □ 持续优化
+</code></pre></div>
+<h3 id="62">6.2 策略评估标准<a class="headerlink" href="#62" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>✅ 好策略的特征：
+
+1. 逻辑清晰
+   - 买卖条件简单明了
+   - 有理论支持
+   - 易于理解和解释
+
+2. 回测表现稳定
+   - 总收益率 &gt; 15%（3 个月）
+   - 胜率 &gt; 50%
+   - 最大回撤 &lt; 20%
+   - Sharpe &gt; 1.0
+
+3. 交易频率合理
+   - 不过度交易（每天 &gt;20 次）
+   - 不过少交易（每周 &lt;2 次）
+   - 平均持仓时间适中
+
+4. 适应性强
+   - 在不同市场环境都能盈利
+   - 不过度依赖特定时期
+   - 不过拟合历史数据
+
+5. 风险可控
+   - 有明确止损
+   - 单笔风险可控
+   - 回撤可接受
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>❌ 差策略的特征：
+
+1. 过度复杂
+   - 使用太多指标（&gt;5 个）
+   - 条件过于复杂
+   - 难以理解逻辑
+
+2. 过拟合
+   - 回测完美但 Dry-run 失败
+   - 只在特定时期有效
+   - 参数调整次数过多（&gt;10 次）
+
+3. 交易频率异常
+   - 每天交易几十次（手续费侵蚀）
+   - 或几乎不交易（资金利用率低）
+
+4. 风险失控
+   - 无止损或止损过大
+   - 频繁大幅回撤
+   - 盈亏比不合理
+
+5. 不稳定
+   - 表现大起大落
+   - 连续亏损频繁
+   - 无法持续盈利
+</code></pre></div>
+<h3 id="63">6.3 常见错误<a class="headerlink" href="#63" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>错误 1：使用未来数据（Look-ahead Bias）
+
+❌ 错误示例：
+dataframe['future_high'] = dataframe['high'].shift(-1)
+if dataframe['close'] &lt; dataframe['future_high']:
+    enter_long = 1
+
+问题：使用了未来的数据，回测完美但实盘失效
+
+✅ 正确做法：
+只使用当前和历史数据做决策
+
+
+错误 2：过度优化
+
+❌ 错误示例：
+调整参数 50 次，找到回测收益 200% 的配置
+
+问题：过拟合历史数据，实盘必然失败
+
+✅ 正确做法：
+- 参数调整 &lt; 5 次
+- 使用 out-of-sample 测试
+- 保持策略简单
+
+
+错误 3：忽视手续费和滑点
+
+❌ 错误示例：
+高频策略，每天交易 50 次
+回测不考虑手续费
+
+问题：实盘手续费侵蚀所有利润
+
+✅ 正确做法：
+- 在 config.json 中设置真实手续费
+- "fee": 0.001  # 0.1%
+- 考虑滑点影响
+
+
+错误 4：信号重绘
+
+❌ 错误示例：
+使用不稳定的指标，历史信号会改变
+
+问题：回测信号和实盘信号不一致
+
+✅ 正确做法：
+- 使用稳定的指标（EMA, SMA, RSI）
+- 避免使用会重绘的指标
+- 仔细测试信号稳定性
+</code></pre></div>
+<hr />
+<h2 id="_9">📝 实践任务<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<h3 id="1">任务 1：实现简单策略<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
+<p>基于本课的 <code>SimpleCrossStrategy</code>，实现并测试：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. 创建策略文件</span>
+<span class="c1"># 2. 回测 3 个月数据</span>
+<span class="c1"># 3. 生成图表分析信号</span>
+freqtrade<span class="w"> </span>plot-dataframe<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--strategy<span class="w"> </span>SimpleCrossStrategy<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--pairs<span class="w"> </span>BTC/USDT<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--indicators1<span class="w"> </span>ema_fast<span class="w"> </span>ema_slow<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--indicators2<span class="w"> </span>rsi
+</code></pre></div>
+<h3 id="2">任务 2：修改策略<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<p>修改 <code>SimpleCrossStrategy</code>，尝试：
+1. 更改 EMA 周期（9/21 → 12/26）
+2. 添加 MACD 作为额外确认
+3. 添加 ADX 趋势过滤
+4. 对比修改前后的回测结果</p>
+<h3 id="3">任务 3：开发自己的策略<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
+<p>基于你的交易理念，开发一个完全原创的策略：
+1. 写下策略逻辑（文字描述）
+2. 选择 2-3 个核心指标
+3. 实现代码
+4. 回测并分析结果
+5. 至少优化 3 次</p>
+<h3 id="4">任务 4：策略对比<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
+<p>对比以下三个策略在同一时期的表现：
+- SimpleCrossStrategy
+- RSIMeanReversionStrategy
+- 你自己开发的策略</p>
+<p>创建对比表格：</p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>策略 1</th>
+<th>策略 2</th>
+<th>策略 3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>总收益率</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>胜率</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>最大回撤</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>交易次数</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>最适合的市场环境</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_10">📌 核心要点<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<h3 id="_11">策略开发三要素<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>1. 逻辑清晰
+   - 能用一句话解释策略
+   - 有理论支持
+   - 简单 &gt; 复杂
+
+2. 回测验证
+   - 至少 3 个月数据
+   - Out-of-sample 测试
+   - 不同市场环境
+
+3. 实盘验证
+   - Dry-run 1-2 周
+   - 小资金测试
+   - 持续监控改进
+</code></pre></div>
+<h3 id="_12">常用指标组合<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>趋势跟随策略：
+- EMA/SMA 交叉
+- MACD
+- ADX（过滤）
+
+均值回归策略：
+- RSI
+- Bollinger Bands
+- 成交量
+
+突破策略：
+- 价格高点/低点
+- 成交量放大
+- ATR（波动率）
+</code></pre></div>
+<h3 id="_13">避免的陷阱<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>1. 过度优化
+2. 使用未来数据
+3. 忽视手续费
+4. 策略过于复杂
+5. 缺乏风险管理
+</code></pre></div>
+<hr />
+<h2 id="_14">🎯 下节预告<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
+<p><strong>第 27 课：多时间框架策略</strong></p>
+<p>在下一课中，我们将学习：
+- 如何结合多个时间框架
+- 大周期确认，小周期入场
+- 提高信号质量
+- 实战案例</p>
+<p>多时间框架是提高策略稳定性的重要技术，下节课见！</p>
+<hr />
+<p><strong>🎓 学习建议</strong>：
+1. <strong>从简单开始</strong>：不要一开始就追求复杂策略
+2. <strong>理解原理</strong>：知道每个指标的含义和用法
+3. <strong>多做实验</strong>：尝试不同的参数和组合
+4. <strong>记录总结</strong>：记录每次修改和效果
+5. <strong>保持耐心</strong>：好策略需要反复打磨</p>
+<p>记住：<strong>简单有效 &gt; 复杂华丽。最好的策略往往是最简单的策略。</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

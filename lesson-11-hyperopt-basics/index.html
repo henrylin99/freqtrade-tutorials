@@ -1,0 +1,3569 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径">
+      
+      
+      
+        <link rel="canonical" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-11-hyperopt-basics/">
+      
+      
+        <link rel="prev" href="../lesson-10-pair-selection/">
+      
+      
+        <link rel="next" href="../lesson-12-advanced-analysis/">
+      
+      
+        
+          <link rel="alternate" href="./" hreflang="zh">
+        
+          <link rel="alternate" href="../en/lesson-11-hyperopt-basics/" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>第 11 课：Freqtrade参数优化入门（Hyperopt） - Freqtrade 实战教程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9784658154228475"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VGHZY4EELE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VGHZY4EELE");
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#11-freqtradehyperopt" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="Freqtrade 实战教程" class="md-header__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Freqtrade 实战教程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第 11 课：Freqtrade参数优化入门（Hyperopt）
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="选择当前语言">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../en/lesson-11-hyperopt-basics/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/henrylin99/freqtrade-tutorials" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../strategies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🇨🇳 中文教程
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Freqtrade 实战教程" class="md-nav__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Freqtrade 实战教程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/henrylin99/freqtrade-tutorials" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../strategies/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🇨🇳 中文教程
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🇨🇳 中文教程
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 1 课：量化交易与 Freqtrade 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-02-environment-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 2 课：Freqtrade 环境搭建
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-03-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 3 课：核心概念理解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-04-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 4 课：数据下载与管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-05-first-backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 5 课：第一次策略回测
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-06-strategy-performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 6 课：策略性能分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-07-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 7 课：多时间框架回测
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-08-strategy-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 8 课：策略批量对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-09-timerange-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 9 课：Freqtrade时间范围测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-10-pair-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 10 课：Freqtrade交易对选择与测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 11 课：Freqtrade参数优化入门（Hyperopt）
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 11 课：Freqtrade参数优化入门（Hyperopt）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 课程概览
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#111-hyperopt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.1 什么是 Hyperopt？
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11.1 什么是 Hyperopt？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        定义
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工作原理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hyperopt-vs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hyperopt vs 手动调参
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        警告：过拟合陷阱
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#112" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.2 可优化的参数空间
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11.2 可优化的参数空间">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        策略中可优化的参数
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="策略中可优化的参数">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 买入信号参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 卖出信号参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-roi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. ROI（止盈）参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 止损参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 跟踪止损参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        参数类型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#space" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        参数空间（Space）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#113" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.3 优化目标函数
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11.3 优化目标函数">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loss-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        目标函数（Loss Function）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="目标函数（Loss Function）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-sharpehyperoptloss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. SharpeHyperOptLoss（推荐）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-sortinohyperoptloss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. SortinoHyperOptLoss
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-calmarhyperoptloss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. CalmarHyperOptLoss
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-maxdrawdownhyperoptloss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. MaxDrawDownHyperOptLoss
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-onlyprofithyperoptloss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. OnlyProfitHyperOptLoss
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        目标函数对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#114" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.4 优化结果应用
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11.4 优化结果应用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hyperopt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        运行第一次 Hyperopt
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="运行第一次 Hyperopt">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基础命令
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        运行过程
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        查看优化结果
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="查看优化结果">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        结果文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        查看最佳结果
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        应用优化参数
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="应用优化参数">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 1：导出参数到文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 2：手动复制参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        验证优化结果
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 实践任务
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 实践任务">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 1：准备可优化的策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-hyperopt100-epochs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 2：运行第一次 Hyperopt（100 epochs）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 3：查看优化结果
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 4：应用优化参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 5：样本外验证
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 知识检查
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 知识检查">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基础问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        答案
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        进阶问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        思考题
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 常见问题与解决
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 常见问题与解决">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1hyperopt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题 1：Hyperopt 运行很慢
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题 2：优化结果不稳定
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题 3：优化后样本外表现很差
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 核心要点总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ➡️ 下一课预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-12-advanced-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 12 课：高级策略分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-13-scoring-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 13 课：策略评分体系
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-14-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 14 课：风险管理与资金管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-15-portfolio-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 15 课：Freqtrade策略组合与分散
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-16-realtime-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 16 课：实时信号监控
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-17-telegram-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 17 课：Telegram 通知配置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-18-webui-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 18 课：Web UI 与 API 使用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 19 课：可视化分析工具
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-20-dry-run-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 20 课：模拟交易验证
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-21-exchange-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 21 课：交易所 API 配置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-22-pre-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 22 课：实盘前检查清单
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-23-small-capital-live/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 23 课：小资金实盘测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-1-order-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.1 课：实盘交易下单操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-2-stop-loss-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.2 课：实盘交易止损操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-3-futures-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.3 课：币安合约交易操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-4-leverage-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.4 课：杠杆交易操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-trading-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24 课：交易监控与调整
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-25-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 25 课：风险控制与心态管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-26-custom-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 26 课：自定义策略开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-27-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 27 课：多时间框架策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-28-grid-hft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 28 课：高频交易与网格策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-1-freqai-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29.1 课：FreqAI 深度实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-2-advanced-ml-strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29.2 课：高级机器学习策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning-enhanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29 课：机器学习基础与策略优化（增强版）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29 课：机器学习与策略优化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-30-conclusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 30 课：总结与持续学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 课程概览
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#111-hyperopt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.1 什么是 Hyperopt？
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11.1 什么是 Hyperopt？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        定义
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工作原理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hyperopt-vs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hyperopt vs 手动调参
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        警告：过拟合陷阱
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#112" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.2 可优化的参数空间
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11.2 可优化的参数空间">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        策略中可优化的参数
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="策略中可优化的参数">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 买入信号参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 卖出信号参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-roi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. ROI（止盈）参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 止损参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 跟踪止损参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        参数类型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#space" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        参数空间（Space）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#113" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.3 优化目标函数
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11.3 优化目标函数">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loss-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        目标函数（Loss Function）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="目标函数（Loss Function）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-sharpehyperoptloss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. SharpeHyperOptLoss（推荐）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-sortinohyperoptloss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. SortinoHyperOptLoss
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-calmarhyperoptloss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. CalmarHyperOptLoss
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-maxdrawdownhyperoptloss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. MaxDrawDownHyperOptLoss
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-onlyprofithyperoptloss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. OnlyProfitHyperOptLoss
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        目标函数对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#114" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.4 优化结果应用
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11.4 优化结果应用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hyperopt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        运行第一次 Hyperopt
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="运行第一次 Hyperopt">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基础命令
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        运行过程
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        查看优化结果
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="查看优化结果">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        结果文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        查看最佳结果
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        应用优化参数
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="应用优化参数">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 1：导出参数到文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 2：手动复制参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        验证优化结果
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 实践任务
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 实践任务">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 1：准备可优化的策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-hyperopt100-epochs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 2：运行第一次 Hyperopt（100 epochs）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 3：查看优化结果
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 4：应用优化参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 5：样本外验证
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 知识检查
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 知识检查">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基础问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        答案
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        进阶问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        思考题
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 常见问题与解决
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 常见问题与解决">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1hyperopt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题 1：Hyperopt 运行很慢
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题 2：优化结果不稳定
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题 3：优化后样本外表现很差
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 核心要点总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ➡️ 下一课预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="11-freqtradehyperopt">第 11 课：Freqtrade参数优化入门（Hyperopt）<a class="headerlink" href="#11-freqtradehyperopt" title="Permanent link">&para;</a></h1>
+<p><strong>⏱ 课时</strong>：2.5 小时
+<strong>🎯 学习目标</strong>：学会使用 Hyperopt 优化策略参数
+<strong>📚 难度</strong>：⭐⭐⭐ 策略优化</p>
+<hr />
+<h2 id="_1">📖 课程概览<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>策略参数（如 RSI 阈值、EMA 周期）的选择对策略表现有巨大影响。手动调整参数效率低下，Hyperopt 可以自动搜索最优参数组合。本课将教你如何使用 Freqtrade 的 Hyperopt 功能优化策略。</p>
+<hr />
+<h2 id="111-hyperopt">11.1 什么是 Hyperopt？<a class="headerlink" href="#111-hyperopt" title="Permanent link">&para;</a></h2>
+<h3 id="_2">定义<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<p><strong>Hyperopt</strong>（超参数优化）是一种自动搜索算法，通过大量测试不同参数组合，找出使目标函数（如收益、Sharpe Ratio）最大化的参数。</p>
+<h3 id="_3">工作原理<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>1. 定义参数空间（例如：RSI 范围 20-40）
+2. 生成随机参数组合
+3. 用该组合回测策略
+4. 记录结果（收益、Sharpe 等）
+5. 根据结果调整搜索方向
+6. 重复 2-5 步，直到找到最优参数
+</code></pre></div>
+<p><strong>可视化流程</strong>：
+<div class="highlight"><pre><span></span><code>参数空间: RSI=[20,25,30,35,40]
+
+Epoch 1: RSI=30 → 收益 +5%
+Epoch 2: RSI=25 → 收益 +8% ✅ 更好
+Epoch 3: RSI=22 → 收益 +12% ✅ 更好
+Epoch 4: RSI=20 → 收益 +9%
+Epoch 5: RSI=23 → 收益 +11%
+...
+Epoch 100: RSI=22 → 最优参数
+</code></pre></div></p>
+<h3 id="hyperopt-vs">Hyperopt vs 手动调参<a class="headerlink" href="#hyperopt-vs" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>手动调参</th>
+<th>Hyperopt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>速度</strong></td>
+<td>慢（每次手动改代码）</td>
+<td>快（自动化）</td>
+</tr>
+<tr>
+<td><strong>覆盖范围</strong></td>
+<td>少（10-20 组）</td>
+<td>多（100-1000 组）</td>
+</tr>
+<tr>
+<td><strong>客观性</strong></td>
+<td>受主观判断影响</td>
+<td>纯数据驱动</td>
+</tr>
+<tr>
+<td><strong>易用性</strong></td>
+<td>简单</td>
+<td>需要学习</td>
+</tr>
+<tr>
+<td><strong>过拟合风险</strong></td>
+<td>低</td>
+<td>高（需警惕）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_4">警告：过拟合陷阱<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>⚠️ <strong>Hyperopt 容易导致过拟合</strong>：
+- 在历史数据上找到"完美"参数
+- 但这些参数可能只适合历史数据
+- 未来表现可能很差</p>
+<p><strong>预防措施</strong>：
+1. ✅ 使用样本外测试验证
+2. ✅ 限制优化的参数数量（≤ 5 个）
+3. ✅ 运行多次 Hyperopt，对比结果
+4. ✅ 优先优化影响大的参数</p>
+<hr />
+<h2 id="112">11.2 可优化的参数空间<a class="headerlink" href="#112" title="Permanent link">&para;</a></h2>
+<h3 id="_5">策略中可优化的参数<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<h4 id="1">1. 买入信号参数<a class="headerlink" href="#1" title="Permanent link">&para;</a></h4>
+<p><strong>示例：RSI 策略</strong>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">HyperOptStrategy</span><span class="p">(</span><span class="n">IStrategy</span><span class="p">):</span>
+    <span class="c1"># 定义参数空间</span>
+    <span class="n">buy_rsi</span> <span class="o">=</span> <span class="n">IntParameter</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'buy'</span><span class="p">)</span>
+    <span class="n">buy_rsi_enabled</span> <span class="o">=</span> <span class="n">CategoricalParameter</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'buy'</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_entry_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">,</span> <span class="n">metadata</span><span class="p">):</span>
+        <span class="n">conditions</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">buy_rsi_enabled</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+            <span class="n">conditions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">buy_rsi</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">conditions</span><span class="p">:</span>
+            <span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+                <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">&amp;</span> <span class="n">y</span><span class="p">,</span> <span class="n">conditions</span><span class="p">),</span>
+                <span class="s1">'enter_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+</code></pre></div></p>
+<p><strong>可优化参数</strong>：
+- <code>buy_rsi</code>：RSI 阈值（20-40）
+- <code>buy_rsi_enabled</code>：是否启用该条件</p>
+<h4 id="2">2. 卖出信号参数<a class="headerlink" href="#2" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">sell_rsi</span> <span class="o">=</span> <span class="n">IntParameter</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'sell'</span><span class="p">)</span>
+<span class="n">sell_ema_short</span> <span class="o">=</span> <span class="n">IntParameter</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'sell'</span><span class="p">)</span>
+<span class="n">sell_ema_long</span> <span class="o">=</span> <span class="n">IntParameter</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'sell'</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="3-roi">3. ROI（止盈）参数<a class="headerlink" href="#3-roi" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">populate_roi_space</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="mi">0</span><span class="p">:</span> <span class="n">DecimalParameter</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.20</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.10</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'roi'</span><span class="p">),</span>
+        <span class="mi">60</span><span class="p">:</span> <span class="n">DecimalParameter</span><span class="p">(</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.10</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'roi'</span><span class="p">),</span>
+        <span class="mi">120</span><span class="p">:</span> <span class="n">DecimalParameter</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'roi'</span><span class="p">),</span>
+    <span class="p">}</span>
+</code></pre></div>
+<h4 id="4">4. 止损参数<a class="headerlink" href="#4" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">stoploss</span> <span class="o">=</span> <span class="n">DecimalParameter</span><span class="p">(</span><span class="o">-</span><span class="mf">0.15</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">default</span><span class="o">=-</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'stoploss'</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="5">5. 跟踪止损参数<a class="headerlink" href="#5" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">trailing_stop_positive</span> <span class="o">=</span> <span class="n">DecimalParameter</span><span class="p">(</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'trailing'</span><span class="p">)</span>
+<span class="n">trailing_stop_positive_offset</span> <span class="o">=</span> <span class="n">DecimalParameter</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.10</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'trailing'</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="_6">参数类型<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>参数类型</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>IntParameter</strong></td>
+<td>整数参数</td>
+<td>RSI 周期（10-30）</td>
+</tr>
+<tr>
+<td><strong>DecimalParameter</strong></td>
+<td>小数参数</td>
+<td>止损（-0.10 到 -0.02）</td>
+</tr>
+<tr>
+<td><strong>RealParameter</strong></td>
+<td>实数参数</td>
+<td>同 DecimalParameter</td>
+</tr>
+<tr>
+<td><strong>CategoricalParameter</strong></td>
+<td>分类参数</td>
+<td>[True, False] 或 ['ema', 'sma']</td>
+</tr>
+</tbody>
+</table>
+<h3 id="space">参数空间（Space）<a class="headerlink" href="#space" title="Permanent link">&para;</a></h3>
+<p>Freqtrade 将参数分为不同空间：</p>
+<table>
+<thead>
+<tr>
+<th>Space</th>
+<th>说明</th>
+<th>包含参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>buy</strong></td>
+<td>买入信号参数</td>
+<td>RSI 阈值、EMA 周期等</td>
+</tr>
+<tr>
+<td><strong>sell</strong></td>
+<td>卖出信号参数</td>
+<td>卖出条件参数</td>
+</tr>
+<tr>
+<td><strong>roi</strong></td>
+<td>ROI 止盈参数</td>
+<td>各时间点的止盈比例</td>
+</tr>
+<tr>
+<td><strong>stoploss</strong></td>
+<td>止损参数</td>
+<td>固定止损百分比</td>
+</tr>
+<tr>
+<td><strong>trailing</strong></td>
+<td>跟踪止损参数</td>
+<td>跟踪止损相关参数</td>
+</tr>
+<tr>
+<td><strong>protection</strong></td>
+<td>保护机制参数</td>
+<td>冷却期、最大回撤等</td>
+</tr>
+</tbody>
+</table>
+<p><strong>优化指定空间</strong>：
+<div class="highlight"><pre><span></span><code><span class="c1"># 只优化买入参数</span>
+freqtrade<span class="w"> </span>hyperopt<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>MyStrategy<span class="w"> </span>--hyperopt-loss<span class="w"> </span>SharpeHyperOptLoss<span class="w"> </span>--spaces<span class="w"> </span>buy
+
+<span class="c1"># 优化买入和卖出参数</span>
+freqtrade<span class="w"> </span>hyperopt<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>MyStrategy<span class="w"> </span>--hyperopt-loss<span class="w"> </span>SharpeHyperOptLoss<span class="w"> </span>--spaces<span class="w"> </span>buy<span class="w"> </span>sell
+
+<span class="c1"># 优化所有参数</span>
+freqtrade<span class="w"> </span>hyperopt<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>MyStrategy<span class="w"> </span>--hyperopt-loss<span class="w"> </span>SharpeHyperOptLoss<span class="w"> </span>--spaces<span class="w"> </span>all
+</code></pre></div></p>
+<hr />
+<h2 id="113">11.3 优化目标函数<a class="headerlink" href="#113" title="Permanent link">&para;</a></h2>
+<h3 id="loss-function">目标函数（Loss Function）<a class="headerlink" href="#loss-function" title="Permanent link">&para;</a></h3>
+<p>Hyperopt 需要一个目标来评估参数的好坏。Freqtrade 提供多种内置目标函数：</p>
+<h4 id="1-sharpehyperoptloss">1. SharpeHyperOptLoss（推荐）<a class="headerlink" href="#1-sharpehyperoptloss" title="Permanent link">&para;</a></h4>
+<p><strong>目标</strong>：最大化 Sharpe Ratio（风险调整后收益）</p>
+<p><strong>适用场景</strong>：
+- ✅ 追求稳定收益
+- ✅ 注重风险控制
+- ✅ 长期交易</p>
+<p><strong>命令</strong>：
+<div class="highlight"><pre><span></span><code>freqtrade<span class="w"> </span>hyperopt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--strategy<span class="w"> </span>MyStrategy<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--hyperopt-loss<span class="w"> </span>SharpeHyperOptLoss<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--epochs<span class="w"> </span><span class="m">100</span>
+</code></pre></div></p>
+<h4 id="2-sortinohyperoptloss">2. SortinoHyperOptLoss<a class="headerlink" href="#2-sortinohyperoptloss" title="Permanent link">&para;</a></h4>
+<p><strong>目标</strong>：最大化 Sortino Ratio（只考虑下行风险）</p>
+<p><strong>适用场景</strong>：
+- ✅ 更关注下跌风险
+- ✅ 允许上涨波动</p>
+<h4 id="3-calmarhyperoptloss">3. CalmarHyperOptLoss<a class="headerlink" href="#3-calmarhyperoptloss" title="Permanent link">&para;</a></h4>
+<p><strong>目标</strong>：最大化 Calmar Ratio（收益 / 最大回撤）</p>
+<p><strong>适用场景</strong>：
+- ✅ 极度厌恶回撤
+- ✅ 追求平滑收益曲线</p>
+<h4 id="4-maxdrawdownhyperoptloss">4. MaxDrawDownHyperOptLoss<a class="headerlink" href="#4-maxdrawdownhyperoptloss" title="Permanent link">&para;</a></h4>
+<p><strong>目标</strong>：最小化最大回撤</p>
+<p><strong>适用场景</strong>：
+- ✅ 保守型投资者
+- ✅ 大资金账户</p>
+<h4 id="5-onlyprofithyperoptloss">5. OnlyProfitHyperOptLoss<a class="headerlink" href="#5-onlyprofithyperoptloss" title="Permanent link">&para;</a></h4>
+<p><strong>目标</strong>：最大化总收益（不考虑风险）</p>
+<p><strong>适用场景</strong>：
+- ⚠️ 激进型投资者
+- ⚠️ 容易导致过拟合
+- ⚠️ 不推荐新手使用</p>
+<h3 id="_7">目标函数对比<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>目标函数</th>
+<th>优化目标</th>
+<th>风险考虑</th>
+<th>适合人群</th>
+<th>推荐度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SharpeHyperOptLoss</strong></td>
+<td>Sharpe Ratio</td>
+<td>高</td>
+<td>大多数人</td>
+<td>⭐⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td><strong>SortinoHyperOptLoss</strong></td>
+<td>Sortino Ratio</td>
+<td>中高</td>
+<td>进阶用户</td>
+<td>⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td><strong>CalmarHyperOptLoss</strong></td>
+<td>Calmar Ratio</td>
+<td>极高</td>
+<td>保守型</td>
+<td>⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td><strong>MaxDrawDownHyperOptLoss</strong></td>
+<td>最小回撤</td>
+<td>极高</td>
+<td>保守型</td>
+<td>⭐⭐⭐</td>
+</tr>
+<tr>
+<td><strong>OnlyProfitHyperOptLoss</strong></td>
+<td>总收益</td>
+<td>低</td>
+<td>激进型</td>
+<td>⭐⭐</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="114">11.4 优化结果应用<a class="headerlink" href="#114" title="Permanent link">&para;</a></h2>
+<h3 id="hyperopt">运行第一次 Hyperopt<a class="headerlink" href="#hyperopt" title="Permanent link">&para;</a></h3>
+<h4 id="_8">基础命令<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="w">  </span>freqtrade<span class="w"> </span>hyperopt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--hyperopt-loss<span class="w"> </span>SharpeHyperOptLoss<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--spaces<span class="w"> </span>roi<span class="w"> </span>stoploss<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--epochs<span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+</code></pre></div>
+<p><strong>参数说明</strong>：
+- <code>--strategy</code>：要优化的策略
+- <code>--hyperopt-loss</code>：目标函数
+- <code>--spaces</code>：要优化的参数空间
+- <code>--epochs</code>：运行次数（更多 = 更好的结果，但更耗时）
+- <code>--timerange</code>：优化的时间范围</p>
+<h4 id="_9">运行过程<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>2025-09-30 10:00:00 | INFO | Hyperopt | Starting Hyperopt...
+2025-09-30 10:00:01 | INFO | Hyperopt | Epoch 1/100 - Current: 10.2%, Best: 10.2%
+2025-09-30 10:00:03 | INFO | Hyperopt | Epoch 2/100 - Current: 8.5%, Best: 10.2%
+2025-09-30 10:00:05 | INFO | Hyperopt | Epoch 3/100 - Current: 12.8%, Best: 12.8% ✅ New best
+2025-09-30 10:00:07 | INFO | Hyperopt | Epoch 4/100 - Current: 9.3%, Best: 12.8%
+...
+2025-09-30 10:15:00 | INFO | Hyperopt | Epoch 100/100 - Current: 11.5%, Best: 15.2%
+2025-09-30 10:15:01 | INFO | Hyperopt | Optimization complete!
+</code></pre></div>
+<h3 id="_10">查看优化结果<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<h4 id="_11">结果文件<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h4>
+<p>优化结果保存在：
+<div class="highlight"><pre><span></span><code>user_data/hyperopt_results/strategy_Strategy001_*.pkl
+</code></pre></div></p>
+<h4 id="_12">查看最佳结果<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 查看最佳结果</span>
+freqtrade<span class="w"> </span>hyperopt-show<span class="w"> </span>--best<span class="w"> </span>-c<span class="w"> </span>config.json
+
+<span class="c1"># 列出所有最佳结果</span>
+freqtrade<span class="w"> </span>hyperopt-list<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--best<span class="w"> </span>--min-trades<span class="w"> </span><span class="m">1</span>
+
+<span class="c1"># 查看特定编号的结果</span>
+freqtrade<span class="w"> </span>hyperopt-show<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span>-c<span class="w"> </span>config.json
+
+<span class="c1"># 列出所有结果</span>
+freqtrade<span class="w"> </span>hyperopt-list<span class="w"> </span>-c<span class="w"> </span>config.json
+
+<span class="c1"># 查看盈利的结果</span>
+freqtrade<span class="w"> </span>hyperopt-list<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--profitable
+
+<span class="c1"># 导出为 CSV</span>
+freqtrade<span class="w"> </span>hyperopt-list<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--export-csv<span class="w"> </span>results.csv
+</code></pre></div>
+<p><strong>输出示例</strong>：
+<div class="highlight"><pre><span></span><code>Best result:
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Parameter                 ┃ Value                    ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ buy_rsi                   │ 22                       │
+│ sell_rsi                  │ 72                       │
+│ roi_0                     │ 0.15                     │
+│ roi_60                    │ 0.08                     │
+│ roi_120                   │ 0.03                     │
+│ stoploss                  │ -0.08                    │
+└───────────────────────────┴──────────────────────────┘
+
+Result metrics:
+┏━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Metric                  ┃ Value                   ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ Total profit            │ 18.52%                  │
+│ Avg profit per trade    │ 1.42%                   │
+│ Total trades            │ 52                      │
+│ Win rate                │ 84.6%                   │
+│ Sharpe Ratio            │ 3.45                    │
+│ Max drawdown            │ 4.82%                   │
+└─────────────────────────┴─────────────────────────┘
+</code></pre></div></p>
+<h3 id="_13">应用优化参数<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
+<h4 id="1_1">方法 1：导出参数到文件<a class="headerlink" href="#1_1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>freqtrade<span class="w"> </span>hyperopt-show<span class="w"> </span>--best<span class="w"> </span>--print-json<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>&gt;<span class="w"> </span>best_params
+</code></pre></div>
+<h4 id="2_1">方法 2：手动复制参数<a class="headerlink" href="#2_1" title="Permanent link">&para;</a></h4>
+<p>将最佳参数复制到策略文件：</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Strategy001</span><span class="p">(</span><span class="n">IStrategy</span><span class="p">):</span>
+    <span class="c1"># 应用优化后的参数</span>
+    <span class="n">buy_rsi</span> <span class="o">=</span> <span class="n">IntParameter</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'buy'</span><span class="p">,</span> <span class="n">optimize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># 优化结果：22</span>
+    <span class="n">sell_rsi</span> <span class="o">=</span> <span class="n">IntParameter</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">72</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'sell'</span><span class="p">,</span> <span class="n">optimize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># 优化结果：72</span>
+
+    <span class="n">minimal_roi</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"0"</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span>   <span class="c1"># 优化结果</span>
+        <span class="s2">"60"</span><span class="p">:</span> <span class="mf">0.08</span><span class="p">,</span>  <span class="c1"># 优化结果</span>
+        <span class="s2">"120"</span><span class="p">:</span> <span class="mf">0.03</span>  <span class="c1"># 优化结果</span>
+    <span class="p">}</span>
+
+    <span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.08</span>  <span class="c1"># 优化结果</span>
+</code></pre></div>
+<p><strong>注意</strong>：设置 <code>optimize=False</code> 可防止再次优化该参数。</p>
+<h3 id="_14">验证优化结果<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
+<p>⚠️ <strong>关键步骤</strong>：必须在样本外数据验证！</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 原始策略（优化前）- 先临时移除优化参数文件</span>
+mv<span class="w"> </span>user_data/strategies/Strategy001.json<span class="w"> </span>user_data/strategies/Strategy001.json.bak
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+
+<span class="c1"># 优化后的策略 - 恢复优化参数文件</span>
+mv<span class="w"> </span>user_data/strategies/Strategy001.json.bak<span class="w"> </span>user_data/strategies/Strategy001.json
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+</code></pre></div>
+<p><strong>对比结果</strong>：
+<div class="highlight"><pre><span></span><code>原始策略（样本外）：
+  收益：+8.5%
+  Sharpe：2.1
+
+优化后策略（样本外）：
+  收益：+12.3%（提升 45%！）✅
+  Sharpe：2.8（提升 33%！）✅
+
+结论：优化有效！
+</code></pre></div></p>
+<p><strong>警告信号</strong>：
+<div class="highlight"><pre><span></span><code>优化后策略（训练期）：
+  收益：+25%
+  Sharpe：4.5
+
+优化后策略（测试期）：
+  收益：+3%（仅为训练期的 12%）❌
+  Sharpe：0.8（大幅下降）❌
+
+结论：过拟合！不要使用优化参数！
+</code></pre></div></p>
+<hr />
+<h2 id="_15">💡 实践任务<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h2>
+<h3 id="1_2">任务 1：准备可优化的策略<a class="headerlink" href="#1_2" title="Permanent link">&para;</a></h3>
+<p>如果你的策略还不支持 Hyperopt，需要先修改策略。</p>
+<p><strong>检查策略是否支持 Hyperopt</strong>：
+<div class="highlight"><pre><span></span><code>grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">"Parameter"</span><span class="w"> </span>user_data/strategies/Strategy001.py
+</code></pre></div></p>
+<p>如果没有输出，说明策略不支持 Hyperopt。</p>
+<p><strong>添加 Hyperopt 支持</strong>（示例）：
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">freqtrade.strategy</span><span class="w"> </span><span class="kn">import</span> <span class="n">IStrategy</span><span class="p">,</span> <span class="n">IntParameter</span><span class="p">,</span> <span class="n">DecimalParameter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">reduce</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Strategy001</span><span class="p">(</span><span class="n">IStrategy</span><span class="p">):</span>
+    <span class="c1"># 定义可优化参数</span>
+    <span class="n">buy_rsi</span> <span class="o">=</span> <span class="n">IntParameter</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'buy'</span><span class="p">)</span>
+    <span class="n">buy_ema_short</span> <span class="o">=</span> <span class="n">IntParameter</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'buy'</span><span class="p">)</span>
+    <span class="n">buy_ema_long</span> <span class="o">=</span> <span class="n">IntParameter</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'buy'</span><span class="p">)</span>
+
+    <span class="n">sell_rsi</span> <span class="o">=</span> <span class="n">IntParameter</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'sell'</span><span class="p">)</span>
+
+    <span class="c1"># ROI 和止损也可以优化</span>
+    <span class="n">minimal_roi</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"0"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">,</span>
+        <span class="s2">"60"</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+        <span class="s2">"120"</span><span class="p">:</span> <span class="mf">0.02</span>
+    <span class="p">}</span>
+
+    <span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.05</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_entry_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">,</span> <span class="n">metadata</span><span class="p">):</span>
+        <span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+            <span class="p">(</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">buy_rsi</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">&amp;</span>  <span class="c1"># 使用可优化参数</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_short'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_long'</span><span class="p">])</span>
+            <span class="p">),</span>
+            <span class="s1">'enter_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">dataframe</span>
+</code></pre></div></p>
+<h3 id="2-hyperopt100-epochs">任务 2：运行第一次 Hyperopt（100 epochs）<a class="headerlink" href="#2-hyperopt100-epochs" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 激活环境</span>
+conda<span class="w"> </span>activate<span class="w"> </span>freqtrade
+
+<span class="c1"># 运行 Hyperopt</span>
+freqtrade<span class="w"> </span>hyperopt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--hyperopt-loss<span class="w"> </span>SharpeHyperOptLoss<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--spaces<span class="w"> </span>roi<span class="w"> </span>stoploss<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--epochs<span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+</code></pre></div>
+<p><strong>预计耗时</strong>：10-30 分钟（取决于策略复杂度和数据量）</p>
+<h3 id="3">任务 3：查看优化结果<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 查看最佳结果</span>
+freqtrade<span class="w"> </span>hyperopt-show<span class="w"> </span>--best<span class="w"> </span>-c<span class="w"> </span>config.json
+
+<span class="c1"># 查看前 5 个最佳结果</span>
+freqtrade<span class="w"> </span>hyperopt-show<span class="w"> </span>--best<span class="w"> </span>-n<span class="w"> </span><span class="m">5</span><span class="w"> </span>-c<span class="w"> </span>config.json
+</code></pre></div>
+<p>记录以下信息：
+<div class="highlight"><pre><span></span><code>最佳参数：
+  buy_rsi: _______
+  sell_rsi: _______
+  其他参数: _______
+
+最佳结果：
+  总收益: _______%
+  Sharpe Ratio: _______
+  胜率: _______%
+  最大回撤: _______%
+</code></pre></div></p>
+<h3 id="4_1">任务 4：应用优化参数<a class="headerlink" href="#4_1" title="Permanent link">&para;</a></h3>
+<p>将最佳参数复制到策略文件中，保存为 <code>Strategy001Optimized.py</code>。</p>
+<h3 id="5_1">任务 5：样本外验证<a class="headerlink" href="#5_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 优化前（原始参数）</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timerange<span class="w"> </span><span class="m">20251001</span>-20251231
+
+<span class="c1"># 优化后（新参数）</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--strategy<span class="w"> </span>Strategy001Optimized<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timerange<span class="w"> </span><span class="m">20251001</span>-20251231
+</code></pre></div>
+<p>对比结果：
+<div class="highlight"><pre><span></span><code>            | 优化前 | 优化后 | 变化 |
+------------|--------|--------|------|
+总收益%      | ____% | ____% | ____% |
+Sharpe      | ____ | ____ | ____% |
+胜率%       | ____% | ____% | ____% |
+最大回撤%    | ____% | ____% | ____% |
+
+结论：
+☐ 优化有效，样本外表现提升
+☐ 优化无效，样本外表现持平
+☐ 过拟合，样本外表现下降
+</code></pre></div></p>
+<hr />
+<h2 id="_16">📚 知识检查<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h2>
+<h3 id="_17">基础问题<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Hyperopt 的作用是什么？</li>
+<li>为什么 Hyperopt 容易导致过拟合？</li>
+<li>SharpeHyperOptLoss 优化什么目标？</li>
+</ol>
+<h3 id="_18">答案<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>自动搜索最优策略参数</strong>，提升策略表现</li>
+<li><strong>在历史数据上过度优化</strong>，找到的参数可能只适合历史数据</li>
+<li><strong>最大化 Sharpe Ratio</strong>（风险调整后收益）</li>
+</ol>
+<h3 id="_19">进阶问题<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h3>
+<ol>
+<li>应该优化多少个参数最合适？</li>
+<li>如何判断优化结果是否过拟合？</li>
+<li>为什么推荐使用 SharpeHyperOptLoss 而不是 OnlyProfitHyperOptLoss？</li>
+</ol>
+<h3 id="_20">思考题<a class="headerlink" href="#_20" title="Permanent link">&para;</a></h3>
+<ol>
+<li>如果样本外测试表现很差，应该怎么办？</li>
+<li>是否应该每个月都重新运行 Hyperopt？</li>
+<li>多次 Hyperopt 得到不同结果，应该选哪个？</li>
+</ol>
+<hr />
+<h2 id="_21">🔧 常见问题与解决<a class="headerlink" href="#_21" title="Permanent link">&para;</a></h2>
+<h3 id="1hyperopt">问题 1：Hyperopt 运行很慢<a class="headerlink" href="#1hyperopt" title="Permanent link">&para;</a></h3>
+<p><strong>原因</strong>：
+- 策略计算复杂
+- 数据量太大
+- 参数空间太大</p>
+<p><strong>解决方案</strong>：
+<div class="highlight"><pre><span></span><code><span class="c1"># 减少 epochs</span>
+--epochs<span class="w"> </span><span class="m">50</span><span class="w">  </span><span class="c1"># 而不是 100</span>
+
+<span class="c1"># 缩短时间范围</span>
+--timerange<span class="w"> </span><span class="m">20250801</span>-20250930<span class="w">  </span><span class="c1"># 2 个月而不是 3 个月</span>
+
+<span class="c1"># 只优化关键参数</span>
+--spaces<span class="w"> </span>buy<span class="w">  </span><span class="c1"># 只优化买入参数</span>
+
+<span class="c1"># 使用多核处理（如果支持）</span>
+-j<span class="w"> </span><span class="m">4</span><span class="w">  </span><span class="c1"># 使用 4 个 CPU 核心</span>
+</code></pre></div></p>
+<h3 id="2_2">问题 2：优化结果不稳定<a class="headerlink" href="#2_2" title="Permanent link">&para;</a></h3>
+<p><strong>现象</strong>：
+每次运行 Hyperopt 得到完全不同的参数</p>
+<p><strong>原因</strong>：
+- 参数空间太大
+- Epochs 太少
+- 过拟合</p>
+<p><strong>解决方案</strong>：
+<div class="highlight"><pre><span></span><code><span class="c1"># 增加 epochs</span>
+--epochs<span class="w"> </span><span class="m">300</span>
+
+<span class="c1"># 运行多次，取平均值</span>
+<span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">1</span>..3<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">  </span>freqtrade<span class="w"> </span>hyperopt<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>MyStrategy<span class="w"> </span>--epochs<span class="w"> </span><span class="m">100</span>
+<span class="k">done</span>
+
+<span class="c1"># 缩小参数范围</span>
+<span class="nv">buy_rsi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>IntParameter<span class="o">(</span><span class="m">25</span>,<span class="w"> </span><span class="m">35</span>,<span class="w"> </span><span class="nv">default</span><span class="o">=</span><span class="m">30</span>,<span class="w"> </span><span class="nv">space</span><span class="o">=</span><span class="s1">'buy'</span><span class="o">)</span><span class="w">  </span><span class="c1"># 范围从 20-40 缩小到 25-35</span>
+</code></pre></div></p>
+<h3 id="3_1">问题 3：优化后样本外表现很差<a class="headerlink" href="#3_1" title="Permanent link">&para;</a></h3>
+<p><strong>原因</strong>：
+过拟合</p>
+<p><strong>解决方案</strong>：
+1. 减少优化的参数数量（≤ 5 个）
+2. 使用更长的训练数据（6 个月+）
+3. 简化策略逻辑
+4. 使用 Walk-Forward 优化</p>
+<hr />
+<h2 id="_22">📌 核心要点总结<a class="headerlink" href="#_22" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Hyperopt 是自动调参工具</strong>：节省时间，提升策略</li>
+<li><strong>警惕过拟合</strong>：必须进行样本外验证</li>
+<li><strong>优先优化关键参数</strong>：买入/卖出信号 &gt; ROI &gt; 止损</li>
+<li><strong>推荐 SharpeHyperOptLoss</strong>：平衡收益和风险</li>
+<li><strong>Epochs 越多越好</strong>：100-300 epochs 较合适</li>
+<li><strong>参数数量 ≤ 5 个</strong>：避免过度优化</li>
+<li><strong>验证才是关键</strong>：优化结果必须在样本外数据验证</li>
+</ol>
+<hr />
+<h2 id="_23">➡️ 下一课预告<a class="headerlink" href="#_23" title="Permanent link">&para;</a></h2>
+<p><strong>第 12 课：高级策略分析</strong></p>
+<p>在下一课中，我们将：
+- 深入对比不同策略类型
+- 分析指标组合的有效性
+- 优化入场和出场逻辑
+- 学习高级风险管理技巧</p>
+<p><strong>准备工作</strong>：
+- ✅ 完成至少一次成功的 Hyperopt 优化
+- ✅ 准备多个策略用于对比分析
+- ✅ 阅读 STRATEGY_SELECTION_GUIDE.md</p>
+<hr />
+<p><strong>🎯 学习检验标准</strong>：
+- ✅ 能独立运行 Hyperopt 优化
+- ✅ 理解不同目标函数的区别
+- ✅ 会查看和应用优化结果
+- ✅ 能判断优化是否过拟合</p>
+<p>完成这些任务后，你已经掌握了参数优化的基础技能！准备进入高级策略分析吧！🚀</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

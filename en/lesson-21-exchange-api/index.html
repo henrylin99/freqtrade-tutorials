@@ -1,0 +1,3613 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径">
+      
+      
+      
+        <link rel="canonical" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-21-exchange-api/">
+      
+      
+        <link rel="prev" href="../lesson-20-dry-run-validation/">
+      
+      
+        <link rel="next" href="../lesson-22-pre-live-checklist/">
+      
+      
+        
+          <link rel="alternate" href="../../lesson-21-exchange-api/" hreflang="zh">
+        
+          <link rel="alternate" href="./" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>Lesson 21: Exchange API Configuration - Freqtrade 实战教程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9784658154228475"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VGHZY4EELE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VGHZY4EELE");
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lesson-21-exchange-api-configuration" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Freqtrade 实战教程" class="md-header__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Freqtrade 实战教程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lesson 21: Exchange API Configuration
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../lesson-21-exchange-api/" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../strategies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  English Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Freqtrade 实战教程" class="md-nav__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Freqtrade 实战教程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../strategies/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    English Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    English Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 1: Introduction to Quantitative Trading and Freqtrade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-02-environment-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 2: Freqtrade Environment Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-03-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 3: Understanding Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-04-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 4: Data Download and Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-05-first-backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 5: First Strategy Backtest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-06-strategy-performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 6: Strategy Performance Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-07-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 7: Multi-Timeframe Backtesting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-08-strategy-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 8: Strategy Batch Comparison
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-09-timerange-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 9: Time Range Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-10-pair-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 10: Trading Pair Selection and Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-11-hyperopt-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 11: Hyperopt Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-12-advanced-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 12: Advanced Strategy Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-13-scoring-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 13: Strategy Scoring System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-14-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 14: Risk and Money Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-15-portfolio-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 15: Strategy Portfolio and Diversification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-16-realtime-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 16: Real-time Signal Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-17-telegram-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 17: Telegram Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-18-webui-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 18: Web UI and API Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 19: Visualization Analysis Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-20-dry-run-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 20: Simulated Trading Validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 21: Exchange API Configuration
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 21: Exchange API Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#course-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Course Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#211-api-key-creation-and-permission-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.1 API Key Creation and Permission Settings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.1 API Key Creation and Permission Settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2111-supported-exchanges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.1.1 Supported Exchanges
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2112-binance-api-key-creation-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.1.2 Binance API Key Creation Steps
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.1.2 Binance API Key Creation Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-login-to-account" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Login to Account
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-access-api-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Access API Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-create-api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Create API Key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-save-api-key-and-secret" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Save API Key and Secret
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-configure-api-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Configure API Permissions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-6-configure-ip-whitelist-strongly-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 6: Configure IP Whitelist (Strongly Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2113-configuring-freqtrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.1.3 Configuring Freqtrade
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.1.3 Configuring Freqtrade">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure-api-in-configjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure API in config.json
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-1-using-environment-variables-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 1: Using Environment Variables (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-2-using-separate-private-configuration-file-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 2: Using Separate Private Configuration File (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2114-testing-api-connection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.1.4 Testing API Connection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2115-other-exchange-configurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.1.5 Other Exchange Configurations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.1.5 Other Exchange Configurations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#okx-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OKX Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bybit-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bybit Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#212-security-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.2 Security Considerations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.2 Security Considerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2121-api-key-security-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.2.1 API Key Security Checklist
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.2.1 API Key Security Checklist">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#must-do" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Must Do
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#absolutely-forbidden" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❌ Absolutely Forbidden
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2122-common-security-vulnerabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.2.2 Common Security Vulnerabilities
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.2.2 Common Security Vulnerabilities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vulnerability-1-git-leak" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vulnerability 1: Git Leak
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vulnerability-2-log-leak" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vulnerability 2: Log Leak
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vulnerability-3-screen-sharing-leak" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vulnerability 3: Screen Sharing Leak
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2123-emergency-response-procedures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.2.3 Emergency Response Procedures
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.2.3 Emergency Response Procedures">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#if-api-key-leak-is-suspected" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        If API Key Leak is Suspected
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#if-abnormal-trading-is-detected" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        If Abnormal Trading is Detected
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2124-sub-account-isolation-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.2.4 Sub-account Isolation (Recommended)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.2.4 Sub-account Isolation (Recommended)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-use-sub-accounts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Use Sub-accounts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#binance-sub-account-creation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Binance Sub-account Creation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2125-security-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.2.5 Security Checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 Practical Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 Practical Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-create-test-api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Create Test API Key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-configure-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Configure Environment Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-test-api-connection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: Test API Connection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-4-security-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 4: Security Review
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-5-simulated-leak-drill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 5: Simulated Leak Drill
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#knowledge-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧪 Knowledge Check
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧪 Knowledge Check">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multiple-choice-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multiple Choice Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#short-answer-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Short Answer Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practical-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Practical Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Key Points
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📌 Key Points">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-three-nos-of-api-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The "Three No's" of API Security
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#minimum-privilege-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Minimum Privilege Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-check-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security Check Process
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Errors
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-lesson-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Next Lesson Preview
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-22-pre-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 22: Pre-Live Trading Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-23-small-capital-live/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 23: Small Capital Live Trading
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-1-order-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.1: Live Trading Order Placement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-2-stop-loss-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.2: Live Trading Stop Loss Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-3-futures-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.3: Binance Futures Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-4-leverage-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.4: Leverage Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-trading-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24: Trading Monitoring and Adjustment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-25-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 25: Risk Control and Psychology Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-26-custom-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 26: Custom Strategy Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-27-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 27: Multi-Timeframe Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-28-grid-hft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 28: HFT and Grid Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-1-freqai-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.1: FreqAI Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-2-advanced-ml-strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.2: Advanced ML Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning-enhanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: ML Basics and Strategy Optimization (Enhanced)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: Machine Learning and Strategy Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-30-conclusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 30: Conclusion and Continuous Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#course-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Course Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#211-api-key-creation-and-permission-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.1 API Key Creation and Permission Settings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.1 API Key Creation and Permission Settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2111-supported-exchanges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.1.1 Supported Exchanges
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2112-binance-api-key-creation-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.1.2 Binance API Key Creation Steps
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.1.2 Binance API Key Creation Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-login-to-account" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Login to Account
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-access-api-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Access API Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-create-api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Create API Key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-save-api-key-and-secret" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Save API Key and Secret
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-configure-api-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Configure API Permissions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-6-configure-ip-whitelist-strongly-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 6: Configure IP Whitelist (Strongly Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2113-configuring-freqtrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.1.3 Configuring Freqtrade
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.1.3 Configuring Freqtrade">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure-api-in-configjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure API in config.json
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-1-using-environment-variables-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 1: Using Environment Variables (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-2-using-separate-private-configuration-file-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 2: Using Separate Private Configuration File (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2114-testing-api-connection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.1.4 Testing API Connection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2115-other-exchange-configurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.1.5 Other Exchange Configurations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.1.5 Other Exchange Configurations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#okx-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OKX Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bybit-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bybit Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#212-security-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.2 Security Considerations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.2 Security Considerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2121-api-key-security-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.2.1 API Key Security Checklist
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.2.1 API Key Security Checklist">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#must-do" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Must Do
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#absolutely-forbidden" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❌ Absolutely Forbidden
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2122-common-security-vulnerabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.2.2 Common Security Vulnerabilities
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.2.2 Common Security Vulnerabilities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vulnerability-1-git-leak" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vulnerability 1: Git Leak
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vulnerability-2-log-leak" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vulnerability 2: Log Leak
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vulnerability-3-screen-sharing-leak" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vulnerability 3: Screen Sharing Leak
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2123-emergency-response-procedures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.2.3 Emergency Response Procedures
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.2.3 Emergency Response Procedures">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#if-api-key-leak-is-suspected" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        If API Key Leak is Suspected
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#if-abnormal-trading-is-detected" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        If Abnormal Trading is Detected
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2124-sub-account-isolation-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.2.4 Sub-account Isolation (Recommended)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="21.2.4 Sub-account Isolation (Recommended)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-use-sub-accounts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Use Sub-accounts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#binance-sub-account-creation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Binance Sub-account Creation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2125-security-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21.2.5 Security Checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 Practical Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 Practical Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-create-test-api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Create Test API Key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-configure-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Configure Environment Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-test-api-connection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: Test API Connection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-4-security-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 4: Security Review
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-5-simulated-leak-drill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 5: Simulated Leak Drill
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#knowledge-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧪 Knowledge Check
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧪 Knowledge Check">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multiple-choice-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multiple Choice Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#short-answer-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Short Answer Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practical-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Practical Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Key Points
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📌 Key Points">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-three-nos-of-api-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The "Three No's" of API Security
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#minimum-privilege-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Minimum Privilege Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-check-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security Check Process
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Errors
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-lesson-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Next Lesson Preview
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="lesson-21-exchange-api-configuration">Lesson 21: Exchange API Configuration<a class="headerlink" href="#lesson-21-exchange-api-configuration" title="Permanent link">&para;</a></h1>
+<p><strong>⏱ Duration</strong>: 1.5 hours
+<strong>🎯 Learning Objectives</strong>: Learn to securely configure exchange APIs and prepare for live trading</p>
+<p><strong>📚 Course Outline</strong>:
+- 21.1 API Key Creation and Permission Settings
+- 21.2 Security Considerations</p>
+<hr />
+<h2 id="course-overview">Course Overview<a class="headerlink" href="#course-overview" title="Permanent link">&para;</a></h2>
+<p>API (Application Programming Interface) is the bridge for programs to communicate with exchanges. Through API Keys, Freqtrade can:
+- 📊 Get real-time market data
+- 💰 Query account balances
+- 📈 Place buy and sell orders
+- 📋 Check order status</p>
+<p><strong>Key Focus of This Lesson</strong>: Security comes first. Incorrect API configuration can lead to stolen funds, account suspension, or even more severe losses.</p>
+<hr />
+<h2 id="211-api-key-creation-and-permission-settings">21.1 API Key Creation and Permission Settings<a class="headerlink" href="#211-api-key-creation-and-permission-settings" title="Permanent link">&para;</a></h2>
+<h3 id="2111-supported-exchanges">21.1.1 Supported Exchanges<a class="headerlink" href="#2111-supported-exchanges" title="Permanent link">&para;</a></h3>
+<p>Freqtrade supports 100+ exchanges through the CCXT library, commonly including:</p>
+<table>
+<thead>
+<tr>
+<th>Exchange</th>
+<th>Recommended Level</th>
+<th>Features</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Binance</strong></td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>Best liquidity, low fees</td>
+<td>KYC required</td>
+</tr>
+<tr>
+<td><strong>OKX</strong></td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>Complete features, stable API</td>
+<td>Supports multiple contracts</td>
+</tr>
+<tr>
+<td><strong>Bybit</strong></td>
+<td>⭐⭐⭐⭐</td>
+<td>Strong derivatives, API-friendly</td>
+<td>Spot liquidity slightly weaker</td>
+</tr>
+<tr>
+<td><strong>Kraken</strong></td>
+<td>⭐⭐⭐⭐</td>
+<td>High security, regulatory compliant</td>
+<td>Strict API rate limits</td>
+</tr>
+<tr>
+<td><strong>Gate.io</strong></td>
+<td>⭐⭐⭐</td>
+<td>Many coins, low fees</td>
+<td>Average liquidity</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Recommended for beginners</strong>: Binance or OKX (this tutorial uses Binance as example)</p>
+<h3 id="2112-binance-api-key-creation-steps">21.1.2 Binance API Key Creation Steps<a class="headerlink" href="#2112-binance-api-key-creation-steps" title="Permanent link">&para;</a></h3>
+<h4 id="step-1-login-to-account">Step 1: Login to Account<a class="headerlink" href="#step-1-login-to-account" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Visit <a href="https://www.binance.com">Binance</a></li>
+<li>Login to your account</li>
+<li>Ensure identity verification (KYC) is complete</li>
+<li>Enable two-factor authentication (2FA) - <strong>Must</strong></li>
+</ol>
+<h4 id="step-2-access-api-management">Step 2: Access API Management<a class="headerlink" href="#step-2-access-api-management" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Navigation path:
+Account → API Management → Create API
+
+Or directly access:
+https://www.binance.com/en/my/settings/api-management
+</code></pre></div>
+<h4 id="step-3-create-api-key">Step 3: Create API Key<a class="headerlink" href="#step-3-create-api-key" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Click <strong>"Create API"</strong></li>
+<li>Select <strong>"System generated"</strong> (recommended)</li>
+<li>Enter API label name (e.g., <code>Freqtrade-Bot</code>)</li>
+<li>Complete security verification (email + 2FA code)</li>
+</ol>
+<h4 id="step-4-save-api-key-and-secret">Step 4: Save API Key and Secret<a class="headerlink" href="#step-4-save-api-key-and-secret" title="Permanent link">&para;</a></h4>
+<p>After successful creation, you'll see:
+<div class="highlight"><pre><span></span><code>API Key: xxxxxxxxxxxxxxxxxxxxxxxxxxx
+Secret Key: yyyyyyyyyyyyyyyyyyyyyyyyyyy
+</code></pre></div></p>
+<p><strong>⚠️ Important</strong>:
+- ✅ <strong>Copy and save Secret Key immediately</strong> (only shown once)
+- ✅ Save to a secure location (password manager)
+- ❌ <strong>Do not take screenshots or send to anyone</strong>
+- ❌ <strong>Do not save in cloud storage or chat logs</strong></p>
+<h4 id="step-5-configure-api-permissions">Step 5: Configure API Permissions<a class="headerlink" href="#step-5-configure-api-permissions" title="Permanent link">&para;</a></h4>
+<p>In the API management page, set permissions:</p>
+<div class="highlight"><pre><span></span><code>✅ Must enable:
+□ Enable Reading (read permissions)
+□ Enable Spot &amp; Margin Trading (spot trading permissions)
+
+❌ Must disable:
+□ Enable Withdrawals (withdrawal permissions) - Never enable!
+□ Enable Futures (futures trading) - Only if needed
+□ Enable Margin (leverage trading) - Only if needed
+</code></pre></div>
+<p><strong>Permission Configuration Principle</strong>:</p>
+<blockquote>
+<p><strong>Principle of Least Privilege</strong>: Only enable necessary permissions to minimize risk.</p>
+</blockquote>
+<h4 id="step-6-configure-ip-whitelist-strongly-recommended">Step 6: Configure IP Whitelist (Strongly Recommended)<a class="headerlink" href="#step-6-configure-ip-whitelist-strongly-recommended" title="Permanent link">&para;</a></h4>
+<ol>
+<li>In API management page, find <strong>"Restrict access to trusted IPs only"</strong></li>
+<li>Click <strong>"Edit"</strong></li>
+<li>Add your server IP address</li>
+</ol>
+<p><strong>How to get your IP address</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Execute on the server running Freqtrade</span>
+curl<span class="w"> </span>ifconfig.me
+</code></pre></div></p>
+<p>Example output:
+<div class="highlight"><pre><span></span><code>203.0.113.42
+</code></pre></div></p>
+<p>Add this IP to the whitelist.</p>
+<p><strong>Purpose of IP Whitelist</strong>:
+- ✅ Even if API Key is leaked, others cannot use it
+- ✅ Significantly improves security
+- ⚠️ If your server IP changes (dynamic IP), need to update regularly</p>
+<h3 id="2113-configuring-freqtrade">21.1.3 Configuring Freqtrade<a class="headerlink" href="#2113-configuring-freqtrade" title="Permanent link">&para;</a></h3>
+<h4 id="configure-api-in-configjson">Configure API in config.json<a class="headerlink" href="#configure-api-in-configjson" title="Permanent link">&para;</a></h4>
+<p><strong>⚠️ Security Warning</strong>:
+- ❌ <strong>Do not write API Key directly in config.json</strong>
+- ✅ <strong>Use environment variables to store sensitive information</strong></p>
+<h4 id="method-1-using-environment-variables-recommended">Method 1: Using Environment Variables (Recommended)<a class="headerlink" href="#method-1-using-environment-variables-recommended" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Create environment variables file <code>.env</code> (in project root directory):</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c1"># .env file</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">BINANCE_API_KEY</span><span class="o">=</span><span class="s2">"your_api_key_here"</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">BINANCE_API_SECRET</span><span class="o">=</span><span class="s2">"your_secret_key_here"</span>
+</code></pre></div>
+<ol>
+<li>Reference environment variables in <code>config.json</code>:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"exchange"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"binance"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${BINANCE_API_KEY}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${BINANCE_API_SECRET}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"ccxt_config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"enableRateLimit"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"rateLimit"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"ccxt_async_config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"enableRateLimit"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"rateLimit"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"pair_whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">"BTC/USDT"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"ETH/USDT"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"BNB/USDT"</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">"pair_blacklist"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<ol>
+<li>Load environment variables before starting:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c1"># Load environment variables</span>
+<span class="nb">source</span><span class="w"> </span>.env
+
+<span class="c1"># Start Freqtrade</span>
+freqtrade<span class="w"> </span>trade<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>YourStrategy
+</code></pre></div>
+<ol>
+<li><strong>Important</strong>: Add <code>.env</code> to <code>.gitignore</code>:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">".env"</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>.gitignore
+</code></pre></div>
+<h4 id="method-2-using-separate-private-configuration-file-recommended">Method 2: Using Separate Private Configuration File (Recommended)<a class="headerlink" href="#method-2-using-separate-private-configuration-file-recommended" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Create <code>config.private.json</code> (not committed to Git):</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"exchange"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"your_api_key_here"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"your_secret_key_here"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<ol>
+<li>In main configuration file <code>config.json</code>:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"exchange"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"binance"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"ccxt_config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"enableRateLimit"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"pair_whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">"BTC/USDT"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"ETH/USDT"</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<ol>
+<li>Merge configurations when starting:</li>
+</ol>
+<div class="highlight"><pre><span></span><code>freqtrade<span class="w"> </span>trade<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-c<span class="w"> </span>config.private.json<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--strategy<span class="w"> </span>YourStrategy
+</code></pre></div>
+<ol>
+<li>Add to <code>.gitignore</code>:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">"config.private.json"</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>.gitignore
+</code></pre></div>
+<h3 id="2114-testing-api-connection">21.1.4 Testing API Connection<a class="headerlink" href="#2114-testing-api-connection" title="Permanent link">&para;</a></h3>
+<p>Before enabling live trading, test if API connection is working properly:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Test API connection</span>
+freqtrade<span class="w"> </span>test-pairlist<span class="w"> </span>-c<span class="w"> </span>config.json
+</code></pre></div>
+<p>Successful output example:
+<div class="highlight"><pre><span></span><code>2023-04-15 10:00:00 - freqtrade.exchange.exchange - INFO - Using Exchange "Binance"
+2023-04-15 10:00:01 - freqtrade.resolvers.exchange_resolver - INFO - Using resolved exchange 'Binance'
+2023-04-15 10:00:02 - freqtrade.plugins.pairlistmanager - INFO - Whitelist with 3 pairs: ['BTC/USDT', 'ETH/USDT', 'BNB/USDT']
+
+Pair       Last Price    Change 24h
+---------  ------------  ------------
+BTC/USDT   30250.00      +2.5%
+ETH/USDT   1890.50       +3.1%
+BNB/USDT   320.75        +1.8%
+</code></pre></div></p>
+<p>If errors occur, check:
+- API Key and Secret are correct
+- API permissions are enabled
+- IP whitelist includes your IP
+- Network connection is normal</p>
+<h3 id="2115-other-exchange-configurations">21.1.5 Other Exchange Configurations<a class="headerlink" href="#2115-other-exchange-configurations" title="Permanent link">&para;</a></h3>
+<h4 id="okx-configuration">OKX Configuration<a class="headerlink" href="#okx-configuration" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"exchange"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"okx"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${OKX_API_KEY}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${OKX_API_SECRET}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${OKX_API_PASSPHRASE}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"ccxt_config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"enableRateLimit"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"pair_whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">"BTC/USDT"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"ETH/USDT"</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Note</strong>: OKX requires additional <code>password</code> (API Passphrase).</p>
+<h4 id="bybit-configuration">Bybit Configuration<a class="headerlink" href="#bybit-configuration" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"exchange"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bybit"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${BYBIT_API_KEY}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${BYBIT_API_SECRET}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"ccxt_config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"enableRateLimit"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"pair_whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">"BTC/USDT:USDT"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"ETH/USDT:USDT"</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Note</strong>: Bybit trading pair format is <code>BTC/USDT:USDT</code> (perpetual) or <code>BTC/USDT</code> (spot).</p>
+<hr />
+<h2 id="212-security-considerations">21.2 Security Considerations<a class="headerlink" href="#212-security-considerations" title="Permanent link">&para;</a></h2>
+<h3 id="2121-api-key-security-checklist">21.2.1 API Key Security Checklist<a class="headerlink" href="#2121-api-key-security-checklist" title="Permanent link">&para;</a></h3>
+<h4 id="must-do">✅ Must Do<a class="headerlink" href="#must-do" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>1. Permission Settings
+   □ Only enable "Read" and "Spot Trading" permissions
+   □ Never enable "Withdrawal" permissions
+   □ Do not enable unnecessary features
+
+2. IP Whitelist
+   □ Enable IP whitelist restrictions
+   □ Only add server IP running Freqtrade
+   □ Check regularly for IP changes
+
+3. Storage Security
+   □ Use environment variables or private configuration files
+   □ Do not commit API Keys to Git
+   □ Add .env and config.private.json to .gitignore
+   □ Save backups using password manager
+
+4. Regular Updates
+   □ Change API Key every 3-6 months
+   □ Change immediately if abnormalities detected
+   □ Disable unused API Keys
+
+5. Monitoring Anomalies
+   □ Enable exchange login notifications
+   □ Regularly check API access logs
+   □ Monitor account balance changes
+</code></pre></div>
+<h4 id="absolutely-forbidden">❌ Absolutely Forbidden<a class="headerlink" href="#absolutely-forbidden" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>1. Leakage Risks
+   ✗ Do not hardcode API Keys in code
+   ✗ Do not upload API Keys to GitHub
+   ✗ Do not take screenshots of pages containing API Keys
+   ✗ Do not send API Keys through chat tools
+   ✗ Do not save in cloud storage or notes
+
+2. Excessive Permissions
+   ✗ Do not enable withdrawal permissions
+   ✗ Do not enable unnecessary trading permissions
+   ✗ Do not use main account API (use sub-accounts)
+
+3. Insecure Environment
+   ✗ Do not use on public computers
+   ✗ Do not run on untrusted servers
+   ✗ Do not transmit over unencrypted networks
+</code></pre></div>
+<h3 id="2122-common-security-vulnerabilities">21.2.2 Common Security Vulnerabilities<a class="headerlink" href="#2122-common-security-vulnerabilities" title="Permanent link">&para;</a></h3>
+<h4 id="vulnerability-1-git-leak">Vulnerability 1: Git Leak<a class="headerlink" href="#vulnerability-1-git-leak" title="Permanent link">&para;</a></h4>
+<p><strong>Problem</strong>: Accidentally committing configuration files containing API Keys to GitHub.</p>
+<p><strong>Consequences</strong>:
+- Anyone can see your API Key
+- Automated bots will discover and abuse within minutes
+- May lead to account fund transfers</p>
+<p><strong>Prevention Measures</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Check if .gitignore contains sensitive files</span>
+cat<span class="w"> </span>.gitignore
+
+<span class="c1"># Should contain:</span>
+.env
+config.private.json
+*.log
+.DS_Store
+
+<span class="c1"># If already committed, immediately:</span>
+<span class="m">1</span>.<span class="w"> </span>Delete<span class="w"> </span>repository<span class="w"> </span>on<span class="w"> </span>GitHub
+<span class="m">2</span>.<span class="w"> </span>Change<span class="w"> </span>API<span class="w"> </span>Key
+<span class="m">3</span>.<span class="w"> </span>Recreate<span class="w"> </span>repository,<span class="w"> </span>ensure<span class="w"> </span>.gitignore<span class="w"> </span>is<span class="w"> </span>correct
+</code></pre></div></p>
+<p><strong>Check commit history</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Check if Git history contains sensitive information</span>
+git<span class="w"> </span>log<span class="w"> </span>--all<span class="w"> </span>--full-history<span class="w"> </span>--<span class="w"> </span>config.json
+
+<span class="c1"># If leak found, use git filter-branch to clean history</span>
+<span class="c1"># But safest approach: change API Key immediately</span>
+</code></pre></div></p>
+<h4 id="vulnerability-2-log-leak">Vulnerability 2: Log Leak<a class="headerlink" href="#vulnerability-2-log-leak" title="Permanent link">&para;</a></h4>
+<p><strong>Problem</strong>: Log files contain API Keys or sensitive information.</p>
+<p><strong>Prevention Measures</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1">// config.json</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"internals"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"verbosity"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p>Set appropriate log levels to avoid outputting sensitive information.</p>
+<h4 id="vulnerability-3-screen-sharing-leak">Vulnerability 3: Screen Sharing Leak<a class="headerlink" href="#vulnerability-3-screen-sharing-leak" title="Permanent link">&para;</a></h4>
+<p><strong>Problem</strong>: Accidentally exposing API Keys during screen sharing, live streaming, or video recording.</p>
+<p><strong>Prevention Measures</strong>:
+- Close windows containing API Keys before sharing screen
+- Use environment variables to avoid plaintext display
+- Use fake API Key examples when recording tutorials</p>
+<h3 id="2123-emergency-response-procedures">21.2.3 Emergency Response Procedures<a class="headerlink" href="#2123-emergency-response-procedures" title="Permanent link">&para;</a></h3>
+<h4 id="if-api-key-leak-is-suspected">If API Key Leak is Suspected<a class="headerlink" href="#if-api-key-leak-is-suspected" title="Permanent link">&para;</a></h4>
+<p><strong>Execute Immediately (within 5 minutes)</strong>:</p>
+<div class="highlight"><pre><span></span><code>1. Login to Exchange
+   □ Immediately disable or delete leaked API Key
+
+2. Check Account
+   □ View recent trading records
+   □ Check for abnormal account balances
+   □ View API access logs
+
+3. Create New API Key
+   □ Use stricter permission settings
+   □ Enable IP whitelist
+   □ Update Freqtrade configuration
+
+4. Security Review
+   □ Check for other possible leak paths
+   □ Update all passwords
+   □ Enable stronger 2FA
+</code></pre></div>
+<h4 id="if-abnormal-trading-is-detected">If Abnormal Trading is Detected<a class="headerlink" href="#if-abnormal-trading-is-detected" title="Permanent link">&para;</a></h4>
+<p><strong>Execute Immediately</strong>:</p>
+<div class="highlight"><pre><span></span><code>1. Stop All API Access
+   □ Disable all API Keys
+   □ Pause automated trading
+
+2. Contact Exchange
+   □ Report abnormalities through official customer service
+   □ Request account freeze (if necessary)
+   □ Cooperate with investigation
+
+3. Security Hardening
+   □ Change account password
+   □ Update 2FA device
+   □ Review account security settings
+
+4. Fund Transfer
+   □ Transfer funds to safer account
+   □ Consider using hardware wallet
+</code></pre></div>
+<h3 id="2124-sub-account-isolation-recommended">21.2.4 Sub-account Isolation (Recommended)<a class="headerlink" href="#2124-sub-account-isolation-recommended" title="Permanent link">&para;</a></h3>
+<p>Many exchanges support sub-account functionality to isolate risks:</p>
+<h4 id="why-use-sub-accounts">Why Use Sub-accounts<a class="headerlink" href="#why-use-sub-accounts" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Advantages:
+✅ Limit loss scope (main account funds are secure)
+✅ Easy to manage multiple strategies
+✅ More granular permission control
+✅ Main account API Keys not exposed
+
+Disadvantages:
+⚠️ Need to transfer funds to sub-accounts manually
+⚠️ Some exchanges have limited sub-account functionality
+</code></pre></div>
+<h4 id="binance-sub-account-creation">Binance Sub-account Creation<a class="headerlink" href="#binance-sub-account-creation" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>1. Login to Binance main account
+2. Navigate to "Account" → "Sub-account Management"
+3. Create virtual sub-account
+4. Fund sub-account (transfer from main account)
+5. Create API Key in sub-account
+6. Use sub-account's API Key to configure Freqtrade
+</code></pre></div>
+<p><strong>Recommended Configuration</strong>:
+- Main account: Hold most funds, do not create API Keys
+- Sub-account 1: Strategy A, initial funds $1000
+- Sub-account 2: Strategy B, initial funds $1000</p>
+<p>This way, even if a sub-account's API Key is leaked, it only affects that sub-account's funds.</p>
+<h3 id="2125-security-checklist">21.2.5 Security Checklist<a class="headerlink" href="#2125-security-checklist" title="Permanent link">&para;</a></h3>
+<p>Before enabling live trading, check each item:</p>
+<div class="highlight"><pre><span></span><code>□ API Key Configuration
+  □ Use environment variables or private configuration files
+  □ config.private.json added to .gitignore
+  □ Check Git history for API Key leaks
+
+□ Permission Settings
+  □ Only enable "Read" and "Spot Trading" permissions
+  □ Withdrawal permissions disabled
+  □ Unnecessary features disabled
+
+□ IP Whitelist
+  □ IP whitelist restrictions enabled
+  □ Only contains Freqtrade server IP
+  □ Regular check mechanism established
+
+□ Account Security
+  □ 2FA enabled (Google Authenticator or hardware key)
+  □ Trading password set
+  □ Email and SMS notifications enabled
+  □ Consider using sub-account isolation
+
+□ Monitoring Mechanism
+  □ Telegram notifications configured
+  □ Regular trading record checks
+  □ Balance anomaly alerts set
+
+□ Emergency Plan
+  □ Exchange customer service contact saved
+  □ API Key quick disable process ready
+  □ Main account login information securely saved
+</code></pre></div>
+<hr />
+<h2 id="practical-tasks">📝 Practical Tasks<a class="headerlink" href="#practical-tasks" title="Permanent link">&para;</a></h2>
+<h3 id="task-1-create-test-api-key">Task 1: Create Test API Key<a class="headerlink" href="#task-1-create-test-api-key" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Create API Key on Binance (or your chosen exchange)</li>
+<li>Configure permissions:</li>
+<li>✅ Enable "Read"</li>
+<li>✅ Enable "Spot Trading"</li>
+<li>❌ Disable "Withdraw"</li>
+<li>Configure IP whitelist (add your server IP)</li>
+<li>Save API Key and Secret to password manager</li>
+</ol>
+<h3 id="task-2-configure-environment-variables">Task 2: Configure Environment Variables<a class="headerlink" href="#task-2-configure-environment-variables" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Create <code>.env</code> file:
+   <div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">BINANCE_API_KEY</span><span class="o">=</span><span class="s2">"your_api_key"</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">BINANCE_API_SECRET</span><span class="o">=</span><span class="s2">"your_secret_key"</span>
+</code></pre></div></li>
+<li>Add to <code>.gitignore</code>:
+   <div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">".env"</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>.gitignore
+</code></pre></div></li>
+<li>Modify <code>config.json</code>, use <code>${BINANCE_API_KEY}</code> to reference</li>
+</ol>
+<h3 id="task-3-test-api-connection">Task 3: Test API Connection<a class="headerlink" href="#task-3-test-api-connection" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Load environment variables:
+   <div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>.env
+</code></pre></div></li>
+<li>Test connection:
+   <div class="highlight"><pre><span></span><code>freqtrade<span class="w"> </span>test-pairlist<span class="w"> </span>-c<span class="w"> </span>config.json
+</code></pre></div></li>
+<li>Confirm output is normal, can get market data</li>
+</ol>
+<h3 id="task-4-security-review">Task 4: Security Review<a class="headerlink" href="#task-4-security-review" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Check if Git history has API Key leaks:
+   <div class="highlight"><pre><span></span><code>git<span class="w"> </span>log<span class="w"> </span>--all<span class="w"> </span>--full-history<span class="w"> </span>--<span class="w"> </span>config.json<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">"key\|secret"</span>
+</code></pre></div></li>
+<li>Confirm <code>.gitignore</code> contains sensitive files</li>
+<li>Verify API permissions are configured correctly</li>
+<li>Test if IP whitelist is effective (access from other IP will be rejected)</li>
+</ol>
+<h3 id="task-5-simulated-leak-drill">Task 5: Simulated Leak Drill<a class="headerlink" href="#task-5-simulated-leak-drill" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Intentionally "leak" a test API Key in test environment</li>
+<li>Practice quick disable process:</li>
+<li>Login to exchange</li>
+<li>Find API management page</li>
+<li>Disable API Key</li>
+<li>Time it: should complete within 2 minutes</li>
+<li>Create new API Key and update configuration</li>
+<li>Verify Freqtrade can connect normally</li>
+</ol>
+<hr />
+<h2 id="knowledge-check">🧪 Knowledge Check<a class="headerlink" href="#knowledge-check" title="Permanent link">&para;</a></h2>
+<h3 id="multiple-choice-questions">Multiple Choice Questions<a class="headerlink" href="#multiple-choice-questions" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Which permissions should be enabled when creating API Keys?</li>
+<li>A. Read + Spot Trading + Withdrawal</li>
+<li>B. Only enable Read</li>
+<li>C. Read + Spot Trading</li>
+<li>
+<p>D. All permissions</p>
+</li>
+<li>
+<p>How should API Keys be stored?</p>
+</li>
+<li>A. Write directly in config.json</li>
+<li>B. Use environment variables or private configuration files</li>
+<li>C. Save in cloud storage</li>
+<li>
+<p>D. Send to email for backup</p>
+</li>
+<li>
+<p>What is the purpose of IP whitelist?</p>
+</li>
+<li>A. Improve API access speed</li>
+<li>B. Restrict only specified IPs can use API Key</li>
+<li>C. Hide your IP address</li>
+<li>
+<p>D. Bypass exchange restrictions</p>
+</li>
+<li>
+<p>What should you do immediately if API Key leak is suspected?</p>
+</li>
+<li>A. Change password</li>
+<li>B. Disable or delete the API Key</li>
+<li>C. Clear account</li>
+<li>
+<p>D. Wait and observe</p>
+</li>
+<li>
+<p>Which is NOT a recommended security measure?</p>
+</li>
+<li>A. Use sub-accounts to isolate risks</li>
+<li>B. Change API Keys regularly</li>
+<li>C. Enable all permissions for convenience</li>
+<li>D. Enable IP whitelist</li>
+</ol>
+<h3 id="short-answer-questions">Short Answer Questions<a class="headerlink" href="#short-answer-questions" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>Explain why you should never enable API "withdrawal" permissions?</p>
+</li>
+<li>
+<p>Describe the steps and advantages of using environment variables to store API Keys.</p>
+</li>
+<li>
+<p>How should you handle accidentally committing config.json containing API Keys to GitHub?</p>
+</li>
+<li>
+<p>Why is it recommended to use sub-accounts for automated trading?</p>
+</li>
+<li>
+<p>List 3 common ways API Keys can be leaked and prevention methods.</p>
+</li>
+</ol>
+<h3 id="practical-questions">Practical Questions<a class="headerlink" href="#practical-questions" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Create a complete API security configuration plan:</li>
+<li>Permission configuration</li>
+<li>Storage method</li>
+<li>IP whitelist</li>
+<li>Monitoring mechanism</li>
+<li>
+<p>Emergency plan</p>
+</li>
+<li>
+<p>Write a script to regularly check if API Key is working properly and send Telegram alerts when anomalies occur.</p>
+</li>
+</ol>
+<hr />
+<h2 id="key-points">📌 Key Points<a class="headerlink" href="#key-points" title="Permanent link">&para;</a></h2>
+<h3 id="the-three-nos-of-api-security">The "Three No's" of API Security<a class="headerlink" href="#the-three-nos-of-api-security" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>1. No withdrawal permissions
+   - Even if API Key leaks, funds cannot be withdrawn
+   - This is the last line of defense
+
+2. No plaintext storage
+   - Use environment variables or private configuration files
+   - Add to .gitignore, do not commit to Git
+
+3. No ignoring monitoring
+   - Regularly check trading records
+   - Enable exchange security notifications
+   - Set up anomaly alerts
+</code></pre></div>
+<h3 id="minimum-privilege-configuration">Minimum Privilege Configuration<a class="headerlink" href="#minimum-privilege-configuration" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"exchange"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"binance"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${BINANCE_API_KEY}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${BINANCE_API_SECRET}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"ccxt_config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"enableRateLimit"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="err">API</span><span class="w"> </span><span class="err">Permissio</span><span class="kc">n</span><span class="w"> </span><span class="err">Se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span><span class="p">:</span>
+<span class="err">✅</span><span class="w"> </span><span class="err">E</span><span class="kc">na</span><span class="err">ble</span><span class="w"> </span><span class="err">Readi</span><span class="kc">n</span><span class="err">g</span><span class="w"> </span><span class="err">(read)</span>
+<span class="err">✅</span><span class="w"> </span><span class="err">E</span><span class="kc">na</span><span class="err">ble</span><span class="w"> </span><span class="err">Spo</span><span class="kc">t</span><span class="w"> </span><span class="err">&amp;</span><span class="w"> </span><span class="err">Margi</span><span class="kc">n</span><span class="w"> </span><span class="err">Tradi</span><span class="kc">n</span><span class="err">g</span><span class="w"> </span><span class="err">(spo</span><span class="kc">t</span><span class="w"> </span><span class="kc">tra</span><span class="err">di</span><span class="kc">n</span><span class="err">g)</span>
+<span class="err">❌</span><span class="w"> </span><span class="err">E</span><span class="kc">na</span><span class="err">ble</span><span class="w"> </span><span class="err">Wi</span><span class="kc">t</span><span class="err">hdrawals</span><span class="w"> </span><span class="err">(wi</span><span class="kc">t</span><span class="err">hdrawal)</span><span class="w"> </span><span class="mi">-</span><span class="w"> </span><span class="err">Never</span><span class="w"> </span><span class="err">e</span><span class="kc">na</span><span class="err">ble</span>
+<span class="err">❌</span><span class="w"> </span><span class="err">E</span><span class="kc">na</span><span class="err">ble</span><span class="w"> </span><span class="err">Fu</span><span class="kc">tures</span><span class="w"> </span><span class="err">(</span><span class="kc">futures</span><span class="err">)</span><span class="w"> </span><span class="mi">-</span><span class="w"> </span><span class="err">O</span><span class="kc">nl</span><span class="err">y</span><span class="w"> </span><span class="err">i</span><span class="kc">f</span><span class="w"> </span><span class="kc">nee</span><span class="err">ded</span>
+</code></pre></div>
+<h3 id="security-check-process">Security Check Process<a class="headerlink" href="#security-check-process" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Before Creation:
+□ Exchange has completed KYC
+□ 2FA two-factor authentication enabled
+□ IP whitelist address ready
+
+During Creation:
+□ Choose "System generated" method
+□ Immediately save API Key and Secret
+□ Configure minimum permissions
+□ Enable IP whitelist
+
+After Creation:
+□ Test API connection
+□ Verify permission configuration
+□ Check security settings
+□ Establish monitoring mechanism
+</code></pre></div>
+<h3 id="common-errors">Common Errors<a class="headerlink" href="#common-errors" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Error</th>
+<th>Consequence</th>
+<th>Correct Approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Enable withdrawal permissions</td>
+<td>Funds may be stolen</td>
+<td>Never enable</td>
+</tr>
+<tr>
+<td>Hardcode in code</td>
+<td>Git leak risk</td>
+<td>Use environment variables</td>
+</tr>
+<tr>
+<td>Don't use IP whitelist</td>
+<td>Immediate abuse if leaked</td>
+<td>Always enable whitelist</td>
+</tr>
+<tr>
+<td>Direct trading on main account</td>
+<td>Risk too concentrated</td>
+<td>Use sub-account isolation</td>
+</tr>
+<tr>
+<td>Never change</td>
+<td>Long-term exposure risk</td>
+<td>Change every 3-6 months</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="next-lesson-preview">🎯 Next Lesson Preview<a class="headerlink" href="#next-lesson-preview" title="Permanent link">&para;</a></h2>
+<p><strong>Lesson 22: Pre-Live Trading Checklist</strong></p>
+<p>In the next lesson, we will learn:
+- Systematic live trading preparation process
+- Complete checklist
+- Risk assessment methods
+- Standards for starting live trading</p>
+<p><strong>Key Content</strong>:
+- Strategy preparation checks
+- Fund management checks
+- System stability checks
+- Psychological preparation assessment</p>
+<p>Configuring API is just the first step. Before actually starting live trading, you need to complete a series of checks to ensure everything is ready.</p>
+<hr />
+<p><strong>🎓 Learning Suggestions</strong>:
+1. <strong>Security First</strong>: Better to be safe than sorry with security measures
+2. <strong>Sufficient Testing</strong>: Fully test API connections in Dry-run
+3. <strong>Minimum Privileges</strong>: Only enable necessary permissions
+4. <strong>Regular Checks</strong>: Establish regular replacement and checking mechanisms
+5. <strong>Emergency Plan</strong>: Prepare emergency response procedures in advance</p>
+<p>Remember: <strong>API Key is like your bank card password, anyone who gets it can operate your account.</strong> Your attitude towards API Keys determines your fund security.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

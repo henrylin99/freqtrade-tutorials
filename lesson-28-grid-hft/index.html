@@ -1,0 +1,3370 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径">
+      
+      
+      
+        <link rel="canonical" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-28-grid-hft/">
+      
+      
+        <link rel="prev" href="../lesson-27-multi-timeframe/">
+      
+      
+        <link rel="next" href="../lesson-29-1-freqai-deep-dive/">
+      
+      
+        
+          <link rel="alternate" href="./" hreflang="zh">
+        
+          <link rel="alternate" href="../en/lesson-28-grid-hft/" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>第 28 课：高频交易与网格策略 - Freqtrade 实战教程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9784658154228475"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VGHZY4EELE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VGHZY4EELE");
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#28" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="Freqtrade 实战教程" class="md-header__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Freqtrade 实战教程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第 28 课：高频交易与网格策略
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="选择当前语言">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../en/lesson-28-grid-hft/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/henrylin99/freqtrade-tutorials" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../strategies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🇨🇳 中文教程
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Freqtrade 实战教程" class="md-nav__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Freqtrade 实战教程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/henrylin99/freqtrade-tutorials" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../strategies/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🇨🇳 中文教程
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🇨🇳 中文教程
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 1 课：量化交易与 Freqtrade 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-02-environment-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 2 课：Freqtrade 环境搭建
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-03-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 3 课：核心概念理解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-04-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 4 课：数据下载与管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-05-first-backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 5 课：第一次策略回测
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-06-strategy-performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 6 课：策略性能分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-07-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 7 课：多时间框架回测
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-08-strategy-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 8 课：策略批量对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-09-timerange-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 9 课：Freqtrade时间范围测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-10-pair-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 10 课：Freqtrade交易对选择与测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-11-hyperopt-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 11 课：Freqtrade参数优化入门（Hyperopt）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-12-advanced-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 12 课：高级策略分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-13-scoring-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 13 课：策略评分体系
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-14-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 14 课：风险管理与资金管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-15-portfolio-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 15 课：Freqtrade策略组合与分散
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-16-realtime-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 16 课：实时信号监控
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-17-telegram-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 17 课：Telegram 通知配置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-18-webui-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 18 课：Web UI 与 API 使用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 19 课：可视化分析工具
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-20-dry-run-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 20 课：模拟交易验证
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-21-exchange-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 21 课：交易所 API 配置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-22-pre-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 22 课：实盘前检查清单
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-23-small-capital-live/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 23 课：小资金实盘测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-1-order-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.1 课：实盘交易下单操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-2-stop-loss-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.2 课：实盘交易止损操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-3-futures-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.3 课：币安合约交易操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-4-leverage-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.4 课：杠杆交易操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-trading-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24 课：交易监控与调整
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-25-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 25 课：风险控制与心态管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-26-custom-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 26 课：自定义策略开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-27-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 27 课：多时间框架策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 28 课：高频交易与网格策略
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 28 课：高频交易与网格策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        课程概述
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一部分：网格交易策略
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第一部分：网格交易策略">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 网格交易原理
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1 网格交易原理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基本概念
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        网格交易的优势和劣势
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 简单网格策略实现
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 高级网格策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 网格策略测试
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第二部分：高频交易策略
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第二部分：高频交易策略">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 高频交易原理
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 高频交易原理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        特点
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        高频交易的挑战
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 中高频策略示例
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 高频策略优化技巧
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 高频策略优化技巧">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        技巧 1：使用市价单
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        技巧 2：严格的持仓时间限制
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        技巧 3：快速止盈止损
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        技巧 4：成交量过滤
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 高频策略风险管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第三部分：策略对比和选择
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第三部分：策略对比和选择">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 三种策略对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 如何选择
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 组合策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 实践任务
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 实践任务">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 1：回测网格策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 2：优化网格参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 3：高频策略实验（谨慎）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 4：手续费敏感度分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 核心要点
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📌 核心要点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        网格交易要点
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        高频交易要点
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        不适合的情况
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-1-freqai-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29.1 课：FreqAI 深度实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-2-advanced-ml-strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29.2 课：高级机器学习策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning-enhanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29 课：机器学习基础与策略优化（增强版）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29 课：机器学习与策略优化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-30-conclusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 30 课：总结与持续学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        课程概述
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一部分：网格交易策略
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第一部分：网格交易策略">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 网格交易原理
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1 网格交易原理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基本概念
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        网格交易的优势和劣势
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 简单网格策略实现
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 高级网格策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 网格策略测试
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第二部分：高频交易策略
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第二部分：高频交易策略">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 高频交易原理
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 高频交易原理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        特点
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        高频交易的挑战
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 中高频策略示例
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 高频策略优化技巧
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 高频策略优化技巧">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        技巧 1：使用市价单
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        技巧 2：严格的持仓时间限制
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        技巧 3：快速止盈止损
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        技巧 4：成交量过滤
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 高频策略风险管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第三部分：策略对比和选择
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第三部分：策略对比和选择">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 三种策略对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 如何选择
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 组合策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 实践任务
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 实践任务">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 1：回测网格策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 2：优化网格参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 3：高频策略实验（谨慎）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 4：手续费敏感度分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 核心要点
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📌 核心要点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        网格交易要点
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        高频交易要点
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        不适合的情况
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="28">第 28 课：高频交易与网格策略<a class="headerlink" href="#28" title="Permanent link">&para;</a></h1>
+<p><strong>⏱ 课时</strong>：2 小时
+<strong>🎯 学习目标</strong>：学习特殊策略类型——网格交易和高频交易的原理与实现</p>
+<hr />
+<h2 id="_1">课程概述<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>之前我们学习的都是趋势跟随或均值回归策略。本课将介绍两种特殊类型的策略：
+- <strong>网格交易</strong>：在震荡市场中获利
+- <strong>高频交易</strong>：捕捉短期价格波动</p>
+<p><strong>警告</strong>：
+⚠️ 这两种策略都有较高的风险和复杂度
+⚠️ 需要更深入的理解和更严格的风险控制
+⚠️ 建议先在 Dry-run 中充分测试</p>
+<hr />
+<h2 id="_2">第一部分：网格交易策略<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="11">1.1 网格交易原理<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
+<p><strong>核心理念</strong>：
+在价格区间内设置多个买入和卖出网格，通过频繁的低买高卖获利。</p>
+<h4 id="_3">基本概念<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>价格网格示例：
+────────────────────────────────────
+ $32,000  卖出网格 5  →  卖出
+ $31,500  卖出网格 4  →  卖出
+ $31,000  卖出网格 3  →  卖出
+────────────────────────────────────
+ $30,500  中心价格
+────────────────────────────────────
+ $30,000  买入网格 1  ←  买入
+ $29,500  买入网格 2  ←  买入
+ $29,000  买入网格 3  ←  买入
+────────────────────────────────────
+
+工作原理：
+1. 在 $30,000 买入
+2. 价格涨到 $31,000，卖出（盈利 $1,000）
+3. 价格跌回 $30,000，再次买入
+4. 重复循环
+</code></pre></div>
+<h4 id="_4">网格交易的优势和劣势<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>✅ 优势：
+1. 适合震荡市场
+   - 价格来回波动就能盈利
+   - 不依赖趋势判断
+
+2. 操作简单
+   - 规则明确
+   - 易于自动化
+
+3. 频繁获利
+   - 每次小幅波动都能捕捉
+   - 心理满足感强
+
+4. 无需预测方向
+   - 不需要判断涨跌
+   - 只要有波动就行
+
+❌ 劣势：
+1. 单边市场风险
+   - 持续上涨：卖飞后踏空
+   - 持续下跌：接飞刀，越跌越买
+
+2. 资金要求高
+   - 需要分多次买入
+   - 预留足够资金
+
+3. 手续费侵蚀
+   - 交易频繁
+   - 手续费累计高
+
+4. 资金利用率
+   - 震荡不强时，收益低
+   - 资金被大量占用
+</code></pre></div>
+<h3 id="12">1.2 简单网格策略实现<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<p>创建 <code>user_data/strategies/SimpleGridStrategy.py</code>：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">freqtrade.strategy</span><span class="w"> </span><span class="kn">import</span> <span class="n">IStrategy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataFrame</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">talib.abstract</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ta</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">SimpleGridStrategy</span><span class="p">(</span><span class="n">IStrategy</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    简单网格交易策略</span>
+<span class="sd">    在固定价格网格上低买高卖</span>
+<span class="sd">    """</span>
+
+    <span class="n">INTERFACE_VERSION</span> <span class="o">=</span> <span class="mi">3</span>
+
+    <span class="c1"># 关闭 ROI（网格策略自己控制卖出）</span>
+    <span class="n">minimal_roi</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"0"</span><span class="p">:</span> <span class="mi">100</span>  <span class="c1"># 很高的值，实际上不会触发</span>
+    <span class="p">}</span>
+
+    <span class="c1"># 关闭全局止损（网格策略有自己的止损逻辑）</span>
+    <span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.99</span>
+
+    <span class="n">timeframe</span> <span class="o">=</span> <span class="s1">'5m'</span>
+    <span class="n">startup_candle_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span>
+
+    <span class="c1"># === 网格参数 ===</span>
+    <span class="c1"># 网格间距（百分比）</span>
+    <span class="n">grid_spacing</span> <span class="o">=</span> <span class="mf">0.01</span>  <span class="c1"># 1%</span>
+
+    <span class="c1"># 网格数量</span>
+    <span class="n">num_grids</span> <span class="o">=</span> <span class="mi">5</span>
+
+    <span class="c1"># 中心价格（动态计算，使用最近 N 根 K 线的均价）</span>
+    <span class="n">center_price_period</span> <span class="o">=</span> <span class="mi">100</span>
+
+    <span class="c1"># 是否启用动态中心价格</span>
+    <span class="n">dynamic_center</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_indicators</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        计算中心价格</span>
+<span class="sd">        """</span>
+        <span class="c1"># 动态中心价格（使用 SMA）</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'center_price'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">SMA</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">],</span> <span class="n">timeperiod</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">center_price_period</span><span class="p">)</span>
+
+        <span class="c1"># 计算价格与中心价格的偏离</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'price_deviation'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">-</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'center_price'</span><span class="p">])</span> <span class="o">/</span>
+            <span class="n">dataframe</span><span class="p">[</span><span class="s1">'center_price'</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span>
+        <span class="p">)</span>
+
+        <span class="c1"># 标记当前处于哪个网格</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'grid_level'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">dataframe</span><span class="p">[</span><span class="s1">'price_deviation'</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid_spacing</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_entry_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        买入信号：价格低于中心价格的网格</span>
+<span class="sd">        """</span>
+        <span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+            <span class="p">(</span>
+                <span class="c1"># 价格低于中心价格</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'center_price'</span><span class="p">])</span> <span class="o">&amp;</span>
+
+                <span class="c1"># 至少偏离 1 个网格</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'grid_level'</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="c1"># 最多偏离 num_grids 个网格（避免过度下跌时买入）</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'grid_level'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">num_grids</span><span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="p">),</span>
+            <span class="s1">'enter_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_exit_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        卖出信号：价格高于买入价格 1 个网格以上</span>
+<span class="sd">        """</span>
+        <span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+            <span class="p">(</span>
+                <span class="c1"># 价格高于中心价格</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'center_price'</span><span class="p">])</span> <span class="o">&amp;</span>
+
+                <span class="c1"># 至少偏离 1 个网格</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'grid_level'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="p">),</span>
+            <span class="s1">'exit_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">custom_exit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pair</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">trade</span><span class="p">:</span> <span class="s1">'Trade'</span><span class="p">,</span> <span class="n">current_time</span><span class="p">:</span> <span class="s1">'datetime'</span><span class="p">,</span>
+                    <span class="n">current_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">current_profit</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        自定义卖出：达到 1 个网格间距就卖出</span>
+<span class="sd">        """</span>
+        <span class="c1"># 如果盈利达到网格间距，卖出</span>
+        <span class="k">if</span> <span class="n">current_profit</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid_spacing</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="kc">False</span>
+</code></pre></div>
+<h3 id="13">1.3 高级网格策略<a class="headerlink" href="#13" title="Permanent link">&para;</a></h3>
+<p>增强版本，包含动态网格和风险控制：</p>
+<p>创建 <code>user_data/strategies/AdvancedGridStrategy.py</code>：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">freqtrade.strategy</span><span class="w"> </span><span class="kn">import</span> <span class="n">IStrategy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataFrame</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">talib.abstract</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ta</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">AdvancedGridStrategy</span><span class="p">(</span><span class="n">IStrategy</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    高级网格策略</span>
+<span class="sd">    - 动态调整网格间距（根据波动率）</span>
+<span class="sd">    - 趋势过滤（避免单边市场）</span>
+<span class="sd">    - 资金管理（限制最大持仓）</span>
+<span class="sd">    """</span>
+
+    <span class="n">INTERFACE_VERSION</span> <span class="o">=</span> <span class="mi">3</span>
+
+    <span class="n">minimal_roi</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"0"</span><span class="p">:</span> <span class="mi">100</span><span class="p">}</span>
+    <span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.15</span>  <span class="c1"># 设置一个安全止损（防止极端情况）</span>
+
+    <span class="n">timeframe</span> <span class="o">=</span> <span class="s1">'5m'</span>
+    <span class="n">startup_candle_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">200</span>
+
+    <span class="c1"># 最大同时持仓网格数</span>
+    <span class="n">max_open_grids</span> <span class="o">=</span> <span class="mi">3</span>
+
+    <span class="c1"># 基础网格间距</span>
+    <span class="n">base_grid_spacing</span> <span class="o">=</span> <span class="mf">0.01</span>  <span class="c1"># 1%</span>
+
+    <span class="c1"># 网格范围（上下各几个网格）</span>
+    <span class="n">grid_range</span> <span class="o">=</span> <span class="mi">5</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_indicators</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        计算指标</span>
+<span class="sd">        """</span>
+        <span class="c1"># 1. 中心价格（EMA）</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'center_price'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">EMA</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">],</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+        <span class="c1"># 2. ATR（用于动态调整网格间距）</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'atr'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">ATR</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'atr_pct'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'atr'</span><span class="p">]</span> <span class="o">/</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">])</span> <span class="o">*</span> <span class="mi">100</span>
+
+        <span class="c1"># 3. ADX（判断趋势强度，避免单边市场）</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'adx'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">ADX</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+
+        <span class="c1"># 4. 动态网格间距（基于 ATR）</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'grid_spacing'</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'atr_pct'</span><span class="p">]</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
+            <span class="n">lower</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">base_grid_spacing</span><span class="p">,</span>  <span class="c1"># 最小 1%</span>
+            <span class="n">upper</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">base_grid_spacing</span> <span class="o">*</span> <span class="mi">3</span>  <span class="c1"># 最大 3%</span>
+        <span class="p">)</span>
+
+        <span class="c1"># 5. 价格偏离百分比</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'price_deviation_pct'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">-</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'center_price'</span><span class="p">])</span> <span class="o">/</span>
+            <span class="n">dataframe</span><span class="p">[</span><span class="s1">'center_price'</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span>
+        <span class="p">)</span>
+
+        <span class="c1"># 6. 当前网格层级</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'grid_level'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">dataframe</span><span class="p">[</span><span class="s1">'price_deviation_pct'</span><span class="p">]</span> <span class="o">/</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'grid_spacing'</span><span class="p">]</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">()</span>
+
+        <span class="c1"># 7. 成交量</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume_mean'</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_entry_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        买入信号：</span>
+<span class="sd">        1. 价格低于中心价格</span>
+<span class="sd">        2. 无强趋势（ADX &lt; 25，避免下跌趋势）</span>
+<span class="sd">        3. 在网格范围内</span>
+<span class="sd">        """</span>
+        <span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+            <span class="p">(</span>
+                <span class="c1"># 条件 1：价格低于中心价格</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'center_price'</span><span class="p">])</span> <span class="o">&amp;</span>
+
+                <span class="c1"># 条件 2：趋势不要太强（避免单边市场）</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'adx'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">30</span><span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="c1"># 条件 3：在买入网格范围内</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'grid_level'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">grid_range</span><span class="p">)</span> <span class="o">&amp;</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'grid_level'</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="c1"># 条件 4：成交量正常</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume_mean'</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="p">),</span>
+            <span class="s1">'enter_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_exit_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        卖出信号：价格回到中心价格以上</span>
+<span class="sd">        """</span>
+        <span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+            <span class="p">(</span>
+                <span class="c1"># 价格高于中心价格</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'center_price'</span><span class="p">])</span> <span class="o">&amp;</span>
+
+                <span class="c1"># 至少 1 个网格</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'grid_level'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="p">),</span>
+            <span class="s1">'exit_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">custom_stake_amount</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pair</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">current_time</span><span class="p">:</span> <span class="s1">'datetime'</span><span class="p">,</span>
+                            <span class="n">current_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">proposed_stake</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                            <span class="n">min_stake</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">max_stake</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        自定义仓位：根据网格层级调整</span>
+<span class="sd">        """</span>
+        <span class="n">dataframe</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dp</span><span class="o">.</span><span class="n">get_analyzed_dataframe</span><span class="p">(</span><span class="n">pair</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeframe</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">proposed_stake</span>
+
+        <span class="n">last_candle</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+        <span class="n">grid_level</span> <span class="o">=</span> <span class="n">last_candle</span><span class="p">[</span><span class="s1">'grid_level'</span><span class="p">]</span>
+
+        <span class="c1"># 越低的网格，仓位越大（但要控制总量）</span>
+        <span class="c1"># 例如：</span>
+        <span class="c1"># 网格 -1: 100% 仓位</span>
+        <span class="c1"># 网格 -2: 120% 仓位</span>
+        <span class="c1"># 网格 -3: 150% 仓位</span>
+
+        <span class="n">multiplier</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">grid_level</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.2</span>
+        <span class="n">multiplier</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">multiplier</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">)</span>  <span class="c1"># 最大 150%</span>
+
+        <span class="k">return</span> <span class="n">proposed_stake</span> <span class="o">*</span> <span class="n">multiplier</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">custom_exit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pair</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">trade</span><span class="p">:</span> <span class="s1">'Trade'</span><span class="p">,</span> <span class="n">current_time</span><span class="p">:</span> <span class="s1">'datetime'</span><span class="p">,</span>
+                    <span class="n">current_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">current_profit</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        自定义卖出：达到 1 个网格间距即卖出</span>
+<span class="sd">        """</span>
+        <span class="n">dataframe</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dp</span><span class="o">.</span><span class="n">get_analyzed_dataframe</span><span class="p">(</span><span class="n">pair</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeframe</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="n">last_candle</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+        <span class="n">grid_spacing</span> <span class="o">=</span> <span class="n">last_candle</span><span class="p">[</span><span class="s1">'grid_spacing'</span><span class="p">]</span> <span class="o">/</span> <span class="mi">100</span>  <span class="c1"># 转为小数</span>
+
+        <span class="c1"># 盈利超过当前网格间距，卖出</span>
+        <span class="k">if</span> <span class="n">current_profit</span> <span class="o">&gt;=</span> <span class="n">grid_spacing</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="kc">False</span>
+</code></pre></div>
+<h3 id="14">1.4 网格策略测试<a class="headerlink" href="#14" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. 下载数据</span>
+freqtrade<span class="w"> </span>download-data<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--days<span class="w"> </span><span class="m">90</span><span class="w"> </span>--timeframe<span class="w"> </span>5m
+
+<span class="c1"># 2. 回测简单网格策略</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--strategy<span class="w"> </span>SimpleGridStrategy<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--timerange<span class="w"> </span><span class="m">20230101</span>-20230331
+
+<span class="c1"># 3. 回测高级网格策略</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--strategy<span class="w"> </span>AdvancedGridStrategy<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--timerange<span class="w"> </span><span class="m">20230101</span>-20230331
+</code></pre></div>
+<p><strong>注意事项</strong>：
+<div class="highlight"><pre><span></span><code>1. 手续费设置要准确
+   - 网格策略交易频繁
+   - 手续费影响很大
+   - "fee": 0.001  # 0.1%
+
+2. 选择合适的交易对
+   - 流动性好（BTC/USDT, ETH/USDT）
+   - 波动适中（不要太剧烈）
+   - 避免长期单边趋势的币种
+
+3. 资金管理
+   - 预留足够资金应对下跌
+   - 不要满仓
+   - 建议用总资金的 50-70%
+</code></pre></div></p>
+<hr />
+<h2 id="_5">第二部分：高频交易策略<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h3 id="21">2.1 高频交易原理<a class="headerlink" href="#21" title="Permanent link">&para;</a></h3>
+<p><strong>定义</strong>：
+高频交易（High-Frequency Trading, HFT）是利用极短时间内的价格波动获利的策略。</p>
+<h4 id="_6">特点<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>时间尺度：
+- 传统策略：持仓几小时到几天
+- 高频策略：持仓几秒到几分钟
+
+交易频率：
+- 传统策略：每天 3-5 笔
+- 高频策略：每天 50-500 笔
+
+盈利模式：
+- 传统策略：捕捉趋势，单笔盈利大
+- 高频策略：捕捉微小波动，单笔盈利小但频繁
+</code></pre></div>
+<h4 id="_7">高频交易的挑战<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>1. 技术要求
+   ✗ 需要极低延迟
+   ✗ 需要稳定的网络
+   ✗ 需要高性能服务器
+   ✗ Freqtrade 不是专业 HFT 系统
+
+2. 成本问题
+   ✗ 手续费累计高
+   ✗ 滑点影响大
+   ✗ API 限流
+
+3. 策略难度
+   ✗ 信号稳定性差
+   ✗ 假信号多
+   ✗ 难以回测验证
+
+结论：
+⚠️ Freqtrade 不适合真正的高频交易（毫秒级）
+✅ 但可以做中高频交易（分钟级，每天 20-50 笔）
+</code></pre></div>
+<h3 id="22">2.2 中高频策略示例<a class="headerlink" href="#22" title="Permanent link">&para;</a></h3>
+<p>创建 <code>user_data/strategies/ScalpingStrategy.py</code>：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">freqtrade.strategy</span><span class="w"> </span><span class="kn">import</span> <span class="n">IStrategy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataFrame</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">talib.abstract</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ta</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">freqtrade.vendor.qtpylib.indicators</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qtpylib</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ScalpingStrategy</span><span class="p">(</span><span class="n">IStrategy</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    剥头皮策略（Scalping）</span>
+<span class="sd">    捕捉 1 分钟图上的快速波动</span>
+<span class="sd">    目标：单笔 0.3-1% 的小利润，快进快出</span>
+<span class="sd">    """</span>
+
+    <span class="n">INTERFACE_VERSION</span> <span class="o">=</span> <span class="mi">3</span>
+
+    <span class="c1"># 快速止盈</span>
+    <span class="n">minimal_roi</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"0"</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>   <span class="c1"># 1% 立即止盈</span>
+        <span class="s2">"5"</span><span class="p">:</span> <span class="mf">0.008</span><span class="p">,</span>  <span class="c1"># 5 分钟后 0.8%</span>
+        <span class="s2">"10"</span><span class="p">:</span> <span class="mf">0.005</span><span class="p">,</span> <span class="c1"># 10 分钟后 0.5%</span>
+        <span class="s2">"15"</span><span class="p">:</span> <span class="mf">0.003</span>  <span class="c1"># 15 分钟后 0.3%</span>
+    <span class="p">}</span>
+
+    <span class="c1"># 紧止损</span>
+    <span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.015</span>  <span class="c1"># -1.5%</span>
+
+    <span class="c1"># 使用 1 分钟图</span>
+    <span class="n">timeframe</span> <span class="o">=</span> <span class="s1">'1m'</span>
+    <span class="n">startup_candle_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span>
+
+    <span class="c1"># 订单类型（市价单，快速成交）</span>
+    <span class="n">order_types</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">'entry'</span><span class="p">:</span> <span class="s1">'market'</span><span class="p">,</span>  <span class="c1"># 市价买入</span>
+        <span class="s1">'exit'</span><span class="p">:</span> <span class="s1">'market'</span><span class="p">,</span>   <span class="c1"># 市价卖出</span>
+        <span class="s1">'stoploss'</span><span class="p">:</span> <span class="s1">'market'</span><span class="p">,</span>
+        <span class="s1">'stoploss_on_exchange'</span><span class="p">:</span> <span class="kc">True</span>
+    <span class="p">}</span>
+
+    <span class="c1"># 不允许持仓超过 30 分钟（强制平仓）</span>
+    <span class="n">max_holding_minutes</span> <span class="o">=</span> <span class="mi">30</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_indicators</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        使用快速指标</span>
+<span class="sd">        """</span>
+        <span class="c1"># 极短期 EMA</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_5'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">EMA</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_10'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">EMA</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+        <span class="c1"># RSI</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">RSI</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>  <span class="c1"># 更短周期</span>
+
+        <span class="c1"># 布林带（窄周期）</span>
+        <span class="n">bollinger</span> <span class="o">=</span> <span class="n">qtpylib</span><span class="o">.</span><span class="n">bollinger_bands</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">],</span> <span class="n">window</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">stds</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'bb_lower'</span><span class="p">]</span> <span class="o">=</span> <span class="n">bollinger</span><span class="p">[</span><span class="s1">'lower'</span><span class="p">]</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'bb_middle'</span><span class="p">]</span> <span class="o">=</span> <span class="n">bollinger</span><span class="p">[</span><span class="s1">'mid'</span><span class="p">]</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'bb_upper'</span><span class="p">]</span> <span class="o">=</span> <span class="n">bollinger</span><span class="p">[</span><span class="s1">'upper'</span><span class="p">]</span>
+
+        <span class="c1"># 成交量突增</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume_mean'</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume_surge'</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">/</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume_mean'</span><span class="p">]</span>
+
+        <span class="c1"># 价格动量</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'price_momentum'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">-</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span> <span class="o">/</span>
+            <span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_entry_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        买入信号：快速反弹</span>
+<span class="sd">        """</span>
+        <span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+            <span class="p">(</span>
+                <span class="c1"># 条件 1：快速 EMA 金叉</span>
+                <span class="p">(</span><span class="n">qtpylib</span><span class="o">.</span><span class="n">crossed_above</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_5'</span><span class="p">],</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_10'</span><span class="p">]))</span> <span class="o">&amp;</span>
+
+                <span class="c1"># 条件 2：RSI 从超卖恢复</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">30</span><span class="p">)</span> <span class="o">&amp;</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">60</span><span class="p">)</span> <span class="o">&amp;</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="o">&amp;</span>  <span class="c1"># RSI 上升</span>
+
+                <span class="c1"># 条件 3：价格在布林带下半部（有上涨空间）</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'bb_middle'</span><span class="p">])</span> <span class="o">&amp;</span>
+
+                <span class="c1"># 条件 4：成交量突增（确认动能）</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume_surge'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">1.5</span><span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="c1"># 条件 5：短期动量向上</span>
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'price_momentum'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="p">),</span>
+            <span class="s1">'enter_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_exit_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        卖出信号：快速获利或反转</span>
+<span class="sd">        """</span>
+        <span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+            <span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="c1"># 条件 1：EMA 死叉</span>
+                    <span class="p">(</span><span class="n">qtpylib</span><span class="o">.</span><span class="n">crossed_below</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_5'</span><span class="p">],</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema_10'</span><span class="p">]))</span> <span class="o">|</span>
+
+                    <span class="c1"># 或条件 2：RSI 超买</span>
+                    <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">70</span><span class="p">)</span> <span class="o">|</span>
+
+                    <span class="c1"># 或条件 3：价格触及布林带上轨</span>
+                    <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'bb_upper'</span><span class="p">])</span>
+                <span class="p">)</span> <span class="o">&amp;</span>
+
+                <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="p">),</span>
+            <span class="s1">'exit_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">custom_exit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pair</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">trade</span><span class="p">:</span> <span class="s1">'Trade'</span><span class="p">,</span> <span class="n">current_time</span><span class="p">:</span> <span class="s1">'datetime'</span><span class="p">,</span>
+                    <span class="n">current_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">current_profit</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        强制平仓：超过最大持仓时间</span>
+<span class="sd">        """</span>
+        <span class="c1"># 计算持仓时间（分钟）</span>
+        <span class="n">trade_duration</span> <span class="o">=</span> <span class="p">(</span><span class="n">current_time</span> <span class="o">-</span> <span class="n">trade</span><span class="o">.</span><span class="n">open_date_utc</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">/</span> <span class="mi">60</span>
+
+        <span class="c1"># 超过 30 分钟，无论盈亏都平仓</span>
+        <span class="k">if</span> <span class="n">trade_duration</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_holding_minutes</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="c1"># 快速止盈：0.5% 就走</span>
+        <span class="k">if</span> <span class="n">current_profit</span> <span class="o">&gt;=</span> <span class="mf">0.005</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="kc">False</span>
+</code></pre></div>
+<h3 id="23">2.3 高频策略优化技巧<a class="headerlink" href="#23" title="Permanent link">&para;</a></h3>
+<h4 id="1">技巧 1：使用市价单<a class="headerlink" href="#1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 高频策略必须使用市价单</span>
+<span class="n">order_types</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'entry'</span><span class="p">:</span> <span class="s1">'market'</span><span class="p">,</span>
+    <span class="s1">'exit'</span><span class="p">:</span> <span class="s1">'market'</span><span class="p">,</span>
+    <span class="s1">'stoploss'</span><span class="p">:</span> <span class="s1">'market'</span><span class="p">,</span>
+    <span class="s1">'stoploss_on_exchange'</span><span class="p">:</span> <span class="kc">True</span>
+<span class="p">}</span>
+
+<span class="c1"># 原因：</span>
+<span class="c1"># 1. 限价单可能不成交，错过机会</span>
+<span class="c1"># 2. 高频追求速度，不是最优价格</span>
+<span class="c1"># 3. 1 秒的延迟可能导致信号失效</span>
+</code></pre></div>
+<h4 id="2">技巧 2：严格的持仓时间限制<a class="headerlink" href="#2" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">custom_exit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pair</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">trade</span><span class="p">:</span> <span class="s1">'Trade'</span><span class="p">,</span> <span class="n">current_time</span><span class="p">:</span> <span class="s1">'datetime'</span><span class="p">,</span>
+                <span class="n">current_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">current_profit</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    强制时间止损</span>
+<span class="sd">    """</span>
+    <span class="n">trade_duration</span> <span class="o">=</span> <span class="p">(</span><span class="n">current_time</span> <span class="o">-</span> <span class="n">trade</span><span class="o">.</span><span class="n">open_date_utc</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">/</span> <span class="mi">60</span>
+
+    <span class="c1"># 超过 30 分钟强制平仓</span>
+    <span class="k">if</span> <span class="n">trade_duration</span> <span class="o">&gt;</span> <span class="mi">30</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">return</span> <span class="kc">False</span>
+</code></pre></div>
+<h4 id="3">技巧 3：快速止盈止损<a class="headerlink" href="#3" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 止盈目标小</span>
+<span class="n">minimal_roi</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"0"</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>   <span class="c1"># 1%</span>
+    <span class="s2">"10"</span><span class="p">:</span> <span class="mf">0.005</span>  <span class="c1"># 10 分钟后 0.5%</span>
+<span class="p">}</span>
+
+<span class="c1"># 止损紧</span>
+<span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.015</span>  <span class="c1"># -1.5%</span>
+
+<span class="c1"># 盈亏比约 1:1.5（可接受，因为频率高）</span>
+</code></pre></div>
+<h4 id="4">技巧 4：成交量过滤<a class="headerlink" href="#4" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 必须有成交量突增</span>
+<span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume_surge'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">1.5</span><span class="p">)</span> <span class="o">&amp;</span>
+
+<span class="c1"># 原因：</span>
+<span class="c1"># 高频需要流动性支持</span>
+<span class="c1"># 成交量小会导致滑点大</span>
+</code></pre></div>
+<h3 id="24">2.4 高频策略风险管理<a class="headerlink" href="#24" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>风险 1：手续费侵蚀
+- 问题：交易 100 次，手续费 0.1% × 2 × 100 = 20%
+- 对策：
+  ✓ 使用 VIP 等级降低手续费
+  ✓ 使用交易所代币抵扣（如 BNB）
+  ✓ 计算盈亏时扣除手续费
+  ✓ 确保平均盈利 &gt; 手续费
+
+风险 2：滑点
+- 问题：市价单成交价差于预期
+- 对策：
+  ✓ 只交易高流动性币种（BTC/ETH）
+  ✓ 避免大额订单
+  ✓ 避免市场剧烈波动时交易
+
+风险 3：过度交易
+- 问题：一天交易 200 次，多数是假信号
+- 对策：
+  ✓ 设置每日最大交易次数（如 50 次）
+  ✓ 提高入场条件
+  ✓ 增加成交量过滤
+
+风险 4：系统故障
+- 问题：网络延迟、API 限流
+- 对策：
+  ✓ 使用稳定的服务器
+  ✓ 备用网络连接
+  ✓ 监控 API 调用频率
+  ✓ 设置最大持仓保护
+</code></pre></div>
+<hr />
+<h2 id="_8">第三部分：策略对比和选择<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<h3 id="31">3.1 三种策略对比<a class="headerlink" href="#31" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>趋势跟随</th>
+<th>网格交易</th>
+<th>高频交易</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>时间框架</strong></td>
+<td>5m-1h</td>
+<td>5m-15m</td>
+<td>1m-5m</td>
+</tr>
+<tr>
+<td><strong>持仓时间</strong></td>
+<td>数小时-数天</td>
+<td>数小时</td>
+<td>数分钟</td>
+</tr>
+<tr>
+<td><strong>交易频率</strong></td>
+<td>低（3-5/天）</td>
+<td>中（10-20/天）</td>
+<td>高（50+/天）</td>
+</tr>
+<tr>
+<td><strong>单笔盈利</strong></td>
+<td>2-5%</td>
+<td>1-2%</td>
+<td>0.3-1%</td>
+</tr>
+<tr>
+<td><strong>胜率</strong></td>
+<td>50-60%</td>
+<td>60-70%</td>
+<td>55-65%</td>
+</tr>
+<tr>
+<td><strong>适合市场</strong></td>
+<td>趋势市</td>
+<td>震荡市</td>
+<td>高波动</td>
+</tr>
+<tr>
+<td><strong>资金要求</strong></td>
+<td>中</td>
+<td>高</td>
+<td>中</td>
+</tr>
+<tr>
+<td><strong>技术要求</strong></td>
+<td>低</td>
+<td>中</td>
+<td>高</td>
+</tr>
+<tr>
+<td><strong>手续费影响</strong></td>
+<td>小</td>
+<td>中</td>
+<td>大</td>
+</tr>
+<tr>
+<td><strong>风险等级</strong></td>
+<td>中</td>
+<td>中高</td>
+<td>高</td>
+</tr>
+</tbody>
+</table>
+<h3 id="32">3.2 如何选择<a class="headerlink" href="#32" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>选择趋势跟随，如果你：
+✓ 是新手
+✓ 每天只能监控几次
+✓ 不想频繁交易
+✓ 追求稳定增长
+✓ 资金有限
+
+选择网格交易，如果你：
+✓ 有一定经验
+✓ 市场处于震荡期
+✓ 有足够资金分批买入
+✓ 能接受资金占用
+✓ 追求频繁小胜
+
+选择高频交易，如果你：
+✓ 有丰富经验
+✓ 有稳定的技术环境
+✓ 能接受高风险
+✓ 手续费率很低
+✓ 追求刺激和挑战
+
+⚠️ 不推荐新手使用网格或高频策略
+</code></pre></div>
+<h3 id="33">3.3 组合策略<a class="headerlink" href="#33" title="Permanent link">&para;</a></h3>
+<p>可以同时运行多个策略：</p>
+<div class="highlight"><pre><span></span><code>配置示例：
+
+账户 1（70% 资金）：
+- 趋势跟随策略
+- 5m 时间框架
+- 稳健为主
+
+账户 2（20% 资金）：
+- 网格策略
+- 5m 时间框架
+- 震荡市场使用
+
+账户 3（10% 资金）：
+- 剥头皮策略
+- 1m 时间框架
+- 实验性质
+
+优势：
+✓ 分散风险
+✓ 适应不同市场
+✓ 平滑收益曲线
+</code></pre></div>
+<hr />
+<h2 id="_9">📝 实践任务<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<h3 id="1_1">任务 1：回测网格策略<a class="headerlink" href="#1_1" title="Permanent link">&para;</a></h3>
+<ol>
+<li>复制 <code>SimpleGridStrategy</code> 到你的环境</li>
+<li>回测 3 个月数据</li>
+<li>对比不同网格间距（0.5%, 1%, 2%）的效果</li>
+<li>记录：</li>
+<li>交易次数</li>
+<li>胜率</li>
+<li>手续费占比</li>
+<li>最大回撤</li>
+</ol>
+<h3 id="2_1">任务 2：优化网格参数<a class="headerlink" href="#2_1" title="Permanent link">&para;</a></h3>
+<p>修改 <code>AdvancedGridStrategy</code>：
+1. 调整 ADX 阈值（20, 25, 30）
+2. 调整网格范围（3, 5, 7）
+3. 测试不同的动态网格计算方法
+4. 找出最优组合</p>
+<h3 id="3_1">任务 3：高频策略实验（谨慎）<a class="headerlink" href="#3_1" title="Permanent link">&para;</a></h3>
+<ol>
+<li>在 Dry-run 中测试 <code>ScalpingStrategy</code></li>
+<li>运行 3-7 天</li>
+<li>统计：</li>
+<li>每日交易次数</li>
+<li>平均持仓时间</li>
+<li>平均单笔盈亏</li>
+<li>手续费总计</li>
+<li>判断：是否适合实盘？</li>
+</ol>
+<h3 id="4_1">任务 4：手续费敏感度分析<a class="headerlink" href="#4_1" title="Permanent link">&para;</a></h3>
+<p>对同一策略，测试不同手续费率的影响：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 0.1% 手续费</span>
+<span class="s2">"fee"</span>:<span class="w"> </span><span class="m">0</span>.001
+
+<span class="c1"># 0.05% 手续费（VIP 优惠）</span>
+<span class="s2">"fee"</span>:<span class="w"> </span><span class="m">0</span>.0005
+
+<span class="c1"># 0.2% 手续费（最差情况）</span>
+<span class="s2">"fee"</span>:<span class="w"> </span><span class="m">0</span>.002
+</code></pre></div>
+<p>对比回测结果，了解手续费的影响。</p>
+<hr />
+<h2 id="_10">📌 核心要点<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<h3 id="_11">网格交易要点<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>1. 适合震荡市
+   - ADX &lt; 25
+   - 价格在区间内波动
+   - 避免单边趋势
+
+2. 资金管理
+   - 分批买入
+   - 预留资金应对下跌
+   - 不要满仓
+
+3. 参数设置
+   - 网格间距 1-2%
+   - 网格数量 5-10 个
+   - 动态调整更好
+
+4. 风险控制
+   - 设置最大持仓数
+   - 设置止损保护
+   - 监控单边趋势
+</code></pre></div>
+<h3 id="_12">高频交易要点<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>1. 技术要求
+   - 低延迟网络
+   - 稳定服务器
+   - 使用市价单
+
+2. 成本控制
+   - 降低手续费
+   - 计算滑点
+   - 只交易高流动性币种
+
+3. 快进快出
+   - 持仓时间 &lt; 30 分钟
+   - 止盈 0.5-1%
+   - 止损 1-1.5%
+
+4. 严格纪律
+   - 设置交易次数上限
+   - 避免过度交易
+   - 及时止损
+</code></pre></div>
+<h3 id="_13">不适合的情况<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>❌ 不要使用网格，如果：
+- 市场处于强趋势
+- 资金不足
+- 无法接受资金占用
+
+❌ 不要使用高频，如果：
+- 是新手
+- 网络不稳定
+- 手续费率高（&gt; 0.1%）
+- 资金少（&lt; $5000）
+</code></pre></div>
+<hr />
+<h2 id="_14">🎯 总结<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
+<p>本课介绍了两种特殊策略：
+- <strong>网格交易</strong>：适合震荡市场，通过频繁的低买高卖获利
+- <strong>高频交易</strong>：捕捉短期波动，快进快出</p>
+<p><strong>重要提醒</strong>：
+⚠️ 这两种策略都比趋势跟随策略风险更高
+⚠️ 需要更多的经验和更严格的风险控制
+⚠️ 建议先掌握基础策略，再尝试这些高级策略
+⚠️ 务必在 Dry-run 中充分测试</p>
+<p>下节课我们将学习如何使用机器学习优化策略。</p>
+<hr />
+<p><strong>🎓 学习建议</strong>：
+1. <strong>循序渐进</strong>：先掌握趋势策略，再尝试网格和高频
+2. <strong>充分测试</strong>：在 Dry-run 中测试至少 2 周
+3. <strong>小资金起步</strong>：即使测试成功，也要小资金开始
+4. <strong>严格风控</strong>：这两种策略需要更严格的风险控制
+5. <strong>持续监控</strong>：需要更频繁地监控和调整</p>
+<p>记住：<strong>简单有效 &gt; 复杂华丽。不要为了追求高频而高频，适合自己的才是最好的。</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,3552 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径">
+      
+      
+      
+        <link rel="canonical" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-24-1-order-placement/">
+      
+      
+        <link rel="prev" href="../lesson-23-small-capital-live/">
+      
+      
+        <link rel="next" href="../lesson-24-2-stop-loss-operations/">
+      
+      
+        
+          <link rel="alternate" href="./" hreflang="zh">
+        
+          <link rel="alternate" href="../en/lesson-24-1-order-placement/" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>第 24.1 课：实盘交易下单操作详解 - Freqtrade 实战教程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9784658154228475"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VGHZY4EELE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VGHZY4EELE");
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#241" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="Freqtrade 实战教程" class="md-header__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Freqtrade 实战教程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第 24.1 课：实盘交易下单操作详解
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="选择当前语言">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../en/lesson-24-1-order-placement/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/henrylin99/freqtrade-tutorials" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../strategies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🇨🇳 中文教程
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Freqtrade 实战教程" class="md-nav__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Freqtrade 实战教程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/henrylin99/freqtrade-tutorials" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../strategies/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🇨🇳 中文教程
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🇨🇳 中文教程
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 1 课：量化交易与 Freqtrade 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-02-environment-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 2 课：Freqtrade 环境搭建
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-03-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 3 课：核心概念理解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-04-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 4 课：数据下载与管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-05-first-backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 5 课：第一次策略回测
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-06-strategy-performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 6 课：策略性能分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-07-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 7 课：多时间框架回测
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-08-strategy-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 8 课：策略批量对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-09-timerange-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 9 课：Freqtrade时间范围测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-10-pair-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 10 课：Freqtrade交易对选择与测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-11-hyperopt-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 11 课：Freqtrade参数优化入门（Hyperopt）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-12-advanced-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 12 课：高级策略分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-13-scoring-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 13 课：策略评分体系
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-14-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 14 课：风险管理与资金管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-15-portfolio-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 15 课：Freqtrade策略组合与分散
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-16-realtime-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 16 课：实时信号监控
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-17-telegram-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 17 课：Telegram 通知配置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-18-webui-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 18 课：Web UI 与 API 使用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 19 课：可视化分析工具
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-20-dry-run-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 20 课：模拟交易验证
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-21-exchange-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 21 课：交易所 API 配置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-22-pre-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 22 课：实盘前检查清单
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-23-small-capital-live/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 23 课：小资金实盘测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.1 课：实盘交易下单操作详解
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.1 课：实盘交易下单操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        课程概述
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一部分：币安订单类型详解
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第一部分：币安订单类型详解">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 现货交易订单类型
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1 现货交易订单类型">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#111-limit-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.1 限价单（Limit Order）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#112-market-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.2 市价单（Market Order）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#113-stop-loss-limit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.3 止损限价单（Stop Loss Limit）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#114-stop-loss-market" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.4 止损市价单（Stop Loss Market）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-freqtrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Freqtrade中的订单配置
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.2 Freqtrade中的订单配置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#121" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2.1 基本订单类型配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#122" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2.2 高级订单配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第二部分：实际下单操作流程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第二部分：实际下单操作流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 限价单操作流程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 限价单操作流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#211" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1.1 买入限价单示例
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#212" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1.2 订单状态监控
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 市价单操作流程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 市价单操作流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#221" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.1 紧急出场市价单
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#222" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.2 市价单的滑点计算
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第三部分：订单优化策略
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第三部分：订单优化策略">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 限价单优化技巧
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.1 限价单优化技巧">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#311" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1.1 价格设置策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#312" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1.2 分批下单策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 止损订单优化
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2 止损订单优化">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#321" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2.1 动态止损设置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#322" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2.2 追踪止损设置
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第四部分：常见问题与解决方案
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第四部分：常见问题与解决方案">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 订单未能成交
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 订单未能成交">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#411" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.1 问题分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#412" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.2 解决方案
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 滑点控制
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.2 滑点控制">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#421" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.1 滑点监控
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#422" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.2 滑点优化策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第五部分：实际配置示例
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第五部分：实际配置示例">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 保守型配置（适合新手）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 积极型配置（适合高频策略）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 混合型配置（平衡策略）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 实践任务
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 实践任务">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 1：订单类型测试
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 2：滑点测量
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 3：订单优化
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 核心要点
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📌 核心要点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        订单类型选择原则
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        常见错误避免
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        实盘下单检查清单
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 下节预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-2-stop-loss-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.2 课：实盘交易止损操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-3-futures-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.3 课：币安合约交易操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-4-leverage-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.4 课：杠杆交易操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-trading-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24 课：交易监控与调整
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-25-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 25 课：风险控制与心态管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-26-custom-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 26 课：自定义策略开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-27-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 27 课：多时间框架策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-28-grid-hft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 28 课：高频交易与网格策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-1-freqai-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29.1 课：FreqAI 深度实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-2-advanced-ml-strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29.2 课：高级机器学习策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning-enhanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29 课：机器学习基础与策略优化（增强版）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29 课：机器学习与策略优化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-30-conclusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 30 课：总结与持续学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        课程概述
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一部分：币安订单类型详解
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第一部分：币安订单类型详解">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 现货交易订单类型
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1 现货交易订单类型">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#111-limit-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.1 限价单（Limit Order）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#112-market-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.2 市价单（Market Order）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#113-stop-loss-limit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.3 止损限价单（Stop Loss Limit）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#114-stop-loss-market" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.4 止损市价单（Stop Loss Market）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-freqtrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Freqtrade中的订单配置
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.2 Freqtrade中的订单配置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#121" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2.1 基本订单类型配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#122" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2.2 高级订单配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第二部分：实际下单操作流程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第二部分：实际下单操作流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 限价单操作流程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 限价单操作流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#211" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1.1 买入限价单示例
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#212" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1.2 订单状态监控
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 市价单操作流程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 市价单操作流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#221" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.1 紧急出场市价单
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#222" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.2 市价单的滑点计算
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第三部分：订单优化策略
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第三部分：订单优化策略">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 限价单优化技巧
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.1 限价单优化技巧">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#311" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1.1 价格设置策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#312" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1.2 分批下单策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 止损订单优化
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2 止损订单优化">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#321" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2.1 动态止损设置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#322" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2.2 追踪止损设置
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第四部分：常见问题与解决方案
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第四部分：常见问题与解决方案">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 订单未能成交
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 订单未能成交">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#411" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.1 问题分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#412" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.2 解决方案
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 滑点控制
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.2 滑点控制">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#421" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.1 滑点监控
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#422" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.2 滑点优化策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第五部分：实际配置示例
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第五部分：实际配置示例">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 保守型配置（适合新手）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 积极型配置（适合高频策略）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 混合型配置（平衡策略）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 实践任务
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 实践任务">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 1：订单类型测试
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 2：滑点测量
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 3：订单优化
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 核心要点
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📌 核心要点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        订单类型选择原则
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        常见错误避免
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        实盘下单检查清单
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 下节预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="241">第 24.1 课：实盘交易下单操作详解<a class="headerlink" href="#241" title="Permanent link">&para;</a></h1>
+<p><strong>⏱ 课时</strong>：1.5 小时
+<strong>🎯 学习目标</strong>：掌握币安交易所的各种下单操作，理解不同订单类型的使用场景</p>
+<hr />
+<h2 id="_1">课程概述<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>Freqtrade虽然自动化了交易决策，但理解底层的下单机制对于优化策略和解决问题至关重要。本课将详细介绍：</p>
+<ul>
+<li>币安现货交易的各种订单类型</li>
+<li>不同订单类型的适用场景</li>
+<li>如何在Freqtrade中配置订单类型</li>
+<li>实际下单操作的注意事项</li>
+</ul>
+<hr />
+<h2 id="_2">第一部分：币安订单类型详解<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="11">1.1 现货交易订单类型<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
+<h4 id="111-limit-order">1.1.1 限价单（Limit Order）<a class="headerlink" href="#111-limit-order" title="Permanent link">&para;</a></h4>
+<p><strong>定义</strong>：指定价格和数量，只在达到或优于指定价格时执行。</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTCUSDT"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BUY"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LIMIT"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"timeInForce"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GTC"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.001</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"30000.00"</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>特点</strong>：
+<div class="highlight"><pre><span></span><code>✅ 优点：
+- 价格可控，不会出现滑点
+- 可以设置低于市价的买入价
+- 可以设置高于市价的卖出价
+- 适合趋势跟踪策略
+
+❌ 缺点：
+- 可能无法成交（价格未达到）
+- 需要主动管理未成交订单
+- 在快速市场中可能错过机会
+</code></pre></div></p>
+<p><strong>适用场景</strong>：
+- 策略有明确的买入/卖出价格
+- 不急于成交，可以等待理想价格
+- 需要控制交易成本
+- 避免市场冲击</p>
+<h4 id="112-market-order">1.1.2 市价单（Market Order）<a class="headerlink" href="#112-market-order" title="Permanent link">&para;</a></h4>
+<p><strong>定义</strong>：按市场当前最优价格立即成交。</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTCUSDT"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BUY"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MARKET"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.001</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>特点</strong>：
+<div class="highlight"><pre><span></span><code>✅ 优点：
+- 保证成交
+- 执行速度快
+- 适合紧急入场/出场
+- 简单直接
+
+❌ 缺点：
+- 价格不可控，存在滑点
+- 可能以较差价格成交
+- 交易成本不确定
+- 可能被"钓鱼"
+</code></pre></div></p>
+<p><strong>适用场景</strong>：
+- 止损订单（必须立即成交）
+- 市场突破时追涨/杀跌
+- 流动性好的主流币种
+- 不在意小幅价格差异</p>
+<h4 id="113-stop-loss-limit">1.1.3 止损限价单（Stop Loss Limit）<a class="headerlink" href="#113-stop-loss-limit" title="Permanent link">&para;</a></h4>
+<p><strong>定义</strong>：当价格触发指定止损价后，提交限价单。</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTCUSDT"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SELL"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"STOP_LOSS_LIMIT"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"timeInForce"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GTC"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.001</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"29500.00"</span><span class="p">,</span><span class="w">      </span><span class="c1">// 限价单价格</span>
+<span class="w">  </span><span class="nt">"stopPrice"</span><span class="p">:</span><span class="w"> </span><span class="s2">"29550.00"</span><span class="w">   </span><span class="c1">// 触发价格</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>执行逻辑</strong>：
+<div class="highlight"><pre><span></span><code>1. 市价下跌至 29550 USDT
+2. 自动触发限价卖单，价格 29500
+3. 等待买家以 29500 或更好价格成交
+</code></pre></div></p>
+<p><strong>适用场景</strong>：
+- 需要精确控制止损价格
+- 不想因滑点造成额外损失
+- 对止损执行要求较高</p>
+<h4 id="114-stop-loss-market">1.1.4 止损市价单（Stop Loss Market）<a class="headerlink" href="#114-stop-loss-market" title="Permanent link">&para;</a></h4>
+<p><strong>定义</strong>：当价格触发指定止损价后，立即以市价成交。</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTCUSDT"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SELL"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"STOP_LOSS_MARKET"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.001</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"stopPrice"</span><span class="p">:</span><span class="w"> </span><span class="s2">"29500.00"</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>特点</strong>：
+<div class="highlight"><pre><span></span><code>✅ 优点：
+- 保证触发后成交
+- 执行速度快
+- 避免进一步损失
+
+❌ 缺点：
+- 成交价格不确定
+- 可能出现较大滑点
+- 在快速下跌中损失可能更大
+</code></pre></div></p>
+<h3 id="12-freqtrade">1.2 Freqtrade中的订单配置<a class="headerlink" href="#12-freqtrade" title="Permanent link">&para;</a></h3>
+<h4 id="121">1.2.1 基本订单类型配置<a class="headerlink" href="#121" title="Permanent link">&para;</a></h4>
+<p>在config.json中配置：</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"order_types"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"emergency_exit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"force_exit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"force_entry"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stoploss"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stoploss_on_exchange"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stoploss_on_exchange_interval"</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>配置说明</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>可选值</th>
+<th>推荐设置</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>entry</td>
+<td>limit/market</td>
+<td>limit</td>
+<td>入场订单类型</td>
+</tr>
+<tr>
+<td>exit</td>
+<td>limit/market</td>
+<td>limit</td>
+<td>退出订单类型</td>
+</tr>
+<tr>
+<td>emergency_exit</td>
+<td>market</td>
+<td>market</td>
+<td>紧急退出订单</td>
+</tr>
+<tr>
+<td>stoploss</td>
+<td>market/limit</td>
+<td>market</td>
+<td>止损订单类型</td>
+</tr>
+<tr>
+<td>stoploss_on_exchange</td>
+<td>true/false</td>
+<td>true</td>
+<td>是否在交易所设置止损</td>
+</tr>
+<tr>
+<td>stoploss_on_exchange_interval</td>
+<td>数字</td>
+<td>60</td>
+<td>止损检查间隔（秒）</td>
+</tr>
+</tbody>
+</table>
+<h4 id="122">1.2.2 高级订单配置<a class="headerlink" href="#122" title="Permanent link">&para;</a></h4>
+<p><strong>订单超时设置</strong>：
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"unfilledtimeout"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">    </span><span class="c1">// 入场订单超时（分钟）</span>
+<span class="w">    </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">     </span><span class="c1">// 退出订单超时（分钟）</span>
+<span class="w">    </span><span class="nt">"exit_timeout_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="c1">// 退出超时后重试次数</span>
+<span class="w">    </span><span class="nt">"unit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"minutes"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p><strong>订单设置</strong>：
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"order_time_in_force"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="s2">"gtc"</span><span class="p">,</span><span class="w">  </span><span class="c1">// gtc: 有效直到取消</span>
+<span class="w">    </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"gtc"</span><span class="w">    </span><span class="c1">// ioc: 立即成交或取消</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p><strong>TIF（Time In Force）选项</strong>：
+- <code>GTC</code> (Good Till Canceled)：有效直到取消
+- <code>IOC</code> (Immediate Or Cancel)：立即成交或取消
+- <code>FOK</code> (Fill Or Kill)：全部成交或取消</p>
+<hr />
+<h2 id="_3">第二部分：实际下单操作流程<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h3 id="21">2.1 限价单操作流程<a class="headerlink" href="#21" title="Permanent link">&para;</a></h3>
+<h4 id="211">2.1.1 买入限价单示例<a class="headerlink" href="#211" title="Permanent link">&para;</a></h4>
+<p><strong>策略场景</strong>：BTC价格在30500，策略认为30000是好的买入点。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 在策略中，Freqtrade会自动处理下单</span>
+<span class="c1"># 以下为理解底层API调用流程</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">ccxt</span>
+
+<span class="n">exchange</span> <span class="o">=</span> <span class="n">ccxt</span><span class="o">.</span><span class="n">binance</span><span class="p">({</span>
+    <span class="s1">'apiKey'</span><span class="p">:</span> <span class="s1">'your_api_key'</span><span class="p">,</span>
+    <span class="s1">'secret'</span><span class="p">:</span> <span class="s1">'your_secret'</span><span class="p">,</span>
+    <span class="s1">'options'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">'defaultType'</span><span class="p">:</span> <span class="s1">'spot'</span>
+    <span class="p">}</span>
+<span class="p">})</span>
+
+<span class="c1"># 创建限价买单</span>
+<span class="n">order</span> <span class="o">=</span> <span class="n">exchange</span><span class="o">.</span><span class="n">create_limit_buy_order</span><span class="p">(</span>
+    <span class="n">symbol</span><span class="o">=</span><span class="s1">'BTC/USDT'</span><span class="p">,</span>
+    <span class="n">amount</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
+    <span class="n">price</span><span class="o">=</span><span class="mf">30000.00</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"订单ID: </span><span class="si">{</span><span class="n">order</span><span class="p">[</span><span class="s1">'id'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"状态: </span><span class="si">{</span><span class="n">order</span><span class="p">[</span><span class="s1">'status'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"价格: </span><span class="si">{</span><span class="n">order</span><span class="p">[</span><span class="s1">'price'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"数量: </span><span class="si">{</span><span class="n">order</span><span class="p">[</span><span class="s1">'amount'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>输出示例</strong>：
+<div class="highlight"><pre><span></span><code>订单ID: 123456789
+状态: open
+价格: 30000.00
+数量: 0.001
+</code></pre></div></p>
+<h4 id="212">2.1.2 订单状态监控<a class="headerlink" href="#212" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 查询订单状态</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">check_order_status</span><span class="p">(</span><span class="n">exchange</span><span class="p">,</span> <span class="n">order_id</span><span class="p">,</span> <span class="n">symbol</span><span class="p">):</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">exchange</span><span class="o">.</span><span class="n">fetch_order</span><span class="p">(</span><span class="n">order_id</span><span class="p">,</span> <span class="n">symbol</span><span class="p">)</span>
+
+    <span class="n">status_map</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">'open'</span><span class="p">:</span> <span class="s1">'等待成交'</span><span class="p">,</span>
+        <span class="s1">'closed'</span><span class="p">:</span> <span class="s1">'已成交'</span><span class="p">,</span>
+        <span class="s1">'canceled'</span><span class="p">:</span> <span class="s1">'已取消'</span><span class="p">,</span>
+        <span class="s1">'expired'</span><span class="p">:</span> <span class="s1">'已过期'</span><span class="p">,</span>
+        <span class="s1">'rejected'</span><span class="p">:</span> <span class="s1">'被拒绝'</span>
+    <span class="p">}</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"订单状态: </span><span class="si">{</span><span class="n">status_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">order</span><span class="p">[</span><span class="s1">'status'</span><span class="p">],</span><span class="w"> </span><span class="n">order</span><span class="p">[</span><span class="s1">'status'</span><span class="p">])</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"已成交数量: </span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'filled'</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"剩余数量: </span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'remaining'</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">order</span>
+
+<span class="c1"># 定期检查</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="n">order_id</span> <span class="o">=</span> <span class="s1">'123456789'</span>
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">check_order_status</span><span class="p">(</span><span class="n">exchange</span><span class="p">,</span> <span class="n">order_id</span><span class="p">,</span> <span class="s1">'BTC/USDT'</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">order</span><span class="p">[</span><span class="s1">'status'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'closed'</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"订单已成交!"</span><span class="p">)</span>
+        <span class="k">break</span>
+    <span class="k">elif</span> <span class="n">order</span><span class="p">[</span><span class="s1">'status'</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'canceled'</span><span class="p">,</span> <span class="s1">'expired'</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"订单未成交"</span><span class="p">)</span>
+        <span class="k">break</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>  <span class="c1"># 30秒检查一次</span>
+</code></pre></div>
+<h3 id="22">2.2 市价单操作流程<a class="headerlink" href="#22" title="Permanent link">&para;</a></h3>
+<h4 id="221">2.2.1 紧急出场市价单<a class="headerlink" href="#221" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 策略检测到强烈卖出信号</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">emergency_sell</span><span class="p">(</span><span class="n">exchange</span><span class="p">,</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">amount</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># 创建市价卖单</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="n">exchange</span><span class="o">.</span><span class="n">create_market_sell_order</span><span class="p">(</span>
+            <span class="n">symbol</span><span class="o">=</span><span class="n">symbol</span><span class="p">,</span>
+            <span class="n">amount</span><span class="o">=</span><span class="n">amount</span>
+        <span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"紧急卖出成功!"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"订单ID: </span><span class="si">{</span><span class="n">order</span><span class="p">[</span><span class="s1">'id'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"平均价格: </span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'average'</span><span class="p">,</span><span class="w"> </span><span class="s1">'N/A'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"成交金额: </span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'filled'</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">order</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'average'</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">order</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"卖出失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+<span class="c1"># 调用示例</span>
+<span class="n">emergency_sell</span><span class="p">(</span><span class="n">exchange</span><span class="p">,</span> <span class="s1">'BTC/USDT'</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="222">2.2.2 市价单的滑点计算<a class="headerlink" href="#222" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">calculate_slippage</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">expected_price</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    计算市价单的滑点</span>
+<span class="sd">    """</span>
+    <span class="n">actual_price</span> <span class="o">=</span> <span class="n">order</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'average'</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">actual_price</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="n">slippage</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">actual_price</span> <span class="o">-</span> <span class="n">expected_price</span><span class="p">)</span> <span class="o">/</span> <span class="n">expected_price</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="k">return</span> <span class="n">slippage</span>
+
+<span class="c1"># 使用示例</span>
+<span class="n">order</span> <span class="o">=</span> <span class="n">emergency_sell</span><span class="p">(</span><span class="n">exchange</span><span class="p">,</span> <span class="s1">'BTC/USDT'</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+<span class="n">expected_price</span> <span class="o">=</span> <span class="mi">30000</span>  <span class="c1"># 策略预期价格</span>
+
+<span class="k">if</span> <span class="n">order</span><span class="p">:</span>
+    <span class="n">slippage</span> <span class="o">=</span> <span class="n">calculate_slippage</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">expected_price</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"滑点: </span><span class="si">{</span><span class="n">slippage</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">slippage</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"⚠️ 滑点较大，需要关注"</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h2 id="_4">第三部分：订单优化策略<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="31">3.1 限价单优化技巧<a class="headerlink" href="#31" title="Permanent link">&para;</a></h3>
+<h4 id="311">3.1.1 价格设置策略<a class="headerlink" href="#311" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">calculate_optimal_price</span><span class="p">(</span><span class="n">current_price</span><span class="p">,</span> <span class="n">side</span><span class="p">,</span> <span class="n">spread_percentage</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    计算最优限价单价格</span>
+<span class="sd">    """</span>
+    <span class="n">spread</span> <span class="o">=</span> <span class="n">current_price</span> <span class="o">*</span> <span class="p">(</span><span class="n">spread_percentage</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">side</span> <span class="o">==</span> <span class="s1">'buy'</span><span class="p">:</span>
+        <span class="c1"># 买入单：略低于当前价格</span>
+        <span class="n">optimal_price</span> <span class="o">=</span> <span class="n">current_price</span> <span class="o">-</span> <span class="n">spread</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># 卖出单：略高于当前价格</span>
+        <span class="n">optimal_price</span> <span class="o">=</span> <span class="n">current_price</span> <span class="o">+</span> <span class="n">spread</span>
+
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">optimal_price</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># 使用示例</span>
+<span class="n">current_price</span> <span class="o">=</span> <span class="mf">30150.00</span>
+<span class="n">buy_price</span> <span class="o">=</span> <span class="n">calculate_optimal_price</span><span class="p">(</span><span class="n">current_price</span><span class="p">,</span> <span class="s1">'buy'</span><span class="p">)</span>
+<span class="n">sell_price</span> <span class="o">=</span> <span class="n">calculate_optimal_price</span><span class="p">(</span><span class="n">current_price</span><span class="p">,</span> <span class="s1">'sell'</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"当前价格: </span><span class="si">{</span><span class="n">current_price</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"建议买入价: </span><span class="si">{</span><span class="n">buy_price</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"建议卖出价: </span><span class="si">{</span><span class="n">sell_price</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="312">3.1.2 分批下单策略<a class="headerlink" href="#312" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">split_order</span><span class="p">(</span><span class="n">total_amount</span><span class="p">,</span> <span class="n">price</span><span class="p">,</span> <span class="n">num_orders</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    将大额订单分成多个小订单</span>
+<span class="sd">    """</span>
+    <span class="n">order_size</span> <span class="o">=</span> <span class="n">total_amount</span> <span class="o">/</span> <span class="n">num_orders</span>
+    <span class="n">orders</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_orders</span><span class="p">):</span>
+        <span class="c1"># 为每个订单设置略有不同的价格</span>
+        <span class="n">price_adjustment</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="mf">0.01</span>  <span class="c1"># 0.01%的价格差异</span>
+        <span class="n">order_price</span> <span class="o">=</span> <span class="n">price</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">price_adjustment</span> <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">price_adjustment</span><span class="p">)</span>
+
+        <span class="n">orders</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s1">'amount'</span><span class="p">:</span> <span class="n">order_size</span><span class="p">,</span>
+            <span class="s1">'price'</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">order_price</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">orders</span>
+
+<span class="c1"># 使用示例</span>
+<span class="n">orders</span> <span class="o">=</span> <span class="n">split_order</span><span class="p">(</span><span class="mf">0.003</span><span class="p">,</span> <span class="mi">30000</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">order</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">orders</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"订单 </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">order</span><span class="p">[</span><span class="s1">'amount'</span><span class="p">]</span><span class="si">}</span><span class="s2"> BTC @ $</span><span class="si">{</span><span class="n">order</span><span class="p">[</span><span class="s1">'price'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="32">3.2 止损订单优化<a class="headerlink" href="#32" title="Permanent link">&para;</a></h3>
+<h4 id="321">3.2.1 动态止损设置<a class="headerlink" href="#321" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">calculate_dynamic_stoploss</span><span class="p">(</span><span class="n">entry_price</span><span class="p">,</span> <span class="n">current_price</span><span class="p">,</span> <span class="n">atr</span><span class="p">,</span> <span class="n">multiplier</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    基于ATR的动态止损</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">current_price</span> <span class="o">&gt;</span> <span class="n">entry_price</span><span class="p">:</span>
+        <span class="c1"># 盈利时，提高止损价格</span>
+        <span class="n">stoploss</span> <span class="o">=</span> <span class="n">current_price</span> <span class="o">-</span> <span class="p">(</span><span class="n">atr</span> <span class="o">*</span> <span class="n">multiplier</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># 亏损时，保持原止损</span>
+        <span class="n">stoploss</span> <span class="o">=</span> <span class="n">entry_price</span> <span class="o">-</span> <span class="p">(</span><span class="n">atr</span> <span class="o">*</span> <span class="n">multiplier</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">stoploss</span>
+
+<span class="c1"># 使用示例</span>
+<span class="n">entry_price</span> <span class="o">=</span> <span class="mi">30000</span>
+<span class="n">current_price</span> <span class="o">=</span> <span class="mi">30500</span>
+<span class="n">atr</span> <span class="o">=</span> <span class="mi">150</span>  <span class="c1"># 平均真实波幅</span>
+
+<span class="n">stoploss</span> <span class="o">=</span> <span class="n">calculate_dynamic_stoploss</span><span class="p">(</span><span class="n">entry_price</span><span class="p">,</span> <span class="n">current_price</span><span class="p">,</span> <span class="n">atr</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"动态止损价格: $</span><span class="si">{</span><span class="n">stoploss</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="322">3.2.2 追踪止损设置<a class="headerlink" href="#322" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">trailing_stoploss</span><span class="p">(</span><span class="n">current_price</span><span class="p">,</span> <span class="n">highest_price</span><span class="p">,</span> <span class="n">stoploss_pct</span><span class="p">,</span> <span class="n">trailing_pct</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    追踪止损计算</span>
+<span class="sd">    """</span>
+    <span class="c1"># 计算基础止损价</span>
+    <span class="n">base_stoploss</span> <span class="o">=</span> <span class="n">highest_price</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">stoploss_pct</span><span class="p">)</span>
+
+    <span class="c1"># 计算追踪止损价</span>
+    <span class="n">trailing_stoploss</span> <span class="o">=</span> <span class="n">current_price</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">trailing_pct</span><span class="p">)</span>
+
+    <span class="c1"># 取较高者作为止损价</span>
+    <span class="n">final_stoploss</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">base_stoploss</span><span class="p">,</span> <span class="n">trailing_stoploss</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">final_stoploss</span>
+
+<span class="c1"># 使用示例</span>
+<span class="n">current_price</span> <span class="o">=</span> <span class="mi">31000</span>
+<span class="n">highest_price</span> <span class="o">=</span> <span class="mi">31500</span>
+<span class="n">stoploss_pct</span> <span class="o">=</span> <span class="mf">0.05</span>  <span class="c1"># 5%止损</span>
+<span class="n">trailing_pct</span> <span class="o">=</span> <span class="mf">0.03</span>  <span class="c1"># 3%追踪</span>
+
+<span class="n">final_stop</span> <span class="o">=</span> <span class="n">trailing_stoploss</span><span class="p">(</span><span class="n">current_price</span><span class="p">,</span> <span class="n">highest_price</span><span class="p">,</span> <span class="n">stoploss_pct</span><span class="p">,</span> <span class="n">trailing_pct</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"追踪止损价: $</span><span class="si">{</span><span class="n">final_stop</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h2 id="_5">第四部分：常见问题与解决方案<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h3 id="41">4.1 订单未能成交<a class="headerlink" href="#41" title="Permanent link">&para;</a></h3>
+<h4 id="411">4.1.1 问题分析<a class="headerlink" href="#411" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">analyze_unfilled_order</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">current_price</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    分析订单未成交原因</span>
+<span class="sd">    """</span>
+    <span class="n">order_price</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">order</span><span class="p">[</span><span class="s1">'price'</span><span class="p">])</span>
+    <span class="n">price_diff</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">current_price</span> <span class="o">-</span> <span class="n">order_price</span><span class="p">)</span> <span class="o">/</span> <span class="n">current_price</span> <span class="o">*</span> <span class="mi">100</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"订单价格: $</span><span class="si">{</span><span class="n">order_price</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"当前价格: $</span><span class="si">{</span><span class="n">current_price</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"价格差异: </span><span class="si">{</span><span class="n">price_diff</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">price_diff</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"❌ 价格差异过大，建议调整订单价格"</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">order</span><span class="p">[</span><span class="s1">'status'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'expired'</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"❌ 订单已过期，建议重新下单"</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">order</span><span class="p">[</span><span class="s1">'status'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'rejected'</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"❌ 订单被拒绝，检查账户余额"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"⏳ 订单仍在等待成交"</span><span class="p">)</span>
+
+<span class="c1"># 使用示例</span>
+<span class="n">order</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'price'</span><span class="p">:</span> <span class="s1">'29500.00'</span><span class="p">,</span> <span class="s1">'status'</span><span class="p">:</span> <span class="s1">'open'</span><span class="p">}</span>
+<span class="n">current_price</span> <span class="o">=</span> <span class="mi">30100</span>
+<span class="n">analyze_unfilled_order</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">current_price</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="412">4.1.2 解决方案<a class="headerlink" href="#412" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">handle_unfilled_order</span><span class="p">(</span><span class="n">exchange</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="s1">'adjust'</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    处理未成交订单</span>
+<span class="sd">    """</span>
+    <span class="n">current_price</span> <span class="o">=</span> <span class="n">exchange</span><span class="o">.</span><span class="n">fetch_ticker</span><span class="p">(</span><span class="n">symbol</span><span class="p">)[</span><span class="s1">'last'</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">strategy</span> <span class="o">==</span> <span class="s1">'adjust'</span><span class="p">:</span>
+        <span class="c1"># 调整价格策略</span>
+        <span class="n">new_price</span> <span class="o">=</span> <span class="n">calculate_optimal_price</span><span class="p">(</span><span class="n">current_price</span><span class="p">,</span> <span class="n">order</span><span class="p">[</span><span class="s1">'side'</span><span class="p">])</span>
+
+        <span class="c1"># 取消原订单</span>
+        <span class="n">exchange</span><span class="o">.</span><span class="n">cancel_order</span><span class="p">(</span><span class="n">order</span><span class="p">[</span><span class="s1">'id'</span><span class="p">],</span> <span class="n">symbol</span><span class="p">)</span>
+
+        <span class="c1"># 创建新订单</span>
+        <span class="n">new_order</span> <span class="o">=</span> <span class="n">exchange</span><span class="o">.</span><span class="n">create_limit_order</span><span class="p">(</span>
+            <span class="n">symbol</span><span class="o">=</span><span class="n">symbol</span><span class="p">,</span>
+            <span class="n">side</span><span class="o">=</span><span class="n">order</span><span class="p">[</span><span class="s1">'side'</span><span class="p">],</span>
+            <span class="n">amount</span><span class="o">=</span><span class="n">order</span><span class="p">[</span><span class="s1">'remaining'</span><span class="p">],</span>
+            <span class="n">price</span><span class="o">=</span><span class="n">new_price</span>
+        <span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"已调整订单价格至: $</span><span class="si">{</span><span class="n">new_price</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">new_order</span>
+
+    <span class="k">elif</span> <span class="n">strategy</span> <span class="o">==</span> <span class="s1">'market'</span><span class="p">:</span>
+        <span class="c1"># 改为市价单</span>
+        <span class="n">exchange</span><span class="o">.</span><span class="n">cancel_order</span><span class="p">(</span><span class="n">order</span><span class="p">[</span><span class="s1">'id'</span><span class="p">],</span> <span class="n">symbol</span><span class="p">)</span>
+
+        <span class="n">market_order</span> <span class="o">=</span> <span class="n">exchange</span><span class="o">.</span><span class="n">create_market_order</span><span class="p">(</span>
+            <span class="n">symbol</span><span class="o">=</span><span class="n">symbol</span><span class="p">,</span>
+            <span class="n">side</span><span class="o">=</span><span class="n">order</span><span class="p">[</span><span class="s1">'side'</span><span class="p">],</span>
+            <span class="n">amount</span><span class="o">=</span><span class="n">order</span><span class="p">[</span><span class="s1">'remaining'</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"已改为市价单"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">market_order</span>
+
+    <span class="k">return</span> <span class="kc">None</span>
+</code></pre></div>
+<h3 id="42">4.2 滑点控制<a class="headerlink" href="#42" title="Permanent link">&para;</a></h3>
+<h4 id="421">4.2.1 滑点监控<a class="headerlink" href="#421" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">SlippageMonitor</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_slippage</span><span class="o">=</span><span class="mf">0.3</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_slippage</span> <span class="o">=</span> <span class="n">max_slippage</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">slippage_history</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_trade</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expected_price</span><span class="p">,</span> <span class="n">actual_price</span><span class="p">,</span> <span class="n">trade_type</span><span class="p">):</span>
+        <span class="n">slippage</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">actual_price</span> <span class="o">-</span> <span class="n">expected_price</span><span class="p">)</span> <span class="o">/</span> <span class="n">expected_price</span> <span class="o">*</span> <span class="mi">100</span>
+        <span class="n">direction</span> <span class="o">=</span> <span class="s1">'positive'</span> <span class="k">if</span> <span class="n">actual_price</span> <span class="o">&lt;</span> <span class="n">expected_price</span> <span class="k">else</span> <span class="s1">'negative'</span>
+
+        <span class="n">trade_data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">'timestamp'</span><span class="p">:</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">(),</span>
+            <span class="s1">'expected_price'</span><span class="p">:</span> <span class="n">expected_price</span><span class="p">,</span>
+            <span class="s1">'actual_price'</span><span class="p">:</span> <span class="n">actual_price</span><span class="p">,</span>
+            <span class="s1">'slippage'</span><span class="p">:</span> <span class="n">slippage</span><span class="p">,</span>
+            <span class="s1">'direction'</span><span class="p">:</span> <span class="n">direction</span><span class="p">,</span>
+            <span class="s1">'type'</span><span class="p">:</span> <span class="n">trade_type</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">slippage_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trade_data</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">slippage</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_slippage</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"⚠️ 滑点过大: </span><span class="si">{</span><span class="n">slippage</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">% (期望: $</span><span class="si">{</span><span class="n">expected_price</span><span class="si">}</span><span class="s2">, 实际: $</span><span class="si">{</span><span class="n">actual_price</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">trade_data</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_average_slippage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trades</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
+        <span class="n">recent_trades</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slippage_history</span><span class="p">[</span><span class="o">-</span><span class="n">trades</span><span class="p">:]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">recent_trades</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="n">avg_slippage</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="s1">'slippage'</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">recent_trades</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">recent_trades</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">avg_slippage</span>
+
+<span class="c1"># 使用示例</span>
+<span class="n">monitor</span> <span class="o">=</span> <span class="n">SlippageMonitor</span><span class="p">(</span><span class="n">max_slippage</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">monitor</span><span class="o">.</span><span class="n">add_trade</span><span class="p">(</span><span class="mi">30000</span><span class="p">,</span> <span class="mi">30090</span><span class="p">,</span> <span class="s1">'buy'</span><span class="p">)</span>
+<span class="n">monitor</span><span class="o">.</span><span class="n">add_trade</span><span class="p">(</span><span class="mi">30500</span><span class="p">,</span> <span class="mi">30470</span><span class="p">,</span> <span class="s1">'sell'</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"平均滑点: </span><span class="si">{</span><span class="n">monitor</span><span class="o">.</span><span class="n">get_average_slippage</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="422">4.2.2 滑点优化策略<a class="headerlink" href="#422" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">optimize_order_type</span><span class="p">(</span><span class="n">symbol</span><span class="p">,</span> <span class="n">volatility</span><span class="p">,</span> <span class="n">liquidity_score</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    根据市场条件优化订单类型</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">volatility</span> <span class="o">&gt;</span> <span class="mf">0.05</span><span class="p">:</span>  <span class="c1"># 高波动</span>
+        <span class="k">if</span> <span class="n">liquidity_score</span> <span class="o">&gt;</span> <span class="mf">0.8</span><span class="p">:</span>  <span class="c1"># 高流动性</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s1">'entry'</span><span class="p">:</span> <span class="s1">'limit'</span><span class="p">,</span>
+                <span class="s1">'exit'</span><span class="p">:</span> <span class="s1">'market'</span><span class="p">,</span>
+                <span class="s1">'reason'</span><span class="p">:</span> <span class="s1">'高波动环境，使用限价买入控制成本，市价卖出确保成交'</span>
+            <span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># 低流动性</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s1">'entry'</span><span class="p">:</span> <span class="s1">'limit'</span><span class="p">,</span>
+                <span class="s1">'exit'</span><span class="p">:</span> <span class="s1">'limit'</span><span class="p">,</span>
+                <span class="s1">'reason'</span><span class="p">:</span> <span class="s1">'高波动+低流动性，全部使用限价单避免滑点'</span>
+            <span class="p">}</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># 低波动</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">'entry'</span><span class="p">:</span> <span class="s1">'limit'</span><span class="p">,</span>
+            <span class="s1">'exit'</span><span class="p">:</span> <span class="s1">'limit'</span><span class="p">,</span>
+            <span class="s1">'reason'</span><span class="p">:</span> <span class="s1">'低波动环境，限价单可以更好地控制价格'</span>
+        <span class="p">}</span>
+
+<span class="c1"># 使用示例</span>
+<span class="n">volatility</span> <span class="o">=</span> <span class="mf">0.03</span>  <span class="c1"># 3%日波动率</span>
+<span class="n">liquidity_score</span> <span class="o">=</span> <span class="mf">0.9</span>  <span class="c1"># 高流动性</span>
+
+<span class="n">recommendation</span> <span class="o">=</span> <span class="n">optimize_order_type</span><span class="p">(</span><span class="s1">'BTC/USDT'</span><span class="p">,</span> <span class="n">volatility</span><span class="p">,</span> <span class="n">liquidity_score</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"推荐订单类型: </span><span class="si">{</span><span class="n">recommendation</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h2 id="_6">第五部分：实际配置示例<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h3 id="51">5.1 保守型配置（适合新手）<a class="headerlink" href="#51" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"order_types"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"emergency_exit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stoploss"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stoploss_on_exchange"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stoploss_on_exchange_interval"</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"unfilledtimeout"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"unit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"minutes"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"order_time_in_force"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="s2">"gtc"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"gtc"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>特点</strong>：
+- 主要使用限价单，控制交易成本
+- 紧急情况使用市价单
+- 订单超时时间较长（15分钟）
+- 适合不急于成交的策略</p>
+<h3 id="52">5.2 积极型配置（适合高频策略）<a class="headerlink" href="#52" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"order_types"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"emergency_exit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stoploss"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stoploss_on_exchange"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stoploss_on_exchange_interval"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"unfilledtimeout"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"unit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"minutes"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"order_time_in_force"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ioc"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ioc"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>特点</strong>：
+- 买入使用限价单控制成本
+- 卖出使用市价单确保成交
+- 订单超时时间短（5-10分钟）
+- 适合需要快速成交的策略</p>
+<h3 id="53">5.3 混合型配置（平衡策略）<a class="headerlink" href="#53" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"order_types"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"emergency_exit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stoploss"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stoploss_on_exchange"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"unfilledtimeout"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"unit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"minutes"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"order_time_in_force"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="s2">"gtc"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"gtc"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>特点</strong>：
+- 全部使用限价单，精确控制价格
+- 止损也使用限价单，避免滑点
+- 适合对价格控制要求高的策略</p>
+<hr />
+<h2 id="_7">📝 实践任务<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<h3 id="1">任务 1：订单类型测试<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
+<p>使用测试网测试不同的订单类型：
+1. 创建限价买单，设置不同价格差
+2. 创建市价单，观察滑点
+3. 测试止损订单的执行
+4. 记录不同市场条件下的表现</p>
+<h3 id="2">任务 2：滑点测量<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<p>实际测量滑点：
+1. 记录10笔限价单的成交价与期望价
+2. 记录10笔市价单的滑点
+3. 分析滑点与市场波动的关系
+4. 优化你的订单配置</p>
+<h3 id="3">任务 3：订单优化<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
+<p>基于你的策略特点：
+1. 分析策略的成交需求
+2. 选择合适的订单类型
+3. 配置超时参数
+4. 测试优化后的配置</p>
+<hr />
+<h2 id="_8">📌 核心要点<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<h3 id="_9">订单类型选择原则<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>限价单使用场景：
+✅ 价格敏感的策略
+✅ 不急于成交
+✅ 需要控制交易成本
+✅ 主流币种，流动性好
+
+市价单使用场景：
+✅ 紧急止损
+✅ 市场突破
+✅ 高流动性币种
+✅ 不在意小幅价格差异
+</code></pre></div>
+<h3 id="_10">常见错误避免<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>错误</th>
+<th>后果</th>
+<th>正确做法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>止损使用限价单</td>
+<td>可能无法成交</td>
+<td>止损使用市价单</td>
+</tr>
+<tr>
+<td>限价单价格偏离太远</td>
+<td>长时间不成交</td>
+<td>设置合理价格差</td>
+</tr>
+<tr>
+<td>不监控订单状态</td>
+<td>错过最佳时机</td>
+<td>定期检查订单状态</td>
+</tr>
+<tr>
+<td>忽视滑点影响</td>
+<td>实际收益低于预期</td>
+<td>实时监控滑点</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_11">实盘下单检查清单<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>下单前检查：
+□ 订单类型设置正确
+□ 价格/数量合理
+□ 账户余额充足
+□ 市场流动性合适
+
+下单后监控：
+□ 订单状态正常
+□ 成交价格合理
+□ 滑点在可接受范围
+□ 手续费计算正确
+</code></pre></div>
+<hr />
+<h2 id="_12">🎯 下节预告<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h2>
+<p><strong>第 24.2 课：止损操作详解</strong></p>
+<p>在下一课中，我们将学习：
+- 各种止损类型的设置和使用
+- 动态止损和追踪止损的实现
+- 止损触发后的处理流程
+- 如何优化止损策略以降低风险</p>
+<p>理解了下单机制后，接下来学习如何有效控制风险。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

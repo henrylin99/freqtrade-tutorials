@@ -1,0 +1,3949 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径">
+      
+      
+      
+        <link rel="canonical" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-25-risk-management/">
+      
+      
+        <link rel="prev" href="../lesson-24-trading-monitoring/">
+      
+      
+        <link rel="next" href="../lesson-26-custom-strategy/">
+      
+      
+        
+          <link rel="alternate" href="./" hreflang="zh">
+        
+          <link rel="alternate" href="../en/lesson-25-risk-management/" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>第 25 课：风险控制与心态管理 - Freqtrade 实战教程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9784658154228475"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VGHZY4EELE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VGHZY4EELE");
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#25" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="Freqtrade 实战教程" class="md-header__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Freqtrade 实战教程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第 25 课：风险控制与心态管理
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="选择当前语言">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../en/lesson-25-risk-management/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/henrylin99/freqtrade-tutorials" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../strategies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🇨🇳 中文教程
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Freqtrade 实战教程" class="md-nav__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Freqtrade 实战教程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/henrylin99/freqtrade-tutorials" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../strategies/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🇨🇳 中文教程
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🇨🇳 中文教程
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 1 课：量化交易与 Freqtrade 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-02-environment-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 2 课：Freqtrade 环境搭建
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-03-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 3 课：核心概念理解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-04-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 4 课：数据下载与管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-05-first-backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 5 课：第一次策略回测
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-06-strategy-performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 6 课：策略性能分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-07-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 7 课：多时间框架回测
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-08-strategy-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 8 课：策略批量对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-09-timerange-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 9 课：Freqtrade时间范围测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-10-pair-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 10 课：Freqtrade交易对选择与测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-11-hyperopt-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 11 课：Freqtrade参数优化入门（Hyperopt）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-12-advanced-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 12 课：高级策略分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-13-scoring-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 13 课：策略评分体系
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-14-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 14 课：风险管理与资金管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-15-portfolio-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 15 课：Freqtrade策略组合与分散
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-16-realtime-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 16 课：实时信号监控
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-17-telegram-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 17 课：Telegram 通知配置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-18-webui-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 18 课：Web UI 与 API 使用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 19 课：可视化分析工具
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-20-dry-run-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 20 课：模拟交易验证
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-21-exchange-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 21 课：交易所 API 配置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-22-pre-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 22 课：实盘前检查清单
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-23-small-capital-live/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 23 课：小资金实盘测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-1-order-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.1 课：实盘交易下单操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-2-stop-loss-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.2 课：实盘交易止损操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-3-futures-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.3 课：币安合约交易操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-4-leverage-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.4 课：杠杆交易操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-trading-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24 课：交易监控与调整
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 25 课：风险控制与心态管理
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 25 课：风险控制与心态管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        课程概述
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一部分：高级风险控制
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第一部分：高级风险控制">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 多层次风险控制体系
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1 多层次风险控制体系">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一层：单笔交易风险控制
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第二层：总风险敞口控制
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第三层：日亏损限制
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第四层：周/月亏损限制
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 动态止损策略
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.2 动态止损策略">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        策略 1：固定百分比止损（基础）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        策略 2：追踪止损（推荐）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-atr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        策略 3：基于 ATR 的动态止损（高级）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 仓位管理进阶
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.3 仓位管理进阶">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 1：固定仓位（已学习）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 2：固定比例
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3kelly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 3：Kelly 公式（高级）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 4：分级仓位管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 保护机制配置
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.4 保护机制配置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1stoplossguard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保护 1：StopLossGuard（止损保护）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2maxdrawdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保护 2：MaxDrawdown（回撤保护）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3lowprofitpairs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保护 3：LowProfitPairs（低盈利保护）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4cooldownperiod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保护 4：CooldownPeriod（冷却期）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        综合保护配置（推荐）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第二部分：心态管理
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第二部分：心态管理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 交易心理的四大敌人
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 交易心理的四大敌人">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1fear" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        敌人 1：恐惧（Fear）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2greed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        敌人 2：贪婪（Greed）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3revenge-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        敌人 3：报复性交易（Revenge Trading）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4overconfidence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        敌人 4：过度自信（Overconfidence）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 建立交易纪律
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 建立交易纪律">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        交易纪律守则
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 应对连续亏损
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 应对连续亏损">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        连续亏损处理流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        心理恢复技巧
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 长期心态养成
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.4 长期心态养成">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        职业交易者的心态特质
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        每日心态练习
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第三部分：风险管理工具
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第三部分：风险管理工具">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 风险监控脚本
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 交易日记工具
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 实践任务
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 实践任务">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 1：计算你的风险参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 2：配置保护机制
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 3：签署交易纪律守则
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 4：开始写交易日记
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 5：心理压力测试
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 核心要点
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📌 核心要点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        风险控制的铁律
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        心态管理的关键
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        长期生存法则
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 下节预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-26-custom-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 26 课：自定义策略开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-27-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 27 课：多时间框架策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-28-grid-hft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 28 课：高频交易与网格策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-1-freqai-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29.1 课：FreqAI 深度实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-2-advanced-ml-strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29.2 课：高级机器学习策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning-enhanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29 课：机器学习基础与策略优化（增强版）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29 课：机器学习与策略优化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-30-conclusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 30 课：总结与持续学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        课程概述
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一部分：高级风险控制
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第一部分：高级风险控制">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 多层次风险控制体系
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1 多层次风险控制体系">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一层：单笔交易风险控制
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第二层：总风险敞口控制
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第三层：日亏损限制
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第四层：周/月亏损限制
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 动态止损策略
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.2 动态止损策略">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        策略 1：固定百分比止损（基础）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        策略 2：追踪止损（推荐）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-atr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        策略 3：基于 ATR 的动态止损（高级）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 仓位管理进阶
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.3 仓位管理进阶">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 1：固定仓位（已学习）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 2：固定比例
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3kelly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 3：Kelly 公式（高级）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 4：分级仓位管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 保护机制配置
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.4 保护机制配置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1stoplossguard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保护 1：StopLossGuard（止损保护）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2maxdrawdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保护 2：MaxDrawdown（回撤保护）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3lowprofitpairs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保护 3：LowProfitPairs（低盈利保护）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4cooldownperiod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保护 4：CooldownPeriod（冷却期）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        综合保护配置（推荐）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第二部分：心态管理
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第二部分：心态管理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 交易心理的四大敌人
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 交易心理的四大敌人">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1fear" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        敌人 1：恐惧（Fear）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2greed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        敌人 2：贪婪（Greed）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3revenge-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        敌人 3：报复性交易（Revenge Trading）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4overconfidence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        敌人 4：过度自信（Overconfidence）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 建立交易纪律
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 建立交易纪律">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        交易纪律守则
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 应对连续亏损
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 应对连续亏损">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        连续亏损处理流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        心理恢复技巧
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 长期心态养成
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.4 长期心态养成">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        职业交易者的心态特质
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        每日心态练习
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第三部分：风险管理工具
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第三部分：风险管理工具">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 风险监控脚本
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 交易日记工具
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 实践任务
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 实践任务">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 1：计算你的风险参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 2：配置保护机制
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 3：签署交易纪律守则
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 4：开始写交易日记
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 5：心理压力测试
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 核心要点
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📌 核心要点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        风险控制的铁律
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        心态管理的关键
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        长期生存法则
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 下节预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="25">第 25 课：风险控制与心态管理<a class="headerlink" href="#25" title="Permanent link">&para;</a></h1>
+<p><strong>⏱ 课时</strong>：1.5 小时
+<strong>🎯 学习目标</strong>：掌握长期稳定盈利的核心要素——风险控制和心态管理</p>
+<hr />
+<h2 id="_1">课程概述<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>技术、策略、监控都很重要，但真正决定长期成败的是风险控制和心态管理。</p>
+<p><strong>统计数据显示</strong>：
+- 90% 的交易者失败不是因为策略不好，而是因为：
+  - 风险控制不当（过度杠杆、不设止损）
+  - 心态失控（恐惧、贪婪、报复性交易）</p>
+<p><strong>本课核心理念</strong>：</p>
+<blockquote>
+<p><strong>控制风险，管理心态，才能长期生存并盈利。</strong></p>
+</blockquote>
+<hr />
+<h2 id="_2">第一部分：高级风险控制<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="11">1.1 多层次风险控制体系<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
+<h4 id="_3">第一层：单笔交易风险控制<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>单笔风险 = 每笔交易可承受的最大亏损
+
+推荐配置：
+- 保守：单笔风险 1% 总资金
+- 适中：单笔风险 2% 总资金
+- 激进：单笔风险 3% 总资金（不推荐新手）
+
+示例（总资金 $10,000）：
+单笔风险 2% = $200
+
+如果止损设置为 -4%：
+仓位大小 = $200 / 0.04 = $5,000
+
+配置：
+"stake_amount": 5000,
+"stoploss": -0.04
+</code></pre></div>
+<p><strong>重要</strong>：无论盈利多少，单笔风险永远不应超过总资金的 5%。</p>
+<h4 id="_4">第二层：总风险敞口控制<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>总风险敞口 = 所有持仓的风险总和
+
+推荐配置：
+- 保守：总风险 ≤ 5% 总资金
+- 适中：总风险 ≤ 10% 总资金
+- 激进：总风险 ≤ 15% 总资金
+
+示例（单笔风险 2%，最大持仓 3）：
+总风险敞口 = 2% × 3 = 6%
+
+如果同时满仓 3 个持仓都触发止损：
+最大亏损 = $10,000 × 6% = $600
+
+配置：
+"max_open_trades": 3,
+"stake_amount": 5000,
+"stoploss": -0.04
+</code></pre></div>
+<h4 id="_5">第三层：日亏损限制<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>设置每日最大亏损限制，触发后停止交易
+
+推荐配置：
+- 每日最大亏损：3-5% 总资金
+
+实现方式：
+1. 使用 MaxDrawdown 保护
+2. 或自定义脚本监控
+
+配置：
+"protections": [
+  {
+    "method": "MaxDrawdown",
+    "lookback_period": 24,  # 24 小时
+    "trade_limit": 0,
+    "stop_duration": 1440,  # 停止 24 小时
+    "max_allowed_drawdown": 0.05  # 5%
+  }
+]
+</code></pre></div>
+<h4 id="_6">第四层：周/月亏损限制<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>累计亏损控制：
+- 周亏损限制：-10%
+- 月亏损限制：-15%
+
+触发后行动：
+- 周亏损 &gt; -10%：暂停交易 3 天，深入分析
+- 月亏损 &gt; -15%：停止交易，全面评估策略
+
+手动监控和执行（需要纪律）
+</code></pre></div>
+<h3 id="12">1.2 动态止损策略<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<h4 id="1">策略 1：固定百分比止损（基础）<a class="headerlink" href="#1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"stoploss"</span><span class="p">:</span><span class="w"> </span><span class="mf">-0.03</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>优点：
+- ✅ 简单明确
+- ✅ 风险可控</p>
+<p>缺点：
+- ⚠️ 不考虑市场波动
+- ⚠️ 可能过紧或过松</p>
+<h4 id="2">策略 2：追踪止损（推荐）<a class="headerlink" href="#2" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"stoploss"</span><span class="p">:</span><span class="w"> </span><span class="mf">-0.03</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"trailing_stop"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"trailing_stop_positive"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.01</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"trailing_stop_positive_offset"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.02</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"trailing_only_offset_is_reached"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>工作原理：
+<div class="highlight"><pre><span></span><code>1. 开仓价格：$100
+   止损：$97 (-3%)
+
+2. 价格涨到 $102（盈利 +2%，达到 offset）
+   追踪止损激活
+   新止损：$102 × (1 - 0.01) = $100.98 (+0.98%)
+
+3. 价格涨到 $105
+   止损上移：$105 × (1 - 0.01) = $103.95 (+3.95%)
+
+4. 价格回落到 $103.95
+   触发止损，锁定 +3.95% 利润
+</code></pre></div></p>
+<p>优点：
+- ✅ 保护利润
+- ✅ 让盈利奔跑
+- ✅ 自动调整</p>
+<h4 id="3-atr">策略 3：基于 ATR 的动态止损（高级）<a class="headerlink" href="#3-atr" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 在策略中自定义止损</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">freqtrade.strategy</span><span class="w"> </span><span class="kn">import</span> <span class="n">IStrategy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">talib.abstract</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ta</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">DynamicStopLossStrategy</span><span class="p">(</span><span class="n">IStrategy</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">custom_stoploss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pair</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">trade</span><span class="p">:</span> <span class="s1">'Trade'</span><span class="p">,</span> <span class="n">current_time</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span>
+                        <span class="n">current_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">current_profit</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        基于 ATR 的动态止损</span>
+<span class="sd">        """</span>
+        <span class="n">dataframe</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dp</span><span class="o">.</span><span class="n">get_analyzed_dataframe</span><span class="p">(</span><span class="n">pair</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeframe</span><span class="p">)</span>
+        <span class="n">last_candle</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+
+        <span class="c1"># 计算 ATR</span>
+        <span class="n">atr</span> <span class="o">=</span> <span class="n">last_candle</span><span class="p">[</span><span class="s1">'atr'</span><span class="p">]</span>
+        <span class="n">current_price</span> <span class="o">=</span> <span class="n">current_rate</span>
+
+        <span class="c1"># 止损设置为 2 倍 ATR</span>
+        <span class="n">atr_stop_distance</span> <span class="o">=</span> <span class="p">(</span><span class="n">atr</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">current_price</span>
+
+        <span class="c1"># 最小止损 -2%，最大止损 -5%</span>
+        <span class="n">stop_loss</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="o">-</span><span class="n">atr_stop_distance</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.02</span><span class="p">),</span> <span class="o">-</span><span class="mf">0.05</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">stop_loss</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_indicators</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+        <span class="c1"># 添加 ATR 指标</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'atr'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">ATR</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dataframe</span>
+</code></pre></div>
+<p>优点：
+- ✅ 适应市场波动
+- ✅ 高波动时止损更宽
+- ✅ 低波动时止损更紧</p>
+<h3 id="13">1.3 仓位管理进阶<a class="headerlink" href="#13" title="Permanent link">&para;</a></h3>
+<h4 id="1_1">方法 1：固定仓位（已学习）<a class="headerlink" href="#1_1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>每笔交易固定金额
+"stake_amount": 1000
+</code></pre></div>
+<h4 id="2_1">方法 2：固定比例<a class="headerlink" href="#2_1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>每笔交易占总资金的固定比例
+"stake_amount": "unlimited",
+"tradable_balance_ratio": 0.33  # 每笔 1/3 可用资金
+</code></pre></div>
+<h4 id="3kelly">方法 3：Kelly 公式（高级）<a class="headerlink" href="#3kelly" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Kelly 公式计算最优仓位</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">kelly_criterion</span><span class="p">(</span><span class="n">win_rate</span><span class="p">,</span> <span class="n">avg_win</span><span class="p">,</span> <span class="n">avg_loss</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Kelly % = W - [(1-W) / R]</span>
+<span class="sd">    W = 胜率</span>
+<span class="sd">    R = 平均盈利/平均亏损（盈亏比）</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">avg_loss</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="n">R</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">avg_win</span> <span class="o">/</span> <span class="n">avg_loss</span><span class="p">)</span>
+    <span class="n">kelly</span> <span class="o">=</span> <span class="n">win_rate</span> <span class="o">-</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">win_rate</span><span class="p">)</span> <span class="o">/</span> <span class="n">R</span><span class="p">)</span>
+
+    <span class="c1"># 保守起见，使用 Kelly 的一半（Half Kelly）</span>
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">kelly</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">)</span>
+
+<span class="c1"># 示例计算</span>
+<span class="n">win_rate</span> <span class="o">=</span> <span class="mf">0.55</span>  <span class="c1"># 55% 胜率</span>
+<span class="n">avg_win</span> <span class="o">=</span> <span class="mf">3.5</span>    <span class="c1"># 平均盈利 $3.5</span>
+<span class="n">avg_loss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.0</span>  <span class="c1"># 平均亏损 $2.0</span>
+
+<span class="n">kelly_pct</span> <span class="o">=</span> <span class="n">kelly_criterion</span><span class="p">(</span><span class="n">win_rate</span><span class="p">,</span> <span class="n">avg_win</span><span class="p">,</span> <span class="n">avg_loss</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Kelly 仓位: </span><span class="si">{</span><span class="n">kelly_pct</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+
+<span class="c1"># 输出: Kelly 仓位: 16.4%</span>
+<span class="c1"># 意味着每笔交易应投入总资金的 16.4%</span>
+</code></pre></div>
+<p><strong>警告</strong>：Kelly 公式在理论上最优，但实践中：
+- ⚠️ 需要准确的胜率和盈亏比（难以预测）
+- ⚠️ 波动大，心理压力大
+- ✅ 建议使用 Half Kelly（一半）或 Quarter Kelly（四分之一）</p>
+<h4 id="4">方法 4：分级仓位管理<a class="headerlink" href="#4" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>根据信号强度调整仓位：
+
+强信号（多个指标确认）：
+"stake_amount": 1500  # 150% 标准仓位
+
+中等信号（标准）：
+"stake_amount": 1000  # 100% 标准仓位
+
+弱信号（不确定）：
+"stake_amount": 500   # 50% 标准仓位
+
+实现（在策略中）：
+def custom_stake_amount(self, pair: str, current_time: datetime,
+                        current_rate: float, proposed_stake: float,
+                        min_stake: float, max_stake: float, **kwargs) -&gt; float:
+
+    dataframe, _ = self.dp.get_analyzed_dataframe(pair, self.timeframe)
+    last_candle = dataframe.iloc[-1].squeeze()
+
+    # 计算信号强度
+    signal_strength = 0
+
+    if last_candle['rsi'] &lt; 30:
+        signal_strength += 1
+    if last_candle['macd'] &gt; last_candle['macdsignal']:
+        signal_strength += 1
+    if last_candle['adx'] &gt; 25:
+        signal_strength += 1
+
+    # 根据信号强度调整仓位
+    if signal_strength &gt;= 3:
+        return proposed_stake * 1.5  # 强信号
+    elif signal_strength == 2:
+        return proposed_stake * 1.0  # 标准
+    else:
+        return proposed_stake * 0.5  # 弱信号
+</code></pre></div>
+<h3 id="14">1.4 保护机制配置<a class="headerlink" href="#14" title="Permanent link">&para;</a></h3>
+<h4 id="1stoplossguard">保护 1：StopLossGuard（止损保护）<a class="headerlink" href="#1stoplossguard" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"protections"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"StopLossGuard"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"lookback_period_candles"</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"trade_limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"stop_duration_candles"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"required_profit"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>作用：
+- 60 根 K 线内触发 3 次止损
+- 暂停交易 30 根 K 线
+- 防止连续止损</p>
+<h4 id="2maxdrawdown">保护 2：MaxDrawdown（回撤保护）<a class="headerlink" href="#2maxdrawdown" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"protections"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MaxDrawdown"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"lookback_period_candles"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"trade_limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"stop_duration_candles"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"max_allowed_drawdown"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.15</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>作用：
+- 200 根 K 线内回撤超过 15%
+- 暂停交易 50 根 K 线
+- 防止持续亏损</p>
+<h4 id="3lowprofitpairs">保护 3：LowProfitPairs（低盈利保护）<a class="headerlink" href="#3lowprofitpairs" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"protections"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LowProfitPairs"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"lookback_period_candles"</span><span class="p">:</span><span class="w"> </span><span class="mi">360</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"trade_limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"stop_duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">120</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"required_profit"</span><span class="p">:</span><span class="w"> </span><span class="mf">-0.05</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>作用：
+- 360 根 K 线内某交易对 4 笔交易累计亏损 &gt; 5%
+- 该交易对暂停交易 120 分钟
+- 防止单个交易对持续亏损</p>
+<h4 id="4cooldownperiod">保护 4：CooldownPeriod（冷却期）<a class="headerlink" href="#4cooldownperiod" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"protections"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CooldownPeriod"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"stop_duration_candles"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>作用：
+- 每次平仓后冷却 5 根 K 线
+- 防止立即重新开仓
+- 避免情绪化交易</p>
+<h4 id="_7">综合保护配置（推荐）<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"protections"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"StopLossGuard"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"lookback_period_candles"</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"trade_limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"stop_duration_candles"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MaxDrawdown"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"lookback_period_candles"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"stop_duration_candles"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"max_allowed_drawdown"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.15</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LowProfitPairs"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"lookback_period_candles"</span><span class="p">:</span><span class="w"> </span><span class="mi">360</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"trade_limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"stop_duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">120</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"required_profit"</span><span class="p">:</span><span class="w"> </span><span class="mf">-0.05</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CooldownPeriod"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"stop_duration_candles"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="_8">第二部分：心态管理<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<h3 id="21">2.1 交易心理的四大敌人<a class="headerlink" href="#21" title="Permanent link">&para;</a></h3>
+<h4 id="1fear">敌人 1：恐惧（Fear）<a class="headerlink" href="#1fear" title="Permanent link">&para;</a></h4>
+<p><strong>表现</strong>：
+- 连续亏损后不敢开仓
+- 盈利后过早平仓
+- 看到回撤就想停止交易
+- 质疑策略的有效性</p>
+<p><strong>案例</strong>：
+<div class="highlight"><pre><span></span><code>交易者 A 的故事：
+- 前 3 笔交易都止损，亏损 $150
+- 第 4 笔交易，策略发出买入信号
+- 但因为恐惧，手动跳过了信号
+- 结果该笔交易盈利 $80
+- 后悔不已，更加焦虑
+</code></pre></div></p>
+<p><strong>应对方法</strong>：
+1. <strong>接受亏损是正常的</strong>
+   - 即使 60% 胜率，也有 40% 会亏损
+   - 连续 3-5 笔亏损是概率事件</p>
+<ol>
+<li><strong>信任回测数据</strong></li>
+<li>回顾回测结果</li>
+<li>确认策略的长期有效性</li>
+<li>
+<p>短期波动不代表失效</p>
+</li>
+<li>
+<p><strong>降低仓位</strong></p>
+</li>
+<li>如果恐惧影响决策</li>
+<li>暂时降低仓位 50%</li>
+<li>
+<p>恢复信心后再增加</p>
+</li>
+<li>
+<p><strong>自动化执行</strong></p>
+</li>
+<li>完全自动化，不手动干预</li>
+<li>避免情绪影响决策</li>
+</ol>
+<h4 id="2greed">敌人 2：贪婪（Greed）<a class="headerlink" href="#2greed" title="Permanent link">&para;</a></h4>
+<p><strong>表现</strong>：
+- 盈利后想加大仓位
+- 不愿止盈，想赚更多
+- 使用杠杆追求高收益
+- 忽视风险，只看收益</p>
+<p><strong>案例</strong>：
+<div class="highlight"><pre><span></span><code>交易者 B 的故事：
+- 第一个月盈利 +15%，非常兴奋
+- 决定加大仓位，stake_amount: 1000 → 3000
+- 第二个月遇到回撤 -20%
+- 因为仓位大，实际亏损 $1800
+- 不仅亏掉上月盈利，还倒亏
+</code></pre></div></p>
+<p><strong>应对方法</strong>：
+1. <strong>设定现实的目标</strong>
+   - 月收益 5-10% 已经很好
+   - 不要追求不现实的高收益
+   - 稳定比暴利更重要</p>
+<ol>
+<li><strong>严格遵守仓位管理</strong></li>
+<li>不因为盈利就随意加仓</li>
+<li>按计划逐步增加（如第 23 课）</li>
+<li>
+<p>单笔风险不超过 2-3%</p>
+</li>
+<li>
+<p><strong>及时止盈</strong></p>
+</li>
+<li>达到目标就止盈</li>
+<li>不要期待"完美"的顶部</li>
+<li>
+<p>落袋为安</p>
+</li>
+<li>
+<p><strong>记录成功和失败</strong></p>
+</li>
+<li>记录因贪婪导致的失败案例</li>
+<li>定期回顾，警醒自己</li>
+</ol>
+<h4 id="3revenge-trading">敌人 3：报复性交易（Revenge Trading）<a class="headerlink" href="#3revenge-trading" title="Permanent link">&para;</a></h4>
+<p><strong>表现</strong>：
+- 亏损后想立即"赚回来"
+- 加大仓位或频繁交易
+- 忽视策略信号，盲目开仓
+- 情绪失控</p>
+<p><strong>案例</strong>：
+<div class="highlight"><pre><span></span><code>交易者 C 的故事：
+- BTC/USDT 止损，亏损 $100
+- 心理不平衡，立即手动开仓 ETH/USDT
+- 没有信号确认，纯粹想"赚回来"
+- 结果再次止损，亏损 $120
+- 情绪崩溃，当天亏损 $220
+</code></pre></div></p>
+<p><strong>应对方法</strong>：
+1. <strong>接受亏损是成本</strong>
+   - 亏损是交易的一部分
+   - 不是个人失败
+   - 冷静接受</p>
+<ol>
+<li><strong>设置冷却期</strong></li>
+<li>大额亏损后休息 1-2 小时</li>
+<li>离开交易界面</li>
+<li>
+<p>做其他事情转移注意力</p>
+</li>
+<li>
+<p><strong>启用 CooldownPeriod 保护</strong></p>
+</li>
+<li>强制冷却期</li>
+<li>
+<p>防止冲动开仓</p>
+</li>
+<li>
+<p><strong>设定日亏损限制</strong></p>
+</li>
+<li>达到限制自动停止</li>
+<li>避免损失扩大</li>
+</ol>
+<h4 id="4overconfidence">敌人 4：过度自信（Overconfidence）<a class="headerlink" href="#4overconfidence" title="Permanent link">&para;</a></h4>
+<p><strong>表现</strong>：
+- 连续盈利后认为"无所不能"
+- 忽视风险管理
+- 随意修改策略
+- 不再谨慎</p>
+<p><strong>案例</strong>：
+<div class="highlight"><pre><span></span><code>交易者 D 的故事：
+- 连续 2 周盈利 +20%
+- 认为自己"掌握了市场"
+- 关闭止损保护，使用杠杆
+- 遇到市场反转，单日亏损 -30%
+- 两周盈利全部亏光
+</code></pre></div></p>
+<p><strong>应对方法</strong>：
+1. <strong>保持谦卑</strong>
+   - 市场永远无法预测
+   - 今天盈利不代表明天也盈利
+   - 运气成分也很大</p>
+<ol>
+<li><strong>坚守风险管理</strong></li>
+<li>无论盈利多少，风险规则不变</li>
+<li>
+<p>不因为盈利就放松警惕</p>
+</li>
+<li>
+<p><strong>定期复盘</strong></p>
+</li>
+<li>分析盈利是策略好还是运气好</li>
+<li>
+<p>是否可持续</p>
+</li>
+<li>
+<p><strong>压力测试</strong></p>
+</li>
+<li>想象最坏情况</li>
+<li>"如果下周亏损 20% 怎么办？"</li>
+<li>保持危机意识</li>
+</ol>
+<h3 id="22">2.2 建立交易纪律<a class="headerlink" href="#22" title="Permanent link">&para;</a></h3>
+<h4 id="_9">交易纪律守则<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>我承诺严格遵守以下纪律：
+
+1. 风险管理
+   □ 单笔风险不超过 2% 总资金
+   □ 总风险敞口不超过 10% 总资金
+   □ 永远设置止损
+   □ 不使用杠杆（初期）
+
+2. 策略执行
+   □ 完全按照策略信号交易
+   □ 不手动干预自动交易
+   □ 不因为情绪修改参数
+   □ 不追涨杀跌
+
+3. 调整规则
+   □ 任何调整都先在 Dry-run 验证
+   □ 一次只调整一个变量
+   □ 调整后观察至少 7 天
+   □ 基于数据而非情绪做决策
+
+4. 止损纪律
+   □ 触发止损立即执行，不犹豫
+   □ 不事后后悔"早知道不止损"
+   □ 接受止损是成本
+
+5. 心态管理
+   □ 连续亏损后休息 1 天
+   □ 大额亏损后冷静分析，不报复
+   □ 盈利后不盲目自信
+   □ 保持长期视角
+
+6. 学习改进
+   □ 每周复盘交易记录
+   □ 分析成功和失败原因
+   □ 持续学习和改进
+   □ 但不频繁调整策略
+
+签名：__________  日期：__________
+
+违反纪律的惩罚：
+- 第 1 次：停止交易 3 天，深刻反省
+- 第 2 次：停止交易 7 天，重新评估
+- 第 3 次：停止交易 30 天，从头学习
+</code></pre></div>
+<h3 id="23">2.3 应对连续亏损<a class="headerlink" href="#23" title="Permanent link">&para;</a></h3>
+<h4 id="_10">连续亏损处理流程<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>连续亏损 3 笔：
+□ 深呼吸，保持冷静
+□ 查看是否有技术问题
+□ 确认策略逻辑是否正常
+□ 继续观察，无需调整
+
+连续亏损 5 笔：
+□ 暂停买入（/stopbuy）
+□ 详细分析每笔亏损交易
+□ 检查市场环境是否改变
+□ 确认是否触发保护机制
+□ 决定是继续还是调整
+
+连续亏损 7 笔：
+□ 停止交易至少 1 天
+□ 全面评估策略
+□ 对比回测和 Dry-run
+□ 考虑降低仓位或切换策略
+□ 寻求他人意见（社区、导师）
+
+连续亏损 10 笔：
+□ 停止交易至少 3 天
+□ 策略可能存在重大问题
+□ 重新回测近期数据
+□ 考虑回到 Dry-run
+□ 或暂停使用该策略
+</code></pre></div>
+<h4 id="_11">心理恢复技巧<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>技巧 1：离开交易界面
+- 关闭所有交易相关页面
+- 出门散步或运动
+- 做其他感兴趣的事
+- 至少休息 2-3 小时
+
+技巧 2：回顾成功案例
+- 翻看之前盈利的交易
+- 提醒自己策略是有效的
+- 重建信心
+
+技巧 3：降低仓位
+- 如果心理压力大
+- 暂时降低仓位 50%
+- 降低盈亏波动
+- 恢复平静心态
+
+技巧 4：写交易日记
+- 详细记录感受
+- "我感到恐惧因为..."
+- "我应该如何改进..."
+- 写作帮助理清思路
+
+技巧 5：与人交流
+- 找信任的人倾诉
+- 加入交易者社区
+- 分享经验和感受
+- 获得支持和建议
+</code></pre></div>
+<h3 id="24">2.4 长期心态养成<a class="headerlink" href="#24" title="Permanent link">&para;</a></h3>
+<h4 id="_12">职业交易者的心态特质<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>1. 概率思维
+   - 不以单笔交易论成败
+   - 关注长期统计表现
+   - 接受短期随机性
+
+2. 情绪稳定
+   - 盈亏都保持平常心
+   - 不因为单日波动焦虑
+   - 过程导向而非结果导向
+
+3. 耐心
+   - 等待合适的入场时机
+   - 不急于"赚快钱"
+   - 享受复利的力量
+
+4. 持续学习
+   - 保持好奇心
+   - 不断改进系统
+   - 但不追逐新策略
+
+5. 自律
+   - 严格执行计划
+   - 不为情绪左右
+   - 知行合一
+</code></pre></div>
+<h4 id="_13">每日心态练习<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>早晨（开始交易前）：
+1. 深呼吸 10 次，冥想 5 分钟
+2. 回顾交易纪律守则
+3. 设定今日预期：
+   - "今天可能盈利，也可能亏损"
+   - "我只关注执行，不关注结果"
+   - "我信任我的策略"
+
+交易中：
+1. 保持情绪稳定
+2. 不频繁查看盈亏
+3. 定时检查而非盯盘
+4. 发现情绪波动立即休息
+
+晚间（交易结束后）：
+1. 记录今日交易和心态
+2. 客观分析，不自责
+3. 感恩今天的学习机会
+4. 准备明天继续执行
+</code></pre></div>
+<hr />
+<h2 id="_14">第三部分：风险管理工具<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
+<h3 id="31">3.1 风险监控脚本<a class="headerlink" href="#31" title="Permanent link">&para;</a></h3>
+<p>创建 <code>risk_monitor.py</code>：</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">"""</span>
+<span class="sd">实时风险监控脚本</span>
+<span class="sd">监控当前风险敞口，超过阈值时警报</span>
+<span class="sd">"""</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">sqlite3</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="n">DB_PATH</span> <span class="o">=</span> <span class="s1">'tradesv3.sqlite'</span>
+<span class="n">TELEGRAM_TOKEN</span> <span class="o">=</span> <span class="s1">'YOUR_BOT_TOKEN'</span>
+<span class="n">TELEGRAM_CHAT_ID</span> <span class="o">=</span> <span class="s1">'YOUR_CHAT_ID'</span>
+
+<span class="c1"># 配置</span>
+<span class="n">TOTAL_CAPITAL</span> <span class="o">=</span> <span class="mi">10000</span>  <span class="c1"># 总资金</span>
+<span class="n">MAX_RISK_PER_TRADE</span> <span class="o">=</span> <span class="mf">0.02</span>  <span class="c1"># 单笔风险 2%</span>
+<span class="n">MAX_TOTAL_RISK</span> <span class="o">=</span> <span class="mf">0.10</span>  <span class="c1"># 总风险 10%</span>
+<span class="n">MAX_DAILY_LOSS</span> <span class="o">=</span> <span class="mf">0.05</span>  <span class="c1"># 日亏损限制 5%</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">send_alert</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""发送 Telegram 警报"""</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"https://api.telegram.org/bot</span><span class="si">{</span><span class="n">TELEGRAM_TOKEN</span><span class="si">}</span><span class="s2">/sendMessage"</span>
+    <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">'chat_id'</span><span class="p">:</span> <span class="n">TELEGRAM_CHAT_ID</span><span class="p">,</span>
+        <span class="s1">'text'</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"🚨 *风险警报* 🚨</span><span class="se">\n\n</span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="s1">'parse_mode'</span><span class="p">:</span> <span class="s1">'Markdown'</span>
+    <span class="p">}</span>
+    <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_current_risk</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">"""计算当前风险敞口"""</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">DB_PATH</span><span class="p">)</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+
+    <span class="c1"># 获取所有持仓</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">        SELECT</span>
+<span class="s2">            pair,</span>
+<span class="s2">            stake_amount,</span>
+<span class="s2">            stop_loss_pct</span>
+<span class="s2">        FROM trades</span>
+<span class="s2">        WHERE is_open = 1</span>
+<span class="s2">    """</span><span class="p">)</span>
+
+    <span class="n">open_trades</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">open_trades</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">'open_trades'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s1">'total_exposure'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s1">'total_risk'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s1">'risk_ratio'</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="p">}</span>
+
+    <span class="c1"># 计算风险</span>
+    <span class="n">total_exposure</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">open_trades</span><span class="p">)</span>
+    <span class="n">total_risk_amount</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="nb">abs</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">open_trades</span> <span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">risk_ratio</span> <span class="o">=</span> <span class="n">total_risk_amount</span> <span class="o">/</span> <span class="n">TOTAL_CAPITAL</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">'open_trades'</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">open_trades</span><span class="p">),</span>
+        <span class="s1">'total_exposure'</span><span class="p">:</span> <span class="n">total_exposure</span><span class="p">,</span>
+        <span class="s1">'total_risk'</span><span class="p">:</span> <span class="n">total_risk_amount</span><span class="p">,</span>
+        <span class="s1">'risk_ratio'</span><span class="p">:</span> <span class="n">risk_ratio</span><span class="p">,</span>
+        <span class="s1">'trades'</span><span class="p">:</span> <span class="n">open_trades</span>
+    <span class="p">}</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_daily_pnl</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">"""获取今日盈亏"""</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">DB_PATH</span><span class="p">)</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+
+    <span class="n">today</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">        SELECT SUM(close_profit_abs)</span>
+<span class="s2">        FROM trades</span>
+<span class="s2">        WHERE DATE(close_date) = ?</span>
+<span class="s2">    """</span><span class="p">,</span> <span class="p">(</span><span class="n">today</span><span class="p">,))</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="n">daily_pnl</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="n">daily_pnl_ratio</span> <span class="o">=</span> <span class="n">daily_pnl</span> <span class="o">/</span> <span class="n">TOTAL_CAPITAL</span>
+
+    <span class="k">return</span> <span class="n">daily_pnl</span><span class="p">,</span> <span class="n">daily_pnl_ratio</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">check_risk</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">"""检查风险并警报"""</span>
+    <span class="n">risk_info</span> <span class="o">=</span> <span class="n">get_current_risk</span><span class="p">()</span>
+    <span class="n">daily_pnl</span><span class="p">,</span> <span class="n">daily_pnl_ratio</span> <span class="o">=</span> <span class="n">get_daily_pnl</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"=== 风险监控报告 </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S'</span><span class="p">)</span><span class="si">}</span><span class="s2"> ==="</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"持仓数量: </span><span class="si">{</span><span class="n">risk_info</span><span class="p">[</span><span class="s1">'open_trades'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"总暴露: $</span><span class="si">{</span><span class="n">risk_info</span><span class="p">[</span><span class="s1">'total_exposure'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"总风险: $</span><span class="si">{</span><span class="n">risk_info</span><span class="p">[</span><span class="s1">'total_risk'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">risk_info</span><span class="p">[</span><span class="s1">'risk_ratio'</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%)"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"今日盈亏: $</span><span class="si">{</span><span class="n">daily_pnl</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">daily_pnl_ratio</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%)"</span><span class="p">)</span>
+
+    <span class="c1"># 检查警报</span>
+    <span class="n">alerts</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># 1. 检查总风险敞口</span>
+    <span class="k">if</span> <span class="n">risk_info</span><span class="p">[</span><span class="s1">'risk_ratio'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">MAX_TOTAL_RISK</span><span class="p">:</span>
+        <span class="n">alerts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"⚠️ 总风险敞口过高: </span><span class="si">{</span><span class="n">risk_info</span><span class="p">[</span><span class="s1">'risk_ratio'</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">% "</span>
+            <span class="sa">f</span><span class="s2">"(限制: </span><span class="si">{</span><span class="n">MAX_TOTAL_RISK</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">%)"</span>
+        <span class="p">)</span>
+
+    <span class="c1"># 2. 检查日亏损</span>
+    <span class="k">if</span> <span class="n">daily_pnl_ratio</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">MAX_DAILY_LOSS</span><span class="p">:</span>
+        <span class="n">alerts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"⚠️ 今日亏损超过限制: </span><span class="si">{</span><span class="n">daily_pnl_ratio</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">% "</span>
+            <span class="sa">f</span><span class="s2">"(限制: -</span><span class="si">{</span><span class="n">MAX_DAILY_LOSS</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">%)</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s2">"建议立即停止交易！"</span>
+        <span class="p">)</span>
+
+    <span class="c1"># 3. 检查单笔风险（如果有详细数据）</span>
+    <span class="k">for</span> <span class="n">trade</span> <span class="ow">in</span> <span class="n">risk_info</span><span class="p">[</span><span class="s1">'trades'</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">trade</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>  <span class="c1"># 如果有止损数据</span>
+            <span class="n">trade_risk</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">trade</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">trade_risk</span> <span class="o">&gt;</span> <span class="n">MAX_RISK_PER_TRADE</span><span class="p">:</span>
+                <span class="n">alerts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"⚠️ </span><span class="si">{</span><span class="n">trade</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> 单笔风险过高: </span><span class="si">{</span><span class="n">trade_risk</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">% "</span>
+                    <span class="sa">f</span><span class="s2">"(限制: </span><span class="si">{</span><span class="n">MAX_RISK_PER_TRADE</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">%)"</span>
+                <span class="p">)</span>
+
+    <span class="c1"># 发送警报</span>
+    <span class="k">if</span> <span class="n">alerts</span><span class="p">:</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\n\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">alerts</span><span class="p">)</span>
+        <span class="n">message</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"</span><span class="se">\n\n</span><span class="s2">当前持仓: </span><span class="si">{</span><span class="n">risk_info</span><span class="p">[</span><span class="s1">'open_trades'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+        <span class="n">message</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">总风险: $</span><span class="si">{</span><span class="n">risk_info</span><span class="p">[</span><span class="s1">'total_risk'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span>
+        <span class="n">send_alert</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">❌ 风险警报已发送！"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">✅ 风险在可控范围内"</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"="</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="n">check_risk</span><span class="p">()</span>
+</code></pre></div>
+<p>设置定时检查：
+<div class="highlight"><pre><span></span><code><span class="c1"># 每小时检查一次</span>
+<span class="m">0</span><span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/path/to/freqtrade<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>python3<span class="w"> </span>risk_monitor.py
+</code></pre></div></p>
+<h3 id="32">3.2 交易日记工具<a class="headerlink" href="#32" title="Permanent link">&para;</a></h3>
+<p>创建 <code>trading_journal.py</code>：</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">"""</span>
+<span class="sd">交易日记工具</span>
+<span class="sd">记录每日交易和心理状态</span>
+<span class="sd">"""</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="n">JOURNAL_FILE</span> <span class="o">=</span> <span class="s1">'trading_journal.json'</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">load_journal</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">"""加载日记"""</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">JOURNAL_FILE</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">save_journal</span><span class="p">(</span><span class="n">entries</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""保存日记"""</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">JOURNAL_FILE</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">entries</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">add_entry</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">"""添加日记条目"""</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">=== 交易日记 ===</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="n">date</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"日期 (留空使用今天): "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">date</span><span class="p">:</span>
+        <span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'%Y-%m-</span><span class="si">%d</span><span class="s1">'</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">1. 交易数据："</span><span class="p">)</span>
+    <span class="n">trades</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"今日交易次数: "</span><span class="p">)</span>
+    <span class="n">pnl</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"今日盈亏 (USDT): "</span><span class="p">)</span>
+    <span class="n">win_rate</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"胜率 (%): "</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">2. 心理状态 (1-10 分)："</span><span class="p">)</span>
+    <span class="n">emotional_state</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"情绪稳定度: "</span><span class="p">)</span>
+    <span class="n">confidence</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"策略信心度: "</span><span class="p">)</span>
+    <span class="n">stress</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"压力水平: "</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">3. 遵守纪律："</span><span class="p">)</span>
+    <span class="n">followed_plan</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"是否严格执行策略? (是/否): "</span><span class="p">)</span>
+    <span class="n">manual_intervention</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"是否有手动干预? (是/否): "</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">4. 反思："</span><span class="p">)</span>
+    <span class="n">what_went_well</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"今天做得好的: "</span><span class="p">)</span>
+    <span class="n">what_to_improve</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"需要改进的: "</span><span class="p">)</span>
+    <span class="n">lessons_learned</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"学到的教训: "</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">5. 明日计划："</span><span class="p">)</span>
+    <span class="n">tomorrow_plan</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"明天的重点: "</span><span class="p">)</span>
+
+    <span class="n">entry</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">'date'</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span>
+        <span class="s1">'trades'</span><span class="p">:</span> <span class="n">trades</span><span class="p">,</span>
+        <span class="s1">'pnl'</span><span class="p">:</span> <span class="n">pnl</span><span class="p">,</span>
+        <span class="s1">'win_rate'</span><span class="p">:</span> <span class="n">win_rate</span><span class="p">,</span>
+        <span class="s1">'emotional_state'</span><span class="p">:</span> <span class="n">emotional_state</span><span class="p">,</span>
+        <span class="s1">'confidence'</span><span class="p">:</span> <span class="n">confidence</span><span class="p">,</span>
+        <span class="s1">'stress'</span><span class="p">:</span> <span class="n">stress</span><span class="p">,</span>
+        <span class="s1">'followed_plan'</span><span class="p">:</span> <span class="n">followed_plan</span><span class="p">,</span>
+        <span class="s1">'manual_intervention'</span><span class="p">:</span> <span class="n">manual_intervention</span><span class="p">,</span>
+        <span class="s1">'what_went_well'</span><span class="p">:</span> <span class="n">what_went_well</span><span class="p">,</span>
+        <span class="s1">'what_to_improve'</span><span class="p">:</span> <span class="n">what_to_improve</span><span class="p">,</span>
+        <span class="s1">'lessons_learned'</span><span class="p">:</span> <span class="n">lessons_learned</span><span class="p">,</span>
+        <span class="s1">'tomorrow_plan'</span><span class="p">:</span> <span class="n">tomorrow_plan</span>
+    <span class="p">}</span>
+
+    <span class="n">entries</span> <span class="o">=</span> <span class="n">load_journal</span><span class="p">()</span>
+    <span class="n">entries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+    <span class="n">save_journal</span><span class="p">(</span><span class="n">entries</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">✅ 日记已保存！</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">view_journal</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">"""查看日记"""</span>
+    <span class="n">entries</span> <span class="o">=</span> <span class="n">load_journal</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">entries</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">暂无日记记录</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">=== 交易日记记录 ===</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">entry</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">entries</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">:]),</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">entry</span><span class="p">[</span><span class="s1">'date'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   交易: </span><span class="si">{</span><span class="n">entry</span><span class="p">[</span><span class="s1">'trades'</span><span class="p">]</span><span class="si">}</span><span class="s2"> 笔, 盈亏: </span><span class="si">{</span><span class="n">entry</span><span class="p">[</span><span class="s1">'pnl'</span><span class="p">]</span><span class="si">}</span><span class="s2"> USDT"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   情绪: </span><span class="si">{</span><span class="n">entry</span><span class="p">[</span><span class="s1">'emotional_state'</span><span class="p">]</span><span class="si">}</span><span class="s2">/10, 压力: </span><span class="si">{</span><span class="n">entry</span><span class="p">[</span><span class="s1">'stress'</span><span class="p">]</span><span class="si">}</span><span class="s2">/10"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   教训: </span><span class="si">{</span><span class="n">entry</span><span class="p">[</span><span class="s1">'lessons_learned'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">1. 添加今日日记"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"2. 查看最近日记"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"3. 退出"</span><span class="p">)</span>
+
+        <span class="n">choice</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">选择: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">choice</span> <span class="o">==</span> <span class="s1">'1'</span><span class="p">:</span>
+            <span class="n">add_entry</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">choice</span> <span class="o">==</span> <span class="s1">'2'</span><span class="p">:</span>
+            <span class="n">view_journal</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">choice</span> <span class="o">==</span> <span class="s1">'3'</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"无效选择"</span><span class="p">)</span>
+</code></pre></div>
+<p>使用：
+<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>trading_journal.py
+</code></pre></div></p>
+<hr />
+<h2 id="_15">📝 实践任务<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h2>
+<h3 id="1_2">任务 1：计算你的风险参数<a class="headerlink" href="#1_2" title="Permanent link">&para;</a></h3>
+<p>基于你的总资金和风险承受能力，计算：</p>
+<div class="highlight"><pre><span></span><code>总资金：$__________
+
+单笔风险：__________% (建议 2%)
+单笔最大亏损：$__________ (总资金 × 单笔风险%)
+
+最大持仓数：__________ (建议 3-5)
+总风险敞口：__________% (单笔风险 × 持仓数)
+总最大亏损：$__________ (总资金 × 总风险%)
+
+日亏损限制：__________% (建议 5%)
+日最大亏损：$__________ (总资金 × 日亏损限制)
+
+周亏损限制：__________% (建议 10%)
+月亏损限制：__________% (建议 15%)
+</code></pre></div>
+<h3 id="2_2">任务 2：配置保护机制<a class="headerlink" href="#2_2" title="Permanent link">&para;</a></h3>
+<p>在 <code>config.json</code> 中添加保护机制：
+- StopLossGuard
+- MaxDrawdown
+- LowProfitPairs
+- CooldownPeriod</p>
+<p>测试触发条件是否合理。</p>
+<h3 id="3">任务 3：签署交易纪律守则<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
+<p>打印或抄写交易纪律守则，签名并贴在交易区域显眼位置。每天交易前朗读一遍。</p>
+<h3 id="4_1">任务 4：开始写交易日记<a class="headerlink" href="#4_1" title="Permanent link">&para;</a></h3>
+<p>从今天开始，每天晚上花 10 分钟写交易日记。坚持至少 30 天。</p>
+<h3 id="5">任务 5：心理压力测试<a class="headerlink" href="#5" title="Permanent link">&para;</a></h3>
+<p>想象以下场景，诚实回答你会如何反应：</p>
+<div class="highlight"><pre><span></span><code>场景 1：连续 5 笔交易止损，亏损 $500
+你会：
+A. 冷静分析原因，继续执行策略
+B. 暂停交易，休息 1 天
+C. 加大仓位，想"赚回来"
+D. 立即修改策略参数
+
+场景 2：单日盈利 $1000，超出预期
+你会：
+A. 保持平常心，继续按计划交易
+B. 兴奋地加大仓位
+C. 提取利润，犒劳自己
+D. 担心明天会亏回去
+
+场景 3：持仓盈利 +10%，但开始回落到 +5%
+你会：
+A. 按照追踪止损自动平仓
+B. 手动平仓锁定利润
+C. 继续持有，期待再涨
+D. 后悔没在 +10% 时平仓
+
+理想答案：
+场景 1: A 或 B
+场景 2: A 或 C
+场景 3: A
+
+如果你的答案不同，思考原因并制定改进计划。
+</code></pre></div>
+<hr />
+<h2 id="_16">📌 核心要点<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h2>
+<h3 id="_17">风险控制的铁律<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>1. 永远设置止损
+2. 单笔风险 ≤ 2% 总资金
+3. 总风险敞口 ≤ 10% 总资金
+4. 日亏损达到限制立即停止
+5. 不使用杠杆（初期）
+</code></pre></div>
+<h3 id="_18">心态管理的关键<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>1. 接受亏损是成本
+2. 关注过程而非结果
+3. 保持情绪稳定
+4. 严格遵守纪律
+5. 持续学习改进
+</code></pre></div>
+<h3 id="_19">长期生存法则<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>1. 小额起步，逐步增加
+2. 控制风险第一，盈利第二
+3. 保持谦卑，敬畏市场
+4. 不追求暴利，追求稳定
+5. 活下来比什么都重要
+</code></pre></div>
+<hr />
+<h2 id="_20">🎯 下节预告<a class="headerlink" href="#_20" title="Permanent link">&para;</a></h2>
+<p><strong>第 26 课：自定义策略开发</strong></p>
+<p>在下一课中，我们将学习：
+- 如何编写自己的交易策略
+- 策略开发的完整流程
+- 常用技术指标的实现
+- 策略测试和优化</p>
+<p>掌握了风险控制和心态管理，你已经具备了长期生存的基础。接下来，我们将进入进阶专题，学习如何开发属于自己的策略。</p>
+<hr />
+<p><strong>🎓 学习建议</strong>：
+1. <strong>风险第一</strong>：任何时候都把风险控制放在首位
+2. <strong>情绪管理</strong>：定期反思自己的心理状态
+3. <strong>写交易日记</strong>：这是提升的最好方法
+4. <strong>长期视角</strong>：不以单日论成败
+5. <strong>保持谦卑</strong>：市场会教给你谦卑</p>
+<p>记住：<strong>在交易中，控制你能控制的（风险、纪律、心态），接受你不能控制的（市场、运气、结果）。</strong></p>
+<p>这是量化交易最重要的一课。如果你只能记住一课的内容，请记住这一课。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

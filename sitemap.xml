@@ -1,0 +1,807 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-01-introduction/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-01-introduction/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-01-introduction/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-02-environment-setup/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-02-environment-setup/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-02-environment-setup/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-03-core-concepts/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-03-core-concepts/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-03-core-concepts/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-04-data-management/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-04-data-management/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-04-data-management/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-05-first-backtest/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-05-first-backtest/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-05-first-backtest/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-06-strategy-performance/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-06-strategy-performance/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-06-strategy-performance/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-07-multi-timeframe/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-07-multi-timeframe/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-07-multi-timeframe/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-08-strategy-comparison/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-08-strategy-comparison/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-08-strategy-comparison/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-09-timerange-testing/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-09-timerange-testing/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-09-timerange-testing/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-10-pair-selection/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-10-pair-selection/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-10-pair-selection/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-11-hyperopt-basics/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-11-hyperopt-basics/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-11-hyperopt-basics/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-12-advanced-analysis/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-12-advanced-analysis/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-12-advanced-analysis/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-13-scoring-system/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-13-scoring-system/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-13-scoring-system/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-14-risk-management/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-14-risk-management/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-14-risk-management/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-15-portfolio-strategy/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-15-portfolio-strategy/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-15-portfolio-strategy/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-16-realtime-signals/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-16-realtime-signals/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-16-realtime-signals/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-17-telegram-setup/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-17-telegram-setup/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-17-telegram-setup/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-18-webui-api/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-18-webui-api/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-18-webui-api/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-19-visualization/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-19-visualization/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-19-visualization/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-20-dry-run-validation/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-20-dry-run-validation/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-20-dry-run-validation/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-21-exchange-api/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-21-exchange-api/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-21-exchange-api/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-22-pre-live-checklist/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-22-pre-live-checklist/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-22-pre-live-checklist/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-23-small-capital-live/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-23-small-capital-live/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-23-small-capital-live/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-24-1-order-placement/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-24-1-order-placement/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-24-1-order-placement/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-24-2-stop-loss-operations/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-24-2-stop-loss-operations/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-24-2-stop-loss-operations/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-24-3-futures-trading/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-24-3-futures-trading/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-24-3-futures-trading/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-24-4-leverage-trading/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-24-4-leverage-trading/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-24-4-leverage-trading/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-24-trading-monitoring/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-24-trading-monitoring/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-24-trading-monitoring/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-25-risk-management/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-25-risk-management/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-25-risk-management/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-26-custom-strategy/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-26-custom-strategy/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-26-custom-strategy/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-27-multi-timeframe/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-27-multi-timeframe/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-27-multi-timeframe/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-28-grid-hft/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-28-grid-hft/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-28-grid-hft/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-29-1-freqai-deep-dive/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-29-1-freqai-deep-dive/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-29-1-freqai-deep-dive/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-29-2-advanced-ml-strategies/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-29-2-advanced-ml-strategies/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-29-2-advanced-ml-strategies/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-29-machine-learning-enhanced/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-29-machine-learning-enhanced/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-29-machine-learning-enhanced/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-29-machine-learning/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-29-machine-learning/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-29-machine-learning/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/lesson-30-conclusion/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-30-conclusion/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-30-conclusion/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/strategies/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/strategies/ADXMomentumStrategy/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/ADXMomentumStrategy/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/ADXMomentumStrategy/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/strategies/ADXTrendStrategy/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/ADXTrendStrategy/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/ADXTrendStrategy/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/strategies/BreakoutTrendStrategy/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/BreakoutTrendStrategy/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/BreakoutTrendStrategy/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/strategies/CryptoBreakoutStrategy/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/CryptoBreakoutStrategy/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/CryptoBreakoutStrategy/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/strategies/GridTradingStrategy/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/GridTradingStrategy/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/GridTradingStrategy/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/strategies/HyperliquidMomentumStrategy/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/HyperliquidMomentumStrategy/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/HyperliquidMomentumStrategy/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/strategies/MeanReversionStrategy/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/MeanReversionStrategy/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/MeanReversionStrategy/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/strategies/MomentumTrendStrategy/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/MomentumTrendStrategy/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/MomentumTrendStrategy/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/strategies/MovingAverageCrossStrategy/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/MovingAverageCrossStrategy/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/MovingAverageCrossStrategy/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/strategies/MultiTimeframeTrendStrategy/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/MultiTimeframeTrendStrategy/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/MultiTimeframeTrendStrategy/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/strategies/StockBollingerRSIStrategy/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/StockBollingerRSIStrategy/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/StockBollingerRSIStrategy/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/strategies/StockScreeningStrategy/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/StockScreeningStrategy/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/StockScreeningStrategy/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/strategies/Strategy001/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/Strategy001/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/Strategy001/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/strategies/Strategy002/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/Strategy002/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/Strategy002/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/strategies/Strategy003/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/Strategy003/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/Strategy003/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/strategies/Strategy004/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/Strategy004/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/Strategy004/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/strategies/Strategy005/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/Strategy005/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/Strategy005/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/strategies/sample_strategy/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/sample_strategy/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/sample_strategy/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-01-introduction/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-01-introduction/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-01-introduction/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-02-environment-setup/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-02-environment-setup/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-02-environment-setup/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-03-core-concepts/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-03-core-concepts/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-03-core-concepts/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-04-data-management/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-04-data-management/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-04-data-management/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-05-first-backtest/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-05-first-backtest/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-05-first-backtest/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-06-strategy-performance/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-06-strategy-performance/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-06-strategy-performance/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-07-multi-timeframe/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-07-multi-timeframe/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-07-multi-timeframe/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-08-strategy-comparison/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-08-strategy-comparison/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-08-strategy-comparison/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-09-timerange-testing/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-09-timerange-testing/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-09-timerange-testing/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-10-pair-selection/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-10-pair-selection/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-10-pair-selection/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-11-hyperopt-basics/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-11-hyperopt-basics/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-11-hyperopt-basics/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-12-advanced-analysis/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-12-advanced-analysis/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-12-advanced-analysis/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-13-scoring-system/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-13-scoring-system/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-13-scoring-system/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-14-risk-management/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-14-risk-management/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-14-risk-management/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-15-portfolio-strategy/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-15-portfolio-strategy/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-15-portfolio-strategy/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-16-realtime-signals/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-16-realtime-signals/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-16-realtime-signals/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-17-telegram-setup/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-17-telegram-setup/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-17-telegram-setup/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-18-webui-api/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-18-webui-api/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-18-webui-api/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-19-visualization/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-19-visualization/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-19-visualization/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-20-dry-run-validation/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-20-dry-run-validation/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-20-dry-run-validation/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-21-exchange-api/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-21-exchange-api/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-21-exchange-api/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-22-pre-live-checklist/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-22-pre-live-checklist/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-22-pre-live-checklist/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-23-small-capital-live/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-23-small-capital-live/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-23-small-capital-live/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-24-1-order-placement/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-24-1-order-placement/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-24-1-order-placement/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-24-2-stop-loss-operations/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-24-2-stop-loss-operations/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-24-2-stop-loss-operations/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-24-3-futures-trading/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-24-3-futures-trading/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-24-3-futures-trading/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-24-4-leverage-trading/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-24-4-leverage-trading/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-24-4-leverage-trading/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-24-trading-monitoring/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-24-trading-monitoring/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-24-trading-monitoring/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-25-risk-management/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-25-risk-management/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-25-risk-management/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-26-custom-strategy/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-26-custom-strategy/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-26-custom-strategy/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-27-multi-timeframe/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-27-multi-timeframe/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-27-multi-timeframe/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-28-grid-hft/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-28-grid-hft/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-28-grid-hft/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-29-machine-learning-expanded/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-29-machine-learning-expanded/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-29-machine-learning/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-29-machine-learning/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-29-machine-learning/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-30-conclusion/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-30-conclusion/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-30-conclusion/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-29-1-freqai-deep-dive/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-29-1-freqai-deep-dive/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-29-1-freqai-deep-dive/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-29-2-advanced-ml-strategies/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-29-2-advanced-ml-strategies/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-29-2-advanced-ml-strategies/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/lesson-29-machine-learning-enhanced/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-29-machine-learning-enhanced/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-29-machine-learning-enhanced/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/strategies/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/strategies/ADXMomentumStrategy/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/ADXMomentumStrategy/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/ADXMomentumStrategy/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/strategies/ADXTrendStrategy/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/ADXTrendStrategy/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/ADXTrendStrategy/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/strategies/BreakoutTrendStrategy/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/BreakoutTrendStrategy/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/BreakoutTrendStrategy/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/strategies/CryptoBreakoutStrategy/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/CryptoBreakoutStrategy/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/CryptoBreakoutStrategy/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/strategies/GridTradingStrategy/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/GridTradingStrategy/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/GridTradingStrategy/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/strategies/HyperliquidMomentumStrategy/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/HyperliquidMomentumStrategy/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/HyperliquidMomentumStrategy/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/strategies/MeanReversionStrategy/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/MeanReversionStrategy/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/MeanReversionStrategy/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/strategies/MomentumTrendStrategy/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/MomentumTrendStrategy/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/MomentumTrendStrategy/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/strategies/MovingAverageCrossStrategy/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/MovingAverageCrossStrategy/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/MovingAverageCrossStrategy/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/strategies/MultiTimeframeTrendStrategy/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/MultiTimeframeTrendStrategy/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/MultiTimeframeTrendStrategy/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/strategies/StockBollingerRSIStrategy/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/StockBollingerRSIStrategy/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/StockBollingerRSIStrategy/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/strategies/StockScreeningStrategy/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/StockScreeningStrategy/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/StockScreeningStrategy/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/strategies/Strategy001/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/Strategy001/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/Strategy001/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/strategies/Strategy002/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/Strategy002/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/Strategy002/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/strategies/Strategy003/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/Strategy003/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/Strategy003/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/strategies/Strategy004/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/Strategy004/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/Strategy004/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/strategies/Strategy005/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/Strategy005/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/Strategy005/"/>
+    </url>
+    <url>
+        <loc>https://henrylin99.github.io/freqtrade-tutorials/en/strategies/sample_strategy/</loc>
+        <lastmod>2026-11-19</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://henrylin99.github.io/freqtrade-tutorials/en/strategies/sample_strategy/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://henrylin99.github.io/freqtrade-tutorials/strategies/sample_strategy/"/>
+    </url>
+</urlset>

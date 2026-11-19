@@ -1,0 +1,3828 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径">
+      
+      
+      
+        <link rel="canonical" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-06-strategy-performance/">
+      
+      
+        <link rel="prev" href="../lesson-05-first-backtest/">
+      
+      
+        <link rel="next" href="../lesson-07-multi-timeframe/">
+      
+      
+        
+          <link rel="alternate" href="./" hreflang="zh">
+        
+          <link rel="alternate" href="../en/lesson-06-strategy-performance/" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>第 6 课：策略性能分析 - Freqtrade 实战教程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9784658154228475"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VGHZY4EELE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VGHZY4EELE");
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#6" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="Freqtrade 实战教程" class="md-header__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Freqtrade 实战教程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第 6 课：策略性能分析
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="选择当前语言">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../en/lesson-06-strategy-performance/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/henrylin99/freqtrade-tutorials" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../strategies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🇨🇳 中文教程
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Freqtrade 实战教程" class="md-nav__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Freqtrade 实战教程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/henrylin99/freqtrade-tutorials" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../strategies/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🇨🇳 中文教程
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🇨🇳 中文教程
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 1 课：量化交易与 Freqtrade 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-02-environment-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 2 课：Freqtrade 环境搭建
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-03-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 3 课：核心概念理解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-04-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 4 课：数据下载与管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-05-first-backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 5 课：第一次策略回测
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 6 课：策略性能分析
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 6 课：策略性能分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 课程概览
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#61" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 关键指标解读
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.1 关键指标解读">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        总收益 vs 平均收益
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="总收益 vs 平均收益">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#total-profit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        总收益（Total Profit）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#avg-profit-per-trade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        平均每笔收益（Avg Profit per Trade）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        对比示例
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vs_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        胜率 vs 盈亏比
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="胜率 vs 盈亏比">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#win-rate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        胜率（Win Rate）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#profit-factor-risk-reward-ratio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        盈亏比（Profit Factor / Risk-Reward Ratio）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        胜率与盈亏比的关系
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        盈利模型计算
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        你的策略属于哪种？
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#max-drawdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        最大回撤（Max Drawdown）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="最大回撤（Max Drawdown）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        定义
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        回撤分级
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        为什么回撤很重要？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#drawdown-duration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        回撤期（Drawdown Duration）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sharpe-ratio-sortino-ratio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sharpe Ratio / Sortino Ratio
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sharpe Ratio / Sortino Ratio">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sharpe-ratio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sharpe Ratio（夏普比率）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sortino-ratio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sortino Ratio（索提诺比率）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#62" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 交易次数分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.2 交易次数分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        交易频率的影响
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        手续费成本计算
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="手续费成本计算">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        手续费模型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        手续费对收益的影响
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        盈亏平衡点
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        过度交易的风险
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#63" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 退出原因统计
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.3 退出原因统计">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        退出原因类型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        退出原因分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="退出原因分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        示例报告
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        解读
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题诊断
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="问题诊断">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题 1：止损占比过高（&gt; 30%）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题 2：强制退出占比高（&gt; 10%）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3roi-20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题 3：ROI 占比过低（&lt; 20%）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#64" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 持仓时间分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.4 持仓时间分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        平均持仓时间
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        持仓时间与收益的关系
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="持仓时间与收益的关系">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        理想曲线
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题曲线 1：时间拖累
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题曲线 2：过早退出
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        持仓时间分布
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        隔夜风险
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 实践任务
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 实践任务">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 1：回测三个策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 2：制作策略对比表格
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 3：分析每个策略的优缺点
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 4：选出最佳策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 知识检查
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 知识检查">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基础问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        答案
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        进阶问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        思考题
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔗 参考资料
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔗 参考资料">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        配套文档
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐阅读
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 核心要点总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ➡️ 下一课预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-07-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 7 课：多时间框架回测
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-08-strategy-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 8 课：策略批量对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-09-timerange-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 9 课：Freqtrade时间范围测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-10-pair-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 10 课：Freqtrade交易对选择与测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-11-hyperopt-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 11 课：Freqtrade参数优化入门（Hyperopt）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-12-advanced-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 12 课：高级策略分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-13-scoring-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 13 课：策略评分体系
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-14-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 14 课：风险管理与资金管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-15-portfolio-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 15 课：Freqtrade策略组合与分散
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-16-realtime-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 16 课：实时信号监控
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-17-telegram-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 17 课：Telegram 通知配置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-18-webui-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 18 课：Web UI 与 API 使用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 19 课：可视化分析工具
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-20-dry-run-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 20 课：模拟交易验证
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-21-exchange-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 21 课：交易所 API 配置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-22-pre-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 22 课：实盘前检查清单
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-23-small-capital-live/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 23 课：小资金实盘测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-1-order-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.1 课：实盘交易下单操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-2-stop-loss-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.2 课：实盘交易止损操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-3-futures-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.3 课：币安合约交易操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-4-leverage-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.4 课：杠杆交易操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-trading-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24 课：交易监控与调整
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-25-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 25 课：风险控制与心态管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-26-custom-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 26 课：自定义策略开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-27-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 27 课：多时间框架策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-28-grid-hft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 28 课：高频交易与网格策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-1-freqai-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29.1 课：FreqAI 深度实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-2-advanced-ml-strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29.2 课：高级机器学习策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning-enhanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29 课：机器学习基础与策略优化（增强版）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29 课：机器学习与策略优化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-30-conclusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 30 课：总结与持续学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 课程概览
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#61" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 关键指标解读
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.1 关键指标解读">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        总收益 vs 平均收益
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="总收益 vs 平均收益">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#total-profit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        总收益（Total Profit）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#avg-profit-per-trade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        平均每笔收益（Avg Profit per Trade）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        对比示例
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vs_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        胜率 vs 盈亏比
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="胜率 vs 盈亏比">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#win-rate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        胜率（Win Rate）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#profit-factor-risk-reward-ratio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        盈亏比（Profit Factor / Risk-Reward Ratio）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        胜率与盈亏比的关系
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        盈利模型计算
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        你的策略属于哪种？
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#max-drawdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        最大回撤（Max Drawdown）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="最大回撤（Max Drawdown）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        定义
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        回撤分级
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        为什么回撤很重要？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#drawdown-duration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        回撤期（Drawdown Duration）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sharpe-ratio-sortino-ratio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sharpe Ratio / Sortino Ratio
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sharpe Ratio / Sortino Ratio">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sharpe-ratio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sharpe Ratio（夏普比率）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sortino-ratio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sortino Ratio（索提诺比率）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#62" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 交易次数分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.2 交易次数分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        交易频率的影响
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        手续费成本计算
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="手续费成本计算">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        手续费模型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        手续费对收益的影响
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        盈亏平衡点
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        过度交易的风险
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#63" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 退出原因统计
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.3 退出原因统计">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        退出原因类型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        退出原因分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="退出原因分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        示例报告
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        解读
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题诊断
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="问题诊断">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题 1：止损占比过高（&gt; 30%）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题 2：强制退出占比高（&gt; 10%）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3roi-20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题 3：ROI 占比过低（&lt; 20%）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#64" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 持仓时间分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.4 持仓时间分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        平均持仓时间
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        持仓时间与收益的关系
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="持仓时间与收益的关系">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        理想曲线
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题曲线 1：时间拖累
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题曲线 2：过早退出
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        持仓时间分布
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        隔夜风险
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 实践任务
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 实践任务">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 1：回测三个策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 2：制作策略对比表格
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 3：分析每个策略的优缺点
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 4：选出最佳策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 知识检查
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 知识检查">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基础问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        答案
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        进阶问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        思考题
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔗 参考资料
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔗 参考资料">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        配套文档
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐阅读
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 核心要点总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ➡️ 下一课预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="6">第 6 课：策略性能分析<a class="headerlink" href="#6" title="Permanent link">&para;</a></h1>
+<p><strong>⏱ 课时</strong>：2 小时
+<strong>🎯 学习目标</strong>：学会评估策略好坏
+<strong>📚 难度</strong>：⭐⭐ 回测实战</p>
+<hr />
+<h2 id="_1">📖 课程概览<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>回测报告包含大量指标，如何从这些指标中判断策略的好坏？本课将教你深入理解回测报告中的关键指标，建立科学的策略评估体系。</p>
+<hr />
+<h2 id="61">6.1 关键指标解读<a class="headerlink" href="#61" title="Permanent link">&para;</a></h2>
+<h3 id="vs">总收益 vs 平均收益<a class="headerlink" href="#vs" title="Permanent link">&para;</a></h3>
+<h4 id="total-profit">总收益（Total Profit）<a class="headerlink" href="#total-profit" title="Permanent link">&para;</a></h4>
+<p>整个回测期间的累计盈利。</p>
+<p><strong>示例</strong>：
+<div class="highlight"><pre><span></span><code>Total profit: 3.64 USDT (0.36%)
+</code></pre></div></p>
+<p><strong>解读</strong>：
+- 1000 USDT 本金，赚了 3.64 USDT
+- 总收益率 0.36%</p>
+<p><strong>局限性</strong>：
+- 不考虑交易次数
+- 不考虑时间长度
+- 不考虑风险</p>
+<h4 id="avg-profit-per-trade">平均每笔收益（Avg Profit per Trade）<a class="headerlink" href="#avg-profit-per-trade" title="Permanent link">&para;</a></h4>
+<p>每笔交易的平均盈利。</p>
+<p><strong>示例</strong>：
+<div class="highlight"><pre><span></span><code>Avg. profit per trade: 0.52%
+</code></pre></div></p>
+<p><strong>解读</strong>：
+- 每笔交易平均赚 0.52%
+- 反映单笔交易质量</p>
+<p><strong>重要性</strong>：
+- ✅ 比总收益更能反映策略质量
+- ✅ 高平均收益 = 高效策略
+- ⚠️ 需结合交易次数综合判断</p>
+<h3 id="_2">对比示例<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>策略</th>
+<th>交易次数</th>
+<th>总收益</th>
+<th>平均收益</th>
+<th>评价</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>策略 A</strong></td>
+<td>100</td>
+<td>+10%</td>
+<td>+0.1%</td>
+<td>❌ 低效：交易多，收益低</td>
+</tr>
+<tr>
+<td><strong>策略 B</strong></td>
+<td>10</td>
+<td>+10%</td>
+<td>+1.0%</td>
+<td>✅ 高效：交易少，收益高</td>
+</tr>
+<tr>
+<td><strong>策略 C</strong></td>
+<td>50</td>
+<td>+10%</td>
+<td>+0.2%</td>
+<td>⭐ 平衡：适中</td>
+</tr>
+</tbody>
+</table>
+<p><strong>结论</strong>：策略 B 最优秀，因为用更少的交易达到同样收益。</p>
+<hr />
+<h3 id="vs_1">胜率 vs 盈亏比<a class="headerlink" href="#vs_1" title="Permanent link">&para;</a></h3>
+<p>这是策略分析中最重要的一对指标。</p>
+<h4 id="win-rate">胜率（Win Rate）<a class="headerlink" href="#win-rate" title="Permanent link">&para;</a></h4>
+<p>盈利交易占总交易的百分比。</p>
+<p><strong>计算公式</strong>：
+<div class="highlight"><pre><span></span><code>胜率 = 盈利交易次数 / 总交易次数 × 100%
+</code></pre></div></p>
+<p><strong>示例</strong>：
+<div class="highlight"><pre><span></span><code>Win rate: 85.7% (6 wins / 7 trades)
+</code></pre></div></p>
+<p><strong>分类</strong>：
+- <strong>高胜率</strong>：&gt; 70%
+- <strong>中等胜率</strong>：50-70%
+- <strong>低胜率</strong>：&lt; 50%</p>
+<h4 id="profit-factor-risk-reward-ratio">盈亏比（Profit Factor / Risk-Reward Ratio）<a class="headerlink" href="#profit-factor-risk-reward-ratio" title="Permanent link">&para;</a></h4>
+<p>平均盈利与平均亏损的比率。</p>
+<p><strong>计算公式</strong>：
+<div class="highlight"><pre><span></span><code>盈亏比 = 平均盈利 / 平均亏损
+</code></pre></div></p>
+<p><strong>示例</strong>：
+- 平均盈利：+2%
+- 平均亏损：-1%
+- 盈亏比：2:1</p>
+<h4 id="_3">胜率与盈亏比的关系<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
+<p>这是一个经典的权衡：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>胜率</th>
+<th>盈亏比</th>
+<th>交易风格</th>
+<th>心理压力</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>高胜率低盈亏比</strong></td>
+<td>70-90%</td>
+<td>1:1 ~ 1.5:1</td>
+<td>频繁小盈利</td>
+<td>低</td>
+</tr>
+<tr>
+<td><strong>平衡型</strong></td>
+<td>50-70%</td>
+<td>1.5:1 ~ 2:1</td>
+<td>适中</td>
+<td>中等</td>
+</tr>
+<tr>
+<td><strong>低胜率高盈亏比</strong></td>
+<td>30-50%</td>
+<td>3:1 ~ 5:1</td>
+<td>偶尔大盈利</td>
+<td>高</td>
+</tr>
+</tbody>
+</table>
+<h4 id="_4">盈利模型计算<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h4>
+<p><strong>高胜率低盈亏比策略</strong>：
+<div class="highlight"><pre><span></span><code>胜率：80%，平均盈利：+1%，平均亏损：-1%
+期望收益 = 0.80 × 1% + 0.20 × (-1%) = 0.6%
+</code></pre></div></p>
+<p><strong>低胜率高盈亏比策略</strong>：
+<div class="highlight"><pre><span></span><code>胜率：40%，平均盈利：+5%，平均亏损：-2%
+期望收益 = 0.40 × 5% + 0.60 × (-2%) = 0.8%
+</code></pre></div></p>
+<p><strong>结论</strong>：低胜率策略收益更高，但需要承受更多连续亏损。</p>
+<h4 id="_5">你的策略属于哪种？<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h4>
+<p><strong>判断标准</strong>：
+<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="n">胜率</span> <span class="o">&gt;</span> <span class="mi">70</span><span class="o">%</span> <span class="ow">and</span> <span class="n">盈亏比</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"高胜率低盈亏比 - 适合保守投资者"</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">胜率</span> <span class="o">&lt;</span> <span class="mi">50</span><span class="o">%</span> <span class="ow">and</span> <span class="n">盈亏比</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"低胜率高盈亏比 - 适合激进投资者"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"平衡型策略 - 适合大多数人"</span><span class="p">)</span>
+</code></pre></div></p>
+<hr />
+<h3 id="max-drawdown">最大回撤（Max Drawdown）<a class="headerlink" href="#max-drawdown" title="Permanent link">&para;</a></h3>
+<h4 id="_6">定义<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h4>
+<p>从资金最高点到最低点的最大跌幅。</p>
+<p><strong>计算示例</strong>：
+<div class="highlight"><pre><span></span><code>初始资金：$1,000
+最高点：$1,200 (2025-09-15)
+最低点：$1,080 (2025-09-22，在最高点之后)
+
+最大回撤 = (1,080 - 1,200) / 1,200 = -10%
+</code></pre></div></p>
+<h4 id="_7">回撤分级<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>回撤幅度</th>
+<th>评级</th>
+<th>心理承受</th>
+<th>恢复难度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>&lt; 5%</strong></td>
+<td>🟢 优秀</td>
+<td>容易接受</td>
+<td>很容易</td>
+</tr>
+<tr>
+<td><strong>5-10%</strong></td>
+<td>🟡 良好</td>
+<td>可以接受</td>
+<td>容易</td>
+</tr>
+<tr>
+<td><strong>10-20%</strong></td>
+<td>🟠 警惕</td>
+<td>心理压力</td>
+<td>需要时间</td>
+</tr>
+<tr>
+<td><strong>&gt; 20%</strong></td>
+<td>🔴 危险</td>
+<td>难以承受</td>
+<td>很困难</td>
+</tr>
+</tbody>
+</table>
+<h4 id="_8">为什么回撤很重要？<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h4>
+<p><strong>恢复所需涨幅</strong>：
+<div class="highlight"><pre><span></span><code>回撤 10% → 需要上涨 11.1% 才能回本
+回撤 20% → 需要上涨 25% 才能回本
+回撤 50% → 需要上涨 100% 才能回本
+</code></pre></div></p>
+<p><strong>结论</strong>：回撤越大，恢复越难，风险越高。</p>
+<h4 id="drawdown-duration">回撤期（Drawdown Duration）<a class="headerlink" href="#drawdown-duration" title="Permanent link">&para;</a></h4>
+<p>从最高点跌到最低点，再恢复到最高点的时间。</p>
+<p><strong>示例</strong>：
+<div class="highlight"><pre><span></span><code>2025-09-15: 资金最高 $1,200
+2025-09-22: 跌至最低 $1,080（回撤期开始）
+2025-10-10: 恢复到 $1,200（回撤期结束）
+
+回撤期：25 天
+</code></pre></div></p>
+<p><strong>长回撤期的影响</strong>：
+- 资金长时间无法增长
+- 心理压力增大
+- 可能错过其他机会</p>
+<hr />
+<h3 id="sharpe-ratio-sortino-ratio">Sharpe Ratio / Sortino Ratio<a class="headerlink" href="#sharpe-ratio-sortino-ratio" title="Permanent link">&para;</a></h3>
+<h4 id="sharpe-ratio">Sharpe Ratio（夏普比率）<a class="headerlink" href="#sharpe-ratio" title="Permanent link">&para;</a></h4>
+<p>风险调整后的收益率，衡量每承担 1 单位风险获得多少超额收益。</p>
+<p><strong>计算公式</strong>：
+<div class="highlight"><pre><span></span><code>Sharpe Ratio = (策略收益 - 无风险收益) / 收益标准差
+</code></pre></div></p>
+<p><strong>解读标准</strong>：
+<div class="highlight"><pre><span></span><code>Sharpe &gt; 3.0   🟢 优秀 - 极佳的风险收益比
+Sharpe 2.0-3.0 🟡 良好 - 可接受的风险收益比
+Sharpe 1.0-2.0 🟠 一般 - 风险略高
+Sharpe &lt; 1.0   🔴 差 - 风险过高
+Sharpe &lt; 0     ⛔ 亏损 - 还不如无风险投资
+</code></pre></div></p>
+<p><strong>示例对比</strong>：
+<div class="highlight"><pre><span></span><code>策略 A: 收益 10%, 标准差 5%, Sharpe = 2.0
+策略 B: 收益 15%, 标准差 10%, Sharpe = 1.5
+
+结论: 策略 A 更优秀（风险调整后收益更高）
+</code></pre></div></p>
+<h4 id="sortino-ratio">Sortino Ratio（索提诺比率）<a class="headerlink" href="#sortino-ratio" title="Permanent link">&para;</a></h4>
+<p>只考虑下行风险的 Sharpe Ratio（更合理）。</p>
+<p><strong>区别</strong>：
+- <strong>Sharpe</strong>：惩罚所有波动（包括向上波动）
+- <strong>Sortino</strong>：只惩罚向下波动（更符合投资者关注点）</p>
+<p><strong>解读</strong>：
+<div class="highlight"><pre><span></span><code>Sortino &gt; Sharpe → 策略向上波动多于向下波动（好事）
+Sortino ≈ Sharpe → 策略上下波动对称
+Sortino &lt; Sharpe → 策略向下波动更剧烈（坏事）
+</code></pre></div></p>
+<hr />
+<h2 id="62">6.2 交易次数分析<a class="headerlink" href="#62" title="Permanent link">&para;</a></h2>
+<h3 id="_9">交易频率的影响<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>交易次数</th>
+<th>频率</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>&gt; 100/月</strong></td>
+<td>超高频</td>
+<td>充分利用资金</td>
+<td>手续费高，滑点大</td>
+</tr>
+<tr>
+<td><strong>30-100/月</strong></td>
+<td>高频</td>
+<td>机会多</td>
+<td>手续费显著</td>
+</tr>
+<tr>
+<td><strong>10-30/月</strong></td>
+<td>中频</td>
+<td>平衡 ✅</td>
+<td>需要耐心</td>
+</tr>
+<tr>
+<td><strong>&lt; 10/月</strong></td>
+<td>低频</td>
+<td>信号质量高</td>
+<td>资金利用率低</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_10">手续费成本计算<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<h4 id="_11">手续费模型<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Binance 现货交易手续费（无优惠）</span>
+<span class="n">maker_fee</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">%</span>  <span class="c1"># 挂单手续费</span>
+<span class="n">taker_fee</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">%</span>  <span class="c1"># 吃单手续费</span>
+
+<span class="c1"># 一次完整交易（买入 + 卖出）</span>
+<span class="n">round_trip_fee</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">%</span> <span class="o">+</span> <span class="mf">0.1</span><span class="o">%</span> <span class="o">=</span> <span class="mf">0.2</span><span class="o">%</span>
+</code></pre></div>
+<h4 id="_12">手续费对收益的影响<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h4>
+<p><strong>案例 1：高频策略</strong>
+<div class="highlight"><pre><span></span><code>交易次数：100 次/月
+平均每笔收益：+0.5%
+手续费：0.2% × 100 = 20%
+
+净收益 = 50% - 20% = 30%（手续费吃掉 40% 利润）
+</code></pre></div></p>
+<p><strong>案例 2：低频策略</strong>
+<div class="highlight"><pre><span></span><code>交易次数：10 次/月
+平均每笔收益：+2%
+手续费：0.2% × 10 = 2%
+
+净收益 = 20% - 2% = 18%（手续费只吃掉 10% 利润）
+</code></pre></div></p>
+<h4 id="_13">盈亏平衡点<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h4>
+<p>要想盈利，平均每笔收益必须超过手续费：</p>
+<div class="highlight"><pre><span></span><code>最低盈利要求 &gt; 0.2%（一次完整交易）
+
+如果平均收益 0.5%：
+净收益 = 0.5% - 0.2% = 0.3%（可接受）
+
+如果平均收益 0.3%：
+净收益 = 0.3% - 0.2% = 0.1%（勉强）
+
+如果平均收益 0.15%：
+净收益 = 0.15% - 0.2% = -0.05%（亏损！）
+</code></pre></div>
+<h3 id="_14">过度交易的风险<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
+<p><strong>过度交易的信号</strong>：
+- ✅ 交易次数 &gt; 100/月（5m 时间框架）
+- ✅ 平均每笔收益 &lt; 0.3%
+- ✅ 手续费占总收益 &gt; 30%
+- ✅ 大量小盈小亏交易</p>
+<p><strong>后果</strong>：
+- 手续费侵蚀利润
+- 滑点损失增加
+- 策略过拟合风险
+- 交易所风控风险</p>
+<hr />
+<h2 id="63">6.3 退出原因统计<a class="headerlink" href="#63" title="Permanent link">&para;</a></h2>
+<p>Freqtrade 回测报告会显示每笔交易的退出原因：</p>
+<h3 id="_15">退出原因类型<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>退出原因</th>
+<th>说明</th>
+<th>理想占比</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>roi</strong></td>
+<td>ROI 止盈退出</td>
+<td>30-50%</td>
+</tr>
+<tr>
+<td><strong>exit_signal</strong></td>
+<td>卖出信号触发</td>
+<td>20-40%</td>
+</tr>
+<tr>
+<td><strong>trailing_stop_loss</strong></td>
+<td>跟踪止损</td>
+<td>10-20%</td>
+</tr>
+<tr>
+<td><strong>stop_loss</strong></td>
+<td>固定止损</td>
+<td>&lt; 20%</td>
+</tr>
+<tr>
+<td><strong>force_exit</strong></td>
+<td>强制平仓（回测结束）</td>
+<td>0-5%</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_16">退出原因分析<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h3>
+<h4 id="_17">示例报告<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>EXIT REASON STATS
+┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Exit Reason          ┃ Exits  ┃ Wins      ┃ Avg Profit % ┃
+┡━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━━━┩
+│ roi                  │     45 │        45 │         2.1% │
+│ exit_signal          │     28 │        25 │         0.8% │
+│ trailing_stop_loss   │     15 │        15 │         3.5% │
+│ stop_loss            │     12 │         0 │        -5.0% │
+└──────────────────────┴────────┴───────────┴──────────────┘
+</code></pre></div>
+<h4 id="_18">解读<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h4>
+<p><strong>ROI 止盈（45 次，100% 胜率）</strong>：
+- ✅ 策略能够快速达到止盈目标
+- ✅ 平均 2.1% 收益，效果良好
+- 占比 45%，说明策略趋势把握准确</p>
+<p><strong>退出信号（28 次，89% 胜率）</strong>：
+- ✅ 大部分退出信号是盈利的
+- ⚠️ 3 次亏损退出，可能是信号过早
+- 平均 0.8% 收益，低于 ROI</p>
+<p><strong>跟踪止损（15 次，100% 胜率）</strong>：
+- ✅ 全部盈利，说明跟踪止损设置合理
+- ✅ 平均 3.5% 收益，最高的退出方式
+- 成功锁定了大部分利润</p>
+<p><strong>固定止损（12 次，0% 胜率）</strong>：
+- ❌ 全部亏损，平均 -5%
+- ⚠️ 占比 12%，可以接受
+- 如果占比 &gt; 30%，需要调整策略</p>
+<h3 id="_19">问题诊断<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h3>
+<h4 id="1-30">问题 1：止损占比过高（&gt; 30%）<a class="headerlink" href="#1-30" title="Permanent link">&para;</a></h4>
+<p><strong>原因</strong>：
+- 止损设置过紧
+- 入场时机不佳
+- 市场波动过大</p>
+<p><strong>解决方案</strong>：
+- 放宽止损范围（如 -5% → -7%）
+- 增加入场确认条件
+- 启用跟踪止损</p>
+<h4 id="2-10">问题 2：强制退出占比高（&gt; 10%）<a class="headerlink" href="#2-10" title="Permanent link">&para;</a></h4>
+<p><strong>原因</strong>：
+- 策略持仓时间过长
+- 缺少明确的退出信号
+- ROI 设置过高</p>
+<p><strong>解决方案</strong>：
+- 添加退出信号
+- 调整 ROI 梯度
+- 设置最大持仓时间</p>
+<h4 id="3roi-20">问题 3：ROI 占比过低（&lt; 20%）<a class="headerlink" href="#3roi-20" title="Permanent link">&para;</a></h4>
+<p><strong>原因</strong>：
+- ROI 设置过高，难以达到
+- 策略捕捉不到大趋势
+- 退出信号过早触发</p>
+<p><strong>解决方案</strong>：
+- 降低 ROI 目标
+- 优化入场时机
+- 调整退出信号逻辑</p>
+<hr />
+<h2 id="64">6.4 持仓时间分析<a class="headerlink" href="#64" title="Permanent link">&para;</a></h2>
+<h3 id="_20">平均持仓时间<a class="headerlink" href="#_20" title="Permanent link">&para;</a></h3>
+<p><strong>示例</strong>：
+<div class="highlight"><pre><span></span><code>Avg. holding time: 4h 35m
+</code></pre></div></p>
+<p><strong>分类</strong>：
+- <strong>&lt; 1h</strong>：超短线
+- <strong>1-6h</strong>：短线
+- <strong>6-24h</strong>：日内
+- <strong>&gt; 24h</strong>：波段</p>
+<h3 id="_21">持仓时间与收益的关系<a class="headerlink" href="#_21" title="Permanent link">&para;</a></h3>
+<h4 id="_22">理想曲线<a class="headerlink" href="#_22" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>收益 ↑
+    │     ┌──────────  (ROI 止盈区)
+    │    ╱
+    │   ╱
+    │  ╱
+    │ ╱
+────┼──────────────────→ 持仓时间
+    │
+    │ (盈利增长)
+</code></pre></div>
+<h4 id="1">问题曲线 1：时间拖累<a class="headerlink" href="#1" title="Permanent link">&para;</a></h4>
+<p><div class="highlight"><pre><span></span><code>收益 ↑
+    │  ┌───┐
+    │ ╱     ╲
+    │╱       ╲___  (利润回吐)
+────┼───────────────→ 持仓时间
+</code></pre></div>
+<strong>问题</strong>：持仓过久，利润回吐
+<strong>解决</strong>：缩短 ROI 梯度时间</p>
+<h4 id="2">问题曲线 2：过早退出<a class="headerlink" href="#2" title="Permanent link">&para;</a></h4>
+<p><div class="highlight"><pre><span></span><code>收益 ↑
+    │
+    │ │ │ │ │  (频繁小盈利)
+────┼─┴─┴─┴─┴───────→ 持仓时间
+</code></pre></div>
+<strong>问题</strong>：未能捕捉大趋势
+<strong>解决</strong>：放宽退出条件，使用跟踪止损</p>
+<h3 id="_23">持仓时间分布<a class="headerlink" href="#_23" title="Permanent link">&para;</a></h3>
+<p><strong>理想分布</strong>：
+<div class="highlight"><pre><span></span><code>┏━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━┓
+┃ Duration   ┃ Trades ┃ Avg Profit ┃
+┡━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━┩
+│ &lt; 1h       │     15 │       0.5% │
+│ 1-4h       │     40 │       1.2% │
+│ 4-12h      │     30 │       2.5% │
+│ &gt; 12h      │     15 │       3.8% │
+└────────────┴────────┴────────────┘
+</code></pre></div></p>
+<p><strong>分析</strong>：
+- 持仓时间越长，收益越高（正常）
+- 大部分交易在 1-4h（策略主战场）
+- 少量长线交易贡献高收益</p>
+<h3 id="_24">隔夜风险<a class="headerlink" href="#_24" title="Permanent link">&para;</a></h3>
+<p>如果策略持仓超过 24 小时，需要考虑：</p>
+<p><strong>风险因素</strong>：
+- 美股收盘影响
+- 亚洲开盘波动
+- 突发新闻事件
+- 周末缺口</p>
+<p><strong>应对措施</strong>：
+<div class="highlight"><pre><span></span><code><span class="c1"># 避免隔夜持仓（高级功能）</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">custom_exit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pair</span><span class="p">,</span> <span class="n">trade</span><span class="p">,</span> <span class="n">current_time</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="c1"># 如果持仓超过 20 小时，强制退出</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">current_time</span> <span class="o">-</span> <span class="n">trade</span><span class="o">.</span><span class="n">open_date_utc</span><span class="p">)</span><span class="o">.</span><span class="n">seconds</span> <span class="o">&gt;</span> <span class="mi">72000</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">'holding_too_long'</span>
+</code></pre></div></p>
+<hr />
+<h2 id="_25">💡 实践任务<a class="headerlink" href="#_25" title="Permanent link">&para;</a></h2>
+<h3 id="1_1">任务 1：回测三个策略<a class="headerlink" href="#1_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 回测 Strategy001</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250901</span>-20250930
+
+<span class="c1"># 回测 Strategy002</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy002<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250901</span>-20250930
+
+<span class="c1"># 回测 Strategy003</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy003<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250901</span>-20250930
+</code></pre></div>
+<h3 id="2_1">任务 2：制作策略对比表格<a class="headerlink" href="#2_1" title="Permanent link">&para;</a></h3>
+<p>创建 Excel 或 Google Sheets，记录以下指标：</p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>Strategy001</th>
+<th>Strategy002</th>
+<th>Strategy003</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>交易次数</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>胜率</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>总收益 %</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>平均收益 %</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>最大回撤 %</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>Sharpe Ratio</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>ROI 退出占比</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>止损退出占比</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>平均持仓时间</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3">任务 3：分析每个策略的优缺点<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
+<p><strong>Strategy001</strong>：
+- 优点：
+- 缺点：
+- 适合市场：</p>
+<p><strong>Strategy002</strong>：
+- 优点：
+- 缺点：
+- 适合市场：</p>
+<p><strong>Strategy003</strong>：
+- 优点：
+- 缺点：
+- 适合市场：</p>
+<h3 id="4">任务 4：选出最佳策略<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
+<p>根据以下标准选出你认为最好的策略：</p>
+<p><strong>评分标准</strong>（100 分制）：
+- 总收益（30 分）
+- 胜率（20 分）
+- 最大回撤（20 分）
+- Sharpe Ratio（15 分）
+- 交易次数合理性（15 分）</p>
+<p><strong>我的选择</strong>：___________
+<strong>理由</strong>：___________</p>
+<hr />
+<h2 id="_26">📚 知识检查<a class="headerlink" href="#_26" title="Permanent link">&para;</a></h2>
+<h3 id="_27">基础问题<a class="headerlink" href="#_27" title="Permanent link">&para;</a></h3>
+<ol>
+<li>胜率 80%，平均盈利 1%，平均亏损 -1%，期望收益是多少？</li>
+<li>最大回撤 20%，需要上涨多少才能回本？</li>
+<li>Sharpe Ratio &gt; 3.0 表示什么？</li>
+<li>ROI 退出占比高说明什么？</li>
+</ol>
+<h3 id="_28">答案<a class="headerlink" href="#_28" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>0.6%</strong>（0.80 × 1% + 0.20 × -1%）</li>
+<li><strong>25%</strong>（1 / (1 - 0.20) - 1）</li>
+<li><strong>优秀的风险收益比</strong>，策略质量很高</li>
+<li><strong>策略能够快速达到止盈目标</strong>，趋势把握准确</li>
+</ol>
+<h3 id="_29">进阶问题<a class="headerlink" href="#_29" title="Permanent link">&para;</a></h3>
+<ol>
+<li>一个策略胜率 40%，平均盈利 5%，平均亏损 -1%，这个策略好吗？</li>
+<li>如果两个策略收益相同，但一个回撤 5%，另一个回撤 15%，你选哪个？</li>
+<li>Sharpe Ratio 为负数意味着什么？</li>
+</ol>
+<h3 id="_30">思考题<a class="headerlink" href="#_30" title="Permanent link">&para;</a></h3>
+<ol>
+<li>为什么平均每笔收益比总收益更重要？</li>
+<li>高胜率策略一定好吗？</li>
+<li>如何判断一个策略是否过度交易？</li>
+</ol>
+<hr />
+<h2 id="_31">🔗 参考资料<a class="headerlink" href="#_31" title="Permanent link">&para;</a></h2>
+<h3 id="_32">配套文档<a class="headerlink" href="#_32" title="Permanent link">&para;</a></h3>
+<ul>
+<li>📄 <a href="../STRATEGY_SELECTION_GUIDE.md">STRATEGY_SELECTION_GUIDE.md</a> - 策略评分标准</li>
+<li>📄 <a href="../TESTING_GUIDE.md">TESTING_GUIDE.md</a> - 回测报告解读</li>
+</ul>
+<h3 id="_33">推荐阅读<a class="headerlink" href="#_33" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://www.investopedia.com/terms/s/sharperatio.asp">Sharpe Ratio 详解</a></li>
+<li><a href="https://www.investopedia.com/terms/m/maximum-drawdown-mdd.asp">最大回撤分析</a></li>
+<li><a href="https://www.babypips.com/learn/forex/risk-reward-ratio">盈亏比与胜率平衡</a></li>
+</ul>
+<hr />
+<h2 id="_34">📌 核心要点总结<a class="headerlink" href="#_34" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>平均每笔收益 &gt; 总收益</strong>：更能反映策略质量</li>
+<li><strong>胜率和盈亏比需要平衡</strong>：不要只看胜率</li>
+<li><strong>最大回撤 &lt; 10%</strong>：风险可控的标准</li>
+<li><strong>Sharpe Ratio &gt; 2.0</strong>：优秀策略的门槛</li>
+<li><strong>退出原因统计</strong>：诊断策略问题的关键</li>
+<li><strong>手续费成本</strong>：高频策略的最大敌人</li>
+</ol>
+<hr />
+<h2 id="_35">➡️ 下一课预告<a class="headerlink" href="#_35" title="Permanent link">&para;</a></h2>
+<p><strong>第 7 课：多时间框架回测</strong></p>
+<p>在下一课中，我们将：
+- 测试同一策略在不同时间框架的表现
+- 理解时间框架对策略的影响
+- 找出最适合策略的时间框架
+- 学习时间框架选择的原则</p>
+<p><strong>准备工作</strong>：
+- ✅ 下载 BTC/USDT 多个时间框架数据（5m, 15m, 1h, 1d）
+- ✅ 选定一个策略用于测试
+- ✅ 准备记录不同时间框架的测试结果</p>
+<hr />
+<p><strong>🎯 学习检验标准</strong>：
+- ✅ 能独立解读回测报告的所有关键指标
+- ✅ 能对比多个策略并选出最优
+- ✅ 理解胜率和盈亏比的权衡关系
+- ✅ 能根据退出原因统计诊断问题</p>
+<p>完成这些任务后，你已经具备了策略分析的专业能力！🎯</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

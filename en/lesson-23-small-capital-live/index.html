@@ -1,0 +1,3977 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径">
+      
+      
+      
+        <link rel="canonical" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-23-small-capital-live/">
+      
+      
+        <link rel="prev" href="../lesson-22-pre-live-checklist/">
+      
+      
+        <link rel="next" href="../lesson-24-1-order-placement/">
+      
+      
+        
+          <link rel="alternate" href="../../lesson-23-small-capital-live/" hreflang="zh">
+        
+          <link rel="alternate" href="./" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>Lesson 23: Small Capital Live Trading - Freqtrade 实战教程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9784658154228475"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VGHZY4EELE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VGHZY4EELE");
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lesson-23-small-capital-live-trading" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Freqtrade 实战教程" class="md-header__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Freqtrade 实战教程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lesson 23: Small Capital Live Trading
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../lesson-23-small-capital-live/" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../strategies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  English Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Freqtrade 实战教程" class="md-nav__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Freqtrade 实战教程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../strategies/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    English Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    English Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 1: Introduction to Quantitative Trading and Freqtrade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-02-environment-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 2: Freqtrade Environment Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-03-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 3: Understanding Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-04-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 4: Data Download and Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-05-first-backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 5: First Strategy Backtest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-06-strategy-performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 6: Strategy Performance Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-07-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 7: Multi-Timeframe Backtesting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-08-strategy-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 8: Strategy Batch Comparison
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-09-timerange-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 9: Time Range Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-10-pair-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 10: Trading Pair Selection and Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-11-hyperopt-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 11: Hyperopt Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-12-advanced-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 12: Advanced Strategy Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-13-scoring-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 13: Strategy Scoring System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-14-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 14: Risk and Money Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-15-portfolio-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 15: Strategy Portfolio and Diversification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-16-realtime-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 16: Real-time Signal Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-17-telegram-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 17: Telegram Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-18-webui-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 18: Web UI and API Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 19: Visualization Analysis Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-20-dry-run-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 20: Simulated Trading Validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-21-exchange-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 21: Exchange API Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-22-pre-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 22: Pre-Live Trading Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 23: Small Capital Live Trading
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 23: Small Capital Live Trading
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#course-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Course Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-1-live-trading-startup-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 1: Live Trading Startup Process
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 1: Live Trading Startup Process">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-final-confirmation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Final Confirmation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-initial-capital-setting-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Initial Capital Setting Recommendations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.2 Initial Capital Setting Recommendations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#based-on-total-capital-scale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Based on Total Capital Scale
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-start-with-small-capital" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Start with Small Capital
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-final-configuration-file-adjustments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Final Configuration File Adjustments
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.3 Final Configuration File Adjustments">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modify-key-parameters-in-configjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modify key parameters in config.json
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-check-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Check Commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-starting-live-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Starting Live Trading
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.4 Starting Live Trading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recommended-startup-times" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommended Startup Times
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#startup-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Startup Commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#confirm-live-trading-started-successfully" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Confirm Live Trading Started Successfully
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-background-running-after-stabilization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 Background Running (After Stabilization)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-2-first-7-days-focus-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 2: First 7 Days Focus Monitoring
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 2: First 7 Days Focus Monitoring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-day-1-intensive-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Day 1: Intensive Monitoring
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 Day 1: Intensive Monitoring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#day-1-schedule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Day 1 Schedule
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#day-1-recording-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Day 1 Recording Template
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-days-2-7-regular-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Days 2-7: Regular Monitoring
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 Days 2-7: Regular Monitoring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#daily-monitoring-schedule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Daily Monitoring Schedule
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#daily-recording-template-simplified" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Daily Recording Template (Simplified)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-key-indicator-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Key Indicator Monitoring
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 Key Indicator Monitoring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#daily-must-see-indicators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Daily Must-See Indicators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#warning-lines-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Warning Lines Settings
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-first-7-days-data-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 First 7 Days Data Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-3-common-issues-and-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 3: Common Issues and Solutions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 3: Common Issues and Solutions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-first-trade-takes-too-long" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 First Trade Takes Too Long
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-first-trade-is-a-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 First Trade is a Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-live-performance-much-worse-than-dry-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Live Performance Much Worse Than Dry-run
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-frequent-stop-losses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Frequent Stop Losses
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-system-errors-and-anomalies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 System Errors and Anomalies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.5 System Errors and Anomalies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#error-1-api-rate-limit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error 1: API Rate Limit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-2-insufficient-balance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error 2: Insufficient Balance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-3-network-interruption" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error 3: Network Interruption
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-4-capital-increase-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 4: Capital Increase Decision
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 4: Capital Increase Decision">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-when-to-increase-capital" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 When to Increase Capital
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 When to Increase Capital">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conditions-for-increasing-capital-all-must-be-met" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conditions for Increasing Capital (All must be met)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-week-performance-assessment-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4-Week Performance Assessment Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-capital-increase-plans" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Capital Increase Plans
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.2 Capital Increase Plans">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#plan-1-conservative-increase-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plan 1: Conservative Increase (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plan-2-moderate-increase" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plan 2: Moderate Increase
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plan-3-aggressive-increase-not-recommended-for-beginners" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plan 3: Aggressive Increase (Not Recommended for Beginners)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-adjustments-after-increasing-capital" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Adjustments After Increasing Capital
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.3 Adjustments After Increasing Capital">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#adjustment-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adjustment Checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-monitoring-1-2-weeks-after-capital-increase" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Monitoring 1-2 Weeks After Capital Increase
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 Practical Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 Practical Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-create-startup-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Create Startup Plan
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-prepare-recording-sheets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Prepare Recording Sheets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-set-alert-thresholds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: Set Alert Thresholds
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-4-simulation-drill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 4: Simulation Drill
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Key Points
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📌 Key Points">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#three-principles-for-small-capital-live-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Three Principles for Small Capital Live Trading
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-differences-between-live-and-dry-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Differences Between Live and Dry-run
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-to-stop-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to Stop Trading
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-lesson-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Next Lesson Preview
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-1-order-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.1: Live Trading Order Placement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-2-stop-loss-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.2: Live Trading Stop Loss Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-3-futures-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.3: Binance Futures Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-4-leverage-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.4: Leverage Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-trading-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24: Trading Monitoring and Adjustment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-25-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 25: Risk Control and Psychology Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-26-custom-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 26: Custom Strategy Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-27-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 27: Multi-Timeframe Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-28-grid-hft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 28: HFT and Grid Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-1-freqai-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.1: FreqAI Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-2-advanced-ml-strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.2: Advanced ML Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning-enhanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: ML Basics and Strategy Optimization (Enhanced)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: Machine Learning and Strategy Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-30-conclusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 30: Conclusion and Continuous Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#course-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Course Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-1-live-trading-startup-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 1: Live Trading Startup Process
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 1: Live Trading Startup Process">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-final-confirmation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Final Confirmation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-initial-capital-setting-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Initial Capital Setting Recommendations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.2 Initial Capital Setting Recommendations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#based-on-total-capital-scale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Based on Total Capital Scale
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-start-with-small-capital" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Start with Small Capital
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-final-configuration-file-adjustments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Final Configuration File Adjustments
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.3 Final Configuration File Adjustments">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modify-key-parameters-in-configjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modify key parameters in config.json
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-check-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Check Commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-starting-live-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Starting Live Trading
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.4 Starting Live Trading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recommended-startup-times" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommended Startup Times
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#startup-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Startup Commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#confirm-live-trading-started-successfully" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Confirm Live Trading Started Successfully
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-background-running-after-stabilization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 Background Running (After Stabilization)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-2-first-7-days-focus-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 2: First 7 Days Focus Monitoring
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 2: First 7 Days Focus Monitoring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-day-1-intensive-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Day 1: Intensive Monitoring
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 Day 1: Intensive Monitoring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#day-1-schedule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Day 1 Schedule
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#day-1-recording-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Day 1 Recording Template
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-days-2-7-regular-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Days 2-7: Regular Monitoring
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 Days 2-7: Regular Monitoring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#daily-monitoring-schedule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Daily Monitoring Schedule
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#daily-recording-template-simplified" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Daily Recording Template (Simplified)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-key-indicator-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Key Indicator Monitoring
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 Key Indicator Monitoring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#daily-must-see-indicators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Daily Must-See Indicators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#warning-lines-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Warning Lines Settings
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-first-7-days-data-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 First 7 Days Data Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-3-common-issues-and-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 3: Common Issues and Solutions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 3: Common Issues and Solutions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-first-trade-takes-too-long" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 First Trade Takes Too Long
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-first-trade-is-a-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 First Trade is a Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-live-performance-much-worse-than-dry-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Live Performance Much Worse Than Dry-run
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-frequent-stop-losses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Frequent Stop Losses
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-system-errors-and-anomalies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 System Errors and Anomalies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.5 System Errors and Anomalies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#error-1-api-rate-limit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error 1: API Rate Limit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-2-insufficient-balance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error 2: Insufficient Balance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-3-network-interruption" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error 3: Network Interruption
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-4-capital-increase-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 4: Capital Increase Decision
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 4: Capital Increase Decision">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-when-to-increase-capital" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 When to Increase Capital
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 When to Increase Capital">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conditions-for-increasing-capital-all-must-be-met" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conditions for Increasing Capital (All must be met)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-week-performance-assessment-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4-Week Performance Assessment Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-capital-increase-plans" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Capital Increase Plans
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.2 Capital Increase Plans">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#plan-1-conservative-increase-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plan 1: Conservative Increase (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plan-2-moderate-increase" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plan 2: Moderate Increase
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plan-3-aggressive-increase-not-recommended-for-beginners" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plan 3: Aggressive Increase (Not Recommended for Beginners)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-adjustments-after-increasing-capital" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Adjustments After Increasing Capital
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.3 Adjustments After Increasing Capital">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#adjustment-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adjustment Checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-monitoring-1-2-weeks-after-capital-increase" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Monitoring 1-2 Weeks After Capital Increase
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 Practical Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 Practical Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-create-startup-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Create Startup Plan
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-prepare-recording-sheets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Prepare Recording Sheets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-set-alert-thresholds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: Set Alert Thresholds
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-4-simulation-drill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 4: Simulation Drill
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Key Points
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📌 Key Points">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#three-principles-for-small-capital-live-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Three Principles for Small Capital Live Trading
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-differences-between-live-and-dry-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Differences Between Live and Dry-run
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-to-stop-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to Stop Trading
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-lesson-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Next Lesson Preview
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="lesson-23-small-capital-live-trading">Lesson 23: Small Capital Live Trading<a class="headerlink" href="#lesson-23-small-capital-live-trading" title="Permanent link">&para;</a></h1>
+<p><strong>⏱ Duration</strong>: 2 hours
+<strong>🎯 Learning Objectives</strong>: Safely start live trading, verify strategy's real performance with small capital</p>
+<hr />
+<h2 id="course-overview">Course Overview<a class="headerlink" href="#course-overview" title="Permanent link">&para;</a></h2>
+<p>This is the most exciting and critical lesson. After backtests, Dry-run, and security checks, you're finally ready to start real live trading.</p>
+<p><strong>Core Principle of This Lesson</strong>:</p>
+<blockquote>
+<p><strong>Start with small capital, increase gradually, safety first.</strong></p>
+</blockquote>
+<p>This lesson will guide you through:
+- How to smoothly transition from Dry-run to live
+- How to set reasonable initial capital
+- What to focus on in the first 7 days
+- When to increase capital
+- How to handle problems</p>
+<hr />
+<h2 id="part-1-live-trading-startup-process">Part 1: Live Trading Startup Process<a class="headerlink" href="#part-1-live-trading-startup-process" title="Permanent link">&para;</a></h2>
+<h3 id="11-final-confirmation">1.1 Final Confirmation<a class="headerlink" href="#11-final-confirmation" title="Permanent link">&para;</a></h3>
+<p>Before pressing the start button, do one last check:</p>
+<div class="highlight"><pre><span></span><code>Final Confirmation Checklist (All must be checked):
+
+□ Strategy validation
+  ✅ Total backtest return &gt; 15%
+  ✅ Dry-run run at least 7 days
+  ✅ Dry-run performance meets expectations (&gt;50% of backtest)
+
+□ Technical preparation
+  ✅ API Key configured correctly, permissions set securely
+  ✅ IP whitelist enabled
+  ✅ Withdrawal permissions disabled
+  ✅ Backup mechanism tested
+
+□ Fund preparation
+  ✅ Initial capital funded to exchange
+  ✅ Using "affordable to lose" funds
+  ✅ Does not affect daily life
+  ✅ Not borrowed funds
+
+□ Monitoring preparation
+  ✅ Telegram notifications working normally
+  ✅ Phone notifications enabled
+  ✅ Daily monitoring time scheduled
+
+□ Psychological preparation
+  ✅ Understand there will be losing trades
+  ✅ Promise not to intervene randomly in strategy
+  ✅ Prepared to handle drawdowns
+
+□ Emergency preparation
+  ✅ Emergency trading stop process familiar
+  ✅ Exchange customer service contact saved
+  ✅ Emergency contacts informed
+</code></pre></div>
+<p><strong>Important</strong>: If any item is unchecked, do not start live trading.</p>
+<h3 id="12-initial-capital-setting-recommendations">1.2 Initial Capital Setting Recommendations<a class="headerlink" href="#12-initial-capital-setting-recommendations" title="Permanent link">&para;</a></h3>
+<h4 id="based-on-total-capital-scale">Based on Total Capital Scale<a class="headerlink" href="#based-on-total-capital-scale" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Total Available Funds</th>
+<th>Recommended Initial Capital</th>
+<th>Per Trade</th>
+<th>Max Positions</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$500-1000</td>
+<td>$500</td>
+<td>$100-150</td>
+<td>2-3</td>
+<td>Minimum start, suitable for learning</td>
+</tr>
+<tr>
+<td>$1000-3000</td>
+<td>$1000</td>
+<td>$200-300</td>
+<td>3</td>
+<td>Recommended beginner configuration</td>
+</tr>
+<tr>
+<td>$3000-5000</td>
+<td>$2000</td>
+<td>$300-500</td>
+<td>3-4</td>
+<td>Moderate configuration</td>
+</tr>
+<tr>
+<td>$5000-10000</td>
+<td>$3000-5000</td>
+<td>$500-1000</td>
+<td>4-5</td>
+<td>Configuration for experienced users</td>
+</tr>
+<tr>
+<td>&gt;$10000</td>
+<td>$5000+</td>
+<td>$1000+</td>
+<td>5+</td>
+<td>Advanced configuration</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Beginner Recommended Configuration</strong> (safest):
+<div class="highlight"><pre><span></span><code>Initial capital: $1000
+Per trade: $200
+Max positions: 3
+Capital utilization: 60%
+Reserved funds: 40%
+</code></pre></div></p>
+<h4 id="why-start-with-small-capital">Why Start with Small Capital<a class="headerlink" href="#why-start-with-small-capital" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Advantages:
+✅ Lower learning cost
+✅ Reduce psychological pressure
+✅ Verify real slippage and fees
+✅ Smaller cost to discover potential issues
+✅ Build confidence before increasing investment
+
+Real cases:
+User A: Initial $10,000, lost 15% (-$1,500) in first week, mentally collapsed, stopped trading
+User B: Initial $1,000, lost 15% (-$150) in first week, calmly analyzed, adjusted strategy, profitable after 3 months
+</code></pre></div>
+<h3 id="13-final-configuration-file-adjustments">1.3 Final Configuration File Adjustments<a class="headerlink" href="#13-final-configuration-file-adjustments" title="Permanent link">&para;</a></h3>
+<h4 id="modify-key-parameters-in-configjson">Modify key parameters in config.json<a class="headerlink" href="#modify-key-parameters-in-configjson" title="Permanent link">&para;</a></h4>
+<p>Switching from Dry-run to live requires modifications:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="c1">// 【Key】Switch from Dry-run to live</span>
+<span class="w">  </span><span class="nt">"dry_run"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+
+<span class="w">  </span><span class="c1">// 【Key】Initial capital and per trade amount</span>
+<span class="w">  </span><span class="nt">"stake_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USDT"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"stake_amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"max_open_trades"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+
+<span class="w">  </span><span class="c1">// 【Recommended】Capital utilization ratio</span>
+<span class="w">  </span><span class="nt">"tradable_balance_ratio"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.95</span><span class="p">,</span>
+
+<span class="w">  </span><span class="c1">// 【Important】Unfilled order timeout settings</span>
+<span class="w">  </span><span class="nt">"unfilledtimeout"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span>
+<span class="w">  </span><span class="p">},</span>
+
+<span class="w">  </span><span class="c1">// 【Important】Order types (recommend using limit orders)</span>
+<span class="w">  </span><span class="nt">"order_types"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stoploss"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stoploss_on_exchange"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">},</span>
+
+<span class="w">  </span><span class="c1">// 【Recommended】Cancel unfilled orders on exit</span>
+<span class="w">  </span><span class="nt">"cancel_open_orders_on_exit"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+
+<span class="w">  </span><span class="c1">// 【Important】API configuration (using environment variables)</span>
+<span class="w">  </span><span class="nt">"exchange"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"binance"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${BINANCE_API_KEY}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${BINANCE_API_SECRET}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"ccxt_config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"enableRateLimit"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"rateLimit"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"pair_whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">"BTC/USDT"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"ETH/USDT"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"BNB/USDT"</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">},</span>
+
+<span class="w">  </span><span class="c1">// 【Recommended】Optimize Telegram notifications (live needs more notifications)</span>
+<span class="w">  </span><span class="nt">"telegram"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${TELEGRAM_TOKEN}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"chat_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${TELEGRAM_CHAT_ID}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"notification_settings"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"warning"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"startup"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"entry_fill"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"entry_cancel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"exit_fill"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"exit_cancel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"protection_trigger"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"protection_trigger_global"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="configuration-check-commands">Configuration Check Commands<a class="headerlink" href="#configuration-check-commands" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Check configuration file syntax</span>
+freqtrade<span class="w"> </span>show-config<span class="w"> </span>-c<span class="w"> </span>config.json
+
+<span class="c1"># Test strategy loading</span>
+freqtrade<span class="w"> </span>test-strategy<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>YourStrategy
+
+<span class="c1"># Final API connection test</span>
+freqtrade<span class="w"> </span>test-pairlist<span class="w"> </span>-c<span class="w"> </span>config.json
+</code></pre></div>
+<h3 id="14-starting-live-trading">1.4 Starting Live Trading<a class="headerlink" href="#14-starting-live-trading" title="Permanent link">&para;</a></h3>
+<h4 id="recommended-startup-times">Recommended Startup Times<a class="headerlink" href="#recommended-startup-times" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Best startup times:
+✅ Weekdays (Monday to Thursday)
+✅ Daytime (9:00-17:00)
+✅ When you have full monitoring time (at least 2-3 hours)
+✅ Normal market fluctuations (no major news)
+
+Avoid startup times:
+❌ Friday night (cannot monitor over weekend)
+❌ Late night (cannot handle problems promptly)
+❌ Around major events (Fed decisions, major earnings, etc.)
+❌ During extreme market volatility
+</code></pre></div>
+<h4 id="startup-commands">Startup Commands<a class="headerlink" href="#startup-commands" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Load environment variables</span>
+<span class="nb">source</span><span class="w"> </span>.env
+
+<span class="c1"># 2. Final configuration check</span>
+freqtrade<span class="w"> </span>show-config<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">"dry_run"</span>
+<span class="c1"># Confirm output: "dry_run": false</span>
+
+<span class="c1"># 3. Start live trading (foreground run for easy observation)</span>
+freqtrade<span class="w"> </span>trade<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>YourStrategy
+
+<span class="c1"># Output example:</span>
+<span class="c1"># 2023-04-20 10:00:00 - freqtrade - INFO - Starting freqtrade 2023.4</span>
+<span class="c1"># 2023-04-20 10:00:00 - freqtrade - INFO - Running in LIVE mode</span>
+<span class="c1"># 2023-04-20 10:00:01 - freqtrade - INFO - Using strategy YourStrategy</span>
+<span class="c1"># 2023-04-20 10:00:02 - freqtrade - INFO - Bot started</span>
+</code></pre></div>
+<p><strong>Important</strong>: For first startup, recommend foreground run (not using nohup or screen) for easy output observation.</p>
+<h4 id="confirm-live-trading-started-successfully">Confirm Live Trading Started Successfully<a class="headerlink" href="#confirm-live-trading-started-successfully" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Checklist:
+□ Log shows "Running in LIVE mode" (not DRY_RUN)
+□ Received startup notification on Telegram
+□ Can query status with /status
+□ FreqUI accessible normally
+□ Account balance displayed correctly
+</code></pre></div>
+<h3 id="15-background-running-after-stabilization">1.5 Background Running (After Stabilization)<a class="headerlink" href="#15-background-running-after-stabilization" title="Permanent link">&para;</a></h3>
+<p>When confirmed first 1-2 hours run normally, can switch to background:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Use screen (recommended)</span>
+screen<span class="w"> </span>-S<span class="w"> </span>freqtrade
+freqtrade<span class="w"> </span>trade<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>YourStrategy
+<span class="c1"># Press Ctrl+A, then D to detach session</span>
+
+<span class="c1"># Reconnect</span>
+screen<span class="w"> </span>-r<span class="w"> </span>freqtrade
+
+<span class="c1"># Or use nohup</span>
+nohup<span class="w"> </span>freqtrade<span class="w"> </span>trade<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>YourStrategy<span class="w"> </span>&gt;<span class="w"> </span>freqtrade.log<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">&amp;</span>
+
+<span class="c1"># View logs</span>
+tail<span class="w"> </span>-f<span class="w"> </span>freqtrade.log
+</code></pre></div>
+<hr />
+<h2 id="part-2-first-7-days-focus-monitoring">Part 2: First 7 Days Focus Monitoring<a class="headerlink" href="#part-2-first-7-days-focus-monitoring" title="Permanent link">&para;</a></h2>
+<h3 id="21-day-1-intensive-monitoring">2.1 Day 1: Intensive Monitoring<a class="headerlink" href="#21-day-1-intensive-monitoring" title="Permanent link">&para;</a></h3>
+<h4 id="day-1-schedule">Day 1 Schedule<a class="headerlink" href="#day-1-schedule" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>First 3 hours after startup: Check every 15 minutes
+- Check system running status
+- Observe if there are buy signals
+- Confirm no errors in logs
+
+After first trade completed:
+- Analyze buy price and reasons carefully
+- Confirm fee calculation correct
+- Verify Telegram notifications accurate
+
+First 6 hours: Check every 30 minutes
+- Monitor position P/L
+- Check system resource usage
+- Observe market fluctuations
+
+End of day 1:
+- Make detailed log records
+- Summarize all trades
+- Compare with Dry-run performance
+</code></pre></div>
+<h4 id="day-1-recording-template">Day 1 Recording Template<a class="headerlink" href="#day-1-recording-template" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Date: 2023-04-20
+Trading strategy: YourStrategy
+Initial capital: $1000
+
+Trading records:
+| Time | Pair | Action | Price | Quantity | Fee | P/L | Notes |
+|------|------|--------|------|----------|-----|-----|-------|
+| 10:15 | BTC/USDT | Buy | 30250 | 0.0066 | 0.20 | - | First trade |
+| 14:30 | BTC/USDT | Sell | 30520 | 0.0066 | 0.20 | +1.40 | Take profit |
+| 15:20 | ETH/USDT | Buy | 1890 | 0.106 | 0.20 | - | Holding |
+
+System status:
+✅ Running stable, no errors
+✅ CPU usage: 15%
+✅ Memory usage: 45%
+✅ Network latency: 50ms
+
+Comparative analysis:
+- Buy price vs expected difference: +0.05% (acceptable)
+- Fees consistent with expectations
+- Signal triggering logic correct
+
+Problem records:
+- None
+
+Summary:
+Day 1 ran normally, first trade profitable +1.40 USDT (+0.7%). System stable, signal quality meets expectations.
+</code></pre></div>
+<h3 id="22-days-2-7-regular-monitoring">2.2 Days 2-7: Regular Monitoring<a class="headerlink" href="#22-days-2-7-regular-monitoring" title="Permanent link">&para;</a></h3>
+<h4 id="daily-monitoring-schedule">Daily Monitoring Schedule<a class="headerlink" href="#daily-monitoring-schedule" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Morning (8:00-9:00):
+□ View overnight positions
+□ Check if stop losses triggered
+□ Review Telegram notification history
+□ Check system running status
+
+Midday (12:00-13:00):
+□ View current position P/L
+□ Check new trades
+□ Check logs for errors
+
+Evening (21:00-22:00):
+□ View daily trading summary
+□ Calculate returns and win rate
+□ Analyze best/worst trades
+□ Record trading logs
+</code></pre></div>
+<h4 id="daily-recording-template-simplified">Daily Recording Template (Simplified)<a class="headerlink" href="#daily-recording-template-simplified" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Date: 2023-04-21
+Daily trades: 5
+Win rate: 60% (3 wins/2 losses)
+Daily P/L: +$3.20 (+0.32%)
+Cumulative P/L: +$4.60 (+0.46%)
+
+Best trade: BTC/USDT +$2.10 (+1.05%)
+Worst trade: BNB/USDT -$1.50 (-0.75%)
+
+System status: ✅ Normal
+Problem records: None
+
+Brief summary:
+Running normally, winning trades majority. Stop losses executed as planned.
+</code></pre></div>
+<h3 id="23-key-indicator-monitoring">2.3 Key Indicator Monitoring<a class="headerlink" href="#23-key-indicator-monitoring" title="Permanent link">&para;</a></h3>
+<h4 id="daily-must-see-indicators">Daily Must-See Indicators<a class="headerlink" href="#daily-must-see-indicators" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>1. Profit indicators
+   - Daily P/L: __________ USDT (__________%)
+   - Cumulative P/L: __________ USDT (__________%)
+   - Max position P/L: __________ USDT
+
+2. Trading indicators
+   - Today's trades: __________
+   - Win rate: __________% (____ wins/____ losses)
+   - Profit/loss ratio: __________
+
+3. System indicators
+   - System running time: __________
+   - Error count: __________
+   - API call failures: __________
+
+4. Comparison indicators
+   - Live vs Dry-run return difference: __________%
+   - Live vs Backtest return difference: __________%
+</code></pre></div>
+<h4 id="warning-lines-settings">Warning Lines Settings<a class="headerlink" href="#warning-lines-settings" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Signals that need attention:
+
+⚠️ Yellow alerts (need attention):
+- Daily loss &gt; -2%
+- 3 consecutive losing trades
+- Win rate &lt; 45%
+- System errors &gt; 3
+
+🔴 Red alerts (need action):
+- Daily loss &gt; -5%
+- 5 consecutive losing trades
+- Cumulative loss &gt; -10%
+- Major system error
+
+Response measures:
+Yellow alerts → Strengthen monitoring, analyze reasons
+Red alerts → Immediately stop buying, evaluate whether to stop trading
+</code></pre></div>
+<h3 id="24-first-7-days-data-summary">2.4 First 7 Days Data Summary<a class="headerlink" href="#24-first-7-days-data-summary" title="Permanent link">&para;</a></h3>
+<p>At end of day 7, create complete weekly report:</p>
+<div class="highlight"><pre><span></span><code>==========================================
+First Week Live Trading Summary Report
+==========================================
+
+Basic information:
+Strategy: YourStrategy
+Initial capital: $1000
+Test period: 2023-04-20 to 2023-04-26
+
+Overall performance:
+Total trades: 28
+Win rate: 57.1% (16 wins / 12 losses)
+Total P/L: +$45.60 (+4.56%)
+Average daily P/L: +$6.51 (+0.65%)
+
+Best trade: BTC/USDT +$8.50 (+4.25%)
+Worst trade: ETH/USDT -$4.20 (-2.10%)
+Max drawdown: -$12.30 (-1.23%)
+
+Daily performance:
+Date       | Trades | P/L(USDT) | P/L(%) | Win rate
+---------- | -------- | ---------- | ------- | ----
+04-20 (Thu) | 3        | +5.30      | +0.53%  | 67%
+04-21 (Fri) | 5        | +6.50      | +0.65%  | 60%
+04-22 (Sat) | 3        | -2.10      | -0.21%  | 33%
+04-23 (Sun) | 4        | +9.80      | +0.98%  | 75%
+04-24 (Mon) | 6        | +12.30     | +1.23%  | 67%
+04-25 (Tue) | 4        | +8.20      | +0.82%  | 50%
+04-26 (Wed) | 3        | +5.60      | +0.56%  | 67%
+
+Comparative analysis:
+Metric           | Backtest | Dry-run | Live(Week 1) | Assessment
+-------------- | -------- | ------- | ------------- | ----------
+Total return    | 25.5%    | 18.2%   | 4.56%        | ✅ Meets expectations
+Win rate        | 62.0%    | 56.0%   | 57.1%        | ✅ Good
+P/L ratio       | 1.75     | 1.22    | 1.45         | ✅ Acceptable
+Max drawdown    | -12.5%   | -16.8%  | -1.23%       | ✅ Excellent
+
+System stability:
+Running time: 168 hours
+System restarts: 0 times
+API errors: 2 times (all auto-recovered)
+Order failures: 0 times
+
+Problem records:
+1. 04-22 single-day loss, reason: weekend low liquidity, signal quality declined
+   Improvement: consider reducing positions or pausing trading on weekends
+
+2. 04-24 API rate limit warning
+   Improvement: adjusted rateLimit parameter
+
+Conclusion:
+✅ First week live performance meets expectations
+✅ System runs stable
+✅ Return rate is 25% of Dry-run (considering only 1 week, normal)
+✅ Win rate remains stable
+✅ Drawdown control good
+
+Recommendations:
+- Continue running with current configuration for 2-3 weeks
+- Focus on weekend performance, consider adjustments
+- Evaluate capital increase after 1 month
+==========================================
+</code></pre></div>
+<hr />
+<h2 id="part-3-common-issues-and-solutions">Part 3: Common Issues and Solutions<a class="headerlink" href="#part-3-common-issues-and-solutions" title="Permanent link">&para;</a></h2>
+<h3 id="31-first-trade-takes-too-long">3.1 First Trade Takes Too Long<a class="headerlink" href="#31-first-trade-takes-too-long" title="Permanent link">&para;</a></h3>
+<p><strong>Phenomenon</strong>:
+- No buy signals for 2-3 hours after startup
+- No trading notifications on Telegram</p>
+<p><strong>Possible Causes</strong>:
+<div class="highlight"><pre><span></span><code>1. Market conditions don't meet strategy requirements
+   - No clear trend currently
+   - Volatility too low
+   - Trading pairs ranging
+
+2. Strategy conditions too strict
+   - Indicator thresholds set too high
+   - Too many filter conditions
+
+3. Configuration issues
+   - Empty trading pair list
+   - Insufficient funds to open position
+</code></pre></div></p>
+<p><strong>Solution Methods</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Check if strategy loads normally</span>
+freqtrade<span class="w"> </span>show-config<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>strategy
+
+<span class="c1"># 2. Check trading pair list</span>
+freqtrade<span class="w"> </span>test-pairlist<span class="w"> </span>-c<span class="w"> </span>config.json
+
+<span class="c1"># 3. Test strategy signals (manual test)</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>YourStrategy<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20230420</span>-20230421
+
+<span class="c1"># 4. View detailed logs</span>
+tail<span class="w"> </span>-f<span class="w"> </span>logs/freqtrade.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">"signal\|entry"</span>
+</code></pre></div></p>
+<p><strong>Decision</strong>:
+- No signals within 6 hours: normal, wait patiently
+- No signals within 24 hours: check strategy configuration, may need to adjust parameters
+- No signals within 3 days: strategy may not suit current market, consider switching</p>
+<h3 id="32-first-trade-is-a-loss">3.2 First Trade is a Loss<a class="headerlink" href="#32-first-trade-is-a-loss" title="Permanent link">&para;</a></h3>
+<p><strong>Phenomenon</strong>:
+- First trade triggers stop loss
+- Loss of 2-5%</p>
+<p><strong>Psychological Impact</strong>:
+<div class="highlight"><pre><span></span><code>Normal reaction: disappointment, doubt strategy
+Need to understand: losses are normal, single trade doesn't represent strategy quality
+</code></pre></div></p>
+<p><strong>Solution Methods</strong>:
+<div class="highlight"><pre><span></span><code>1. Analyze loss reasons:
+   □ Did stop loss trigger as planned?
+   □ Was buy signal reasonable?
+   □ Did market environment change suddenly?
+   □ Are stop loss settings reasonable?
+
+2. Check subsequent trades:
+   - Continue observing next 5-10 trades
+   - See if overall win rate meets expectations
+   - Don't give up after one loss
+
+3. Record detailed information:
+   - Buy time and price
+   - Sell time and price
+   - Market environment
+   - Technical indicator status
+</code></pre></div></p>
+<p><strong>Decision Criteria</strong>:
+- 1-2 losses: normal, continue running
+- 5 consecutive losses: analyze reasons, consider pausing
+- 10 consecutive losses: stop trading, re-evaluate strategy</p>
+<h3 id="33-live-performance-much-worse-than-dry-run">3.3 Live Performance Much Worse Than Dry-run<a class="headerlink" href="#33-live-performance-much-worse-than-dry-run" title="Permanent link">&para;</a></h3>
+<p><strong>Phenomenon</strong>:
+- First week return rate &lt; 30% of Dry-run
+- Or first week loss while Dry-run was profitable</p>
+<p><strong>Possible Causes</strong>:
+<div class="highlight"><pre><span></span><code>1. Slippage impact
+   - Live trading execution prices worse than expected
+   - Insufficient liquidity
+   - Order type setting issues
+
+2. Fee impact
+   - Trading frequency too high
+   - Fees erode profits
+
+3. Market environment changes
+   - Live trading period differs from Dry-run period
+   - Volatility decreased
+   - Trend changed
+
+4. Strategy issues
+   - Overfit to historical data
+   - Dry-run period was lucky
+</code></pre></div></p>
+<p><strong>Solution Methods</strong>:
+<div class="highlight"><pre><span></span><code>1. Data comparison analysis:
+   Create detailed comparison table, find biggest differences
+
+2. Slippage analysis:
+   Check actual execution price vs signal price difference
+   If slippage &gt; 0.2%, consider adjusting order types
+
+3. Fee analysis:
+   Calculate fee percentage
+   If fees &gt; 1.5%, reduce trading frequency
+
+4. Extend observation period:
+   Observe at least 2-3 weeks before judging
+   Short-term performance differences may be normal
+</code></pre></div></p>
+<p><strong>Decision Criteria</strong>:
+- Difference &lt; 50%: normal range, continue observing
+- Difference 50-70%: needs attention, analyze reasons
+- Difference &gt; 70% or loss: pause trading, deep analysis</p>
+<h3 id="34-frequent-stop-losses">3.4 Frequent Stop Losses<a class="headerlink" href="#34-frequent-stop-losses" title="Permanent link">&para;</a></h3>
+<p><strong>Phenomenon</strong>:
+- Win rate &lt; 40%
+- Most trades stop loss
+- Few profitable trades</p>
+<p><strong>Possible Causes</strong>:
+<div class="highlight"><pre><span></span><code>1. Stop loss set too tight
+   - Stop loss &lt; 2%
+   - Normal volatility triggers stop loss
+
+2. Counter-trend trading
+   - Strategy buying frequently during downtrends
+   - Lacks trend filtering
+
+3. Sideways market
+   - Sideways consolidation, frequent fake breakouts
+   - Strategy not suitable for current environment
+
+4. Poor signal quality
+   - Buy signals too aggressive
+   - Lacks confirmation mechanisms
+</code></pre></div></p>
+<p><strong>Solution Methods</strong>:
+<div class="highlight"><pre><span></span><code>1. Adjust stop loss:
+   # If current stop loss is -2%, try relaxing to -3%
+   "stoploss": -0.03
+
+2. Add filter conditions:
+   - Add ADX trend filtering (ADX &gt; 25)
+   - Add volume confirmation
+   - Add longer period confirmation
+
+3. Pause trading:
+   - Use /stopbuy to pause buying
+   - Wait for better market environment
+
+4. Switch strategies:
+   - If strategy clearly unsuitable, consider switching
+   - Or wait for suitable market environment
+</code></pre></div></p>
+<h3 id="35-system-errors-and-anomalies">3.5 System Errors and Anomalies<a class="headerlink" href="#35-system-errors-and-anomalies" title="Permanent link">&para;</a></h3>
+<p><strong>Common Errors</strong>:</p>
+<h4 id="error-1-api-rate-limit">Error 1: API Rate Limit<a class="headerlink" href="#error-1-api-rate-limit" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Error message:
+Exchange returned error: Rate limit exceeded
+
+Cause:
+API call frequency too high
+
+Solution:
+# Increase rateLimit parameter
+"ccxt_config": {
+  "enableRateLimit": true,
+  "rateLimit": 500  // Increase from 200 to 500
+}
+</code></pre></div>
+<h4 id="error-2-insufficient-balance">Error 2: Insufficient Balance<a class="headerlink" href="#error-2-insufficient-balance" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Error message:
+InsufficientFunds: Not enough USDT balance
+
+Cause:
+- All funds used in positions
+- Fees consumed funds
+
+Solution:
+- Reduce stake_amount
+- Reduce max_open_trades
+- Fund more capital
+</code></pre></div>
+<h4 id="error-3-network-interruption">Error 3: Network Interruption<a class="headerlink" href="#error-3-network-interruption" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Error message:
+RequestTimeout: Connection timeout
+
+Cause:
+Unstable network or exchange API failure
+
+Solution:
+- Freqtrade will auto-retry
+- Check network connection
+- Wait for exchange recovery
+- If persistent, consider switching VPN or server
+</code></pre></div>
+<hr />
+<h2 id="part-4-capital-increase-decision">Part 4: Capital Increase Decision<a class="headerlink" href="#part-4-capital-increase-decision" title="Permanent link">&para;</a></h2>
+<h3 id="41-when-to-increase-capital">4.1 When to Increase Capital<a class="headerlink" href="#41-when-to-increase-capital" title="Permanent link">&para;</a></h3>
+<h4 id="conditions-for-increasing-capital-all-must-be-met">Conditions for Increasing Capital (All must be met)<a class="headerlink" href="#conditions-for-increasing-capital-all-must-be-met" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>✅ Time conditions:
+□ Live trading at least 4 weeks
+□ Experienced different market environments (up, down, sideways)
+
+✅ Performance conditions:
+□ Total return &gt; 0
+□ Monthly return &gt; 3%
+□ Win rate &gt; 50%
+□ Max drawdown &lt; 15%
+
+✅ Stability conditions:
+□ System runs stable, no major failures
+□ No frequent strategy adjustments
+□ Sharpe ratio &gt; 1.0
+
+✅ Psychological conditions:
+□ Confident in strategy
+□ Can accept drawdowns calmly
+□ Not impulsive due to profits
+</code></pre></div>
+<h4 id="4-week-performance-assessment-table">4-Week Performance Assessment Table<a class="headerlink" href="#4-week-performance-assessment-table" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Week | Date range | Trades | Win rate | Week return | Cumulative return | Max drawdown | Assessment
+---- | ---------- | ------- | -------- | ----------- | ----------------- | ------------ | --------
+Week 1 | 04/20-26 | 28       | 57%      | +4.56%      | +4.56%           | -1.23%       | ✅ Good
+Week 2 | 04/27-05/03 | 32       | 53%      | +3.20%      | +7.76%           | -2.10%       | ✅ Stable
+Week 3 | 05/04-10 | 25       | 60%      | +5.80%      | +13.56%          | -1.85%       | ✅ Excellent
+Week 4 | 05/11-17 | 30       | 55%      | +4.10%      | +17.66%          | -2.50%       | ✅ Good
+
+Monthly summary:
+- Total trades: 115
+- Average win rate: 56.3%
+- Monthly return: +17.66%
+- Max drawdown: -2.50%
+- Weekly returns stable, no major fluctuations
+
+Conclusion: ✅ Meets capital increase standards
+</code></pre></div>
+<h3 id="42-capital-increase-plans">4.2 Capital Increase Plans<a class="headerlink" href="#42-capital-increase-plans" title="Permanent link">&para;</a></h3>
+<h4 id="plan-1-conservative-increase-recommended">Plan 1: Conservative Increase (Recommended)<a class="headerlink" href="#plan-1-conservative-increase-recommended" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Current configuration:
+Initial capital: $1000
+Per trade: $200
+Max positions: 3
+
+After increase:
+Total capital: $2000 (+$1000, +100%)
+Per trade: $300 (+$100, +50%)
+Max positions: 4 (+1, +33%)
+
+Features:
+✅ Gradual increase, reduce risk
+✅ Per trade increase smaller than total capital
+✅ Max positions moderate increase
+</code></pre></div>
+<h4 id="plan-2-moderate-increase">Plan 2: Moderate Increase<a class="headerlink" href="#plan-2-moderate-increase" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Current configuration:
+Initial capital: $1000
+Per trade: $200
+Max positions: 3
+
+After increase:
+Total capital: $3000 (+$2000, +200%)
+Per trade: $500 (+$300, +150%)
+Max positions: 5 (+2, +67%)
+
+Features:
+⚠️ Larger increase, needs stronger psychological tolerance
+✅ Suitable for exceptionally stable strategies
+</code></pre></div>
+<h4 id="plan-3-aggressive-increase-not-recommended-for-beginners">Plan 3: Aggressive Increase (Not Recommended for Beginners)<a class="headerlink" href="#plan-3-aggressive-increase-not-recommended-for-beginners" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Current configuration:
+Initial capital: $1000
+
+After increase:
+Total capital: $5000+ (+$4000+, +400%+)
+
+Features:
+❌ Risk increases significantly
+❌ Psychological pressure increases significantly
+⚠️ Only for experienced users with extremely stable strategies
+</code></pre></div>
+<h3 id="43-adjustments-after-increasing-capital">4.3 Adjustments After Increasing Capital<a class="headerlink" href="#43-adjustments-after-increasing-capital" title="Permanent link">&para;</a></h3>
+<h4 id="adjustment-checklist">Adjustment Checklist<a class="headerlink" href="#adjustment-checklist" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>□ Configuration file adjustments
+  - stake_amount: __________ → __________
+  - max_open_trades: __________ → __________
+
+□ Risk management adjustments
+  - Is single trade risk ratio maintained?
+  - Is total risk exposure controllable?
+  - Do stop loss settings need adjustment?
+
+□ Monitoring intensity adjustments
+  - Strengthen monitoring 1-2 weeks after capital increase
+  - Focus on drawdown control
+  - Observe psychological pressure changes
+
+□ Psychological preparation
+  - Larger capital means larger profit/loss fluctuations
+  - Single trade P/L more significant
+  - Need stronger psychological tolerance
+</code></pre></div>
+<h4 id="key-monitoring-1-2-weeks-after-capital-increase">Key Monitoring 1-2 Weeks After Capital Increase<a class="headerlink" href="#key-monitoring-1-2-weeks-after-capital-increase" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Key focus:
+1. Absolute value of P/L changes
+   - Before: single trade ±$2-5
+   - After: single trade ±$5-15
+   - Psychological impact greater
+
+2. Drawdown magnitude
+   - Small capital drawdown $20 may go unnoticed
+   - Large capital drawdown $100 creates pressure
+
+3. Trading discipline
+   - Hesitate because amounts increased?
+   - More eager to intervene?
+   - Execute stop loss as planned?
+
+If psychological pressure too high:
+- Consider reducing some capital
+- Or temporarily reduce per trade amounts
+- Adapt then gradually increase
+</code></pre></div>
+<hr />
+<h2 id="practical-tasks">📝 Practical Tasks<a class="headerlink" href="#practical-tasks" title="Permanent link">&para;</a></h2>
+<h3 id="task-1-create-startup-plan">Task 1: Create Startup Plan<a class="headerlink" href="#task-1-create-startup-plan" title="Permanent link">&para;</a></h3>
+<p>Create your live trading startup plan:</p>
+<div class="highlight"><pre><span></span><code>1. Startup date and time: __________
+2. Initial capital: __________
+3. Per trade amount: __________
+4. Maximum positions: __________
+5. Trading pair selection: __________
+6. Monitoring plan:
+   - Morning check: __________
+   - Midday check: __________
+   - Evening summary: __________
+</code></pre></div>
+<h3 id="task-2-prepare-recording-sheets">Task 2: Prepare Recording Sheets<a class="headerlink" href="#task-2-prepare-recording-sheets" title="Permanent link">&para;</a></h3>
+<p>Create Excel or Google Sheets, prepare to record:
+- Daily trading detail sheet
+- Daily return statistics sheet
+- Weekly summary template
+- Monthly report template</p>
+<h3 id="task-3-set-alert-thresholds">Task 3: Set Alert Thresholds<a class="headerlink" href="#task-3-set-alert-thresholds" title="Permanent link">&para;</a></h3>
+<p>Set alerts in Telegram or monitoring scripts:
+- Yellow alert thresholds (need attention)
+- Red alert thresholds (need action)
+- Emergency contact list</p>
+<h3 id="task-4-simulation-drill">Task 4: Simulation Drill<a class="headerlink" href="#task-4-simulation-drill" title="Permanent link">&para;</a></h3>
+<p>Before actual startup, do final simulation:
+1. Simulate emergency trading stop process
+2. Test Telegram commands (/status, /profit, /stopbuy)
+3. Verify backup recovery process
+4. Confirm API quick disable method</p>
+<hr />
+<h2 id="key-points">📌 Key Points<a class="headerlink" href="#key-points" title="Permanent link">&para;</a></h2>
+<h3 id="three-principles-for-small-capital-live-trading">Three Principles for Small Capital Live Trading<a class="headerlink" href="#three-principles-for-small-capital-live-trading" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>1. Small start
+   ✅ $1000-3000 start
+   ✅ 10-20% of total capital
+   ✅ Use funds you can afford to lose
+
+2. Intensive monitoring
+   ✅ Every 30 minutes for first 3 days
+   ✅ 3 times daily for first week
+   ✅ Record all trades in detail
+
+3. Gradual increase
+   ✅ At least 4 weeks running before increasing
+   ✅ No more than 100% increase each time
+   ✅ Stable performance is prerequisite
+</code></pre></div>
+<h3 id="key-differences-between-live-and-dry-run">Key Differences Between Live and Dry-run<a class="headerlink" href="#key-differences-between-live-and-dry-run" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Dry-run</th>
+<th>Live</th>
+<th>Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Psychological pressure</td>
+<td>None</td>
+<td>Significant</td>
+<td>May lead to impulsive decisions</td>
+</tr>
+<tr>
+<td>Execution price</td>
+<td>Ideal</td>
+<td>Slippage exists</td>
+<td>Return reduced 0.1-0.3%</td>
+</tr>
+<tr>
+<td>Trading fees</td>
+<td>Ignored</td>
+<td>Real deductions</td>
+<td>Big impact for high-frequency strategies</td>
+</tr>
+<tr>
+<td>Network latency</td>
+<td>Ideal</td>
+<td>Real latency</td>
+<td>1-3 second difference</td>
+</tr>
+<tr>
+<td>System failure impact</td>
+<td>None</td>
+<td>May miss opportunities</td>
+<td>Need high availability</td>
+</tr>
+</tbody>
+</table>
+<h3 id="when-to-stop-trading">When to Stop Trading<a class="headerlink" href="#when-to-stop-trading" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Stop trading immediately if:
+❌ Cumulative loss exceeds -15%
+❌ 7 consecutive days of losses
+❌ Major system failure
+❌ Strategy clearly fails
+❌ Psychological pressure too high, affects life
+
+Pause buying, observe if:
+⚠️ Single week loss &gt; -5%
+⚠️ 5 consecutive stop losses
+⚠️ Extreme market volatility
+⚠️ Win rate consistently &lt;40%
+</code></pre></div>
+<hr />
+<h2 id="next-lesson-preview">🎯 Next Lesson Preview<a class="headerlink" href="#next-lesson-preview" title="Permanent link">&para;</a></h2>
+<p><strong>Lesson 24: Trading Monitoring and Adjustment</strong></p>
+<p>In the next lesson, we will learn:
+- Best practices for daily monitoring
+- How to adjust strategy based on performance
+- When to optimize parameters
+- How to balance monitoring and intervention</p>
+<p>Starting live trading is just the beginning. Long-term stable monitoring and timely adjustments are the keys to sustained profitability.</p>
+<hr />
+<p><strong>🎓 Learning Suggestions</strong>:
+1. <strong>Don't rush</strong>: Small capital start is safest choice
+2. <strong>Detailed recording</strong>: Record and analyze every trade
+3. <strong>Stay calm</strong>: Losses are normal, don't panic
+4. <strong>Follow discipline</strong>: Execute according to plan, don't intervene randomly
+5. <strong>Continuous learning</strong>: Learn and improve from every trade</p>
+<p>Remember: <strong>The first month of live trading, learning is more important than profit.</strong> Use small capital to pay tuition fees, accumulate experience, and lay the foundation for future sustained profitability.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,3974 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径">
+      
+      
+      
+        <link rel="canonical" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-23-small-capital-live/">
+      
+      
+        <link rel="prev" href="../lesson-22-pre-live-checklist/">
+      
+      
+        <link rel="next" href="../lesson-24-1-order-placement/">
+      
+      
+        
+          <link rel="alternate" href="./" hreflang="zh">
+        
+          <link rel="alternate" href="../en/lesson-23-small-capital-live/" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>第 23 课：小资金实盘测试 - Freqtrade 实战教程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9784658154228475"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VGHZY4EELE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VGHZY4EELE");
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#23" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="Freqtrade 实战教程" class="md-header__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Freqtrade 实战教程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第 23 课：小资金实盘测试
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="选择当前语言">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../en/lesson-23-small-capital-live/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/henrylin99/freqtrade-tutorials" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../strategies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🇨🇳 中文教程
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Freqtrade 实战教程" class="md-nav__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Freqtrade 实战教程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/henrylin99/freqtrade-tutorials" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../strategies/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🇨🇳 中文教程
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🇨🇳 中文教程
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 1 课：量化交易与 Freqtrade 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-02-environment-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 2 课：Freqtrade 环境搭建
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-03-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 3 课：核心概念理解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-04-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 4 课：数据下载与管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-05-first-backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 5 课：第一次策略回测
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-06-strategy-performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 6 课：策略性能分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-07-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 7 课：多时间框架回测
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-08-strategy-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 8 课：策略批量对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-09-timerange-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 9 课：Freqtrade时间范围测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-10-pair-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 10 课：Freqtrade交易对选择与测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-11-hyperopt-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 11 课：Freqtrade参数优化入门（Hyperopt）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-12-advanced-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 12 课：高级策略分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-13-scoring-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 13 课：策略评分体系
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-14-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 14 课：风险管理与资金管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-15-portfolio-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 15 课：Freqtrade策略组合与分散
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-16-realtime-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 16 课：实时信号监控
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-17-telegram-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 17 课：Telegram 通知配置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-18-webui-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 18 课：Web UI 与 API 使用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 19 课：可视化分析工具
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-20-dry-run-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 20 课：模拟交易验证
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-21-exchange-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 21 课：交易所 API 配置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-22-pre-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 22 课：实盘前检查清单
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 23 课：小资金实盘测试
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 23 课：小资金实盘测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        课程概述
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一部分：实盘启动流程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第一部分：实盘启动流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 最后的确认
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 初始资金设置建议
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.2 初始资金设置建议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        根据总资金规模决定
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        为什么要小资金起步
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 配置文件最后调整
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.3 配置文件最后调整">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        修改 config.json 关键参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        配置检查命令
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 启动实盘交易
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.4 启动实盘交易">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        建议启动时间
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        启动命令
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        确认实盘启动成功
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 后台运行（稳定后）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第二部分：前 7 天重点监控
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第二部分：前 7 天重点监控">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 第一天：密集监控
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 第一天：密集监控">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一天时间表
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一天记录模板
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-2-7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 第 2-7 天：常规监控
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 第 2-7 天：常规监控">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        每日监控时间表
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        每日记录模板（简化版）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 关键指标监控
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 关键指标监控">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        每日必看指标
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        警戒线设置
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 前 7 天数据汇总
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第三部分：常见问题与应对
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第三部分：常见问题与应对">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 第一笔交易迟迟不来
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 第一笔交易就亏损
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-dry-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 实盘表现远差于 Dry-run
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 频繁止损
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 系统错误和异常
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.5 系统错误和异常">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        错误 1：API 限流
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        错误 2：余额不足
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        错误 3：网络中断
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第四部分：资金增加决策
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第四部分：资金增加决策">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 何时可以增加资金
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 何时可以增加资金">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        增加资金的条件（必须全部满足）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4 周表现评估表
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 资金增加方案
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.2 资金增加方案">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方案 1：保守增加（推荐）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方案 2：适中增加
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方案 3：激进增加（不推荐新手）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 增加资金后的调整
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.3 增加资金后的调整">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        调整检查清单
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        增加资金后前 2 周重点监控
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 实践任务
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 实践任务">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 1：制定启动计划
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 2：准备记录表格
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 3：设置警报阈值
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 4：模拟演练
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 核心要点
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📌 核心要点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        小资金实盘的三大原则
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vs-dry-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        实盘 vs Dry-run 的关键差异
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        何时应该停止交易
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 下节预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-1-order-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.1 课：实盘交易下单操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-2-stop-loss-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.2 课：实盘交易止损操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-3-futures-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.3 课：币安合约交易操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-4-leverage-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.4 课：杠杆交易操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-trading-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24 课：交易监控与调整
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-25-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 25 课：风险控制与心态管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-26-custom-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 26 课：自定义策略开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-27-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 27 课：多时间框架策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-28-grid-hft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 28 课：高频交易与网格策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-1-freqai-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29.1 课：FreqAI 深度实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-2-advanced-ml-strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29.2 课：高级机器学习策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning-enhanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29 课：机器学习基础与策略优化（增强版）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29 课：机器学习与策略优化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-30-conclusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 30 课：总结与持续学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        课程概述
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一部分：实盘启动流程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第一部分：实盘启动流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 最后的确认
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 初始资金设置建议
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.2 初始资金设置建议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        根据总资金规模决定
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        为什么要小资金起步
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 配置文件最后调整
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.3 配置文件最后调整">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        修改 config.json 关键参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        配置检查命令
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 启动实盘交易
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.4 启动实盘交易">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        建议启动时间
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        启动命令
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        确认实盘启动成功
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 后台运行（稳定后）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第二部分：前 7 天重点监控
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第二部分：前 7 天重点监控">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 第一天：密集监控
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 第一天：密集监控">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一天时间表
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一天记录模板
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-2-7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 第 2-7 天：常规监控
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 第 2-7 天：常规监控">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        每日监控时间表
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        每日记录模板（简化版）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 关键指标监控
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 关键指标监控">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        每日必看指标
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        警戒线设置
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 前 7 天数据汇总
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第三部分：常见问题与应对
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第三部分：常见问题与应对">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 第一笔交易迟迟不来
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 第一笔交易就亏损
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-dry-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 实盘表现远差于 Dry-run
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 频繁止损
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 系统错误和异常
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.5 系统错误和异常">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        错误 1：API 限流
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        错误 2：余额不足
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        错误 3：网络中断
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第四部分：资金增加决策
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第四部分：资金增加决策">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 何时可以增加资金
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 何时可以增加资金">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        增加资金的条件（必须全部满足）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4 周表现评估表
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 资金增加方案
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.2 资金增加方案">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方案 1：保守增加（推荐）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方案 2：适中增加
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方案 3：激进增加（不推荐新手）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 增加资金后的调整
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.3 增加资金后的调整">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        调整检查清单
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        增加资金后前 2 周重点监控
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 实践任务
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 实践任务">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 1：制定启动计划
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 2：准备记录表格
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 3：设置警报阈值
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 4：模拟演练
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 核心要点
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📌 核心要点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        小资金实盘的三大原则
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vs-dry-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        实盘 vs Dry-run 的关键差异
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        何时应该停止交易
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 下节预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="23">第 23 课：小资金实盘测试<a class="headerlink" href="#23" title="Permanent link">&para;</a></h1>
+<p><strong>⏱ 课时</strong>：2 小时
+<strong>🎯 学习目标</strong>：安全地开始实盘交易，用小资金验证策略的真实表现</p>
+<hr />
+<h2 id="_1">课程概述<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>这是最激动人心也最关键的一课。经过了回测、Dry-run、安全检查，你终于要开始真实的实盘交易了。</p>
+<p><strong>本课核心原则</strong>：</p>
+<blockquote>
+<p><strong>小资金起步，逐步增加，安全第一。</strong></p>
+</blockquote>
+<p>本课将指导你：
+- 如何从 Dry-run 平滑过渡到实盘
+- 如何设置合理的初始资金
+- 前 7 天需要重点关注什么
+- 何时可以增加资金
+- 遇到问题如何应对</p>
+<hr />
+<h2 id="_2">第一部分：实盘启动流程<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="11">1.1 最后的确认<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
+<p>在按下启动按钮前，做最后一次确认：</p>
+<div class="highlight"><pre><span></span><code>最终确认清单（必须全部打勾）：
+
+□ 策略验证
+  ✅ 回测总收益率 &gt; 15%
+  ✅ Dry-run 至少运行 7 天
+  ✅ Dry-run 表现符合预期（回测的 50% 以上）
+
+□ 技术准备
+  ✅ API Key 配置正确，权限设置安全
+  ✅ IP 白名单已启用
+  ✅ 提币权限已禁用
+  ✅ 备份机制已测试
+
+□ 资金准备
+  ✅ 初始资金已充值到交易所
+  ✅ 使用的是"输得起"的资金
+  ✅ 不影响日常生活
+  ✅ 不是借贷资金
+
+□ 监控准备
+  ✅ Telegram 通知正常工作
+  ✅ 手机通知已开启
+  ✅ 每日监控时间已安排
+
+□ 心理准备
+  ✅ 理解会有亏损交易
+  ✅ 承诺不随意干预策略
+  ✅ 准备好应对回撤
+
+□ 应急准备
+  ✅ 紧急停止交易流程已熟悉
+  ✅ 交易所客服联系方式已保存
+  ✅ 应急联系人已告知
+</code></pre></div>
+<p><strong>重要</strong>：如果有任何一项未打勾，不要启动实盘。</p>
+<h3 id="12">1.2 初始资金设置建议<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<h4 id="_3">根据总资金规模决定<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>总可用资金</th>
+<th>建议初始资金</th>
+<th>单笔交易</th>
+<th>最大持仓数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$500-1000</td>
+<td>$500</td>
+<td>$100-150</td>
+<td>2-3</td>
+<td>最小起步，适合学习</td>
+</tr>
+<tr>
+<td>$1000-3000</td>
+<td>$1000</td>
+<td>$200-300</td>
+<td>3</td>
+<td>推荐新手配置</td>
+</tr>
+<tr>
+<td>$3000-5000</td>
+<td>$2000</td>
+<td>$300-500</td>
+<td>3-4</td>
+<td>适中配置</td>
+</tr>
+<tr>
+<td>$5000-10000</td>
+<td>$3000-5000</td>
+<td>$500-1000</td>
+<td>4-5</td>
+<td>有经验后配置</td>
+</tr>
+<tr>
+<td>&gt;$10000</td>
+<td>$5000+</td>
+<td>$1000+</td>
+<td>5+</td>
+<td>高级配置</td>
+</tr>
+</tbody>
+</table>
+<p><strong>新手推荐配置</strong>（最安全）：
+<div class="highlight"><pre><span></span><code>初始资金: $1000
+单笔投入: $200
+最大持仓: 3
+资金使用率: 60%
+预留资金: 40%
+</code></pre></div></p>
+<h4 id="_4">为什么要小资金起步<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>优势：
+✅ 降低学习成本
+✅ 减轻心理压力
+✅ 验证真实滑点和手续费
+✅ 发现潜在问题的代价更小
+✅ 建立信心后再加大投入
+
+实际案例：
+用户 A: 初始 $10,000，第一周亏损 15% (-$1,500)，心态崩溃，停止交易
+用户 B: 初始 $1,000，第一周亏损 15% (-$150)，冷静分析，调整策略，三个月后稳定盈利
+</code></pre></div>
+<h3 id="13">1.3 配置文件最后调整<a class="headerlink" href="#13" title="Permanent link">&para;</a></h3>
+<h4 id="configjson">修改 config.json 关键参数<a class="headerlink" href="#configjson" title="Permanent link">&para;</a></h4>
+<p>从 Dry-run 切换到实盘，需要修改：</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="c1">// 【关键】从 Dry-run 切换到实盘</span>
+<span class="w">  </span><span class="nt">"dry_run"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+
+<span class="w">  </span><span class="c1">// 【关键】初始资金和单笔投入</span>
+<span class="w">  </span><span class="nt">"stake_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USDT"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"stake_amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"max_open_trades"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+
+<span class="w">  </span><span class="c1">// 【推荐】资金使用比例</span>
+<span class="w">  </span><span class="nt">"tradable_balance_ratio"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.95</span><span class="p">,</span>
+
+<span class="w">  </span><span class="c1">// 【重要】未成交订单超时设置</span>
+<span class="w">  </span><span class="nt">"unfilledtimeout"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span>
+<span class="w">  </span><span class="p">},</span>
+
+<span class="w">  </span><span class="c1">// 【重要】订单类型（推荐使用限价单）</span>
+<span class="w">  </span><span class="nt">"order_types"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stoploss"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stoploss_on_exchange"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">},</span>
+
+<span class="w">  </span><span class="c1">// 【推荐】退出时取消未成交订单</span>
+<span class="w">  </span><span class="nt">"cancel_open_orders_on_exit"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+
+<span class="w">  </span><span class="c1">// 【重要】API 配置（使用环境变量）</span>
+<span class="w">  </span><span class="nt">"exchange"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"binance"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${BINANCE_API_KEY}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${BINANCE_API_SECRET}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"ccxt_config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"enableRateLimit"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"rateLimit"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"pair_whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">"BTC/USDT"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"ETH/USDT"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"BNB/USDT"</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">},</span>
+
+<span class="w">  </span><span class="c1">// 【推荐】Telegram 通知优化（实盘需要更多通知）</span>
+<span class="w">  </span><span class="nt">"telegram"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${TELEGRAM_TOKEN}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"chat_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${TELEGRAM_CHAT_ID}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"notification_settings"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"warning"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"startup"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"entry_fill"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"entry_cancel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"exit_fill"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"exit_cancel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"protection_trigger"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"protection_trigger_global"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="_5">配置检查命令<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 检查配置文件语法</span>
+freqtrade<span class="w"> </span>show-config<span class="w"> </span>-c<span class="w"> </span>config.json
+
+<span class="c1"># 测试策略加载</span>
+freqtrade<span class="w"> </span>test-strategy<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>YourStrategy
+
+<span class="c1"># 最后一次 API 连接测试</span>
+freqtrade<span class="w"> </span>test-pairlist<span class="w"> </span>-c<span class="w"> </span>config.json
+</code></pre></div>
+<h3 id="14">1.4 启动实盘交易<a class="headerlink" href="#14" title="Permanent link">&para;</a></h3>
+<h4 id="_6">建议启动时间<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>最佳启动时机：
+✅ 工作日（周一到周四）
+✅ 白天（9:00-17:00）
+✅ 你有完整的时间监控（至少 2-3 小时）
+✅ 市场波动正常（无重大新闻）
+
+避免启动的时机：
+❌ 周五晚上（周末无法监控）
+❌ 深夜（无法及时处理问题）
+❌ 重大事件前后（美联储决议、重大财报等）
+❌ 市场极端波动时
+</code></pre></div>
+<h4 id="_7">启动命令<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. 加载环境变量</span>
+<span class="nb">source</span><span class="w"> </span>.env
+
+<span class="c1"># 2. 最后一次配置检查</span>
+freqtrade<span class="w"> </span>show-config<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">"dry_run"</span>
+<span class="c1"># 确认输出: "dry_run": false</span>
+
+<span class="c1"># 3. 启动实盘交易（前台运行，方便观察）</span>
+freqtrade<span class="w"> </span>trade<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>YourStrategy
+
+<span class="c1"># 输出示例：</span>
+<span class="c1"># 2023-04-20 10:00:00 - freqtrade - INFO - Starting freqtrade 2023.4</span>
+<span class="c1"># 2023-04-20 10:00:00 - freqtrade - INFO - Running in LIVE mode</span>
+<span class="c1"># 2023-04-20 10:00:01 - freqtrade - INFO - Using strategy YourStrategy</span>
+<span class="c1"># 2023-04-20 10:00:02 - freqtrade - INFO - Bot started</span>
+</code></pre></div>
+<p><strong>重要</strong>：第一次启动建议前台运行（不使用 nohup 或 screen），方便观察输出。</p>
+<h4 id="_8">确认实盘启动成功<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>检查清单：
+□ 日志显示 "Running in LIVE mode"（不是 DRY_RUN）
+□ Telegram 收到启动通知
+□ 可以通过 /status 查询状态
+□ FreqUI 可以正常访问
+□ 账户余额正确显示
+</code></pre></div>
+<h3 id="15">1.5 后台运行（稳定后）<a class="headerlink" href="#15" title="Permanent link">&para;</a></h3>
+<p>当确认前 1-2 小时运行正常后，可以切换到后台运行：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 使用 screen（推荐）</span>
+screen<span class="w"> </span>-S<span class="w"> </span>freqtrade
+freqtrade<span class="w"> </span>trade<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>YourStrategy
+<span class="c1"># 按 Ctrl+A，然后按 D 分离会话</span>
+
+<span class="c1"># 重新连接</span>
+screen<span class="w"> </span>-r<span class="w"> </span>freqtrade
+
+<span class="c1"># 或使用 nohup</span>
+nohup<span class="w"> </span>freqtrade<span class="w"> </span>trade<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>YourStrategy<span class="w"> </span>&gt;<span class="w"> </span>freqtrade.log<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">&amp;</span>
+
+<span class="c1"># 查看日志</span>
+tail<span class="w"> </span>-f<span class="w"> </span>freqtrade.log
+</code></pre></div>
+<hr />
+<h2 id="7">第二部分：前 7 天重点监控<a class="headerlink" href="#7" title="Permanent link">&para;</a></h2>
+<h3 id="21">2.1 第一天：密集监控<a class="headerlink" href="#21" title="Permanent link">&para;</a></h3>
+<h4 id="_9">第一天时间表<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>启动后前 3 小时：每 15 分钟检查一次
+- 检查系统运行状态
+- 观察是否有买入信号
+- 确认日志无错误
+
+第一笔交易完成后：
+- 仔细分析买入价格和理由
+- 确认手续费计算正确
+- 验证 Telegram 通知准确
+
+前 6 小时：每 30 分钟检查一次
+- 监控持仓盈亏
+- 检查系统资源使用
+- 观察市场波动
+
+第一天结束：
+- 做详细的日志记录
+- 统计所有交易
+- 对比 Dry-run 表现
+</code></pre></div>
+<h4 id="_10">第一天记录模板<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>日期：2023-04-20
+交易策略：YourStrategy
+初始资金：$1000
+
+交易记录：
+| 时间 | 交易对 | 操作 | 价格 | 数量 | 手续费 | 盈亏 | 备注 |
+|------|--------|------|------|------|-------|------|------|
+| 10:15 | BTC/USDT | 买入 | 30250 | 0.0066 | 0.20 | - | 首笔交易 |
+| 14:30 | BTC/USDT | 卖出 | 30520 | 0.0066 | 0.20 | +1.40 | 止盈 |
+| 15:20 | ETH/USDT | 买入 | 1890 | 0.106 | 0.20 | - | 持仓中 |
+
+系统状态：
+✅ 运行稳定，无错误
+✅ CPU 使用率: 15%
+✅ 内存使用率: 45%
+✅ 网络延迟: 50ms
+
+对比分析：
+- 买入价格与预期差异: +0.05% (可接受)
+- 手续费与预期一致
+- 信号触发逻辑正确
+
+问题记录：
+- 无
+
+总结：
+第一天运行正常，首笔交易盈利 +1.40 USDT (+0.7%)。系统稳定，信号质量符合预期。
+</code></pre></div>
+<h3 id="22-2-7">2.2 第 2-7 天：常规监控<a class="headerlink" href="#22-2-7" title="Permanent link">&para;</a></h3>
+<h4 id="_11">每日监控时间表<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>早上（8:00-9:00）：
+□ 查看过夜持仓状态
+□ 检查是否有止损触发
+□ 查看 Telegram 通知历史
+□ 检查系统运行状态
+
+中午（12:00-13:00）：
+□ 查看当前持仓盈亏
+□ 检查新增交易
+□ 查看日志是否有错误
+
+晚上（21:00-22:00）：
+□ 查看当日交易总结
+□ 统计收益和胜率
+□ 分析最佳/最差交易
+□ 记录交易日志
+</code></pre></div>
+<h4 id="_12">每日记录模板（简化版）<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>日期：2023-04-21
+当日交易次数：5
+胜率：60% (3胜2负)
+当日盈亏：+$3.20 (+0.32%)
+累计盈亏：+$4.60 (+0.46%)
+
+最佳交易：BTC/USDT +$2.10 (+1.05%)
+最差交易：BNB/USDT -$1.50 (-0.75%)
+
+系统状态：✅ 正常
+问题记录：无
+
+简要总结：
+运行正常，盈利交易占多数。止损按计划执行。
+</code></pre></div>
+<h3 id="23_1">2.3 关键指标监控<a class="headerlink" href="#23_1" title="Permanent link">&para;</a></h3>
+<h4 id="_13">每日必看指标<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>1. 收益指标
+   - 当日盈亏：__________ USDT (__________%)
+   - 累计盈亏：__________ USDT (__________%)
+   - 最大持仓盈亏：__________ USDT
+
+2. 交易指标
+   - 今日交易次数：__________
+   - 胜率：__________% (____ 胜 / ____ 负)
+   - 盈亏比：__________
+
+3. 系统指标
+   - 系统运行时间：__________
+   - 错误次数：__________
+   - API 调用失败：__________
+
+4. 对比指标
+   - 实盘 vs Dry-run 收益率差异：__________%
+   - 实盘 vs 回测收益率差异：__________%
+</code></pre></div>
+<h4 id="_14">警戒线设置<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>需要警惕的信号：
+
+⚠️ 黄色警报（需要关注）：
+- 单日亏损超过 -2%
+- 连续 3 笔交易亏损
+- 胜率低于 45%
+- 系统错误超过 3 次
+
+🔴 红色警报（需要行动）：
+- 单日亏损超过 -5%
+- 连续 5 笔交易亏损
+- 累计亏损超过 -10%
+- 出现重大系统错误
+
+应对措施：
+黄色警报 → 加强监控，分析原因
+红色警报 → 立即停止买入，评估是否停止交易
+</code></pre></div>
+<h3 id="24-7">2.4 前 7 天数据汇总<a class="headerlink" href="#24-7" title="Permanent link">&para;</a></h3>
+<p>第 7 天结束时，创建完整的周报告：</p>
+<div class="highlight"><pre><span></span><code>==========================================
+实盘交易第一周总结报告
+==========================================
+
+基本信息：
+策略：YourStrategy
+初始资金：$1000
+测试周期：2023-04-20 至 2023-04-26
+
+整体表现：
+总交易次数：28
+胜率：57.1% (16胜 / 12负)
+总盈亏：+$45.60 (+4.56%)
+平均每日盈亏：+$6.51 (+0.65%)
+
+最佳交易：BTC/USDT +$8.50 (+4.25%)
+最差交易：ETH/USDT -$4.20 (-2.10%)
+最大回撤：-$12.30 (-1.23%)
+
+日度表现：
+日期       | 交易次数 | 盈亏(USDT) | 盈亏(%) | 胜率
+---------- | -------- | ---------- | ------- | ----
+04-20 (周四) | 3        | +5.30      | +0.53%  | 67%
+04-21 (周五) | 5        | +6.50      | +0.65%  | 60%
+04-22 (周六) | 3        | -2.10      | -0.21%  | 33%
+04-23 (周日) | 4        | +9.80      | +0.98%  | 75%
+04-24 (周一) | 6        | +12.30     | +1.23%  | 67%
+04-25 (周二) | 4        | +8.20      | +0.82%  | 50%
+04-26 (周三) | 3        | +5.60      | +0.56%  | 67%
+
+对比分析：
+指标           | 回测    | Dry-run | 实盘(第1周) | 评估
+-------------- | ------- | ------- | ----------- | ----
+总收益率       | 25.5%   | 18.2%   | 4.56%       | ✅ 符合预期
+胜率           | 62.0%   | 56.0%   | 57.1%       | ✅ 良好
+盈亏比         | 1.75    | 1.22    | 1.45        | ✅ 可接受
+最大回撤       | -12.5%  | -16.8%  | -1.23%      | ✅ 优秀
+
+系统稳定性：
+运行时间：168 小时
+系统重启：0 次
+API 错误：2 次（均已自动恢复）
+订单失败：0 次
+
+问题记录：
+1. 04-22 单日亏损，原因：周末低流动性，信号质量下降
+   改进：考虑周末降低仓位或暂停交易
+
+2. 04-24 API 限流警告
+   改进：已调整 rateLimit 参数
+
+结论：
+✅ 第一周实盘表现符合预期
+✅ 系统运行稳定
+✅ 收益率为 Dry-run 的 25%（考虑到只运行 1 周，属正常）
+✅ 胜率保持稳定
+✅ 回撤控制良好
+
+建议：
+- 继续以当前配置运行 2-3 周
+- 关注周末表现，考虑是否调整
+- 满 1 个月后评估是否增加资金
+==========================================
+</code></pre></div>
+<hr />
+<h2 id="_15">第三部分：常见问题与应对<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h2>
+<h3 id="31">3.1 第一笔交易迟迟不来<a class="headerlink" href="#31" title="Permanent link">&para;</a></h3>
+<p><strong>现象</strong>：
+- 启动后 2-3 小时仍无买入信号
+- Telegram 无任何交易通知</p>
+<p><strong>可能原因</strong>：
+<div class="highlight"><pre><span></span><code>1. 市场条件不符合策略要求
+   - 当前无明确趋势
+   - 波动率过低
+   - 交易对价格横盘
+
+2. 策略条件过于严格
+   - 指标阈值设置过高
+   - 过滤条件太多
+
+3. 配置问题
+   - 交易对列表为空
+   - 资金不足以开仓
+</code></pre></div></p>
+<p><strong>应对方法</strong>：
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. 检查策略是否正常加载</span>
+freqtrade<span class="w"> </span>show-config<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>strategy
+
+<span class="c1"># 2. 检查交易对列表</span>
+freqtrade<span class="w"> </span>test-pairlist<span class="w"> </span>-c<span class="w"> </span>config.json
+
+<span class="c1"># 3. 检查策略信号（手动测试）</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>YourStrategy<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20230420</span>-20230421
+
+<span class="c1"># 4. 查看详细日志</span>
+tail<span class="w"> </span>-f<span class="w"> </span>logs/freqtrade.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">"signal\|entry"</span>
+</code></pre></div></p>
+<p><strong>决策</strong>：
+- 如果 6 小时内无信号：正常，耐心等待
+- 如果 24 小时内无信号：检查策略配置，可能需要调整参数
+- 如果 3 天内无信号：策略可能不适合当前市场，考虑切换策略</p>
+<h3 id="32">3.2 第一笔交易就亏损<a class="headerlink" href="#32" title="Permanent link">&para;</a></h3>
+<p><strong>现象</strong>：
+- 第一笔交易触发止损
+- 亏损 2-5%</p>
+<p><strong>心理影响</strong>：
+<div class="highlight"><pre><span></span><code>正常反应：失望、怀疑策略
+需要认识：亏损是正常的，单笔交易不代表策略好坏
+</code></pre></div></p>
+<p><strong>应对方法</strong>：
+<div class="highlight"><pre><span></span><code>1. 分析亏损原因：
+   □ 是否按计划止损？
+   □ 买入信号是否合理？
+   □ 市场环境是否突变？
+   □ 止损设置是否合理？
+
+2. 检查后续交易：
+   - 继续观察接下来 5-10 笔交易
+   - 看整体胜率是否符合预期
+   - 不要因为一笔亏损就放弃
+
+3. 记录详细信息：
+   - 买入时间和价格
+   - 卖出时间和价格
+   - 市场环境
+   - 技术指标状态
+</code></pre></div></p>
+<p><strong>决策标准</strong>：
+- 1-2 笔亏损：正常，继续运行
+- 连续 5 笔亏损：分析原因，考虑暂停
+- 连续 10 笔亏损：停止交易，重新评估策略</p>
+<h3 id="33-dry-run">3.3 实盘表现远差于 Dry-run<a class="headerlink" href="#33-dry-run" title="Permanent link">&para;</a></h3>
+<p><strong>现象</strong>：
+- 第一周收益率为 Dry-run 的 &lt;30%
+- 或第一周亏损，而 Dry-run 盈利</p>
+<p><strong>可能原因</strong>：
+<div class="highlight"><pre><span></span><code>1. 滑点影响
+   - 实盘成交价格差于预期
+   - 流动性不足
+   - 订单类型设置问题
+
+2. 手续费影响
+   - 交易频率过高
+   - 手续费侵蚀利润
+
+3. 市场环境变化
+   - 实盘期间市场与 Dry-run 期间不同
+   - 波动率降低
+   - 趋势改变
+
+4. 策略问题
+   - 过拟合历史数据
+   - Dry-run 期间运气好
+</code></pre></div></p>
+<p><strong>应对方法</strong>：
+<div class="highlight"><pre><span></span><code>1. 数据对比分析：
+   创建详细的对比表格，找出差异最大的指标
+
+2. 滑点分析：
+   检查实际成交价与信号价的差异
+   如果滑点 &gt;0.2%，考虑调整订单类型
+
+3. 手续费分析：
+   计算手续费占比
+   如果手续费 &gt;1.5%，降低交易频率
+
+4. 延长观察期：
+   至少观察 2-3 周再做判断
+   短期表现差可能是正常波动
+</code></pre></div></p>
+<p><strong>决策标准</strong>：
+- 差异 &lt;50%：正常范围，继续观察
+- 差异 50-70%：需要关注，分析原因
+- 差异 &gt;70% 或亏损：暂停交易，深入分析</p>
+<h3 id="34">3.4 频繁止损<a class="headerlink" href="#34" title="Permanent link">&para;</a></h3>
+<p><strong>现象</strong>：
+- 胜率 &lt;40%
+- 多数交易触发止损
+- 盈利交易很少</p>
+<p><strong>可能原因</strong>：
+<div class="highlight"><pre><span></span><code>1. 止损设置过紧
+   - 止损幅度 &lt;2%
+   - 正常波动就触发止损
+
+2. 逆势交易
+   - 策略在下跌趋势中频繁买入
+   - 缺乏趋势过滤
+
+3. 震荡市场
+   - 横盘震荡，假突破频繁
+   - 策略不适合当前环境
+
+4. 信号质量差
+   - 买入信号过于激进
+   - 缺乏确认机制
+</code></pre></div></p>
+<p><strong>应对方法</strong>：
+<div class="highlight"><pre><span></span><code>1. 调整止损：
+   # 如果当前止损 -2%，尝试放宽到 -3%
+   "stoploss": -0.03
+
+2. 增加过滤条件：
+   - 添加 ADX 趋势过滤（ADX &gt; 25）
+   - 增加成交量确认
+   - 添加更长周期确认
+
+3. 暂停交易：
+   - 使用 /stopbuy 暂停买入
+   - 等待更好的市场环境
+
+4. 切换策略：
+   - 如果策略明显不适合，考虑切换
+   - 或等待合适的市场环境
+</code></pre></div></p>
+<h3 id="35">3.5 系统错误和异常<a class="headerlink" href="#35" title="Permanent link">&para;</a></h3>
+<p><strong>常见错误</strong>：</p>
+<h4 id="1api">错误 1：API 限流<a class="headerlink" href="#1api" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>错误信息：
+Exchange returned error: Rate limit exceeded
+
+原因：
+API 调用频率过高
+
+解决方法：
+# 增加 rateLimit 参数
+"ccxt_config": {
+  "enableRateLimit": true,
+  "rateLimit": 500  // 从 200 增加到 500
+}
+</code></pre></div>
+<h4 id="2">错误 2：余额不足<a class="headerlink" href="#2" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>错误信息：
+InsufficientFunds: Not enough USDT balance
+
+原因：
+- 所有资金已用于持仓
+- 手续费消耗资金
+
+解决方法：
+- 降低 stake_amount
+- 减少 max_open_trades
+- 充值更多资金
+</code></pre></div>
+<h4 id="3">错误 3：网络中断<a class="headerlink" href="#3" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>错误信息：
+RequestTimeout: Connection timeout
+
+原因：
+网络不稳定或交易所 API 故障
+
+解决方法：
+- Freqtrade 会自动重试
+- 检查网络连接
+- 等待交易所恢复
+- 如果持续，考虑切换 VPN 或服务器
+</code></pre></div>
+<hr />
+<h2 id="_16">第四部分：资金增加决策<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h2>
+<h3 id="41">4.1 何时可以增加资金<a class="headerlink" href="#41" title="Permanent link">&para;</a></h3>
+<h4 id="_17">增加资金的条件（必须全部满足）<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>✅ 时间条件：
+□ 实盘运行至少 4 周
+□ 经历过不同市场环境（涨、跌、震荡）
+
+✅ 表现条件：
+□ 总收益率 &gt; 0
+□ 月收益率 &gt; 3%
+□ 胜率 &gt; 50%
+□ 最大回撤 &lt; 15%
+
+✅ 稳定性条件：
+□ 系统运行稳定，无重大故障
+□ 无需频繁调整策略
+□ Sharpe 比率 &gt; 1.0
+
+✅ 心理条件：
+□ 对策略有信心
+□ 能够坦然接受回撤
+□ 没有因为盈利而冲动
+</code></pre></div>
+<h4 id="4">4 周表现评估表<a class="headerlink" href="#4" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>周次 | 日期范围 | 交易次数 | 胜率 | 周收益 | 累计收益 | 最大回撤 | 评估
+---- | -------- | -------- | ---- | ------ | -------- | -------- | ----
+第1周 | 04/20-26 | 28       | 57%  | +4.56% | +4.56%   | -1.23%   | ✅ 良好
+第2周 | 04/27-05/03 | 32    | 53%  | +3.20% | +7.76%   | -2.10%   | ✅ 稳定
+第3周 | 05/04-10 | 25       | 60%  | +5.80% | +13.56%  | -1.85%   | ✅ 优秀
+第4周 | 05/11-17 | 30       | 55%  | +4.10% | +17.66%  | -2.50%   | ✅ 良好
+
+月度总结：
+- 总交易次数：115
+- 平均胜率：56.3%
+- 月收益率：+17.66%
+- 最大回撤：-2.50%
+- 每周收益稳定，无大幅波动
+
+结论：✅ 达到增加资金标准
+</code></pre></div>
+<h3 id="42">4.2 资金增加方案<a class="headerlink" href="#42" title="Permanent link">&para;</a></h3>
+<h4 id="1">方案 1：保守增加（推荐）<a class="headerlink" href="#1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>当前配置：
+初始资金：$1000
+单笔投入：$200
+最大持仓：3
+
+增加后配置：
+总资金：$2000 (+$1000, +100%)
+单笔投入：$300 (+$100, +50%)
+最大持仓：4 (+1, +33%)
+
+特点：
+✅ 逐步增加，降低风险
+✅ 单笔投入增加幅度小于总资金
+✅ 最大持仓适度增加
+</code></pre></div>
+<h4 id="2_1">方案 2：适中增加<a class="headerlink" href="#2_1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>当前配置：
+初始资金：$1000
+单笔投入：$200
+最大持仓：3
+
+增加后配置：
+总资金：$3000 (+$2000, +200%)
+单笔投入：$500 (+$300, +150%)
+最大持仓：5 (+2, +67%)
+
+特点：
+⚠️ 增幅较大，需要更强的心理承受能力
+✅ 适合表现特别稳定的策略
+</code></pre></div>
+<h4 id="3_1">方案 3：激进增加（不推荐新手）<a class="headerlink" href="#3_1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>当前配置：
+初始资金：$1000
+
+增加后配置：
+总资金：$5000+ (+$4000+, +400%+)
+
+特点：
+❌ 风险大幅增加
+❌ 心理压力显著提升
+⚠️ 只适合经验丰富且策略极其稳定的情况
+</code></pre></div>
+<h3 id="43">4.3 增加资金后的调整<a class="headerlink" href="#43" title="Permanent link">&para;</a></h3>
+<h4 id="_18">调整检查清单<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>□ 配置文件调整
+  - stake_amount: __________ → __________
+  - max_open_trades: __________ → __________
+
+□ 风险管理调整
+  - 单笔风险比例是否保持？
+  - 总风险敞口是否可控？
+  - 止损设置是否需要调整？
+
+□ 监控强度调整
+  - 资金增加后，前 1-2 周加强监控
+  - 重点关注回撤控制
+  - 观察心理压力变化
+
+□ 心理准备
+  - 更大的资金意味着更大的盈亏波动
+  - 单笔交易盈亏会更明显
+  - 需要更强的心理承受能力
+</code></pre></div>
+<h4 id="2_2">增加资金后前 2 周重点监控<a class="headerlink" href="#2_2" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>重点关注：
+1. 盈亏绝对值变化
+   - 之前：单笔 ±$2-5
+   - 之后：单笔 ±$5-15
+   - 心理冲击会更大
+
+2. 回撤幅度
+   - 小资金回撤 $20 可能无感
+   - 大资金回撤 $100 会有压力
+
+3. 交易纪律
+   - 是否因为金额变大而犹豫？
+   - 是否更频繁地想要干预？
+   - 是否按计划执行止损？
+
+如果发现心理压力过大：
+- 可以考虑减少部分资金
+- 或暂时降低单笔投入
+- 适应后再逐步增加
+</code></pre></div>
+<hr />
+<h2 id="_19">📝 实践任务<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h2>
+<h3 id="1_1">任务 1：制定启动计划<a class="headerlink" href="#1_1" title="Permanent link">&para;</a></h3>
+<p>创建你的实盘启动计划：</p>
+<div class="highlight"><pre><span></span><code>1. 启动日期和时间：__________
+2. 初始资金：__________
+3. 单笔投入：__________
+4. 最大持仓：__________
+5. 交易对选择：__________
+6. 监控计划：
+   - 晨间检查：__________
+   - 午间检查：__________
+   - 晚间总结：__________
+</code></pre></div>
+<h3 id="2_3">任务 2：准备记录表格<a class="headerlink" href="#2_3" title="Permanent link">&para;</a></h3>
+<p>创建 Excel 或 Google Sheets，准备记录：
+- 每日交易明细表
+- 每日收益统计表
+- 每周总结模板
+- 月度报告模板</p>
+<h3 id="3_2">任务 3：设置警报阈值<a class="headerlink" href="#3_2" title="Permanent link">&para;</a></h3>
+<p>在 Telegram 或监控脚本中设置警报：
+- 黄色警报阈值（需要关注）
+- 红色警报阈值（需要行动）
+- 应急联系人列表</p>
+<h3 id="4_1">任务 4：模拟演练<a class="headerlink" href="#4_1" title="Permanent link">&para;</a></h3>
+<p>在实际启动前，进行最后一次模拟：
+1. 模拟紧急停止交易流程
+2. 测试 Telegram 命令（/status, /profit, /stopbuy）
+3. 验证备份恢复流程
+4. 确认 API 快速禁用方法</p>
+<hr />
+<h2 id="_20">📌 核心要点<a class="headerlink" href="#_20" title="Permanent link">&para;</a></h2>
+<h3 id="_21">小资金实盘的三大原则<a class="headerlink" href="#_21" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>1. 小额起步
+   ✅ $1000-3000 起步
+   ✅ 占总资金 10-20%
+   ✅ 使用"输得起"的资金
+
+2. 密集监控
+   ✅ 前 3 天每 30 分钟检查
+   ✅ 第一周每天 3 次检查
+   ✅ 详细记录所有交易
+
+3. 逐步增加
+   ✅ 至少运行 4 周后再增加
+   ✅ 每次增加不超过 100%
+   ✅ 表现稳定是前提
+</code></pre></div>
+<h3 id="vs-dry-run">实盘 vs Dry-run 的关键差异<a class="headerlink" href="#vs-dry-run" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>方面</th>
+<th>Dry-run</th>
+<th>实盘</th>
+<th>影响</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>心理压力</td>
+<td>无</td>
+<td>显著</td>
+<td>可能导致冲动决策</td>
+</tr>
+<tr>
+<td>成交价格</td>
+<td>理想</td>
+<td>有滑点</td>
+<td>收益降低 0.1-0.3%</td>
+</tr>
+<tr>
+<td>手续费</td>
+<td>忽略</td>
+<td>真实扣除</td>
+<td>高频策略影响大</td>
+</tr>
+<tr>
+<td>网络延迟</td>
+<td>理想</td>
+<td>真实延迟</td>
+<td>1-3 秒差异</td>
+</tr>
+<tr>
+<td>系统故障影响</td>
+<td>无</td>
+<td>可能错过机会</td>
+<td>需要高可用性</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_22">何时应该停止交易<a class="headerlink" href="#_22" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>立即停止交易的情况：
+❌ 累计亏损超过 -15%
+❌ 连续 7 天亏损
+❌ 出现重大系统故障
+❌ 策略明显失效
+❌ 心理压力过大，影响生活
+
+暂停买入，观察的情况：
+⚠️ 单周亏损超过 -5%
+⚠️ 连续 5 笔止损
+⚠️ 市场极端波动
+⚠️ 胜率持续 &lt;40%
+</code></pre></div>
+<hr />
+<h2 id="_23">🎯 下节预告<a class="headerlink" href="#_23" title="Permanent link">&para;</a></h2>
+<p><strong>第 24 课：交易监控与调整</strong></p>
+<p>在下一课中，我们将学习：
+- 日常监控的最佳实践
+- 如何根据表现调整策略
+- 何时应该优化参数
+- 如何平衡监控与干预</p>
+<p>实盘启动只是开始，长期稳定的监控和适时的调整才是持续盈利的关键。</p>
+<hr />
+<p><strong>🎓 学习建议</strong>：
+1. <strong>不要急于求成</strong>：小资金起步是最安全的选择
+2. <strong>详细记录</strong>：每一笔交易都要记录和分析
+3. <strong>保持冷静</strong>：亏损是正常的，不要因此恐慌
+4. <strong>严守纪律</strong>：按计划执行，不随意干预
+5. <strong>持续学习</strong>：从每笔交易中学习和改进</p>
+<p>记住：<strong>实盘交易的第一个月，学习比盈利更重要。</strong>用小资金交学费，积累经验，为后续的持续盈利打下坚实基础。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

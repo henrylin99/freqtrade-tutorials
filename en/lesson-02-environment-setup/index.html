@@ -1,0 +1,3700 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径">
+      
+      
+      
+        <link rel="canonical" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-02-environment-setup/">
+      
+      
+        <link rel="prev" href="../lesson-01-introduction/">
+      
+      
+        <link rel="next" href="../lesson-03-core-concepts/">
+      
+      
+        
+          <link rel="alternate" href="../../lesson-02-environment-setup/" hreflang="zh">
+        
+          <link rel="alternate" href="./" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>Lesson 2: Freqtrade Environment Setup - Freqtrade 实战教程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9784658154228475"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VGHZY4EELE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VGHZY4EELE");
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lesson-2-freqtrade-environment-setup" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Freqtrade 实战教程" class="md-header__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Freqtrade 实战教程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lesson 2: Freqtrade Environment Setup
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../lesson-02-environment-setup/" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../strategies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  English Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Freqtrade 实战教程" class="md-nav__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Freqtrade 实战教程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../strategies/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    English Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    English Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 1: Introduction to Quantitative Trading and Freqtrade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 2: Freqtrade Environment Setup
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 2: Freqtrade Environment Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#learning-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Learning Objectives
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Prerequisites
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📋 Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#system-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-1-installing-conda-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💻 Part 1: Installing Conda Environment
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💻 Part 1: Installing Conda Environment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-what-is-conda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 What is Conda?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-installing-miniconda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Installing Miniconda
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 Installing Miniconda">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#macos-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        macOS Installation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linux-ubuntudebian-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linux (Ubuntu/Debian) Installation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#windows-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Windows Installation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-configure-conda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Configure Conda
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-2-creating-freqtrade-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🐍 Part 2: Creating Freqtrade Environment
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🐍 Part 2: Creating Freqtrade Environment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#24-create-independent-python-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Create Independent Python Environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-3-installing-freqtrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📦 Part 3: Installing Freqtrade
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📦 Part 3: Installing Freqtrade">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#25-install-freqtrade-using-pip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Install Freqtrade using pip
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-verify-freqtrade-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 Verify Freqtrade Installation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-4-creating-project-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📁 Part 4: Creating Project Directory
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📁 Part 4: Creating Project Directory">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#27-initialize-freqtrade-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.7 Initialize Freqtrade Project
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-5-configuring-configjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚙️ Part 5: Configuring config.json
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚙️ Part 5: Configuring config.json">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#28-create-configuration-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.8 Create Configuration File
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#29-understanding-configjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.9 Understanding config.json
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#210-modify-configuration-file-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.10 Modify Configuration File (Optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-6-verifying-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧪 Part 6: Verifying Environment
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧪 Part 6: Verifying Environment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#211-run-first-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.11 Run First Command
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#212-download-sample-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.12 Download Sample Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#213-test-data-download" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.13 Test Data Download
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#214-run-quick-backtest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.14 Run Quick Backtest
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#environment-verification-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Environment Verification Checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🐛 Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🐛 Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problem-1-conda-command-not-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 1: conda: command not found
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-2-pip-install-very-slow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 2: pip install very slow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-3-no-module-named-talib" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 3: No module named 'talib'
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-4-data-download-failed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 4: Data download failed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-5-backtest-error-no-data-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 5: Backtest error "No data found"
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#homework-assignments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 Homework Assignments
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 Homework Assignments">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#assignment-1-environment-setup-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Assignment 1: Environment Setup (Required)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assignment-2-create-verification-script-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Assignment 2: Create Verification Script (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assignment-3-familiarize-with-commands-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Assignment 3: Familiarize with Commands (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assignment-4-personalized-configuration-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Assignment 4: Personalized Configuration (Optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-class-quiz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎓 Post-Class Quiz
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 Post-Class Quiz">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multiple-choice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multiple Choice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practical-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Practical Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learning-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Learning Checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-lesson-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Next Lesson Preview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quiz-answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Quiz Answers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-class-discussion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💬 Post-Class Discussion
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💬 Post-Class Discussion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#discussion-topics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Discussion Topics
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-03-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 3: Understanding Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-04-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 4: Data Download and Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-05-first-backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 5: First Strategy Backtest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-06-strategy-performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 6: Strategy Performance Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-07-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 7: Multi-Timeframe Backtesting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-08-strategy-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 8: Strategy Batch Comparison
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-09-timerange-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 9: Time Range Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-10-pair-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 10: Trading Pair Selection and Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-11-hyperopt-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 11: Hyperopt Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-12-advanced-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 12: Advanced Strategy Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-13-scoring-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 13: Strategy Scoring System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-14-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 14: Risk and Money Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-15-portfolio-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 15: Strategy Portfolio and Diversification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-16-realtime-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 16: Real-time Signal Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-17-telegram-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 17: Telegram Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-18-webui-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 18: Web UI and API Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 19: Visualization Analysis Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-20-dry-run-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 20: Simulated Trading Validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-21-exchange-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 21: Exchange API Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-22-pre-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 22: Pre-Live Trading Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-23-small-capital-live/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 23: Small Capital Live Trading
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-1-order-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.1: Live Trading Order Placement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-2-stop-loss-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.2: Live Trading Stop Loss Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-3-futures-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.3: Binance Futures Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-4-leverage-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.4: Leverage Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-trading-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24: Trading Monitoring and Adjustment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-25-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 25: Risk Control and Psychology Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-26-custom-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 26: Custom Strategy Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-27-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 27: Multi-Timeframe Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-28-grid-hft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 28: HFT and Grid Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-1-freqai-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.1: FreqAI Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-2-advanced-ml-strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.2: Advanced ML Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning-enhanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: ML Basics and Strategy Optimization (Enhanced)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: Machine Learning and Strategy Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-30-conclusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 30: Conclusion and Continuous Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#learning-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Learning Objectives
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Prerequisites
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📋 Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#system-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-1-installing-conda-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💻 Part 1: Installing Conda Environment
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💻 Part 1: Installing Conda Environment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-what-is-conda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 What is Conda?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-installing-miniconda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Installing Miniconda
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 Installing Miniconda">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#macos-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        macOS Installation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linux-ubuntudebian-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linux (Ubuntu/Debian) Installation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#windows-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Windows Installation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-configure-conda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Configure Conda
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-2-creating-freqtrade-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🐍 Part 2: Creating Freqtrade Environment
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🐍 Part 2: Creating Freqtrade Environment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#24-create-independent-python-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Create Independent Python Environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-3-installing-freqtrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📦 Part 3: Installing Freqtrade
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📦 Part 3: Installing Freqtrade">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#25-install-freqtrade-using-pip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Install Freqtrade using pip
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-verify-freqtrade-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 Verify Freqtrade Installation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-4-creating-project-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📁 Part 4: Creating Project Directory
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📁 Part 4: Creating Project Directory">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#27-initialize-freqtrade-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.7 Initialize Freqtrade Project
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-5-configuring-configjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚙️ Part 5: Configuring config.json
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚙️ Part 5: Configuring config.json">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#28-create-configuration-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.8 Create Configuration File
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#29-understanding-configjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.9 Understanding config.json
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#210-modify-configuration-file-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.10 Modify Configuration File (Optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-6-verifying-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧪 Part 6: Verifying Environment
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧪 Part 6: Verifying Environment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#211-run-first-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.11 Run First Command
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#212-download-sample-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.12 Download Sample Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#213-test-data-download" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.13 Test Data Download
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#214-run-quick-backtest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.14 Run Quick Backtest
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#environment-verification-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Environment Verification Checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🐛 Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🐛 Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problem-1-conda-command-not-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 1: conda: command not found
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-2-pip-install-very-slow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 2: pip install very slow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-3-no-module-named-talib" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 3: No module named 'talib'
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-4-data-download-failed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 4: Data download failed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-5-backtest-error-no-data-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 5: Backtest error "No data found"
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#homework-assignments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 Homework Assignments
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 Homework Assignments">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#assignment-1-environment-setup-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Assignment 1: Environment Setup (Required)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assignment-2-create-verification-script-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Assignment 2: Create Verification Script (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assignment-3-familiarize-with-commands-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Assignment 3: Familiarize with Commands (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assignment-4-personalized-configuration-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Assignment 4: Personalized Configuration (Optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-class-quiz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎓 Post-Class Quiz
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 Post-Class Quiz">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multiple-choice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multiple Choice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practical-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Practical Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learning-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Learning Checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-lesson-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Next Lesson Preview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quiz-answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Quiz Answers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-class-discussion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💬 Post-Class Discussion
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💬 Post-Class Discussion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#discussion-topics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Discussion Topics
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="lesson-2-freqtrade-environment-setup">Lesson 2: Freqtrade Environment Setup<a class="headerlink" href="#lesson-2-freqtrade-environment-setup" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>📚 <strong>Course Series</strong>: Complete Freqtrade Quantitative Trading Course
+📖 <strong>Section</strong>: Part 1 - Getting Started
+⏱ <strong>Duration</strong>: 2 hours
+🎯 <strong>Difficulty</strong>: ⭐⭐ Beginner</p>
+</blockquote>
+<hr />
+<h2 id="learning-objectives">🎯 Learning Objectives<a class="headerlink" href="#learning-objectives" title="Permanent link">&para;</a></h2>
+<p>After completing this lesson, you will be able to:
+- ✅ Install Python and Conda environment manager
+- ✅ Create an independent Freqtrade virtual environment
+- ✅ Successfully install Freqtrade 2025.9+
+- ✅ Configure your first config.json file
+- ✅ Run basic Freqtrade commands
+- ✅ Verify that the environment setup is successful</p>
+<hr />
+<h2 id="prerequisites">📋 Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
+<h3 id="system-requirements">System Requirements<a class="headerlink" href="#system-requirements" title="Permanent link">&para;</a></h3>
+<p><strong>Operating System</strong>:
+- ✅ macOS 10.15+
+- ✅ Ubuntu 20.04+ / Debian 11+
+- ✅ Windows 10+ (WSL2 or Native)</p>
+<p><strong>Hardware Requirements</strong>:
+- CPU: Dual-core or higher
+- Memory: 4GB+ (8GB recommended)
+- Storage: 20GB free space
+- Network: Stable internet connection</p>
+<p><strong>Estimated Time</strong>:
+- macOS/Linux: 30-45 minutes
+- Windows: 45-60 minutes</p>
+<hr />
+<h2 id="part-1-installing-conda-environment">💻 Part 1: Installing Conda Environment<a class="headerlink" href="#part-1-installing-conda-environment" title="Permanent link">&para;</a></h2>
+<h3 id="21-what-is-conda">2.1 What is Conda?<a class="headerlink" href="#21-what-is-conda" title="Permanent link">&para;</a></h3>
+<p><strong>Conda</strong> is an environment management tool that can:
+- Manage different versions of Python
+- Isolate project dependencies (avoid conflicts)
+- Easily switch between environments</p>
+<p><strong>Why use Conda?</strong></p>
+<div class="highlight"><pre><span></span><code>❌ Without Conda:
+System Python (3.9) → Project A needs 3.11 → Conflict
+                    → Project B needs 3.9  → OK
+                    → Freqtrade needs 3.11 → Conflict
+
+✅ With Conda:
+Environment A (Python 3.9) → Project A
+Environment B (Python 3.11) → Freqtrade
+System Python (3.9) → Other programs
+</code></pre></div>
+<hr />
+<h3 id="22-installing-miniconda">2.2 Installing Miniconda<a class="headerlink" href="#22-installing-miniconda" title="Permanent link">&para;</a></h3>
+<p><strong>Miniconda</strong> is a lightweight version of Conda, recommended for use.</p>
+<h4 id="macos-installation">macOS Installation<a class="headerlink" href="#macos-installation" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Download Miniconda installation script</span>
+curl<span class="w"> </span>-O<span class="w"> </span>https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
+
+<span class="c1"># 2. Run installation script</span>
+bash<span class="w"> </span>Miniconda3-latest-MacOSX-x86_64.sh
+
+<span class="c1"># 3. Follow prompts</span>
+<span class="c1"># - Press Enter to view license agreement</span>
+<span class="c1"># - Type "yes" to accept agreement</span>
+<span class="c1"># - Press Enter to use default installation path</span>
+<span class="c1"># - Type "yes" to initialize Conda</span>
+
+<span class="c1"># 4. Reload terminal configuration</span>
+<span class="nb">source</span><span class="w"> </span>~/.bash_profile<span class="w">  </span><span class="c1"># if using bash</span>
+<span class="nb">source</span><span class="w"> </span>~/.zshrc<span class="w">         </span><span class="c1"># if using zsh</span>
+
+<span class="c1"># 5. Verify installation</span>
+conda<span class="w"> </span>--version
+<span class="c1"># Output: conda 24.x.x</span>
+</code></pre></div>
+<h4 id="linux-ubuntudebian-installation">Linux (Ubuntu/Debian) Installation<a class="headerlink" href="#linux-ubuntudebian-installation" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Download Miniconda installation script</span>
+wget<span class="w"> </span>https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+
+<span class="c1"># 2. Run installation script</span>
+bash<span class="w"> </span>Miniconda3-latest-Linux-x86_64.sh
+
+<span class="c1"># 3. Follow prompts (same as macOS)</span>
+
+<span class="c1"># 4. Reload terminal configuration</span>
+<span class="nb">source</span><span class="w"> </span>~/.bashrc
+
+<span class="c1"># 5. Verify installation</span>
+conda<span class="w"> </span>--version
+</code></pre></div>
+<h4 id="windows-installation">Windows Installation<a class="headerlink" href="#windows-installation" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c"># Method 1: Use GUI installer (recommended)</span>
+<span class="c"># 1. Visit https://docs.conda.io/en/latest/miniconda.html</span>
+<span class="c"># 2. Download Miniconda3 Windows 64-bit</span>
+<span class="c"># 3. Double-click to install, select "Just Me"</span>
+<span class="c"># 4. Check "Add Conda to PATH"</span>
+
+<span class="c"># Method 2: Use WSL2 (suitable for developers)</span>
+<span class="c"># 1. Enable WSL2</span>
+<span class="c"># 2. Install Ubuntu 22.04</span>
+<span class="c"># 3. Install in Ubuntu using Linux method</span>
+
+<span class="c"># Verify installation (open Anaconda Prompt)</span>
+<span class="n">conda</span> <span class="p">-</span><span class="n">-version</span>
+</code></pre></div>
+<hr />
+<h3 id="23-configure-conda">2.3 Configure Conda<a class="headerlink" href="#23-configure-conda" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Disable automatic activation of base environment (recommended)</span>
+conda<span class="w"> </span>config<span class="w"> </span>--set<span class="w"> </span>auto_activate_base<span class="w"> </span><span class="nb">false</span>
+
+<span class="c1"># 2. Set up domestic mirrors (optional, speeds up downloads)</span>
+<span class="c1"># Tsinghua mirror</span>
+conda<span class="w"> </span>config<span class="w"> </span>--add<span class="w"> </span>channels<span class="w"> </span>https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+conda<span class="w"> </span>config<span class="w"> </span>--add<span class="w"> </span>channels<span class="w"> </span>https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+conda<span class="w"> </span>config<span class="w"> </span>--set<span class="w"> </span>show_channel_urls<span class="w"> </span>yes
+
+<span class="c1"># 3. Verify configuration</span>
+conda<span class="w"> </span>config<span class="w"> </span>--show<span class="w"> </span>channels
+</code></pre></div>
+<hr />
+<h2 id="part-2-creating-freqtrade-environment">🐍 Part 2: Creating Freqtrade Environment<a class="headerlink" href="#part-2-creating-freqtrade-environment" title="Permanent link">&para;</a></h2>
+<h3 id="24-create-independent-python-environment">2.4 Create Independent Python Environment<a class="headerlink" href="#24-create-independent-python-environment" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Starting from 2024, Anaconda has added TOS restrictions for enterprise users and certain environments, must be manually accepted.</span>
+<span class="c1"># Execute the following commands before creating virtual environment:</span>
+conda<span class="w"> </span>tos<span class="w"> </span>accept<span class="w"> </span>--override-channels<span class="w"> </span>--channel<span class="w"> </span>https://repo.anaconda.com/pkgs/main
+conda<span class="w"> </span>tos<span class="w"> </span>accept<span class="w"> </span>--override-channels<span class="w"> </span>--channel<span class="w"> </span>https://repo.anaconda.com/pkgs/r
+
+<span class="c1"># 1. Create environment named freqtrade with Python 3.11</span>
+conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>freqtrade<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.11<span class="w"> </span>-y
+
+<span class="c1"># Output example:</span>
+<span class="c1"># Collecting package metadata (current_repodata.json): done</span>
+<span class="c1"># Solving environment: done</span>
+<span class="c1"># ...</span>
+<span class="c1"># Preparing transaction: done</span>
+<span class="c1"># Executing transaction: done</span>
+
+<span class="c1"># 2. Activate environment</span>
+conda<span class="w"> </span>activate<span class="w"> </span>freqtrade
+
+<span class="c1"># Command prompt will change to:</span>
+<span class="c1"># (freqtrade) user@computer:~$</span>
+
+<span class="c1"># 3. Verify Python version</span>
+python<span class="w"> </span>--version
+<span class="c1"># Output: Python 3.11.x</span>
+
+<span class="c1"># 4. Verify pip version</span>
+pip<span class="w"> </span>--version
+<span class="c1"># Output: pip 24.x.x from /path/to/conda/envs/freqtrade/...</span>
+</code></pre></div>
+<p><strong>Important Concepts</strong>:</p>
+<div class="highlight"><pre><span></span><code>conda activate freqtrade  ← Activate environment (must run before each use)
+conda deactivate          ← Exit environment
+conda env list            ← List all environments
+</code></pre></div>
+<hr />
+<h2 id="part-3-installing-freqtrade">📦 Part 3: Installing Freqtrade<a class="headerlink" href="#part-3-installing-freqtrade" title="Permanent link">&para;</a></h2>
+<h3 id="25-install-freqtrade-using-pip">2.5 Install Freqtrade using pip<a class="headerlink" href="#25-install-freqtrade-using-pip" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Ensure freqtrade environment is activated</span>
+conda<span class="w"> </span>activate<span class="w"> </span>freqtrade
+
+<span class="c1"># Method 1: Install stable version (recommended for beginners)</span>
+pip<span class="w"> </span>install<span class="w"> </span>freqtrade
+
+<span class="c1"># Method 2: Install version with plot functionality (recommended)</span>
+pip<span class="w"> </span>install<span class="w"> </span>freqtrade<span class="o">[</span>plot<span class="o">]</span>
+
+<span class="c1"># Method 3: Install complete version (includes all optional features)</span>
+pip<span class="w"> </span>install<span class="w"> </span>freqtrade<span class="o">[</span>all<span class="o">]</span>
+
+<span class="c1"># Installation takes 5-10 minutes, please be patient...</span>
+</code></pre></div>
+<p><strong>Installation Process Explanation</strong>:</p>
+<div class="highlight"><pre><span></span><code>Collecting freqtrade
+  Downloading freqtrade-2025.9-py3-none-any.whl
+Collecting ccxt&gt;=4.0.0
+  Downloading ccxt-4.5.6-py2.py3-none-any.whl
+Collecting pandas&gt;=2.2.0
+  Downloading pandas-2.3.0-cp311-cp311-macosx_11_0_arm64.whl
+...
+Installing collected packages: ...
+Successfully installed freqtrade-2025.9 ...
+</code></pre></div>
+<hr />
+<h3 id="26-verify-freqtrade-installation">2.6 Verify Freqtrade Installation<a class="headerlink" href="#26-verify-freqtrade-installation" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Check version</span>
+freqtrade<span class="w"> </span>--version
+<span class="c1"># Output: freqtrade 2025.9</span>
+
+<span class="c1"># 2. View help information</span>
+freqtrade<span class="w"> </span>--help
+<span class="c1"># Output: Shows all available commands</span>
+
+<span class="c1"># 3. Test import</span>
+python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"import freqtrade; print('Freqtrade installed successfully!')"</span>
+<span class="c1"># Output: Freqtrade installed successfully!</span>
+</code></pre></div>
+<p><strong>If errors occur</strong>, see the <a href="#troubleshooting">Troubleshooting</a> section at the end.</p>
+<hr />
+<h2 id="part-4-creating-project-directory">📁 Part 4: Creating Project Directory<a class="headerlink" href="#part-4-creating-project-directory" title="Permanent link">&para;</a></h2>
+<h3 id="27-initialize-freqtrade-project">2.7 Initialize Freqtrade Project<a class="headerlink" href="#27-initialize-freqtrade-project" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Create project directory</span>
+mkdir<span class="w"> </span>~/freqtrade-bot
+<span class="nb">cd</span><span class="w"> </span>~/freqtrade-bot
+
+<span class="c1"># 2. Create necessary subdirectories</span>
+freqtrade<span class="w"> </span>create-userdir<span class="w"> </span>--userdir<span class="w"> </span>user_data
+
+<span class="c1"># Output:</span>
+<span class="c1"># Created user-data directory: /path/to/freqtrade-bot/user_data</span>
+<span class="c1"># Created strategies directory: /path/to/freqtrade-bot/user_data/strategies</span>
+<span class="c1"># Created hyperopts directory: /path/to/freqtrade-bot/user_data/hyperopts</span>
+
+<span class="c1"># 3. View directory structure</span>
+tree<span class="w"> </span>user_data<span class="w"> </span>-L<span class="w"> </span><span class="m">2</span>
+
+<span class="c1"># Output:</span>
+<span class="c1"># user_data/</span>
+<span class="c1"># ├── backtest_results/</span>
+<span class="c1"># ├── data/</span>
+<span class="c1"># ├── hyperopts/</span>
+<span class="c1"># ├── logs/</span>
+<span class="c1"># ├── notebooks/</span>
+<span class="c1"># ├── plot/</span>
+<span class="c1"># └── strategies/</span>
+</code></pre></div>
+<p><strong>Directory Explanation</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Directory</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>strategies/</code></td>
+<td>Store trading strategy files</td>
+</tr>
+<tr>
+<td><code>data/</code></td>
+<td>Store downloaded historical data</td>
+</tr>
+<tr>
+<td><code>backtest_results/</code></td>
+<td>Store backtest results</td>
+</tr>
+<tr>
+<td><code>logs/</code></td>
+<td>Store log files</td>
+</tr>
+<tr>
+<td><code>hyperopts/</code></td>
+<td>Store parameter optimization configurations</td>
+</tr>
+<tr>
+<td><code>plot/</code></td>
+<td>Store generated charts</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="part-5-configuring-configjson">⚙️ Part 5: Configuring config.json<a class="headerlink" href="#part-5-configuring-configjson" title="Permanent link">&para;</a></h2>
+<h3 id="28-create-configuration-file">2.8 Create Configuration File<a class="headerlink" href="#28-create-configuration-file" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Generate sample configuration file</span>
+freqtrade<span class="w"> </span>new-config<span class="w"> </span>--config<span class="w"> </span>config.json
+
+<span class="c1"># System will ask a series of questions, recommended settings:</span>
+</code></pre></div>
+<p><strong>Interactive Configuration (Recommended Settings)</strong>:</p>
+<div class="highlight"><pre><span></span><code>? Do you want to use Dry-run (simulated trades)?
+  Select: Yes  ← Simulated trading mode
+
+? Please insert your stake currency:
+  Input: USDT  ← Use USDT as pricing currency
+
+? Please insert your stake amount (Number or 'unlimited'):
+  Input: 100  ← 100 USDT per trade
+
+? Please insert max_open_trades (Integer or 'unlimited'):
+  Input: 3  ← Maximum 3 open positions
+
+? Time Have your strategy define timeframe
+  Input: 5m  ← Use 5-minute timeframe
+
+? Please insert your display currency:
+  Input: USD  ← Display in USD
+
+? Select exchange
+  Select: binance  ← Select Binance exchange
+
+? Do you want to trade Futures?
+  Select: No  ← Not trading futures for now
+
+? Do you want to enable Telegram?
+  Select: No  ← Not configuring Telegram for now
+
+? Do you want to enable the REST API?
+  Select: No  ← Not enabling API for now
+
+? Do you want to enable the Plot dataframe
+  Select: Yes  ← Enable charting functionality
+</code></pre></div>
+<hr />
+<h3 id="29-understanding-configjson">2.9 Understanding config.json<a class="headerlink" href="#29-understanding-configjson" title="Permanent link">&para;</a></h3>
+<p>Generated configuration file example:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">"max_open_trades"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stake_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USDT"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stake_amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"tradable_balance_ratio"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.99</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"fiat_display_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"timeframe"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5m"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"dry_run"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"dry_run_wallet"</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"cancel_open_orders_on_exit"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"unfilledtimeout"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"exit_timeout_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"unit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"minutes"</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"entry_pricing"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"price_side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"same"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"use_order_book"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"order_book_top"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"price_last_balance"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"check_depth_of_market"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">"bids_to_ask_delta"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"exit_pricing"</span><span class="p">:{</span>
+<span class="w">        </span><span class="nt">"price_side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"same"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"use_order_book"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"order_book_top"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"exchange"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"binance"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"ccxt_config"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">        </span><span class="nt">"ccxt_async_config"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">        </span><span class="nt">"pair_whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="s2">"BTC/USDT"</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">"ETH/USDT"</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">"BNB/USDT"</span>
+<span class="w">        </span><span class="p">],</span>
+<span class="w">        </span><span class="nt">"pair_blacklist"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="s2">"BNB/.*"</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"pairlists"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"StaticPairList"</span><span class="p">}</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">"telegram"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"chat_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"api_server"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"listen_ip_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"listen_port"</span><span class="p">:</span><span class="w"> </span><span class="mi">8080</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"freqtrader"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SuperSecretPassword"</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"bot_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"freqtrade"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"initial_state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"running"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"force_entry_enable"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"internals"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"process_throttle_secs"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Core Parameter Explanation</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Example Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dry_run</code></td>
+<td>Simulated trading mode</td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>stake_currency</code></td>
+<td>Pricing currency</td>
+<td><code>"USDT"</code></td>
+</tr>
+<tr>
+<td><code>stake_amount</code></td>
+<td>Amount per trade</td>
+<td><code>100</code></td>
+</tr>
+<tr>
+<td><code>max_open_trades</code></td>
+<td>Maximum open positions</td>
+<td><code>3</code></td>
+</tr>
+<tr>
+<td><code>timeframe</code></td>
+<td>Timeframe</td>
+<td><code>"5m"</code></td>
+</tr>
+<tr>
+<td><code>pair_whitelist</code></td>
+<td>Allowed trading pairs</td>
+<td><code>["BTC/USDT"]</code></td>
+</tr>
+</tbody>
+</table>
+<p>📄 <strong>For detailed explanation</strong>: <a href="../CONFIG_EXPLANATION.md">CONFIG_EXPLANATION.md</a></p>
+<hr />
+<h3 id="210-modify-configuration-file-optional">2.10 Modify Configuration File (Optional)<a class="headerlink" href="#210-modify-configuration-file-optional" title="Permanent link">&para;</a></h3>
+<p>If you need to modify configuration, you can directly edit <code>config.json</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># macOS/Linux</span>
+nano<span class="w"> </span>config.json
+<span class="c1"># or</span>
+vim<span class="w"> </span>config.json
+
+<span class="c1"># Windows</span>
+notepad<span class="w"> </span>config.json
+</code></pre></div>
+<p><strong>Recommended Modifications</strong>:</p>
+<ol>
+<li>
+<p><strong>Add more trading pairs</strong>:
+<div class="highlight"><pre><span></span><code><span class="nt">"pair_whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"BTC/USDT"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"ETH/USDT"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"BNB/USDT"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"SOL/USDT"</span><span class="p">,</span><span class="w">  </span><span class="err">←</span><span class="w"> </span><span class="err">Added</span>
+<span class="w">    </span><span class="s2">"XRP/USDT"</span><span class="w">   </span><span class="err">←</span><span class="w"> </span><span class="err">Added</span>
+<span class="p">]</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Adjust initial funds</strong> (Dry-run only):
+<div class="highlight"><pre><span></span><code><span class="nt">"dry_run_wallet"</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="w">  </span><span class="err">←</span><span class="w"> </span><span class="err">Cha</span><span class="kc">n</span><span class="err">ge</span><span class="w"> </span><span class="kc">t</span><span class="err">o</span><span class="w"> </span><span class="mi">10000</span><span class="w"> </span><span class="err">(simula</span><span class="kc">te</span><span class="w"> </span><span class="mi">10000</span><span class="w"> </span><span class="err">USDT)</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Modify trade amount</strong>:
+<div class="highlight"><pre><span></span><code><span class="nt">"stake_amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="w">  </span><span class="err">←</span><span class="w"> </span><span class="err">Cha</span><span class="kc">n</span><span class="err">ge</span><span class="w"> </span><span class="kc">t</span><span class="err">o</span><span class="w"> </span><span class="mi">50</span><span class="w"> </span><span class="err">or</span><span class="w"> </span><span class="mi">200</span>
+</code></pre></div></p>
+</li>
+</ol>
+<hr />
+<h2 id="part-6-verifying-environment">🧪 Part 6: Verifying Environment<a class="headerlink" href="#part-6-verifying-environment" title="Permanent link">&para;</a></h2>
+<h3 id="211-run-first-command">2.11 Run First Command<a class="headerlink" href="#211-run-first-command" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Activate environment (if not already activated)</span>
+conda<span class="w"> </span>activate<span class="w"> </span>freqtrade
+
+<span class="c1"># 2. Enter project directory</span>
+<span class="nb">cd</span><span class="w"> </span>~/freqtrade-bot
+
+<span class="c1"># 3. List all available strategies</span>
+freqtrade<span class="w"> </span>list-strategies<span class="w"> </span>-c<span class="w"> </span>config.json
+
+<span class="c1"># Expected output (might show no strategies):</span>
+<span class="c1"># No strategies found. Please make sure the strategy directory exists.</span>
+<span class="c1"># This is normal because we haven't added strategies yet</span>
+</code></pre></div>
+<hr />
+<h3 id="212-download-sample-strategy">2.12 Download Sample Strategy<a class="headerlink" href="#212-download-sample-strategy" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Download official strategy repository</span>
+<span class="nb">cd</span><span class="w"> </span>user_data/strategies
+wget<span class="w"> </span>https://raw.githubusercontent.com/freqtrade/freqtrade-strategies/main/user_data/strategies/Strategy001.py
+
+<span class="c1"># Or manually download and place in user_data/strategies/ directory</span>
+
+<span class="c1"># 2. Return to project root directory</span>
+<span class="nb">cd</span><span class="w"> </span>~/freqtrade-bot
+
+<span class="c1"># 3. List strategies again</span>
+freqtrade<span class="w"> </span>list-strategies<span class="w"> </span>-c<span class="w"> </span>config.json
+
+<span class="c1"># Expected output:</span>
+<span class="c1"># ┏━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━━┓</span>
+<span class="c1"># ┃ Strategy    ┃ Location         ┃ Status     ┃ Hyperoptable ┃</span>
+<span class="c1"># ┡━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━━┩</span>
+<span class="c1"># │ Strategy001 │ Strategy001.py   │ OK         │ No           │</span>
+<span class="c1"># └─────────────┴──────────────────┴────────────┴──────────────┘</span>
+</code></pre></div>
+<hr />
+<h3 id="213-test-data-download">2.13 Test Data Download<a class="headerlink" href="#213-test-data-download" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Download BTC/USDT recent 7 days of 5-minute data</span>
+freqtrade<span class="w"> </span>download-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--days<span class="w"> </span><span class="m">7</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timeframes<span class="w"> </span>5m
+
+<span class="c1"># Expected output:</span>
+<span class="c1"># 2025-09-30 10:00:00 - freqtrade - INFO - Using data directory: user_data/data/binance</span>
+<span class="c1"># 2025-09-30 10:00:01 - freqtrade - INFO - Downloading data for BTC/USDT, 5m...</span>
+<span class="c1"># 2025-09-30 10:00:05 - freqtrade - INFO - Downloaded data for BTC/USDT with length 2016</span>
+</code></pre></div>
+<p><strong>Verify Data Download Success</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># View downloaded data files</span>
+ls<span class="w"> </span>-lh<span class="w"> </span>user_data/data/binance/
+
+<span class="c1"># Output example:</span>
+<span class="c1"># -rw-r--r-- 1 user group 1.2M Sep 30 10:00 BTC_USDT-5m.json</span>
+<span class="c1"># -rw-r--r-- 1 user group 800K Sep 30 10:00 ETH_USDT-5m.json</span>
+</code></pre></div>
+<hr />
+<h3 id="214-run-quick-backtest">2.14 Run Quick Backtest<a class="headerlink" href="#214-run-quick-backtest" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Backtest Strategy001 (recent 7 days)</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timerange<span class="w"> </span><span class="m">20250924</span>-20250930
+
+<span class="c1"># If you see the backtest report table, environment setup is successful!</span>
+</code></pre></div>
+<hr />
+<h2 id="environment-verification-checklist">✅ Environment Verification Checklist<a class="headerlink" href="#environment-verification-checklist" title="Permanent link">&para;</a></h2>
+<p>Please ensure all of the following can be executed successfully:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Conda version check</span>
+conda<span class="w"> </span>--version
+<span class="c1"># ✅ Should show: conda 24.x.x</span>
+
+<span class="c1"># 2. Python version check</span>
+conda<span class="w"> </span>activate<span class="w"> </span>freqtrade
+python<span class="w"> </span>--version
+<span class="c1"># ✅ Should show: Python 3.11.x</span>
+
+<span class="c1"># 3. Freqtrade version check</span>
+freqtrade<span class="w"> </span>--version
+<span class="c1"># ✅ Should show: freqtrade 2025.9</span>
+
+<span class="c1"># 4. Strategy list check</span>
+freqtrade<span class="w"> </span>list-strategies<span class="w"> </span>-c<span class="w"> </span>config.json
+<span class="c1"># ✅ Should show at least 1 strategy</span>
+
+<span class="c1"># 5. Data directory check</span>
+ls<span class="w"> </span>user_data/data/binance/
+<span class="c1"># ✅ Should show at least 1 .json file</span>
+
+<span class="c1"># 6. Configuration file check</span>
+cat<span class="w"> </span>config.json<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">"dry_run"</span>
+<span class="c1"># ✅ Should show: "dry_run": true</span>
+</code></pre></div>
+<p><strong>All passed? Congratulations, environment setup successful!</strong> 🎉</p>
+<hr />
+<h2 id="troubleshooting">🐛 Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<h3 id="problem-1-conda-command-not-found">Problem 1: conda: command not found<a class="headerlink" href="#problem-1-conda-command-not-found" title="Permanent link">&para;</a></h3>
+<p><strong>Cause</strong>: Conda not added to PATH or terminal configuration not reloaded</p>
+<p><strong>Solution</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Method 1: Reload configuration</span>
+<span class="nb">source</span><span class="w"> </span>~/.bashrc<span class="w">  </span><span class="c1"># Linux</span>
+<span class="nb">source</span><span class="w"> </span>~/.zshrc<span class="w">   </span><span class="c1"># macOS (zsh)</span>
+<span class="nb">source</span><span class="w"> </span>~/.bash_profile<span class="w">  </span><span class="c1"># macOS (bash)</span>
+
+<span class="c1"># Method 2: Manually add PATH</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/miniconda3/bin:</span><span class="nv">$PATH</span><span class="s2">"</span>
+
+<span class="c1"># Method 3: Restart terminal</span>
+</code></pre></div>
+<hr />
+<h3 id="problem-2-pip-install-very-slow">Problem 2: pip install very slow<a class="headerlink" href="#problem-2-pip-install-very-slow" title="Permanent link">&para;</a></h3>
+<p><strong>Cause</strong>: Slow network connection or using foreign mirrors</p>
+<p><strong>Solution</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Use Tsinghua mirror to speed up</span>
+pip<span class="w"> </span>install<span class="w"> </span>-i<span class="w"> </span>https://pypi.tuna.tsinghua.edu.cn/simple<span class="w"> </span>freqtrade
+
+<span class="c1"># Or permanently configure mirror</span>
+pip<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>global.index-url<span class="w"> </span>https://pypi.tuna.tsinghua.edu.cn/simple
+</code></pre></div>
+<hr />
+<h3 id="problem-3-no-module-named-talib">Problem 3: No module named 'talib'<a class="headerlink" href="#problem-3-no-module-named-talib" title="Permanent link">&para;</a></h3>
+<p><strong>Cause</strong>: TA-Lib library not properly installed</p>
+<p><strong>Solution</strong>:</p>
+<blockquote>
+<p>💡 Since TA-Lib Python 0.6.x (2025+), official prebuilt wheels are available for all platforms — <strong>a plain pip install just works</strong>, no C library needed. The old third-party <code>TA-Lib-binary</code> package is unmaintained and removed from PyPI; do not use it.</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="c1"># Preferred: direct install (works on macOS / Linux / Windows, ships prebuilt wheels)</span>
+pip<span class="w"> </span>install<span class="w"> </span>TA-Lib
+
+<span class="c1"># Only if the above fails (very old systems / exotic platforms), install the C library first:</span>
+<span class="c1"># macOS</span>
+brew<span class="w"> </span>install<span class="w"> </span>ta-lib
+<span class="c1"># Ubuntu/Debian</span>
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>libta-lib0-dev
+pip<span class="w"> </span>install<span class="w"> </span>TA-Lib<span class="w"> </span>--no-binary<span class="w"> </span>:all:
+</code></pre></div>
+<p>Verify the installation:</p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"import talib; print(talib.__version__)"</span>
+</code></pre></div>
+<hr />
+<h3 id="problem-4-data-download-failed">Problem 4: Data download failed<a class="headerlink" href="#problem-4-data-download-failed" title="Permanent link">&para;</a></h3>
+<p><strong>Error Message</strong>:
+<div class="highlight"><pre><span></span><code>ERROR - ccxt.RequestTimeout: binance GET https://api.binance.com/api/v3/klines
+</code></pre></div></p>
+<p><strong>Solution</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Check network connection</span>
+ping<span class="w"> </span>api.binance.com
+
+<span class="c1"># 2. Check if rate limited</span>
+<span class="c1"># Wait 1 minute and retry</span>
+
+<span class="c1"># 3. Use proxy (if needed)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">HTTP_PROXY</span><span class="o">=</span>http://127.0.0.1:7890
+<span class="nb">export</span><span class="w"> </span><span class="nv">HTTPS_PROXY</span><span class="o">=</span>http://127.0.0.1:7890
+
+<span class="c1"># 4. Switch exchange</span>
+<span class="c1"># Edit config.json, change to "name": "okx"</span>
+</code></pre></div>
+<hr />
+<h3 id="problem-5-backtest-error-no-data-found">Problem 5: Backtest error "No data found"<a class="headerlink" href="#problem-5-backtest-error-no-data-found" title="Permanent link">&para;</a></h3>
+<p><strong>Cause</strong>: Data not downloaded or time range mismatch</p>
+<p><strong>Solution</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Check if data exists</span>
+freqtrade<span class="w"> </span>list-data<span class="w"> </span>-c<span class="w"> </span>config.json
+
+<span class="c1"># 2. Re-download data</span>
+freqtrade<span class="w"> </span>download-data<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--days<span class="w"> </span><span class="m">30</span>
+
+<span class="c1"># 3. Check time range</span>
+<span class="c1"># Ensure --timerange is within downloaded data range</span>
+</code></pre></div>
+<hr />
+<h2 id="homework-assignments">📝 Homework Assignments<a class="headerlink" href="#homework-assignments" title="Permanent link">&para;</a></h2>
+<h3 id="assignment-1-environment-setup-required">Assignment 1: Environment Setup (Required)<a class="headerlink" href="#assignment-1-environment-setup-required" title="Permanent link">&para;</a></h3>
+<p><strong>Objective</strong>: Complete Freqtrade environment setup</p>
+<p><strong>Steps</strong>:
+- [ ] Install Miniconda
+- [ ] Create freqtrade virtual environment
+- [ ] Install Freqtrade 2025.9+
+- [ ] Create project directory
+- [ ] Configure config.json
+- [ ] Download sample strategy
+- [ ] Download test data
+- [ ] Run test backtest</p>
+<p><strong>Verification</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Run complete verification script</span>
+bash<span class="w"> </span>verify_setup.sh<span class="w">  </span><span class="c1"># See below</span>
+</code></pre></div></p>
+<hr />
+<h3 id="assignment-2-create-verification-script-recommended">Assignment 2: Create Verification Script (Recommended)<a class="headerlink" href="#assignment-2-create-verification-script-recommended" title="Permanent link">&para;</a></h3>
+<p>Create a verification script for convenient environment checking later:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Create verification script</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>verify_setup.sh<span class="w"> </span><span class="s">&lt;&lt; 'EOF'</span>
+<span class="s">#!/bin/bash</span>
+
+<span class="s">echo "=== Freqtrade Environment Verification ==="</span>
+<span class="s">echo ""</span>
+
+<span class="s">echo "1. Checking Conda..."</span>
+<span class="s">conda --version &amp;&amp; echo "✅ Conda OK" || echo "❌ Conda not installed"</span>
+
+<span class="s">echo ""</span>
+<span class="s">echo "2. Checking Python..."</span>
+<span class="s">conda activate freqtrade</span>
+<span class="s">python --version &amp;&amp; echo "✅ Python OK" || echo "❌ Python version error"</span>
+
+<span class="s">echo ""</span>
+<span class="s">echo "3. Checking Freqtrade..."</span>
+<span class="s">freqtrade --version &amp;&amp; echo "✅ Freqtrade OK" || echo "❌ Freqtrade not installed"</span>
+
+<span class="s">echo ""</span>
+<span class="s">echo "4. Checking configuration file..."</span>
+<span class="s">test -f config.json &amp;&amp; echo "✅ Configuration file exists" || echo "❌ Configuration file not found"</span>
+
+<span class="s">echo ""</span>
+<span class="s">echo "5. Checking strategies..."</span>
+<span class="s">freqtrade list-strategies -c config.json &gt; /dev/null 2&gt;&amp;1 &amp;&amp; \</span>
+<span class="s">  echo "✅ Strategy loading OK" || echo "❌ Strategy loading failed"</span>
+
+<span class="s">echo ""</span>
+<span class="s">echo "6. Checking data..."</span>
+<span class="s">test -d user_data/data &amp;&amp; \</span>
+<span class="s">  echo "✅ Data directory exists" || echo "❌ Data directory not found"</span>
+
+<span class="s">echo ""</span>
+<span class="s">echo "=== Verification Complete ==="</span>
+<span class="s">EOF</span>
+
+<span class="c1"># Add execute permission</span>
+chmod<span class="w"> </span>+x<span class="w"> </span>verify_setup.sh
+
+<span class="c1"># Run verification</span>
+./verify_setup.sh
+</code></pre></div>
+<hr />
+<h3 id="assignment-3-familiarize-with-commands-recommended">Assignment 3: Familiarize with Commands (Recommended)<a class="headerlink" href="#assignment-3-familiarize-with-commands-recommended" title="Permanent link">&para;</a></h3>
+<p><strong>Objective</strong>: Get familiar with basic Freqtrade commands</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. View all available commands</span>
+freqtrade<span class="w"> </span>--help
+
+<span class="c1"># 2. View help for specific commands</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>--help
+freqtrade<span class="w"> </span>download-data<span class="w"> </span>--help
+
+<span class="c1"># 3. List supported exchanges</span>
+freqtrade<span class="w"> </span>list-exchanges
+
+<span class="c1"># 4. List supported timeframes</span>
+freqtrade<span class="w"> </span>list-timeframes<span class="w"> </span>--exchange<span class="w"> </span>binance
+
+<span class="c1"># 5. View configuration</span>
+freqtrade<span class="w"> </span>show-config<span class="w"> </span>-c<span class="w"> </span>config.json
+</code></pre></div>
+<p><strong>Record</strong>: Organize commonly used commands in your notes.</p>
+<hr />
+<h3 id="assignment-4-personalized-configuration-optional">Assignment 4: Personalized Configuration (Optional)<a class="headerlink" href="#assignment-4-personalized-configuration-optional" title="Permanent link">&para;</a></h3>
+<p><strong>Objective</strong>: Adjust configuration according to personal needs</p>
+<ol>
+<li><strong>Modify trading pair list</strong></li>
+<li>Add coins you're interested in</li>
+<li>
+<p>Recommend 3-10 trading pairs</p>
+</li>
+<li>
+<p><strong>Adjust fund settings</strong></p>
+</li>
+<li>Modify <code>dry_run_wallet</code></li>
+<li>
+<p>Modify <code>stake_amount</code></p>
+</li>
+<li>
+<p><strong>Choose exchange</strong></p>
+</li>
+<li>If in China, OKX might be more stable</li>
+<li>Modify <code>exchange.name</code></li>
+</ol>
+<hr />
+<h2 id="post-class-quiz">🎓 Post-Class Quiz<a class="headerlink" href="#post-class-quiz" title="Permanent link">&para;</a></h2>
+<h3 id="multiple-choice">Multiple Choice<a class="headerlink" href="#multiple-choice" title="Permanent link">&para;</a></h3>
+<ol>
+<li>What is the main purpose of Conda?</li>
+<li>A. Download data</li>
+<li>B. Manage Python environments</li>
+<li>C. Execute trades</li>
+<li>
+<p>D. Generate strategies</p>
+</li>
+<li>
+<p>What does <code>conda activate freqtrade</code> do?</p>
+</li>
+<li>A. Install Freqtrade</li>
+<li>B. Activate freqtrade environment</li>
+<li>C. Run backtest</li>
+<li>
+<p>D. Download data</p>
+</li>
+<li>
+<p>What does <code>dry_run: true</code> mean?</p>
+</li>
+<li>A. Live trading</li>
+<li>B. Simulated trading</li>
+<li>C. Download data</li>
+<li>
+<p>D. Backtesting</p>
+</li>
+<li>
+<p>What does <code>stake_amount: 100</code> mean?</p>
+</li>
+<li>A. Total funds 100</li>
+<li>B. 100 per trade</li>
+<li>C. Maximum loss 100</li>
+<li>
+<p>D. Trading fee 100</p>
+</li>
+<li>
+<p>Which command verifies the environment is correct?</p>
+</li>
+<li>A. <code>conda install freqtrade</code></li>
+<li>B. <code>freqtrade --version</code></li>
+<li>C. <code>python --version</code></li>
+<li>D. All of the above</li>
+</ol>
+<h3 id="practical-questions">Practical Questions<a class="headerlink" href="#practical-questions" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>How to check the currently activated Conda environment?
+   <div class="highlight"><pre><span></span><code>Command:<span class="w"> </span>__________
+</code></pre></div></p>
+</li>
+<li>
+<p>How to list all available strategies?
+   <div class="highlight"><pre><span></span><code>Command:<span class="w"> </span>__________
+</code></pre></div></p>
+</li>
+<li>
+<p>How to download recent 30 days of 1-hour data?
+   <div class="highlight"><pre><span></span><code>Command:<span class="w"> </span>__________
+</code></pre></div></p>
+</li>
+</ol>
+<p><strong>Answers at the end</strong> ⬇️</p>
+<hr />
+<h2 id="learning-checklist">✅ Learning Checklist<a class="headerlink" href="#learning-checklist" title="Permanent link">&para;</a></h2>
+<p>Before proceeding to Lesson 3, ensure you have:</p>
+<ul>
+<li>[ ] Successfully installed Miniconda</li>
+<li>[ ] Created and activated freqtrade environment</li>
+<li>[ ] Installed Freqtrade 2025.9+</li>
+<li>[ ] Created project directory structure</li>
+<li>[ ] Configured config.json file</li>
+<li>[ ] Downloaded at least 1 sample strategy</li>
+<li>[ ] Successfully downloaded test data</li>
+<li>[ ] Run first backtest</li>
+<li>[ ] All verification items passed</li>
+<li>[ ] Understood core configuration parameters</li>
+</ul>
+<p>If you have any questions, please refer to the <a href="#troubleshooting">Troubleshooting</a> section or ask in the community.</p>
+<hr />
+<h2 id="next-lesson-preview">🎯 Next Lesson Preview<a class="headerlink" href="#next-lesson-preview" title="Permanent link">&para;</a></h2>
+<p><strong>Lesson 3: Understanding Core Concepts</strong></p>
+<p>In Lesson 3, we will:
+- Deep dive into trading strategy structure
+- Learn common technical indicators (EMA, RSI, MACD)
+- Read and understand Strategy001 source code
+- Understand buy/sell signal generation logic
+- Master stop-loss and take-profit settings</p>
+<p><strong>Preparation</strong>:
+- Ensure environment setup is complete
+- Install a code editor (VS Code recommended)
+- Prepare 1-2 hours of study time</p>
+<hr />
+<h2 id="quiz-answers">📌 Quiz Answers<a class="headerlink" href="#quiz-answers" title="Permanent link">&para;</a></h2>
+<ol>
+<li>B - Manage Python environments</li>
+<li>B - Activate freqtrade environment</li>
+<li>B - Simulated trading</li>
+<li>B - 100 per trade</li>
+<li>D - All of the above</li>
+<li><code>conda env list</code> or <code>conda info --envs</code></li>
+<li><code>freqtrade list-strategies -c config.json</code></li>
+<li><code>freqtrade download-data -c config.json --days 30 --timeframes 1h</code></li>
+</ol>
+<hr />
+<h2 id="post-class-discussion">💬 Post-Class Discussion<a class="headerlink" href="#post-class-discussion" title="Permanent link">&para;</a></h2>
+<h3 id="discussion-topics">Discussion Topics<a class="headerlink" href="#discussion-topics" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>What problems did you encounter during environment setup?</strong></li>
+<li>Share your solutions</li>
+<li>
+<p>Help other classmates</p>
+</li>
+<li>
+<p><strong>Which trading pairs did you choose?</strong></p>
+</li>
+<li>Why did you choose these coins?</li>
+<li>
+<p>Share your strategy ideas</p>
+</li>
+<li>
+<p><strong>Conda vs Docker</strong></p>
+</li>
+<li>Which do you prefer?</li>
+<li>What are the pros and cons of each?</li>
+</ol>
+<p>Welcome to discuss in the community #course-discussion channel!</p>
+<hr />
+<p><strong>Congratulations on completing Lesson 2! Environment is set up, ready to learn strategy core concepts?</strong> 🚀</p>
+<hr />
+<p>📝 <strong>Course Feedback</strong>: If any part of this lesson is unclear, feel free to provide suggestions!</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

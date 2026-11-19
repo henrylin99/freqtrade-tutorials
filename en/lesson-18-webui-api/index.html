@@ -1,0 +1,3591 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径">
+      
+      
+      
+        <link rel="canonical" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-18-webui-api/">
+      
+      
+        <link rel="prev" href="../lesson-17-telegram-setup/">
+      
+      
+        <link rel="next" href="../lesson-19-visualization/">
+      
+      
+        
+          <link rel="alternate" href="../../lesson-18-webui-api/" hreflang="zh">
+        
+          <link rel="alternate" href="./" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>Lesson 18: Web UI and API Usage - Freqtrade 实战教程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9784658154228475"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VGHZY4EELE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VGHZY4EELE");
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lesson-18-web-ui-and-api-usage" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Freqtrade 实战教程" class="md-header__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Freqtrade 实战教程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lesson 18: Web UI and API Usage
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../lesson-18-webui-api/" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../strategies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  English Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Freqtrade 实战教程" class="md-nav__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Freqtrade 实战教程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../strategies/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    English Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    English Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 1: Introduction to Quantitative Trading and Freqtrade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-02-environment-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 2: Freqtrade Environment Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-03-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 3: Understanding Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-04-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 4: Data Download and Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-05-first-backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 5: First Strategy Backtest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-06-strategy-performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 6: Strategy Performance Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-07-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 7: Multi-Timeframe Backtesting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-08-strategy-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 8: Strategy Batch Comparison
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-09-timerange-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 9: Time Range Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-10-pair-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 10: Trading Pair Selection and Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-11-hyperopt-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 11: Hyperopt Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-12-advanced-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 12: Advanced Strategy Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-13-scoring-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 13: Strategy Scoring System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-14-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 14: Risk and Money Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-15-portfolio-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 15: Strategy Portfolio and Diversification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-16-realtime-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 16: Real-time Signal Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-17-telegram-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 17: Telegram Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 18: Web UI and API Usage
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 18: Web UI and API Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#course-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 Course Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#181-enable-api-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.1 Enable API Server
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="18.1 Enable API Server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-api-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is API Server?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-api-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure API Server
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configure API Server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#edit-configjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Edit config.json
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generate-secure-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generate Secure Keys
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security Considerations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start-freqtrade-with-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Start Freqtrade with API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-api-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify API Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#182-frequi-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.2 FreqUI Usage
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="18.2 FreqUI Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-frequi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is FreqUI?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-frequi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install FreqUI
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Install FreqUI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#method-1-use-official-hosted-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 1: Use Official Hosted Version
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-2-local-deployment-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 2: Local Deployment (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frequi-interface-introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FreqUI Interface Introduction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FreqUI Interface Introduction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Dashboard
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-trade-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Trade List
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-performance-statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Performance Statistics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-chart-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Chart Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-configuration-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Configuration Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-log-viewing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Log Viewing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#183-rest-api-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.3 REST API Usage
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="18.3 REST API Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#api-endpoints-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Endpoints Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API Endpoints Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authentication
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-api-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common API Endpoints
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common API Endpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-view-bot-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. View Bot Status
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-view-current-positions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. View Current Positions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-view-performance-statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. View Performance Statistics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-force-buy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Force Buy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-force-sell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Force Sell
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-stopstart-bot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Stop/Start Bot
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-reload-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Reload Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-script-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python Script Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#184-mobile-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.4 Mobile Access
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="18.4 Mobile Access">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#access-frequi-via-mobile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Access FreqUI via Mobile
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Access FreqUI via Mobile">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#method-1-same-local-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 1: Same Local Network
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-2-use-tailscalezerotier-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 2: Use Tailscale/ZeroTier (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Practical Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 Practical Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-configure-and-start-api-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Configure and Start API Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-use-frequi-to-manage-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Use FreqUI to Manage Trading
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-call-rest-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: Call REST API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-4-mobile-access-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 4: Mobile Access Test
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 Common Problems
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 Common Problems">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problem-1-cannot-access-frequi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 1: Cannot Access FreqUI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-2-login-failed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 2: Login Failed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-3-api-response-slow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 3: API Response Slow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-points-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Key Points Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔗 References
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔗 References">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#freqtrade-official-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Freqtrade Official Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supporting-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supporting Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tool-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tool Recommendations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-lesson-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ➡️ Next Lesson Preview
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 19: Visualization Analysis Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-20-dry-run-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 20: Simulated Trading Validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-21-exchange-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 21: Exchange API Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-22-pre-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 22: Pre-Live Trading Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-23-small-capital-live/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 23: Small Capital Live Trading
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-1-order-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.1: Live Trading Order Placement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-2-stop-loss-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.2: Live Trading Stop Loss Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-3-futures-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.3: Binance Futures Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-4-leverage-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.4: Leverage Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-trading-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24: Trading Monitoring and Adjustment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-25-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 25: Risk Control and Psychology Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-26-custom-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 26: Custom Strategy Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-27-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 27: Multi-Timeframe Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-28-grid-hft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 28: HFT and Grid Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-1-freqai-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.1: FreqAI Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-2-advanced-ml-strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.2: Advanced ML Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning-enhanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: ML Basics and Strategy Optimization (Enhanced)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: Machine Learning and Strategy Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-30-conclusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 30: Conclusion and Continuous Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#course-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 Course Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#181-enable-api-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.1 Enable API Server
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="18.1 Enable API Server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-api-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is API Server?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-api-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure API Server
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configure API Server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#edit-configjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Edit config.json
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generate-secure-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generate Secure Keys
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security Considerations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start-freqtrade-with-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Start Freqtrade with API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-api-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify API Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#182-frequi-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.2 FreqUI Usage
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="18.2 FreqUI Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-frequi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is FreqUI?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-frequi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install FreqUI
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Install FreqUI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#method-1-use-official-hosted-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 1: Use Official Hosted Version
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-2-local-deployment-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 2: Local Deployment (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frequi-interface-introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FreqUI Interface Introduction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FreqUI Interface Introduction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Dashboard
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-trade-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Trade List
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-performance-statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Performance Statistics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-chart-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Chart Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-configuration-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Configuration Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-log-viewing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Log Viewing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#183-rest-api-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.3 REST API Usage
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="18.3 REST API Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#api-endpoints-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Endpoints Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API Endpoints Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authentication
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-api-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common API Endpoints
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common API Endpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-view-bot-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. View Bot Status
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-view-current-positions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. View Current Positions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-view-performance-statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. View Performance Statistics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-force-buy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Force Buy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-force-sell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Force Sell
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-stopstart-bot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Stop/Start Bot
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-reload-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Reload Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-script-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python Script Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#184-mobile-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.4 Mobile Access
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="18.4 Mobile Access">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#access-frequi-via-mobile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Access FreqUI via Mobile
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Access FreqUI via Mobile">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#method-1-same-local-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 1: Same Local Network
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-2-use-tailscalezerotier-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 2: Use Tailscale/ZeroTier (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Practical Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 Practical Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-configure-and-start-api-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Configure and Start API Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-use-frequi-to-manage-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Use FreqUI to Manage Trading
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-call-rest-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: Call REST API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-4-mobile-access-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 4: Mobile Access Test
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 Common Problems
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 Common Problems">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problem-1-cannot-access-frequi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 1: Cannot Access FreqUI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-2-login-failed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 2: Login Failed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-3-api-response-slow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 3: API Response Slow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-points-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Key Points Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔗 References
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔗 References">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#freqtrade-official-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Freqtrade Official Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supporting-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supporting Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tool-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tool Recommendations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-lesson-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ➡️ Next Lesson Preview
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="lesson-18-web-ui-and-api-usage">Lesson 18: Web UI and API Usage<a class="headerlink" href="#lesson-18-web-ui-and-api-usage" title="Permanent link">&para;</a></h1>
+<p><strong>⏱ Duration</strong>: 1.5 hours
+<strong>🎯 Learning Objectives</strong>: Master graphical interface and API operations
+<strong>📚 Difficulty</strong>: ⭐⭐ Real-time Signals</p>
+<hr />
+<h2 id="course-overview">📖 Course Overview<a class="headerlink" href="#course-overview" title="Permanent link">&para;</a></h2>
+<p>Through Web UI and API, you can manage trading bots with graphical interfaces, no longer relying on command line. This lesson will teach you how to enable API Server, use FreqUI for visualized management, and control remotely through REST API.</p>
+<hr />
+<h2 id="181-enable-api-server">18.1 Enable API Server<a class="headerlink" href="#181-enable-api-server" title="Permanent link">&para;</a></h2>
+<h3 id="what-is-api-server">What is API Server?<a class="headerlink" href="#what-is-api-server" title="Permanent link">&para;</a></h3>
+<p><strong>Definition</strong>: Freqtrade's built-in REST API server that provides:
+- Web UI data interface
+- Remote control functionality
+- Real-time data queries
+- Trading operation interface</p>
+<h3 id="configure-api-server">Configure API Server<a class="headerlink" href="#configure-api-server" title="Permanent link">&para;</a></h3>
+<h4 id="edit-configjson">Edit config.json<a class="headerlink" href="#edit-configjson" title="Permanent link">&para;</a></h4>
+<p>Add API Server configuration to configuration file:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"api_server"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"listen_ip_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"listen_port"</span><span class="p">:</span><span class="w"> </span><span class="mi">8080</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"verbosity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"error"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"enable_openapi"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"jwt_secret_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"your-secret-key-change-this"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"ws_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"your-websocket-token-change-this"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"CORS_origins"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">    </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"freqtrader"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SuperSecretPassword123"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Configuration Description</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Recommended Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>enabled</strong></td>
+<td>Whether to enable API</td>
+<td>true</td>
+</tr>
+<tr>
+<td><strong>listen_ip_address</strong></td>
+<td>Listen address</td>
+<td>"127.0.0.1" (local) or "0.0.0.0" (remote access)</td>
+</tr>
+<tr>
+<td><strong>listen_port</strong></td>
+<td>Port number</td>
+<td>8080</td>
+</tr>
+<tr>
+<td><strong>jwt_secret_key</strong></td>
+<td>JWT secret key</td>
+<td>Randomly generated long string</td>
+</tr>
+<tr>
+<td><strong>ws_token</strong></td>
+<td>WebSocket Token</td>
+<td>Randomly generated long string</td>
+</tr>
+<tr>
+<td><strong>username</strong></td>
+<td>Login username</td>
+<td>Custom</td>
+</tr>
+<tr>
+<td><strong>password</strong></td>
+<td>Login password</td>
+<td>Strong password</td>
+</tr>
+</tbody>
+</table>
+<h4 id="generate-secure-keys">Generate Secure Keys<a class="headerlink" href="#generate-secure-keys" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Generate random keys</span>
+python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">"import secrets; print(secrets.token_urlsafe(32))"</span>
+
+<span class="c1"># Output example:</span>
+<span class="c1"># XYZ123abc-DEF456ghi-JKL789mno-PQR012stu</span>
+</code></pre></div>
+<p>Use generated keys for <code>jwt_secret_key</code> and <code>ws_token</code> respectively.</p>
+<h4 id="security-considerations">Security Considerations<a class="headerlink" href="#security-considerations" title="Permanent link">&para;</a></h4>
+<p>⚠️ <strong>Important Security Tips</strong>:</p>
+<ol>
+<li><strong>Change Default Password</strong>:</li>
+<li>Don't use simple passwords</li>
+<li>Password length &gt; 12 characters</li>
+<li>
+<p>Include uppercase, lowercase, numbers, special characters</p>
+</li>
+<li>
+<p><strong>Local Access Priority</strong>:
+   <div class="highlight"><pre><span></span><code><span class="nt">"listen_ip_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1"</span><span class="w">  </span><span class="c1">// Only allow local access</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Remote Access Needs Caution</strong>:
+   <div class="highlight"><pre><span></span><code><span class="nt">"listen_ip_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.0.0.0"</span><span class="w">  </span><span class="c1">// Allow external access</span>
+<span class="c1">// ⚠️ Must be used with firewall and strong password</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Firewall Configuration</strong> (when accessing remotely):
+   <div class="highlight"><pre><span></span><code><span class="c1"># Only allow specific IP access</span>
+sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span>from<span class="w"> </span>YOUR_IP_ADDRESS<span class="w"> </span>to<span class="w"> </span>any<span class="w"> </span>port<span class="w"> </span><span class="m">8080</span>
+
+<span class="c1"># Or use SSH tunnel (recommended)</span>
+ssh<span class="w"> </span>-L<span class="w"> </span><span class="m">8080</span>:localhost:8080<span class="w"> </span>user@your-server
+<span class="c1"># Then access http://localhost:8080 locally</span>
+</code></pre></div></p>
+</li>
+</ol>
+<h3 id="start-freqtrade-with-api">Start Freqtrade with API<a class="headerlink" href="#start-freqtrade-with-api" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Activate environment</span>
+conda<span class="w"> </span>activate<span class="w"> </span>freqtrade
+
+<span class="c1"># Start Freqtrade (automatically starts API Server)</span>
+freqtrade<span class="w"> </span>trade<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001
+
+<span class="c1"># Output will show:</span>
+<span class="c1"># INFO - Starting API Server on 127.0.0.1:8080</span>
+<span class="c1"># INFO - API Server started successfully</span>
+</code></pre></div>
+<h3 id="verify-api-server">Verify API Server<a class="headerlink" href="#verify-api-server" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Test if API is running</span>
+curl<span class="w"> </span>http://localhost:8080/api/v1/ping
+
+<span class="c1"># Output:</span>
+<span class="c1"># {"status":"pong"}</span>
+</code></pre></div>
+<hr />
+<h2 id="182-frequi-usage">18.2 FreqUI Usage<a class="headerlink" href="#182-frequi-usage" title="Permanent link">&para;</a></h2>
+<h3 id="what-is-frequi">What is FreqUI?<a class="headerlink" href="#what-is-frequi" title="Permanent link">&para;</a></h3>
+<p><strong>FreqUI</strong> is Freqtrade's official web interface that provides:
+- 📊 Real-time trading monitoring
+- 📈 Performance statistics charts
+- ⚙️ Configuration management
+- 🔄 Trading control
+- 📱 Responsive design (supports mobile)</p>
+<h3 id="install-frequi">Install FreqUI<a class="headerlink" href="#install-frequi" title="Permanent link">&para;</a></h3>
+<h4 id="method-1-use-official-hosted-version">Method 1: Use Official Hosted Version<a class="headerlink" href="#method-1-use-official-hosted-version" title="Permanent link">&para;</a></h4>
+<p>Direct access: https://frequi.freqtrade.io/</p>
+<p><strong>Advantages</strong>:
+- ✅ No installation needed
+- ✅ Auto-updates
+- ✅ Access anytime</p>
+<p><strong>Connection Configuration</strong>:
+1. Click settings icon in top right corner of FreqUI
+2. Enter your API address: <code>http://localhost:8080</code>
+3. Enter username and password
+4. Click "Connect"</p>
+<h4 id="method-2-local-deployment-recommended">Method 2: Local Deployment (Recommended)<a class="headerlink" href="#method-2-local-deployment-recommended" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Enter Freqtrade directory</span>
+<span class="nb">cd</span><span class="w"> </span>/path/to/freqtrade
+
+<span class="c1"># Download FreqUI</span>
+freqtrade<span class="w"> </span>install-ui
+
+<span class="c1"># FreqUI will be installed to user_data/ui/</span>
+<span class="c1"># After starting Freqtrade, access http://localhost:8080</span>
+</code></pre></div>
+<h3 id="frequi-interface-introduction">FreqUI Interface Introduction<a class="headerlink" href="#frequi-interface-introduction" title="Permanent link">&para;</a></h3>
+<h4 id="1-dashboard">1. Dashboard<a class="headerlink" href="#1-dashboard" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>┌─────────────────────────────────────────────────────────┐
+│  Freqtrade Bot Status                                   │
+├─────────────────────────────────────────────────────────┤
+│  ● Running  |  Strategy: Strategy001  |  Timeframe: 5m │
+│                                                         │
+│  💰 Balance: 1,234.56 USDT                             │
+│  📈 Open Trades: 3                                      │
+│  💵 Open Profit: +15.67 USDT (+1.27%)                  │
+│  📊 Total Profit: +234.89 USDT (+23.49%)               │
+│  📉 Max Drawdown: -45.23 USDT (-4.52%)                 │
+│  🎯 Win Rate: 78.5%                                     │
+│  🔢 Total Trades: 142                                   │
+└─────────────────────────────────────────────────────────┘
+</code></pre></div>
+<p><strong>Features</strong>:
+- Real-time account overview
+- Key indicator display
+- Bot running status</p>
+<h4 id="2-trade-list">2. Trade List<a class="headerlink" href="#2-trade-list" title="Permanent link">&para;</a></h4>
+<p>Display current positions and historical trades:</p>
+<p><strong>Open Positions</strong>:
+<div class="highlight"><pre><span></span><code>┌──────┬──────────┬───────────┬───────────┬─────────┬─────────┐
+│ ID   │ Pair     │ Open Rate │ Current   │ Profit  │ Duration│
+├──────┼──────────┼───────────┼───────────┼─────────┼─────────┤
+│ 158  │ BTC/USDT │ 43,500    │ 43,850    │ +0.80%  │ 2h 15m  │
+│ 159  │ ETH/USDT │ 2,280     │ 2,295     │ +0.66%  │ 1h 45m  │
+│ 160  │ BNB/USDT │ 312       │ 315       │ +0.96%  │ 45m     │
+└──────┴──────────┴───────────┴───────────┴─────────┴─────────┘
+</code></pre></div></p>
+<p><strong>Historical Trades</strong>:
+- View all closed trades
+- Filter by date, pair, profit
+- Export trade records</p>
+<h4 id="3-performance-statistics">3. Performance Statistics<a class="headerlink" href="#3-performance-statistics" title="Permanent link">&para;</a></h4>
+<p><strong>Pair Performance</strong>:
+<div class="highlight"><pre><span></span><code>┌──────────┬────────┬─────────┬───────────┬──────────┐
+│ Pair     │ Trades │ Win %   │ Profit %  │ Avg %    │
+├──────────┼────────┼─────────┼───────────┼──────────┤
+│ BTC/USDT │ 35     │ 85.7%   │ +8.45%    │ +0.24%   │
+│ ETH/USDT │ 42     │ 81.0%   │ +10.22%   │ +0.24%   │
+│ BNB/USDT │ 28     │ 75.0%   │ +6.15%    │ +0.22%   │
+│ SOL/USDT │ 37     │ 78.4%   │ +7.83%    │ +0.21%   │
+└──────────┴────────┴─────────┴───────────┴──────────┘
+</code></pre></div></p>
+<p><strong>Daily Profit Charts</strong>:
+- 📊 Bar chart showing daily P&amp;L
+- 📈 Cumulative profit curve
+- 📉 Drawdown curve</p>
+<h4 id="4-chart-analysis">4. Chart Analysis<a class="headerlink" href="#4-chart-analysis" title="Permanent link">&para;</a></h4>
+<p><strong>Candlestick Charts + Indicators</strong>:
+<div class="highlight"><pre><span></span><code>        Price
+         ↑
+   44000 │     ╱╲
+         │    ╱  ╲    ╱╲
+   43500 │───╱────╲──╱──╲─── EMA50
+         │          ╲╱
+   43000 │
+         │
+         └────────────────────────→ Time
+              Today
+</code></pre></div></p>
+<p><strong>Features</strong>:
+- View real-time candlestick charts
+- Overlay technical indicators
+- Mark buy/sell points
+- Zoom and pan</p>
+<h4 id="5-configuration-management">5. Configuration Management<a class="headerlink" href="#5-configuration-management" title="Permanent link">&para;</a></h4>
+<p><strong>Adjustable Items</strong>:
+- Strategy parameters
+- Trading pair whitelist
+- Maximum open positions
+- Stop loss and take profit
+- Notification settings</p>
+<p>⚠️ <strong>Note</strong>: Some configurations require bot restart to take effect.</p>
+<h4 id="6-log-viewing">6. Log Viewing<a class="headerlink" href="#6-log-viewing" title="Permanent link">&para;</a></h4>
+<p>Real-time bot log viewing:
+<div class="highlight"><pre><span></span><code>2025-09-30 10:05:00 - INFO - New candle for BTC/USDT - 5m
+2025-09-30 10:05:02 - INFO - Found BUY signal for BTC/USDT
+2025-09-30 10:05:03 - INFO - Buy order placed: BTC/USDT
+2025-09-30 10:05:05 - INFO - Buy order filled: BTC/USDT @ 43,500
+</code></pre></div></p>
+<p><strong>Features</strong>:
+- Real-time log stream
+- Log level filtering (INFO/WARNING/ERROR)
+- Search functionality
+- Export logs</p>
+<hr />
+<h2 id="183-rest-api-usage">18.3 REST API Usage<a class="headerlink" href="#183-rest-api-usage" title="Permanent link">&para;</a></h2>
+<h3 id="api-endpoints-overview">API Endpoints Overview<a class="headerlink" href="#api-endpoints-overview" title="Permanent link">&para;</a></h3>
+<p>Freqtrade provides rich REST API endpoints.</p>
+<h4 id="authentication">Authentication<a class="headerlink" href="#authentication" title="Permanent link">&para;</a></h4>
+<p>All API requests require JWT authentication:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Get Token</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8080/api/v1/token/login<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"username":"freqtrader","password":"SuperSecretPassword123"}'</span>
+
+<span class="c1"># Return:</span>
+<span class="c1"># {"access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...","refresh_token":"..."}</span>
+
+<span class="c1"># 2. Use Token to access API</span>
+<span class="nv">TOKEN</span><span class="o">=</span><span class="s2">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."</span>
+
+curl<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://localhost:8080/api/v1/status<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span>
+</code></pre></div>
+<h3 id="common-api-endpoints">Common API Endpoints<a class="headerlink" href="#common-api-endpoints" title="Permanent link">&para;</a></h3>
+<h4 id="1-view-bot-status">1. View Bot Status<a class="headerlink" href="#1-view-bot-status" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># GET /api/v1/status</span>
+curl<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://localhost:8080/api/v1/status<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span>
+
+<span class="c1"># Return:</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">"dry_run"</span>:<span class="w"> </span>true,
+<span class="w">  </span><span class="s2">"state"</span>:<span class="w"> </span><span class="s2">"running"</span>,
+<span class="w">  </span><span class="s2">"strategy"</span>:<span class="w"> </span><span class="s2">"Strategy001"</span>,
+<span class="w">  </span><span class="s2">"timeframe"</span>:<span class="w"> </span><span class="s2">"5m"</span>,
+<span class="w">  </span><span class="s2">"open_trades"</span>:<span class="w"> </span><span class="m">3</span>,
+<span class="w">  </span><span class="s2">"max_open_trades"</span>:<span class="w"> </span><span class="m">5</span>,
+<span class="w">  </span><span class="s2">"stake_currency"</span>:<span class="w"> </span><span class="s2">"USDT"</span>,
+<span class="w">  </span><span class="s2">"stake_amount"</span>:<span class="w"> </span><span class="m">100</span>.0
+<span class="o">}</span>
+</code></pre></div>
+<h4 id="2-view-current-positions">2. View Current Positions<a class="headerlink" href="#2-view-current-positions" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># GET /api/v1/trades</span>
+curl<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://localhost:8080/api/v1/trades<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span>
+
+<span class="c1"># Return:</span>
+<span class="o">[</span>
+<span class="w">  </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">"trade_id"</span>:<span class="w"> </span><span class="m">158</span>,
+<span class="w">    </span><span class="s2">"pair"</span>:<span class="w"> </span><span class="s2">"BTC/USDT"</span>,
+<span class="w">    </span><span class="s2">"is_open"</span>:<span class="w"> </span>true,
+<span class="w">    </span><span class="s2">"open_rate"</span>:<span class="w"> </span><span class="m">43500</span>.00,
+<span class="w">    </span><span class="s2">"current_rate"</span>:<span class="w"> </span><span class="m">43850</span>.00,
+<span class="w">    </span><span class="s2">"profit_pct"</span>:<span class="w"> </span><span class="m">0</span>.80,
+<span class="w">    </span><span class="s2">"profit_abs"</span>:<span class="w"> </span><span class="m">8</span>.05,
+<span class="w">    </span><span class="s2">"open_date"</span>:<span class="w"> </span><span class="s2">"2025-09-30 10:05:03"</span>
+<span class="w">  </span><span class="o">}</span>,
+<span class="w">  </span>...
+<span class="o">]</span>
+</code></pre></div>
+<h4 id="3-view-performance-statistics">3. View Performance Statistics<a class="headerlink" href="#3-view-performance-statistics" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># GET /api/v1/profit</span>
+curl<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://localhost:8080/api/v1/profit<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span>
+
+<span class="c1"># Return:</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">"profit_closed_coin"</span>:<span class="w"> </span><span class="m">234</span>.89,
+<span class="w">  </span><span class="s2">"profit_closed_percent"</span>:<span class="w"> </span><span class="m">23</span>.49,
+<span class="w">  </span><span class="s2">"profit_all_coin"</span>:<span class="w"> </span><span class="m">250</span>.56,
+<span class="w">  </span><span class="s2">"profit_all_percent"</span>:<span class="w"> </span><span class="m">25</span>.06,
+<span class="w">  </span><span class="s2">"trade_count"</span>:<span class="w"> </span><span class="m">142</span>,
+<span class="w">  </span><span class="s2">"closed_trade_count"</span>:<span class="w"> </span><span class="m">139</span>,
+<span class="w">  </span><span class="s2">"winning_trades"</span>:<span class="w"> </span><span class="m">109</span>,
+<span class="w">  </span><span class="s2">"losing_trades"</span>:<span class="w"> </span><span class="m">30</span>,
+<span class="w">  </span><span class="s2">"win_rate"</span>:<span class="w"> </span><span class="m">78</span>.42
+<span class="o">}</span>
+</code></pre></div>
+<h4 id="4-force-buy">4. Force Buy<a class="headerlink" href="#4-force-buy" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># POST /api/v1/forcebuy</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8080/api/v1/forcebuy<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"pair":"BTC/USDT","price":43500}'</span>
+
+<span class="c1"># ⚠️ Use with caution! Bypasses strategy signals for forced buying</span>
+</code></pre></div>
+<h4 id="5-force-sell">5. Force Sell<a class="headerlink" href="#5-force-sell" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># POST /api/v1/forceexit</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8080/api/v1/forceexit<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"tradeid":"158"}'</span>
+
+<span class="c1"># Force close specified trade</span>
+</code></pre></div>
+<h4 id="6-stopstart-bot">6. Stop/Start Bot<a class="headerlink" href="#6-stopstart-bot" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># POST /api/v1/stop</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8080/api/v1/stop<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span>
+
+<span class="c1"># POST /api/v1/start</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8080/api/v1/start<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span>
+</code></pre></div>
+<h4 id="7-reload-configuration">7. Reload Configuration<a class="headerlink" href="#7-reload-configuration" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># POST /api/v1/reload_config</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8080/api/v1/reload_config<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span>
+
+<span class="c1"># Reload config.json (no restart needed)</span>
+</code></pre></div>
+<h3 id="python-script-example">Python Script Example<a class="headerlink" href="#python-script-example" title="Permanent link">&para;</a></h3>
+<p>Use Python to call API:</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env python3</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">FreqtradeAPI</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="n">base_url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">token</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">login</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Login to get Token"""</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/v1/token/login"</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"username"</span><span class="p">:</span> <span class="n">username</span><span class="p">,</span> <span class="s2">"password"</span><span class="p">:</span> <span class="n">password</span><span class="p">}</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">token</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">"access_token"</span><span class="p">]</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"✅ Login successful"</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"❌ Login failed"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_status</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Get Bot status"""</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/v1/status"</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span><span class="p">}</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_open_trades</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Get current positions"""</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/v1/trades"</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span><span class="p">}</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_profit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Get P&amp;L statistics"""</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/v1/profit"</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span><span class="p">}</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+<span class="c1"># Usage example</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">api</span> <span class="o">=</span> <span class="n">FreqtradeAPI</span><span class="p">(</span>
+        <span class="n">base_url</span><span class="o">=</span><span class="s2">"http://localhost:8080"</span><span class="p">,</span>
+        <span class="n">username</span><span class="o">=</span><span class="s2">"freqtrader"</span><span class="p">,</span>
+        <span class="n">password</span><span class="o">=</span><span class="s2">"SuperSecretPassword123"</span>
+    <span class="p">)</span>
+
+    <span class="c1"># View status</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">get_status</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Bot Status: </span><span class="si">{</span><span class="n">status</span><span class="p">[</span><span class="s1">'state'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Strategy: </span><span class="si">{</span><span class="n">status</span><span class="p">[</span><span class="s1">'strategy'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Current Positions: </span><span class="si">{</span><span class="n">status</span><span class="p">[</span><span class="s1">'open_trades'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="c1"># View positions</span>
+    <span class="n">trades</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">get_open_trades</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Position Details:"</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">trade</span> <span class="ow">in</span> <span class="n">trades</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">trade</span><span class="p">[</span><span class="s1">'is_open'</span><span class="p">]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">trade</span><span class="p">[</span><span class="s1">'pair'</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">trade</span><span class="p">[</span><span class="s1">'profit_pct'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+
+    <span class="c1"># View total profit</span>
+    <span class="n">profit</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">get_profit</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Total Profit: </span><span class="si">{</span><span class="n">profit</span><span class="p">[</span><span class="s1">'profit_closed_percent'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Win Rate: </span><span class="si">{</span><span class="n">profit</span><span class="p">[</span><span class="s1">'win_rate'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+</code></pre></div>
+<p>Save as <code>freqtrade_api.py</code>, run:
+<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>freqtrade_api.py
+</code></pre></div></p>
+<hr />
+<h2 id="184-mobile-access">18.4 Mobile Access<a class="headerlink" href="#184-mobile-access" title="Permanent link">&para;</a></h2>
+<h3 id="access-frequi-via-mobile">Access FreqUI via Mobile<a class="headerlink" href="#access-frequi-via-mobile" title="Permanent link">&para;</a></h3>
+<h4 id="method-1-same-local-network">Method 1: Same Local Network<a class="headerlink" href="#method-1-same-local-network" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. View server IP</span>
+ifconfig<span class="w">  </span><span class="c1"># Linux/Mac</span>
+ipconfig<span class="w">  </span><span class="c1"># Windows</span>
+
+<span class="c1"># Assume server IP: 192.168.1.100</span>
+
+<span class="c1"># 2. Modify config.json</span>
+<span class="s2">"listen_ip_address"</span>:<span class="w"> </span><span class="s2">"0.0.0.0"</span><span class="w">  </span><span class="c1"># Allow external access</span>
+
+<span class="c1"># 3. Access in mobile browser</span>
+http://192.168.1.100:8080
+</code></pre></div>
+<h4 id="method-2-use-tailscalezerotier-recommended">Method 2: Use Tailscale/ZeroTier (Recommended)<a class="headerlink" href="#method-2-use-tailscalezerotier-recommended" title="Permanent link">&para;</a></h4>
+<p>Create virtual LAN for secure remote access:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Install Tailscale</span>
+curl<span class="w"> </span>-fsSL<span class="w"> </span>https://tailscale.com/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
+
+<span class="c1"># 2. Login</span>
+sudo<span class="w"> </span>tailscale<span class="w"> </span>up
+
+<span class="c1"># 3. Get Tailscale IP</span>
+tailscale<span class="w"> </span>ip<span class="w"> </span>-4
+<span class="c1"># Output: 100.x.y.z</span>
+
+<span class="c1"># 4. Also install Tailscale on mobile, login with same account</span>
+
+<span class="c1"># 5. Mobile access</span>
+http://100.x.y.z:8080
+</code></pre></div>
+<p><strong>Advantages</strong>:
+- ✅ Encrypted connection
+- ✅ No public IP needed
+- ✅ No firewall configuration needed
+- ✅ Cross-network access</p>
+<hr />
+<h2 id="practical-tasks">💡 Practical Tasks<a class="headerlink" href="#practical-tasks" title="Permanent link">&para;</a></h2>
+<h3 id="task-1-configure-and-start-api-server">Task 1: Configure and Start API Server<a class="headerlink" href="#task-1-configure-and-start-api-server" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Edit <code>config.json</code>, add API configuration</li>
+<li>Generate secure keys</li>
+<li>Set strong password</li>
+<li>Start Freqtrade</li>
+<li>Access http://localhost:8080</li>
+</ol>
+<h3 id="task-2-use-frequi-to-manage-trading">Task 2: Use FreqUI to Manage Trading<a class="headerlink" href="#task-2-use-frequi-to-manage-trading" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Install FreqUI (<code>freqtrade install-ui</code>)</li>
+<li>Login to FreqUI</li>
+<li>Familiarize with each interface</li>
+<li>View current positions</li>
+<li>View performance statistics</li>
+</ol>
+<h3 id="task-3-call-rest-api">Task 3: Call REST API<a class="headerlink" href="#task-3-call-rest-api" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Get API Token</li>
+<li>Use curl to query Bot status</li>
+<li>Query current positions</li>
+<li>Query P&amp;L statistics</li>
+<li>(Optional) Run Python script</li>
+</ol>
+<h3 id="task-4-mobile-access-test">Task 4: Mobile Access Test<a class="headerlink" href="#task-4-mobile-access-test" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Configure to allow external access</li>
+<li>Access FreqUI in mobile browser</li>
+<li>Test viewing positions and statistics</li>
+<li>Confirm functions work properly</li>
+</ol>
+<hr />
+<h2 id="common-problems">🔧 Common Problems<a class="headerlink" href="#common-problems" title="Permanent link">&para;</a></h2>
+<h3 id="problem-1-cannot-access-frequi">Problem 1: Cannot Access FreqUI<a class="headerlink" href="#problem-1-cannot-access-frequi" title="Permanent link">&para;</a></h3>
+<p><strong>Phenomenon</strong>:
+<div class="highlight"><pre><span></span><code>Accessing http://localhost:8080 shows "Unable to access this site"
+</code></pre></div></p>
+<p><strong>Check Steps</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Confirm if API Server started</span>
+grep<span class="w"> </span><span class="s2">"API Server"</span><span class="w"> </span>user_data/logs/freqtrade.log
+
+<span class="c1"># 2. Confirm if port is occupied</span>
+lsof<span class="w"> </span>-i<span class="w"> </span>:8080<span class="w">  </span><span class="c1"># Mac/Linux</span>
+netstat<span class="w"> </span>-ano<span class="w"> </span><span class="p">|</span><span class="w"> </span>findstr<span class="w"> </span>:8080<span class="w">  </span><span class="c1"># Windows</span>
+
+<span class="c1"># 3. Check firewall</span>
+sudo<span class="w"> </span>ufw<span class="w"> </span>status<span class="w">  </span><span class="c1"># Linux</span>
+</code></pre></div></p>
+<p><strong>Solutions</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Change port</span>
+<span class="s2">"listen_port"</span>:<span class="w"> </span><span class="m">8081</span>
+
+<span class="c1"># Or stop program occupying 8080</span>
+</code></pre></div></p>
+<h3 id="problem-2-login-failed">Problem 2: Login Failed<a class="headerlink" href="#problem-2-login-failed" title="Permanent link">&para;</a></h3>
+<p><strong>Phenomenon</strong>:
+<div class="highlight"><pre><span></span><code>401 Unauthorized
+</code></pre></div></p>
+<p><strong>Causes</strong>:
+- Wrong username or password
+- JWT key configuration error</p>
+<p><strong>Solutions</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Regenerate keys</span>
+python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">"import secrets; print(secrets.token_urlsafe(32))"</span>
+
+<span class="c1"># Update config.json</span>
+<span class="s2">"jwt_secret_key"</span>:<span class="w"> </span><span class="s2">"newly generated key"</span>
+
+<span class="c1"># Restart Freqtrade</span>
+</code></pre></div></p>
+<h3 id="problem-3-api-response-slow">Problem 3: API Response Slow<a class="headerlink" href="#problem-3-api-response-slow" title="Permanent link">&para;</a></h3>
+<p><strong>Causes</strong>:
+- Bot high load
+- Slow database queries
+- Network latency</p>
+<p><strong>Optimization Methods</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1">// Reduce API logs</span>
+<span class="nt">"verbosity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"error"</span>
+
+<span class="c1">// Use faster database</span>
+<span class="c1">// SQLite → PostgreSQL</span>
+</code></pre></div></p>
+<hr />
+<h2 id="key-points-summary">📌 Key Points Summary<a class="headerlink" href="#key-points-summary" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>API Server provides powerful management capabilities</strong>: Web UI + REST API</li>
+<li><strong>FreqUI is officially recommended interface</strong>: Complete features, easy to use</li>
+<li><strong>Security first</strong>: Strong passwords, local access priority, use VPN</li>
+<li><strong>REST API enables automation</strong>: Python scripts, monitoring alerts</li>
+<li><strong>Mobile access is convenient</strong>: Monitor trading anytime, anywhere</li>
+<li><strong>Use forced operations cautiously</strong>: forcebuy/forceexit bypass strategies</li>
+</ol>
+<hr />
+<h2 id="references">🔗 References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<h3 id="freqtrade-official-documentation">Freqtrade Official Documentation<a class="headerlink" href="#freqtrade-official-documentation" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://www.freqtrade.io/en/stable/rest-api/">REST API Documentation</a></li>
+<li><a href="https://www.freqtrade.io/en/stable/freq-ui/">FreqUI Usage Guide</a></li>
+</ul>
+<h3 id="supporting-documentation">Supporting Documentation<a class="headerlink" href="#supporting-documentation" title="Permanent link">&para;</a></h3>
+<ul>
+<li>📄 <a href="../CONFIG_EXPLANATION.md">CONFIG_EXPLANATION.md</a> - API Server Configuration</li>
+</ul>
+<h3 id="tool-recommendations">Tool Recommendations<a class="headerlink" href="#tool-recommendations" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://tailscale.com/">Tailscale</a> - Secure remote access</li>
+<li><a href="https://www.postman.com/">Postman</a> - API testing tool</li>
+</ul>
+<hr />
+<h2 id="next-lesson-preview">➡️ Next Lesson Preview<a class="headerlink" href="#next-lesson-preview" title="Permanent link">&para;</a></h2>
+<p><strong>Lesson 19: Visualization Analysis Tools</strong></p>
+<p>In the next lesson, we will learn:
+- Use plot-dataframe to generate charts
+- Analyze buy/sell point locations
+- View indicator performance on charts
+- Optimize strategy visualization methods</p>
+<p><strong>Preparation</strong>:
+- ✅ Ensure API Server is running properly
+- ✅ Install plotting dependencies: <code>pip install plotly</code>
+- ✅ Prepare strategies to analyze</p>
+<hr />
+<p><strong>🎯 Learning Assessment Criteria</strong>:
+- ✅ Successfully enable API Server
+- ✅ Can proficiently use all FreqUI functions
+- ✅ Can call REST API to query data
+- ✅ Can access and monitor on mobile</p>
+<p>After completing these tasks, you've mastered Freqtrade's graphical management capabilities! 🖥️📱</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

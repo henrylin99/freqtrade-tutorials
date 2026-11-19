@@ -1,0 +1,3933 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径">
+      
+      
+      
+        <link rel="canonical" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-07-multi-timeframe/">
+      
+      
+        <link rel="prev" href="../lesson-06-strategy-performance/">
+      
+      
+        <link rel="next" href="../lesson-08-strategy-comparison/">
+      
+      
+        
+          <link rel="alternate" href="./" hreflang="zh">
+        
+          <link rel="alternate" href="../en/lesson-07-multi-timeframe/" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>第 7 课：多时间框架回测 - Freqtrade 实战教程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9784658154228475"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VGHZY4EELE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VGHZY4EELE");
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#7" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="Freqtrade 实战教程" class="md-header__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Freqtrade 实战教程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第 7 课：多时间框架回测
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="选择当前语言">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../en/lesson-07-multi-timeframe/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/henrylin99/freqtrade-tutorials" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../strategies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🇨🇳 中文教程
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Freqtrade 实战教程" class="md-nav__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Freqtrade 实战教程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/henrylin99/freqtrade-tutorials" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../strategies/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🇨🇳 中文教程
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🇨🇳 中文教程
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 1 课：量化交易与 Freqtrade 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-02-environment-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 2 课：Freqtrade 环境搭建
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-03-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 3 课：核心概念理解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-04-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 4 课：数据下载与管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-05-first-backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 5 课：第一次策略回测
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-06-strategy-performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 6 课：策略性能分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 7 课：多时间框架回测
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 7 课：多时间框架回测
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 课程概览
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#71" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 时间框架的选择原则
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7.1 时间框架的选择原则">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三大核心原则
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三大核心原则">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        原则 1：交易风格匹配
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        原则 2：风险承受能力
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        原则 3：策略类型适配
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        时间框架特征对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#72" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 不同时间框架的特点
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7.2 不同时间框架的特点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1m-5m" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 超短线（1m - 5m）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 超短线（1m - 5m）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        特点详解
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        手续费影响案例
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        适合人群
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        风险警告
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-15m-1h" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 短线（15m - 1h）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 短线（15m - 1h）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        特点详解
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        最佳实践
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        手续费影响案例
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        适合人群
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-4h-1d" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 中长线（4h - 1d）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 中长线（4h - 1d）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        特点详解
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        隔夜风险分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        适合人群
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#73" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 时间框架与交易风格匹配
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7.3 时间框架与交易风格匹配">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        交易风格分类
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="交易风格分类">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-day-trader" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 日内交易者（Day Trader）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-swing-trader" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 波段交易者（Swing Trader）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-trend-trader" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 趋势交易者（Trend Trader）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        匹配测试表
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#74" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 多时间框架对比分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7.4 多时间框架对比分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        实战测试流程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="实战测试流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        步骤 1：准备数据
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        步骤 2：批量回测
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        步骤 3：使用 Shell 脚本批量测试
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        对比分析模板
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        真实案例分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="真实案例分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        分析结论
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        最优时间框架判断标准
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 实践任务
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 实践任务">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 1：数据准备
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 2：批量回测
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 3：制作对比表格
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 4：找出最优时间框架
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 5：撰写分析报告
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 知识检查
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 知识检查">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基础问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        答案
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        进阶问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        思考题
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 常见问题与解决
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 常见问题与解决">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题 1：回测时提示数据不足
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#21d" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题 2：1d 时间框架只有几笔交易
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题 3：不同时间框架结果波动大
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 时间框架选择决策树
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔗 参考资料
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔗 参考资料">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        配套文档
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐阅读
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 核心要点总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ➡️ 下一课预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-08-strategy-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 8 课：策略批量对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-09-timerange-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 9 课：Freqtrade时间范围测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-10-pair-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 10 课：Freqtrade交易对选择与测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-11-hyperopt-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 11 课：Freqtrade参数优化入门（Hyperopt）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-12-advanced-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 12 课：高级策略分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-13-scoring-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 13 课：策略评分体系
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-14-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 14 课：风险管理与资金管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-15-portfolio-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 15 课：Freqtrade策略组合与分散
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-16-realtime-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 16 课：实时信号监控
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-17-telegram-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 17 课：Telegram 通知配置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-18-webui-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 18 课：Web UI 与 API 使用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 19 课：可视化分析工具
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-20-dry-run-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 20 课：模拟交易验证
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-21-exchange-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 21 课：交易所 API 配置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-22-pre-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 22 课：实盘前检查清单
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-23-small-capital-live/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 23 课：小资金实盘测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-1-order-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.1 课：实盘交易下单操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-2-stop-loss-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.2 课：实盘交易止损操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-3-futures-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.3 课：币安合约交易操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-4-leverage-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.4 课：杠杆交易操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-trading-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24 课：交易监控与调整
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-25-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 25 课：风险控制与心态管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-26-custom-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 26 课：自定义策略开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-27-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 27 课：多时间框架策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-28-grid-hft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 28 课：高频交易与网格策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-1-freqai-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29.1 课：FreqAI 深度实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-2-advanced-ml-strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29.2 课：高级机器学习策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning-enhanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29 课：机器学习基础与策略优化（增强版）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29 课：机器学习与策略优化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-30-conclusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 30 课：总结与持续学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 课程概览
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#71" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 时间框架的选择原则
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7.1 时间框架的选择原则">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三大核心原则
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三大核心原则">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        原则 1：交易风格匹配
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        原则 2：风险承受能力
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        原则 3：策略类型适配
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        时间框架特征对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#72" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 不同时间框架的特点
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7.2 不同时间框架的特点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1m-5m" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 超短线（1m - 5m）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 超短线（1m - 5m）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        特点详解
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        手续费影响案例
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        适合人群
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        风险警告
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-15m-1h" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 短线（15m - 1h）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 短线（15m - 1h）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        特点详解
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        最佳实践
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        手续费影响案例
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        适合人群
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-4h-1d" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 中长线（4h - 1d）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 中长线（4h - 1d）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        特点详解
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        隔夜风险分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        适合人群
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#73" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 时间框架与交易风格匹配
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7.3 时间框架与交易风格匹配">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        交易风格分类
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="交易风格分类">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-day-trader" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 日内交易者（Day Trader）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-swing-trader" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 波段交易者（Swing Trader）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-trend-trader" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 趋势交易者（Trend Trader）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        匹配测试表
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#74" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 多时间框架对比分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7.4 多时间框架对比分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        实战测试流程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="实战测试流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        步骤 1：准备数据
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        步骤 2：批量回测
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        步骤 3：使用 Shell 脚本批量测试
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        对比分析模板
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        真实案例分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="真实案例分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        分析结论
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        最优时间框架判断标准
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 实践任务
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 实践任务">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 1：数据准备
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 2：批量回测
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 3：制作对比表格
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 4：找出最优时间框架
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 5：撰写分析报告
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 知识检查
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 知识检查">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基础问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        答案
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        进阶问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        思考题
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 常见问题与解决
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 常见问题与解决">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题 1：回测时提示数据不足
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#21d" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题 2：1d 时间框架只有几笔交易
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题 3：不同时间框架结果波动大
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 时间框架选择决策树
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔗 参考资料
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔗 参考资料">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        配套文档
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐阅读
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 核心要点总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ➡️ 下一课预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="7">第 7 课：多时间框架回测<a class="headerlink" href="#7" title="Permanent link">&para;</a></h1>
+<p><strong>⏱ 课时</strong>：2 小时
+<strong>🎯 学习目标</strong>：理解时间框架对策略的影响
+<strong>📚 难度</strong>：⭐⭐ 回测实战</p>
+<hr />
+<h2 id="_1">📖 课程概览<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>同一个策略在不同时间框架下的表现可能截然不同。本课将通过实际测试，帮助你理解时间框架的选择原则，找到最适合你策略的时间周期。</p>
+<hr />
+<h2 id="71">7.1 时间框架的选择原则<a class="headerlink" href="#71" title="Permanent link">&para;</a></h2>
+<h3 id="_2">三大核心原则<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<h4 id="1">原则 1：交易风格匹配<a class="headerlink" href="#1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>你的时间投入 → 决定时间框架
+
+全职盯盘（8h+/天）  → 1m-5m（超短线）
+兼职盯盘（2-4h/天） → 15m-1h（短线）
+偶尔查看（&lt; 1h/天） → 4h-1d（波段）
+完全自动化         → 任意时间框架
+</code></pre></div>
+<h4 id="2">原则 2：风险承受能力<a class="headerlink" href="#2" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>单笔波动幅度随时间框架增大
+
+1m:  单笔波动 0.1-0.5%  → 风险低，压力小
+5m:  单笔波动 0.3-1%    → 风险适中
+1h:  单笔波动 1-3%      → 风险较高
+1d:  单笔波动 3-10%     → 风险高，心理压力大
+</code></pre></div>
+<h4 id="3">原则 3：策略类型适配<a class="headerlink" href="#3" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>趋势跟踪策略    → 长周期（1h-1d）
+均值回归策略    → 中短周期（5m-1h）
+突破策略        → 中周期（15m-4h）
+高频套利策略    → 超短周期（1m-5m）
+</code></pre></div>
+<h3 id="_3">时间框架特征对比<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>时间框架</th>
+<th>信号频率</th>
+<th>信号质量</th>
+<th>手续费占比</th>
+<th>数据需求</th>
+<th>执行要求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1m</strong></td>
+<td>极高</td>
+<td>低（噪音多）</td>
+<td>很高（15-30%）</td>
+<td>海量</td>
+<td>毫秒级</td>
+</tr>
+<tr>
+<td><strong>5m</strong></td>
+<td>高</td>
+<td>中低</td>
+<td>高（8-15%）</td>
+<td>大</td>
+<td>秒级</td>
+</tr>
+<tr>
+<td><strong>15m</strong></td>
+<td>中高</td>
+<td>中</td>
+<td>适中（5-10%）</td>
+<td>中</td>
+<td>分钟级</td>
+</tr>
+<tr>
+<td><strong>1h</strong></td>
+<td>中</td>
+<td>中高</td>
+<td>低（2-5%）</td>
+<td>适中</td>
+<td>小时级</td>
+</tr>
+<tr>
+<td><strong>4h</strong></td>
+<td>低</td>
+<td>高</td>
+<td>很低（&lt; 2%）</td>
+<td>小</td>
+<td>小时级</td>
+</tr>
+<tr>
+<td><strong>1d</strong></td>
+<td>很低</td>
+<td>很高</td>
+<td>极低（&lt; 1%）</td>
+<td>很小</td>
+<td>天级</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="72">7.2 不同时间框架的特点<a class="headerlink" href="#72" title="Permanent link">&para;</a></h2>
+<h3 id="1-1m-5m">1. 超短线（1m - 5m）<a class="headerlink" href="#1-1m-5m" title="Permanent link">&para;</a></h3>
+<h4 id="_4">特点详解<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h4>
+<p><strong>优点</strong>：
+- ✅ 交易机会极多（每天几十到上百笔）
+- ✅ 资金周转快，利用率高
+- ✅ 单笔风险小（止损幅度小）
+- ✅ 快速验证策略（几天就能看到效果）</p>
+<p><strong>缺点</strong>：
+- ❌ 噪音信号多，假突破频繁
+- ❌ 手续费成本高（可能吃掉 30-50% 利润）
+- ❌ 对执行速度要求高（延迟 1 秒都可能影响收益）
+- ❌ 数据量大（1 年 1m 数据 &gt; 500MB/交易对）
+- ❌ 回测速度慢
+- ❌ 滑点影响显著</p>
+<h4 id="_5">手续费影响案例<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h4>
+<p><strong>5m 时间框架，30 天回测</strong>：
+<div class="highlight"><pre><span></span><code>交易次数：150 次
+平均每笔收益：+0.6%
+手续费：0.2% × 150 = 30%
+
+毛利润：0.6% × 150 = 90%
+净利润：90% - 30% = 60%
+
+手续费侵蚀：33.3% 的利润！
+</code></pre></div></p>
+<h4 id="_6">适合人群<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h4>
+<ul>
+<li>全职交易员</li>
+<li>有交易所手续费折扣（VIP 用户）</li>
+<li>高频算法交易系统</li>
+<li>对延迟和执行有充分准备</li>
+</ul>
+<h4 id="_7">风险警告<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h4>
+<p>⚠️ 新手不推荐：回测表现好 ≠ 实盘表现好（滑点和延迟会大幅降低收益）</p>
+<hr />
+<h3 id="2-15m-1h">2. 短线（15m - 1h）<a class="headerlink" href="#2-15m-1h" title="Permanent link">&para;</a></h3>
+<h4 id="_8">特点详解<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h4>
+<p><strong>优点</strong>：
+- ✅ 信号质量较好（噪音过滤）
+- ✅ 交易频率适中（每天 5-20 笔）
+- ✅ 手续费影响可控（5-10%）
+- ✅ 数据量适中，回测速度快
+- ✅ 执行要求宽松（几分钟的延迟可接受）
+- ✅ 适合新手练习</p>
+<p><strong>缺点</strong>：
+- ⚠️ 仍需定期监控（不能完全自动化）
+- ⚠️ 日内波动需要承受
+- ⚠️ 隔夜风险（1h 可能跨夜）</p>
+<h4 id="_9">最佳实践<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h4>
+<p><strong>15m 时间框架</strong>：
+- 每根 K 线 15 分钟
+- 每天 96 根 K 线
+- 适合日内交易（早 8:00 - 晚 12:00）
+- 典型持仓时间：1-6 小时</p>
+<p><strong>1h 时间框架</strong>：
+- 每根 K 线 1 小时
+- 每天 24 根 K 线
+- 适合短波段交易
+- 典型持仓时间：4-24 小时</p>
+<h4 id="_10">手续费影响案例<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h4>
+<p><strong>1h 时间框架，30 天回测</strong>：
+<div class="highlight"><pre><span></span><code>交易次数：40 次
+平均每笔收益：+1.5%
+手续费：0.2% × 40 = 8%
+
+毛利润：1.5% × 40 = 60%
+净利润：60% - 8% = 52%
+
+手续费侵蚀：13.3% 的利润（可接受）
+</code></pre></div></p>
+<h4 id="_11">适合人群<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>量化交易新手</strong>（强烈推荐）</li>
+<li>兼职交易者（每天 2-4 小时）</li>
+<li>希望快速看到结果</li>
+<li>平衡收益和风险</li>
+</ul>
+<hr />
+<h3 id="3-4h-1d">3. 中长线（4h - 1d）<a class="headerlink" href="#3-4h-1d" title="Permanent link">&para;</a></h3>
+<h4 id="_12">特点详解<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h4>
+<p><strong>优点</strong>：
+- ✅ 信号质量高（大趋势明确）
+- ✅ 手续费占比极低（&lt; 2%）
+- ✅ 单笔收益高（平均 3-10%）
+- ✅ 无需频繁监控
+- ✅ 滑点影响小
+- ✅ 心理压力小（不用盯盘）</p>
+<p><strong>缺点</strong>：
+- ❌ 交易机会少（每周几笔）
+- ❌ 资金利用率低（长时间占用）
+- ❌ 单笔波动大（需要较大止损空间）
+- ❌ 隔夜风险（周末、节假日风险）
+- ❌ 验证周期长（需要几个月数据）</p>
+<h4 id="_13">隔夜风险分析<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h4>
+<p><strong>风险来源</strong>：
+1. <strong>美股闭市影响</strong>：美股大跌 → 加密货币跟跌
+2. <strong>亚洲开盘波动</strong>：中国市场开盘时间波动大
+3. <strong>突发新闻</strong>：监管政策、黑客攻击、交易所暂停
+4. <strong>周末缺口</strong>：周五收盘到周一开盘的价格跳空</p>
+<p><strong>应对策略</strong>：
+<div class="highlight"><pre><span></span><code><span class="c1"># 周末前强制平仓（高级用法）</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">custom_exit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pair</span><span class="p">,</span> <span class="n">trade</span><span class="p">,</span> <span class="n">current_time</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="c1"># 如果是周五晚上 22:00 后，强制平仓</span>
+    <span class="k">if</span> <span class="n">current_time</span><span class="o">.</span><span class="n">weekday</span><span class="p">()</span> <span class="o">==</span> <span class="mi">4</span> <span class="ow">and</span> <span class="n">current_time</span><span class="o">.</span><span class="n">hour</span> <span class="o">&gt;=</span> <span class="mi">22</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">'weekend_exit'</span>
+</code></pre></div></p>
+<h4 id="_14">适合人群<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h4>
+<ul>
+<li>兼职交易者（每天 &lt; 1 小时）</li>
+<li>不喜欢频繁操作</li>
+<li>资金量较大（单笔波动承受力强）</li>
+<li>长期投资心态</li>
+</ul>
+<hr />
+<h2 id="73">7.3 时间框架与交易风格匹配<a class="headerlink" href="#73" title="Permanent link">&para;</a></h2>
+<h3 id="_15">交易风格分类<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h3>
+<h4 id="1-day-trader">1. 日内交易者（Day Trader）<a class="headerlink" href="#1-day-trader" title="Permanent link">&para;</a></h4>
+<p><strong>特征</strong>：
+- 当天开仓，当天平仓
+- 不持仓过夜
+- 每天 5-20 笔交易</p>
+<p><strong>推荐时间框架</strong>：5m - 15m
+<strong>推荐策略</strong>：均值回归、突破策略
+<strong>关键设置</strong>：
+<div class="highlight"><pre><span></span><code><span class="c1"># 确保不过夜（在策略中设置）</span>
+<span class="n">minimal_roi</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"0"</span><span class="p">:</span> <span class="mf">0.02</span><span class="p">,</span>   <span class="c1"># 2% 立即止盈</span>
+    <span class="s2">"60"</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>  <span class="c1"># 1 小时后 1% 止盈</span>
+    <span class="s2">"300"</span><span class="p">:</span> <span class="mi">0</span>     <span class="c1"># 5 小时后平仓</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h4 id="2-swing-trader">2. 波段交易者（Swing Trader）<a class="headerlink" href="#2-swing-trader" title="Permanent link">&para;</a></h4>
+<p><strong>特征</strong>：
+- 持仓几天到几周
+- 捕捉中期趋势
+- 每周 2-10 笔交易</p>
+<p><strong>推荐时间框架</strong>：1h - 4h
+<strong>推荐策略</strong>：趋势跟踪、动量策略
+<strong>关键设置</strong>：
+<div class="highlight"><pre><span></span><code><span class="n">minimal_roi</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"0"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">,</span>      <span class="c1"># 10% 立即止盈</span>
+    <span class="s2">"1440"</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>   <span class="c1"># 1 天后 5% 止盈</span>
+    <span class="s2">"4320"</span><span class="p">:</span> <span class="mf">0.02</span>    <span class="c1"># 3 天后 2% 止盈</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h4 id="3-trend-trader">3. 趋势交易者（Trend Trader）<a class="headerlink" href="#3-trend-trader" title="Permanent link">&para;</a></h4>
+<p><strong>特征</strong>：
+- 持仓几周到几个月
+- 捕捉大级别趋势
+- 每月 1-5 笔交易</p>
+<p><strong>推荐时间框架</strong>：1d
+<strong>推荐策略</strong>：趋势跟踪、突破策略
+<strong>关键设置</strong>：
+<div class="highlight"><pre><span></span><code><span class="n">minimal_roi</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"0"</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span>      <span class="c1"># 30% 立即止盈</span>
+    <span class="s2">"10080"</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span>  <span class="c1"># 1 周后 15% 止盈</span>
+    <span class="s2">"43200"</span><span class="p">:</span> <span class="mf">0.08</span>   <span class="c1"># 1 月后 8% 止盈</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h3 id="_16">匹配测试表<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>你的情况</th>
+<th>推荐时间框架</th>
+<th>预期交易频率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>每天能盯盘 6h+</td>
+<td>5m - 15m</td>
+<td>10-50 次/天</td>
+</tr>
+<tr>
+<td>每天能看盘 2-4h</td>
+<td>15m - 1h</td>
+<td>5-20 次/天</td>
+</tr>
+<tr>
+<td>每天只能看 1h</td>
+<td>1h - 4h</td>
+<td>2-10 次/天</td>
+</tr>
+<tr>
+<td>每周只看几次</td>
+<td>4h - 1d</td>
+<td>5-20 次/月</td>
+</tr>
+<tr>
+<td>完全自动化</td>
+<td>根据策略类型</td>
+<td>任意</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="74">7.4 多时间框架对比分析<a class="headerlink" href="#74" title="Permanent link">&para;</a></h2>
+<h3 id="_17">实战测试流程<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h3>
+<h4 id="1_1">步骤 1：准备数据<a class="headerlink" href="#1_1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 下载多个时间框架的数据</span>
+freqtrade<span class="w"> </span>download-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--pairs<span class="w"> </span>BTC/USDT<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--days<span class="w"> </span><span class="m">90</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timeframes<span class="w"> </span>5m<span class="w"> </span>15m<span class="w"> </span>1h<span class="w"> </span>4h<span class="w"> </span>1d
+</code></pre></div>
+<h4 id="2_1">步骤 2：批量回测<a class="headerlink" href="#2_1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 测试 5m</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--timeframe<span class="w"> </span>5m<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+
+<span class="c1"># 测试 15m</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--timeframe<span class="w"> </span>15m<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+
+<span class="c1"># 测试 1h</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--timeframe<span class="w"> </span>1h<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+
+<span class="c1"># 测试 1d</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--timeframe<span class="w"> </span>1d<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+</code></pre></div>
+<h4 id="3-shell">步骤 3：使用 Shell 脚本批量测试<a class="headerlink" href="#3-shell" title="Permanent link">&para;</a></h4>
+<p>创建 <code>test_timeframes.sh</code>：
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+
+<span class="nv">STRATEGY</span><span class="o">=</span><span class="s2">"Strategy001"</span>
+<span class="nv">CONFIG</span><span class="o">=</span><span class="s2">"config.json"</span>
+<span class="nv">TIMERANGE</span><span class="o">=</span><span class="s2">"20250701-20250930"</span>
+
+<span class="k">for</span><span class="w"> </span>TIMEFRAME<span class="w"> </span><span class="k">in</span><span class="w"> </span>5m<span class="w"> </span>15m<span class="w"> </span>1h<span class="w"> </span>4h<span class="w"> </span>1d
+<span class="k">do</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"========================================"</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Testing </span><span class="nv">$STRATEGY</span><span class="s2"> on </span><span class="nv">$TIMEFRAME</span><span class="s2">"</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"========================================"</span>
+
+<span class="w">  </span>freqtrade<span class="w"> </span>backtesting<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-c<span class="w"> </span><span class="nv">$CONFIG</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--strategy<span class="w"> </span><span class="nv">$STRATEGY</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--timeframe<span class="w"> </span><span class="nv">$TIMEFRAME</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--timerange<span class="w"> </span><span class="nv">$TIMERANGE</span>
+
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">""</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Finished </span><span class="nv">$TIMEFRAME</span><span class="s2">, press Enter to continue..."</span>
+<span class="w">  </span><span class="nb">read</span>
+<span class="k">done</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"All tests completed!"</span>
+</code></pre></div></p>
+<p>运行脚本：
+<div class="highlight"><pre><span></span><code>chmod<span class="w"> </span>+x<span class="w"> </span>test_timeframes.sh
+./test_timeframes.sh
+</code></pre></div></p>
+<h3 id="_18">对比分析模板<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h3>
+<p>创建对比表格记录结果：</p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>5m</th>
+<th>15m</th>
+<th>1h</th>
+<th>4h</th>
+<th>1d</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>交易次数</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>胜率 %</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>总收益 %</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>平均收益 %</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>最大回撤 %</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Sharpe Ratio</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>ROI 退出占比</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>止损退出占比</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>平均持仓时间</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>手续费占比</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="_19">真实案例分析<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h3>
+<p><strong>假设 Strategy001 在不同时间框架的表现</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>时间框架</th>
+<th>交易次数</th>
+<th>胜率</th>
+<th>总收益</th>
+<th>平均收益</th>
+<th>最大回撤</th>
+<th>Sharpe</th>
+<th>手续费占比</th>
+<th>评分</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>5m</strong></td>
+<td>247</td>
+<td>68%</td>
+<td>+12.5%</td>
+<td>+0.05%</td>
+<td>-8.2%</td>
+<td>1.85</td>
+<td>19.8%</td>
+<td>⭐⭐</td>
+</tr>
+<tr>
+<td><strong>15m</strong></td>
+<td>89</td>
+<td>75%</td>
+<td>+18.3%</td>
+<td>+0.21%</td>
+<td>-6.5%</td>
+<td>2.65</td>
+<td>9.7%</td>
+<td>⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td><strong>1h</strong></td>
+<td>31</td>
+<td>81%</td>
+<td>+15.7%</td>
+<td>+0.51%</td>
+<td>-4.8%</td>
+<td>3.12</td>
+<td>3.9%</td>
+<td>⭐⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td><strong>4h</strong></td>
+<td>12</td>
+<td>83%</td>
+<td>+9.2%</td>
+<td>+0.77%</td>
+<td>-3.2%</td>
+<td>2.88</td>
+<td>2.6%</td>
+<td>⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td><strong>1d</strong></td>
+<td>4</td>
+<td>100%</td>
+<td>+6.8%</td>
+<td>+1.70%</td>
+<td>-2.1%</td>
+<td>3.45</td>
+<td>1.2%</td>
+<td>⭐⭐⭐</td>
+</tr>
+</tbody>
+</table>
+<h4 id="_20">分析结论<a class="headerlink" href="#_20" title="Permanent link">&para;</a></h4>
+<p><strong>5m 时间框架</strong>：
+- ❌ 交易过于频繁（247 次）
+- ❌ 手续费侵蚀严重（19.8%）
+- ❌ 平均收益极低（0.05%）
+- ❌ Sharpe Ratio 偏低（1.85）
+- 结论：<strong>不适合</strong>此策略</p>
+<p><strong>15m 时间框架</strong>：
+- ✅ 交易次数适中（89 次）
+- ✅ 胜率良好（75%）
+- ✅ 总收益高（18.3%）
+- ✅ 手续费可控（9.7%）
+- ✅ Sharpe Ratio 优秀（2.65）
+- 结论：<strong>非常适合</strong>，平衡了收益和频率</p>
+<p><strong>1h 时间框架</strong>：
+- ✅ 胜率最高（81%）
+- ✅ Sharpe Ratio 最高（3.12）
+- ✅ 回撤最小（4.8%）
+- ✅ 手续费极低（3.9%）
+- ⚠️ 总收益略低于 15m
+- 结论：<strong>最佳选择</strong>，风险收益比最优</p>
+<p><strong>4h 时间框架</strong>：
+- ✅ 胜率高（83%）
+- ✅ 平均收益高（0.77%）
+- ⚠️ 交易次数少（12 次，样本小）
+- ⚠️ 总收益较低（9.2%）
+- 结论：<strong>可选</strong>，但需要更长时间验证</p>
+<p><strong>1d 时间框架</strong>：
+- ✅ 胜率 100%（4 次全胜）
+- ✅ 平均收益最高（1.70%）
+- ❌ 交易次数过少（仅 4 次）
+- ❌ 样本不足，不具代表性
+- 结论：<strong>需要更长时间验证</strong>（至少 1 年数据）</p>
+<h3 id="_21">最优时间框架判断标准<a class="headerlink" href="#_21" title="Permanent link">&para;</a></h3>
+<p><strong>综合评分公式</strong>：
+<div class="highlight"><pre><span></span><code>总分 = 总收益(30%) + Sharpe(25%) + 胜率(20%) + 交易次数合理性(15%) + 手续费占比(10%)
+</code></pre></div></p>
+<p><strong>应用到案例</strong>：
+<div class="highlight"><pre><span></span><code>15m: (18.3×0.3) + (2.65×10×0.25) + (75×0.2) + (100×0.15) + ((100-9.7)×0.1) = 5.49 + 6.63 + 15 + 15 + 9.03 = 51.15
+1h:  (15.7×0.3) + (3.12×10×0.25) + (81×0.2) + (90×0.15) + ((100-3.9)×0.1) = 4.71 + 7.80 + 16.2 + 13.5 + 9.61 = 51.82 ⭐
+
+结论：1h 略胜一筹
+</code></pre></div></p>
+<hr />
+<h2 id="_22">💡 实践任务<a class="headerlink" href="#_22" title="Permanent link">&para;</a></h2>
+<h3 id="1_2">任务 1：数据准备<a class="headerlink" href="#1_2" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 下载 BTC/USDT 多时间框架数据</span>
+conda<span class="w"> </span>activate<span class="w"> </span>freqtrade
+freqtrade<span class="w"> </span>download-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--pairs<span class="w"> </span>BTC/USDT<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--days<span class="w"> </span><span class="m">90</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timeframes<span class="w"> </span>5m<span class="w"> </span>15m<span class="w"> </span>1h<span class="w"> </span>1d
+</code></pre></div>
+<h3 id="2_2">任务 2：批量回测<a class="headerlink" href="#2_2" title="Permanent link">&para;</a></h3>
+<p>选择一个策略（推荐 Strategy001），测试 4 个时间框架：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 5m</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--timeframe<span class="w"> </span>5m<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+
+<span class="c1"># 15m</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--timeframe<span class="w"> </span>15m<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+
+<span class="c1"># 1h</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--timeframe<span class="w"> </span>1h<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+
+<span class="c1"># 1d</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--timeframe<span class="w"> </span>1d<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+</code></pre></div>
+<h3 id="3_1">任务 3：制作对比表格<a class="headerlink" href="#3_1" title="Permanent link">&para;</a></h3>
+<p>创建 Excel 表格，记录以下信息：</p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>5m</th>
+<th>15m</th>
+<th>1h</th>
+<th>1d</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>交易次数</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>胜率</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>总收益 %</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>平均收益 %</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>最大回撤 %</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>Sharpe Ratio</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>平均持仓时间</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>手续费占比 %</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4">任务 4：找出最优时间框架<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
+<p>根据你的对比表格，回答以下问题：</p>
+<ol>
+<li><strong>哪个时间框架总收益最高？</strong></li>
+<li><strong>哪个时间框架 Sharpe Ratio 最高？</strong></li>
+<li><strong>哪个时间框架回撤最小？</strong></li>
+<li><strong>哪个时间框架手续费占比最低？</strong></li>
+<li><strong>综合考虑，你认为哪个时间框架最适合这个策略？</strong></li>
+</ol>
+<h3 id="5">任务 5：撰写分析报告<a class="headerlink" href="#5" title="Permanent link">&para;</a></h3>
+<p>写一份 200-300 字的分析报告：</p>
+<p><strong>报告模板</strong>：
+<div class="highlight"><pre><span></span><code>策略名称：___________
+测试时间范围：___________
+测试交易对：___________
+
+时间框架对比分析：
+- 5m 表现：___________ (优点/缺点)
+- 15m 表现：___________ (优点/缺点)
+- 1h 表现：___________ (优点/缺点)
+- 1d 表现：___________ (优点/缺点)
+
+最优选择：___________
+选择理由：___________
+
+风险提示：___________
+</code></pre></div></p>
+<hr />
+<h2 id="_23">📚 知识检查<a class="headerlink" href="#_23" title="Permanent link">&para;</a></h2>
+<h3 id="_24">基础问题<a class="headerlink" href="#_24" title="Permanent link">&para;</a></h3>
+<ol>
+<li>为什么 5m 时间框架手续费占比高？</li>
+<li>1d 时间框架的主要风险是什么？</li>
+<li>如果你每天只能看盘 1 小时，应该选择什么时间框架?</li>
+</ol>
+<h3 id="_25">答案<a class="headerlink" href="#_25" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>交易次数多</strong>，每次交易都要支付手续费，累计占比就高</li>
+<li><strong>隔夜风险</strong>（周末缺口、突发新闻）和<strong>样本少</strong>（验证周期长）</li>
+<li><strong>1h 或 4h</strong>，这样不需要频繁盯盘，也能捕捉到好的交易机会</li>
+</ol>
+<h3 id="_26">进阶问题<a class="headerlink" href="#_26" title="Permanent link">&para;</a></h3>
+<ol>
+<li>为什么同一个策略在不同时间框架表现差异大？</li>
+<li>如何判断时间框架测试的样本量是否足够？</li>
+<li>短周期回测效果好，是否意味着实盘也会好？</li>
+</ol>
+<h3 id="_27">思考题<a class="headerlink" href="#_27" title="Permanent link">&para;</a></h3>
+<ol>
+<li>如果一个策略在所有时间框架表现都差，说明什么？</li>
+<li>是否可以同时在多个时间框架运行同一个策略？</li>
+<li>多时间框架组合策略（如用 1h 确认趋势，5m 入场）有什么优势？</li>
+</ol>
+<hr />
+<h2 id="_28">🔧 常见问题与解决<a class="headerlink" href="#_28" title="Permanent link">&para;</a></h2>
+<h3 id="1_3">问题 1：回测时提示数据不足<a class="headerlink" href="#1_3" title="Permanent link">&para;</a></h3>
+<p><strong>错误信息</strong>：
+<div class="highlight"><pre><span></span><code>No data found for timeframe 1d in the specified timerange
+</code></pre></div></p>
+<p><strong>解决方案</strong>：
+<div class="highlight"><pre><span></span><code><span class="c1"># 确认已下载该时间框架数据</span>
+freqtrade<span class="w"> </span>list-data<span class="w"> </span>-c<span class="w"> </span>config.json
+
+<span class="c1"># 重新下载</span>
+freqtrade<span class="w"> </span>download-data<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--timeframes<span class="w"> </span>1d<span class="w"> </span>--days<span class="w"> </span><span class="m">90</span>
+</code></pre></div></p>
+<h3 id="21d">问题 2：1d 时间框架只有几笔交易<a class="headerlink" href="#21d" title="Permanent link">&para;</a></h3>
+<p><strong>原因</strong>：
+- 样本期太短（90 天 = 90 根 1d K 线）
+- 策略本身交易频率低</p>
+<p><strong>解决方案</strong>：
+<div class="highlight"><pre><span></span><code><span class="c1"># 下载更长时间的数据（1-2 年）</span>
+freqtrade<span class="w"> </span>download-data<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--timeframes<span class="w"> </span>1d<span class="w"> </span>--days<span class="w"> </span><span class="m">730</span>
+</code></pre></div></p>
+<h3 id="3_2">问题 3：不同时间框架结果波动大<a class="headerlink" href="#3_2" title="Permanent link">&para;</a></h3>
+<p><strong>原因</strong>：
+- 市场环境变化
+- 策略过拟合
+- 样本量不足</p>
+<p><strong>解决方案</strong>：
+- 测试更长的时间范围
+- 测试不同的市场环境（牛市、熊市、震荡）
+- 进行样本外测试</p>
+<hr />
+<h2 id="_29">📊 时间框架选择决策树<a class="headerlink" href="#_29" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>开始
+  │
+  ├─ 你能全职盯盘吗？
+  │   ├─ 是 → 有手续费折扣吗？
+  │   │        ├─ 是 → 5m（高频交易）
+  │   │        └─ 否 → 15m（日内交易）
+  │   │
+  │   └─ 否 → 每天能看几次？
+  │            ├─ 2-4 次 → 1h（短波段）
+  │            ├─ 1-2 次 → 4h（中波段）
+  │            └─ &lt; 1 次 → 1d（长波段）
+  │
+  └─ 你的风险承受能力？
+      ├─ 低 → 选择长周期（1h-1d）
+      ├─ 中 → 选择中周期（15m-1h）
+      └─ 高 → 选择短周期（5m-15m）
+</code></pre></div>
+<hr />
+<h2 id="_30">🔗 参考资料<a class="headerlink" href="#_30" title="Permanent link">&para;</a></h2>
+<h3 id="_31">配套文档<a class="headerlink" href="#_31" title="Permanent link">&para;</a></h3>
+<ul>
+<li>📄 <a href="../TESTING_GUIDE.md">TESTING_GUIDE.md</a> - 不同时间框架回测</li>
+<li>📄 <a href="../STRATEGY_SELECTION_GUIDE.md">STRATEGY_SELECTION_GUIDE.md</a> - 策略选择指南</li>
+</ul>
+<h3 id="_32">推荐阅读<a class="headerlink" href="#_32" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://www.investopedia.com/articles/trading/05/timeframes.asp">时间框架与交易风格</a></li>
+<li><a href="https://www.babypips.com/learn/forex/multiple-time-frame-analysis">多时间框架分析</a></li>
+</ul>
+<hr />
+<h2 id="_33">📌 核心要点总结<a class="headerlink" href="#_33" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>没有最好的时间框架，只有最合适的</strong></li>
+<li><strong>短周期 = 高频率 + 高手续费 + 高噪音</strong></li>
+<li><strong>长周期 = 低频率 + 低手续费 + 高质量</strong></li>
+<li><strong>新手推荐 15m-1h</strong>：平衡收益、风险和操作频率</li>
+<li><strong>样本量很重要</strong>：1d 至少需要 1 年数据</li>
+<li><strong>回测好 ≠ 实盘好</strong>：短周期策略受滑点影响大</li>
+</ol>
+<hr />
+<h2 id="_34">➡️ 下一课预告<a class="headerlink" href="#_34" title="Permanent link">&para;</a></h2>
+<p><strong>第 8 课：策略批量对比</strong></p>
+<p>在下一课中，我们将：
+- 学习批量回测多个策略的方法
+- 快速对比策略性能
+- 掌握策略选择决策树
+- 制作策略推荐清单</p>
+<p><strong>准备工作</strong>：
+- ✅ 确保有 5 个以上策略可用
+- ✅ 选定测试的时间框架（推荐 15m 或 1h）
+- ✅ 准备 90 天以上的数据</p>
+<hr />
+<p><strong>🎯 学习检验标准</strong>：
+- ✅ 能独立测试策略在多个时间框架的表现
+- ✅ 理解不同时间框架的优缺点
+- ✅ 能根据自己的情况选择合适的时间框架
+- ✅ 会制作时间框架对比分析表</p>
+<p>完成这些任务后，你已经掌握了时间框架选择的核心技能！准备进入策略对比的学习吧！🚀</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

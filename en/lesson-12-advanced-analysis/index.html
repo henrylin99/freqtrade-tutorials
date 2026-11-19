@@ -1,0 +1,3520 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径">
+      
+      
+      
+        <link rel="canonical" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-12-advanced-analysis/">
+      
+      
+        <link rel="prev" href="../lesson-11-hyperopt-basics/">
+      
+      
+        <link rel="next" href="../lesson-13-scoring-system/">
+      
+      
+        
+          <link rel="alternate" href="../../lesson-12-advanced-analysis/" hreflang="zh">
+        
+          <link rel="alternate" href="./" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>Lesson 12: Advanced Strategy Analysis - Freqtrade 实战教程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9784658154228475"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VGHZY4EELE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VGHZY4EELE");
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lesson-12-advanced-strategy-analysis" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Freqtrade 实战教程" class="md-header__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Freqtrade 实战教程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lesson 12: Advanced Strategy Analysis
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../lesson-12-advanced-analysis/" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../strategies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  English Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Freqtrade 实战教程" class="md-nav__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Freqtrade 实战教程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../strategies/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    English Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    English Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 1: Introduction to Quantitative Trading and Freqtrade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-02-environment-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 2: Freqtrade Environment Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-03-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 3: Understanding Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-04-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 4: Data Download and Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-05-first-backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 5: First Strategy Backtest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-06-strategy-performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 6: Strategy Performance Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-07-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 7: Multi-Timeframe Backtesting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-08-strategy-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 8: Strategy Batch Comparison
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-09-timerange-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 9: Time Range Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-10-pair-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 10: Trading Pair Selection and Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-11-hyperopt-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 11: Hyperopt Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 12: Advanced Strategy Analysis
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 12: Advanced Strategy Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#course-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 Course Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#121-strategy-type-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.1 Strategy Type Comparison
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12.1 Strategy Type Comparison">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mainstream-strategy-categories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mainstream Strategy Categories
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mainstream Strategy Categories">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-trend-following-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Trend Following Strategies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-mean-reversion-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Mean Reversion Strategies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-momentum-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Momentum Strategies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-breakout-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Breakout Strategies
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strategy-type-comparison-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strategy Type Comparison Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#122-indicator-combination-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.2 Indicator Combination Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12.2 Indicator Combination Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#effective-indicator-combination-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Effective Indicator Combination Principles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Effective Indicator Combination Principles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#principle-1-trend-momentum-confirmation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Principle 1: Trend + Momentum + Confirmation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#principle-2-avoid-redundant-indicators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Principle 2: Avoid Redundant Indicators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#principle-3-combine-fast-and-slow-indicators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Principle 3: Combine Fast and Slow Indicators
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-indicator-combination-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Indicator Combination Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Indicator Combination Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#combination-1-ema-rsi-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Combination 1: EMA + RSI (Recommended ⭐⭐⭐⭐⭐)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#combination-2-macd-bollinger-bands-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Combination 2: MACD + Bollinger Bands (Recommended ⭐⭐⭐⭐)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#combination-3-adx-ema-rsi-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Combination 3: ADX + EMA + RSI (Recommended ⭐⭐⭐⭐⭐)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#combination-4-price-volume-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Combination 4: Price + Volume (Recommended ⭐⭐⭐)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#indicator-combination-testing-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Indicator Combination Testing Methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#123-entryexit-logic-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.3 Entry/Exit Logic Optimization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12.3 Entry/Exit Logic Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#entry-logic-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Entry Logic Optimization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Entry Logic Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problem-1-too-frequent-entries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 1: Too Frequent Entries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-2-too-conservative-entries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 2: Too Conservative Entries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-3-lagging-entry-timing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 3: Lagging Entry Timing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exit-logic-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exit Logic Optimization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exit Logic Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problem-1-early-profit-taking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 1: Early Profit Taking
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-2-stop-loss-too-tight" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 2: Stop Loss Too Tight
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-3-missing-clear-exit-signals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 3: Missing Clear Exit Signals
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#124-risk-management-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.4 Risk Management Strategies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12.4 Risk Management Strategies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#position-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Position Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Position Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixed-position-recommended-for-beginners" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed Position (Recommended for Beginners)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#percentage-position" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Percentage Position
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kelly-formula-position-advanced" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kelly Formula Position (Advanced)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#protection-mechanisms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Protection Mechanisms
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Protection Mechanisms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cooldown-period" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cooldown Period
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#maximum-position-limit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Maximum Position Limit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#daily-loss-limit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Daily Loss Limit
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Practical Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 Practical Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-compare-two-strategy-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Compare Two Strategy Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-test-indicator-combinations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Test Indicator Combinations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-optimize-entry-logic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: Optimize Entry Logic
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-4-add-exit-signals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 4: Add Exit Signals
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#knowledge-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Knowledge Check
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Knowledge Check">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Answers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advanced-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-points-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Key Points Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-lesson-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ➡️ Next Lesson Preview
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-13-scoring-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 13: Strategy Scoring System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-14-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 14: Risk and Money Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-15-portfolio-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 15: Strategy Portfolio and Diversification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-16-realtime-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 16: Real-time Signal Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-17-telegram-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 17: Telegram Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-18-webui-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 18: Web UI and API Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 19: Visualization Analysis Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-20-dry-run-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 20: Simulated Trading Validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-21-exchange-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 21: Exchange API Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-22-pre-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 22: Pre-Live Trading Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-23-small-capital-live/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 23: Small Capital Live Trading
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-1-order-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.1: Live Trading Order Placement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-2-stop-loss-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.2: Live Trading Stop Loss Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-3-futures-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.3: Binance Futures Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-4-leverage-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.4: Leverage Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-trading-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24: Trading Monitoring and Adjustment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-25-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 25: Risk Control and Psychology Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-26-custom-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 26: Custom Strategy Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-27-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 27: Multi-Timeframe Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-28-grid-hft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 28: HFT and Grid Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-1-freqai-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.1: FreqAI Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-2-advanced-ml-strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.2: Advanced ML Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning-enhanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: ML Basics and Strategy Optimization (Enhanced)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: Machine Learning and Strategy Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-30-conclusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 30: Conclusion and Continuous Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#course-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 Course Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#121-strategy-type-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.1 Strategy Type Comparison
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12.1 Strategy Type Comparison">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mainstream-strategy-categories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mainstream Strategy Categories
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mainstream Strategy Categories">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-trend-following-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Trend Following Strategies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-mean-reversion-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Mean Reversion Strategies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-momentum-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Momentum Strategies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-breakout-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Breakout Strategies
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strategy-type-comparison-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strategy Type Comparison Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#122-indicator-combination-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.2 Indicator Combination Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12.2 Indicator Combination Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#effective-indicator-combination-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Effective Indicator Combination Principles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Effective Indicator Combination Principles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#principle-1-trend-momentum-confirmation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Principle 1: Trend + Momentum + Confirmation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#principle-2-avoid-redundant-indicators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Principle 2: Avoid Redundant Indicators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#principle-3-combine-fast-and-slow-indicators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Principle 3: Combine Fast and Slow Indicators
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-indicator-combination-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Indicator Combination Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Indicator Combination Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#combination-1-ema-rsi-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Combination 1: EMA + RSI (Recommended ⭐⭐⭐⭐⭐)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#combination-2-macd-bollinger-bands-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Combination 2: MACD + Bollinger Bands (Recommended ⭐⭐⭐⭐)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#combination-3-adx-ema-rsi-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Combination 3: ADX + EMA + RSI (Recommended ⭐⭐⭐⭐⭐)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#combination-4-price-volume-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Combination 4: Price + Volume (Recommended ⭐⭐⭐)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#indicator-combination-testing-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Indicator Combination Testing Methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#123-entryexit-logic-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.3 Entry/Exit Logic Optimization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12.3 Entry/Exit Logic Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#entry-logic-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Entry Logic Optimization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Entry Logic Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problem-1-too-frequent-entries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 1: Too Frequent Entries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-2-too-conservative-entries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 2: Too Conservative Entries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-3-lagging-entry-timing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 3: Lagging Entry Timing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exit-logic-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exit Logic Optimization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exit Logic Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problem-1-early-profit-taking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 1: Early Profit Taking
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-2-stop-loss-too-tight" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 2: Stop Loss Too Tight
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-3-missing-clear-exit-signals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem 3: Missing Clear Exit Signals
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#124-risk-management-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.4 Risk Management Strategies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12.4 Risk Management Strategies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#position-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Position Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Position Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixed-position-recommended-for-beginners" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed Position (Recommended for Beginners)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#percentage-position" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Percentage Position
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kelly-formula-position-advanced" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kelly Formula Position (Advanced)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#protection-mechanisms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Protection Mechanisms
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Protection Mechanisms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cooldown-period" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cooldown Period
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#maximum-position-limit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Maximum Position Limit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#daily-loss-limit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Daily Loss Limit
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Practical Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 Practical Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-compare-two-strategy-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Compare Two Strategy Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-test-indicator-combinations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Test Indicator Combinations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-optimize-entry-logic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: Optimize Entry Logic
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-4-add-exit-signals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 4: Add Exit Signals
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#knowledge-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Knowledge Check
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Knowledge Check">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Answers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advanced-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-points-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Key Points Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-lesson-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ➡️ Next Lesson Preview
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="lesson-12-advanced-strategy-analysis">Lesson 12: Advanced Strategy Analysis<a class="headerlink" href="#lesson-12-advanced-strategy-analysis" title="Permanent link">&para;</a></h1>
+<p><strong>⏱ Duration</strong>: 2 hours
+<strong>🎯 Learning Objectives</strong>: Deep understanding of strategy logic
+<strong>📚 Difficulty</strong>: ⭐⭐⭐ Strategy Optimization</p>
+<hr />
+<h2 id="course-overview">📖 Course Overview<a class="headerlink" href="#course-overview" title="Permanent link">&para;</a></h2>
+<p>Through previous learning, you already know how to run and compare strategies. This lesson will take you deep into analyzing the internal logic of strategies, understanding the essential differences between different strategy types, and learning how to optimize entry and exit rules.</p>
+<hr />
+<h2 id="121-strategy-type-comparison">12.1 Strategy Type Comparison<a class="headerlink" href="#121-strategy-type-comparison" title="Permanent link">&para;</a></h2>
+<h3 id="mainstream-strategy-categories">Mainstream Strategy Categories<a class="headerlink" href="#mainstream-strategy-categories" title="Permanent link">&para;</a></h3>
+<h4 id="1-trend-following-strategies">1. Trend Following Strategies<a class="headerlink" href="#1-trend-following-strategies" title="Permanent link">&para;</a></h4>
+<p><strong>Core Idea</strong>: Follow the trend, the trend is your friend.</p>
+<p><strong>Representative Strategies</strong>:
+- MovingAverageCrossStrategy (Moving Average Crossover)
+- ADXTrendStrategy (ADX Trend Strength)
+- BreakoutTrendStrategy (Breakout Strategy)</p>
+<p><strong>Entry Logic</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Typical trend following entry</span>
+<span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="p">(</span>
+        <span class="c1"># Short-term MA crosses above long-term MA (Golden Cross)</span>
+        <span class="n">qtpylib</span><span class="o">.</span><span class="n">crossed_above</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema20'</span><span class="p">],</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema50'</span><span class="p">])</span> <span class="o">&amp;</span>
+        <span class="c1"># Price is above MA (trend confirmation)</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema20'</span><span class="p">])</span> <span class="o">&amp;</span>
+        <span class="c1"># ADX &gt; 25 (sufficient trend strength)</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'adx'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">25</span><span class="p">)</span> <span class="o">&amp;</span>
+        <span class="c1"># Volume expansion</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+    <span class="p">),</span>
+    <span class="s1">'enter_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div></p>
+<p><strong>Advantages</strong>:
+- ✅ Can capture major trends
+- ✅ High risk-reward ratio (average profit &gt; average loss)
+- ✅ Simple and clear logic
+- ✅ Suitable for one-sided markets</p>
+<p><strong>Disadvantages</strong>:
+- ❌ Poor performance in ranging markets
+- ❌ Relatively low win rate (40-60%)
+- ❌ Requires larger stop-loss space
+- ❌ Entry may lag</p>
+<p><strong>Suitable Market Conditions</strong>:
+- 🟢 Bull Market: ⭐⭐⭐⭐⭐
+- 🔴 Bear Market: ⭐⭐⭐⭐
+- 🟡 Ranging Market: ⭐⭐</p>
+<p><strong>Key Parameters</strong>:
+- EMA periods (10, 20, 50, 200)
+- ADX threshold (20-30)
+- Stop-loss range (-5% ~ -10%)</p>
+<hr />
+<h4 id="2-mean-reversion-strategies">2. Mean Reversion Strategies<a class="headerlink" href="#2-mean-reversion-strategies" title="Permanent link">&para;</a></h4>
+<p><strong>Core Idea</strong>: Prices return to the mean after deviation, buy low, sell high.</p>
+<p><strong>Representative Strategies</strong>:
+- MeanReversionStrategy (Mean Reversion)
+- RSI Overbought/Oversold Strategy
+- Bollinger Bands Reversal Strategy</p>
+<p><strong>Entry Logic</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Typical mean reversion entry</span>
+<span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="p">(</span>
+        <span class="c1"># RSI oversold (&lt; 30)</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">30</span><span class="p">)</span> <span class="o">&amp;</span>
+        <span class="c1"># Price touches Bollinger Bands lower band</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'bb_lowerband'</span><span class="p">])</span> <span class="o">&amp;</span>
+        <span class="c1"># Reversal signal appears (candle body points up)</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'open'</span><span class="p">])</span> <span class="o">&amp;</span>
+        <span class="c1"># Normal volume</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">),</span>
+    <span class="s1">'enter_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div></p>
+<p><strong>Advantages</strong>:
+- ✅ Good performance in ranging markets
+- ✅ High win rate (70-85%)
+- ✅ Moderate trading frequency
+- ✅ Small stop-loss space</p>
+<p><strong>Disadvantages</strong>:
+- ❌ Easily trapped in trending markets
+- ❌ Low risk-reward ratio
+- ❌ Requires precise exit timing
+- ❌ Pressure from consecutive losses</p>
+<p><strong>Suitable Market Conditions</strong>:
+- 🟢 Bull Market: ⭐⭐
+- 🔴 Bear Market: ⭐⭐
+- 🟡 Ranging Market: ⭐⭐⭐⭐⭐</p>
+<p><strong>Key Parameters</strong>:
+- RSI thresholds (25-35 oversold, 65-75 overbought)
+- Bollinger Bands period (20) and standard deviation (2)
+- Stop-loss range (-3% ~ -5%)</p>
+<hr />
+<h4 id="3-momentum-strategies">3. Momentum Strategies<a class="headerlink" href="#3-momentum-strategies" title="Permanent link">&para;</a></h4>
+<p><strong>Core Idea</strong>: The strong get stronger, chase the rise.</p>
+<p><strong>Representative Strategies</strong>:
+- MomentumTrendStrategy (Momentum Trend)
+- MACD Fast Strategy</p>
+<p><strong>Entry Logic</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Typical momentum strategy entry</span>
+<span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="p">(</span>
+        <span class="c1"># RSI enters strong zone (&gt; 60)</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">60</span><span class="p">)</span> <span class="o">&amp;</span>
+        <span class="c1"># MACD golden cross</span>
+        <span class="n">qtpylib</span><span class="o">.</span><span class="n">crossed_above</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'macd'</span><span class="p">],</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'macdsignal'</span><span class="p">])</span> <span class="o">&amp;</span>
+        <span class="c1"># Price makes new high</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="o">&amp;</span>
+        <span class="c1"># Volume explosion</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1.5</span><span class="p">)</span>
+    <span class="p">),</span>
+    <span class="s1">'enter_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div></p>
+<p><strong>Advantages</strong>:
+- ✅ Capture fast market movements
+- ✅ High single-trade returns
+- ✅ Suitable for bull markets
+- ✅ Easy to execute psychologically</p>
+<p><strong>Disadvantages</strong>:
+- ❌ Easily trapped by chasing highs
+- ❌ Low win rate (50-70%)
+- ❌ Drawdowns can be large
+- ❌ Many false breakouts</p>
+<p><strong>Suitable Market Conditions</strong>:
+- 🟢 Bull Market: ⭐⭐⭐⭐⭐
+- 🔴 Bear Market: ⭐
+- 🟡 Ranging Market: ⭐⭐</p>
+<p><strong>Key Parameters</strong>:
+- RSI threshold (50-70)
+- Momentum period (10-20)
+- Stop-loss range (-7% ~ -12%)</p>
+<hr />
+<h4 id="4-breakout-strategies">4. Breakout Strategies<a class="headerlink" href="#4-breakout-strategies" title="Permanent link">&para;</a></h4>
+<p><strong>Core Idea</strong>: After price breaks key levels, the trend continues.</p>
+<p><strong>Representative Strategies</strong>:
+- BreakoutTrendStrategy (Breakout Trend)
+- Donchian Channel Breakout</p>
+<p><strong>Entry Logic</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Typical breakout strategy entry</span>
+<span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="p">(</span>
+        <span class="c1"># Price breaks 20-day high</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'high'</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="o">&amp;</span>
+        <span class="c1"># Volume confirmation (volume breakout)</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1.3</span><span class="p">)</span> <span class="o">&amp;</span>
+        <span class="c1"># Volatility expansion (ATR increase)</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'atr'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'atr'</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="o">&amp;</span>
+        <span class="c1"># Not in overbought zone (avoid chasing highs)</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">75</span><span class="p">)</span>
+    <span class="p">),</span>
+    <span class="s1">'enter_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div></p>
+<p><strong>Advantages</strong>:
+- ✅ Capture trend beginnings
+- ✅ High risk-reward ratio
+- ✅ Clear logic
+- ✅ Suitable for swing trading</p>
+<p><strong>Disadvantages</strong>:
+- ❌ Frequent false breakouts
+- ❌ Medium win rate (50-65%)
+- ❌ Requires larger stop-loss
+- ❌ Few signals during consolidation</p>
+<p><strong>Suitable Market Conditions</strong>:
+- 🟢 Bull Market: ⭐⭐⭐⭐
+- 🔴 Bear Market: ⭐⭐⭐
+- 🟡 Ranging Market: ⭐⭐</p>
+<p><strong>Key Parameters</strong>:
+- Breakout period (10-30 days)
+- Volume confirmation multiplier (1.2-1.5)
+- Stop-loss range (-5% ~ -10%)</p>
+<hr />
+<h3 id="strategy-type-comparison-table">Strategy Type Comparison Table<a class="headerlink" href="#strategy-type-comparison-table" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Strategy Type</th>
+<th>Win Rate</th>
+<th>Risk-Reward</th>
+<th>Trading Frequency</th>
+<th>Max Drawdown</th>
+<th>Bull Market</th>
+<th>Bear Market</th>
+<th>Ranging Market</th>
+<th>Beginner Friendly</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Trend Following</strong></td>
+<td>50%</td>
+<td>2:1</td>
+<td>Low</td>
+<td>Medium</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐⭐⭐⭐</td>
+<td>⭐⭐</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>Mean Reversion</strong></td>
+<td>75%</td>
+<td>1:1</td>
+<td>Medium-High</td>
+<td>Low</td>
+<td>⭐⭐</td>
+<td>⭐⭐</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>Momentum Strategy</strong></td>
+<td>60%</td>
+<td>1.5:1</td>
+<td>Medium</td>
+<td>Medium-High</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐</td>
+<td>⭐⭐</td>
+<td>⚠️</td>
+</tr>
+<tr>
+<td><strong>Breakout Strategy</strong></td>
+<td>55%</td>
+<td>2:1</td>
+<td>Low-Medium</td>
+<td>Medium</td>
+<td>⭐⭐⭐⭐</td>
+<td>⭐⭐⭐</td>
+<td>⭐⭐</td>
+<td>⚠️</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="122-indicator-combination-analysis">12.2 Indicator Combination Analysis<a class="headerlink" href="#122-indicator-combination-analysis" title="Permanent link">&para;</a></h2>
+<h3 id="effective-indicator-combination-principles">Effective Indicator Combination Principles<a class="headerlink" href="#effective-indicator-combination-principles" title="Permanent link">&para;</a></h3>
+<h4 id="principle-1-trend-momentum-confirmation">Principle 1: Trend + Momentum + Confirmation<a class="headerlink" href="#principle-1-trend-momentum-confirmation" title="Permanent link">&para;</a></h4>
+<p><strong>Golden Triangle Combination</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Combination 1: EMA + RSI + Volume</span>
+<span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="p">(</span>
+        <span class="c1"># Trend confirmation: EMA20 &gt; EMA50</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema20'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema50'</span><span class="p">])</span> <span class="o">&amp;</span>
+        <span class="c1"># Momentum confirmation: RSI &gt; 50 (bullish strength)</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">)</span> <span class="o">&amp;</span>
+        <span class="c1"># Volume confirmation: Volume &gt; average</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+    <span class="p">),</span>
+    <span class="s1">'enter_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div></p>
+<p><strong>Why is it effective?</strong>
+- EMA: Judge overall direction
+- RSI: Judge strength
+- Volume: Judge authenticity</p>
+<h4 id="principle-2-avoid-redundant-indicators">Principle 2: Avoid Redundant Indicators<a class="headerlink" href="#principle-2-avoid-redundant-indicators" title="Permanent link">&para;</a></h4>
+<p><strong>Redundant Combination (❌ Not Recommended)</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Wrong example: Using EMA5, EMA10, EMA20, EMA50 all together</span>
+<span class="c1"># These indicators are highly correlated, providing duplicate information</span>
+
+<span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="p">(</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema5'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema10'</span><span class="p">])</span> <span class="o">&amp;</span>  <span class="c1"># Redundant</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema10'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema20'</span><span class="p">])</span> <span class="o">&amp;</span>  <span class="c1"># Redundant</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema20'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema50'</span><span class="p">])</span>  <span class="c1"># Redundant</span>
+    <span class="p">),</span>
+    <span class="s1">'enter_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div></p>
+<p><strong>Optimized (✅ Recommended)</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Use only one pair of EMAs</span>
+<span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="p">(</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema20'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema50'</span><span class="p">])</span>  <span class="c1"># Trend</span>
+    <span class="p">),</span>
+    <span class="s1">'enter_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div></p>
+<h4 id="principle-3-combine-fast-and-slow-indicators">Principle 3: Combine Fast and Slow Indicators<a class="headerlink" href="#principle-3-combine-fast-and-slow-indicators" title="Permanent link">&para;</a></h4>
+<p><strong>Fast Indicators</strong> (sensitive):
+- RSI (14)
+- MACD
+- Stochastic</p>
+<p><strong>Slow Indicators</strong> (smooth and stable):
+- EMA50, EMA200
+- ADX
+- ATR</p>
+<p><strong>Effective Combination</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Fast indicators (entry timing) + Slow indicators (direction confirmation)</span>
+<span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="p">(</span>
+        <span class="c1"># Slow indicator: Confirm uptrend</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema50'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema200'</span><span class="p">])</span> <span class="o">&amp;</span>
+        <span class="c1"># Fast indicator: Find entry point</span>
+        <span class="n">qtpylib</span><span class="o">.</span><span class="n">crossed_above</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">],</span> <span class="mi">30</span><span class="p">)</span>
+    <span class="p">),</span>
+    <span class="s1">'enter_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div></p>
+<h3 id="common-indicator-combination-analysis">Common Indicator Combination Analysis<a class="headerlink" href="#common-indicator-combination-analysis" title="Permanent link">&para;</a></h3>
+<h4 id="combination-1-ema-rsi-recommended">Combination 1: EMA + RSI (Recommended ⭐⭐⭐⭐⭐)<a class="headerlink" href="#combination-1-ema-rsi-recommended" title="Permanent link">&para;</a></h4>
+<p><strong>Suitable for</strong>: Trend + Mean Reversion hybrid strategy</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Buy: Uptrend + RSI oversold bounce</span>
+<span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema20'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema50'</span><span class="p">])</span> <span class="o">&amp;</span>  <span class="c1"># Uptrend</span>
+<span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">30</span><span class="p">)</span> <span class="o">&amp;</span>  <span class="c1"># RSI recovers from oversold</span>
+<span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">30</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Advantages</strong>:
+- ✅ Simple and effective
+- ✅ Suitable for beginners
+- ✅ Works in all market conditions</p>
+<h4 id="combination-2-macd-bollinger-bands-recommended">Combination 2: MACD + Bollinger Bands (Recommended ⭐⭐⭐⭐)<a class="headerlink" href="#combination-2-macd-bollinger-bands-recommended" title="Permanent link">&para;</a></h4>
+<p><strong>Suitable for</strong>: Breakout + Confirmation strategy</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Buy: MACD golden cross + Price breaks above Bollinger Bands middle band</span>
+<span class="n">qtpylib</span><span class="o">.</span><span class="n">crossed_above</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'macd'</span><span class="p">],</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'macdsignal'</span><span class="p">])</span> <span class="o">&amp;</span>
+<span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'bb_middleband'</span><span class="p">])</span>
+</code></pre></div>
+<p><strong>Advantages</strong>:
+- ✅ Capture trend beginnings
+- ✅ Fewer false signals
+- ✅ Suitable for swing trading</p>
+<h4 id="combination-3-adx-ema-rsi-recommended">Combination 3: ADX + EMA + RSI (Recommended ⭐⭐⭐⭐⭐)<a class="headerlink" href="#combination-3-adx-ema-rsi-recommended" title="Permanent link">&para;</a></h4>
+<p><strong>Suitable for</strong>: Complete trend following system</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Buy: Strong trend + MA bullish + RSI not overbought</span>
+<span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'adx'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">25</span><span class="p">)</span> <span class="o">&amp;</span>  <span class="c1"># Trend strength</span>
+<span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema20'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema50'</span><span class="p">])</span> <span class="o">&amp;</span>  <span class="c1"># Trend direction</span>
+<span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">70</span><span class="p">)</span> <span class="o">&amp;</span>  <span class="c1"># Avoid chasing highs</span>
+<span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">)</span>  <span class="c1"># Bullish strength</span>
+</code></pre></div>
+<p><strong>Advantages</strong>:
+- ✅ Comprehensive signal confirmation
+- ✅ Filter ranging markets
+- ✅ Balanced win rate and risk-reward ratio</p>
+<h4 id="combination-4-price-volume-recommended">Combination 4: Price + Volume (Recommended ⭐⭐⭐)<a class="headerlink" href="#combination-4-price-volume-recommended" title="Permanent link">&para;</a></h4>
+<p><strong>Suitable for</strong>: Simple and effective breakout strategy</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Buy: Price makes new high + Volume expansion</span>
+<span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'high'</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="o">&amp;</span>
+<span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1.5</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Advantages</strong>:
+- ✅ Simplest logic
+- ✅ No lag
+- ✅ Suitable for short-term</p>
+<h3 id="indicator-combination-testing-methods">Indicator Combination Testing Methods<a class="headerlink" href="#indicator-combination-testing-methods" title="Permanent link">&para;</a></h3>
+<p><strong>A/B Testing</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Strategy A: EMA only</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>StrategyEMAOnly<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+
+<span class="c1"># Strategy B: EMA + RSI</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>StrategyEMARSI<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+
+<span class="c1"># Strategy C: EMA + RSI + Volume</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>StrategyEMARSIVolume<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+</code></pre></div></p>
+<p><strong>Compare Results</strong>:
+<div class="highlight"><pre><span></span><code>Strategy A (EMA):        Return +12%, Trades 80, Win Rate 68%
+Strategy B (EMA+RSI):    Return +15%, Trades 52, Win Rate 75% ✅
+Strategy C (EMA+RSI+Vol):Return +14%, Trades 48, Win Rate 77%
+
+Conclusion: Strategy B is optimal (adding RSI improves performance, Volume adds no extra value)
+</code></pre></div></p>
+<hr />
+<h2 id="123-entryexit-logic-optimization">12.3 Entry/Exit Logic Optimization<a class="headerlink" href="#123-entryexit-logic-optimization" title="Permanent link">&para;</a></h2>
+<h3 id="entry-logic-optimization">Entry Logic Optimization<a class="headerlink" href="#entry-logic-optimization" title="Permanent link">&para;</a></h3>
+<h4 id="problem-1-too-frequent-entries">Problem 1: Too Frequent Entries<a class="headerlink" href="#problem-1-too-frequent-entries" title="Permanent link">&para;</a></h4>
+<p><strong>Symptoms</strong>:
+- Trade count &gt; 100/month
+- Many small wins and losses
+- Fee ratio &gt; 15%</p>
+<p><strong>Optimization Method</strong>: Add entry conditions</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Before optimization: Loose conditions</span>
+<span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="p">(</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">40</span><span class="p">)</span>  <span class="c1"># Range too wide</span>
+    <span class="p">),</span>
+    <span class="s1">'enter_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1"># After optimization: Strict conditions</span>
+<span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="p">(</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">30</span><span class="p">)</span> <span class="o">&amp;</span>  <span class="c1"># Narrower range</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">30</span><span class="p">)</span> <span class="o">&amp;</span>  <span class="c1"># Confirm sustained oversold</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema20'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema50'</span><span class="p">])</span> <span class="o">&amp;</span>  <span class="c1"># Add trend confirmation</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>  <span class="c1"># Add volume confirmation</span>
+    <span class="p">),</span>
+    <span class="s1">'enter_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div>
+<p><strong>Effects</strong>:
+- Trade count reduced by 50%
+- Win rate increased by 10%
+- Fee ratio reduced</p>
+<h4 id="problem-2-too-conservative-entries">Problem 2: Too Conservative Entries<a class="headerlink" href="#problem-2-too-conservative-entries" title="Permanent link">&para;</a></h4>
+<p><strong>Symptoms</strong>:
+- Trade count &lt; 10/month
+- Missing many opportunities
+- Low capital utilization</p>
+<p><strong>Optimization Method</strong>: Loosen entry conditions or add trading pairs</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Before optimization: Too strict conditions</span>
+<span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="p">(</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">25</span><span class="p">)</span> <span class="o">&amp;</span>  <span class="c1"># Too strict</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema5'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema10'</span><span class="p">])</span> <span class="o">&amp;</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema10'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema20'</span><span class="p">])</span> <span class="o">&amp;</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema20'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema50'</span><span class="p">])</span> <span class="o">&amp;</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># Too strict</span>
+    <span class="p">),</span>
+    <span class="s1">'enter_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1"># After optimization: Reasonable conditions</span>
+<span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="p">(</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">35</span><span class="p">)</span> <span class="o">&amp;</span>  <span class="c1"># Loosen</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema20'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema50'</span><span class="p">])</span> <span class="o">&amp;</span>  <span class="c1"># Simplify</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>  <span class="c1"># Loosen</span>
+    <span class="p">),</span>
+    <span class="s1">'enter_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div>
+<h4 id="problem-3-lagging-entry-timing">Problem 3: Lagging Entry Timing<a class="headerlink" href="#problem-3-lagging-entry-timing" title="Permanent link">&para;</a></h4>
+<p><strong>Symptoms</strong>:
+- Often chase highs to buy
+- Immediate pullback after purchase
+- Very low average profit</p>
+<p><strong>Optimization Method</strong>: Use faster indicators or enter earlier</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Before optimization: Lagging indicators</span>
+<span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="p">(</span>
+        <span class="n">qtpylib</span><span class="o">.</span><span class="n">crossed_above</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema50'</span><span class="p">],</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema200'</span><span class="p">])</span>  <span class="c1"># Serious lag</span>
+    <span class="p">),</span>
+    <span class="s1">'enter_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1"># After optimization: Use fast indicators</span>
+<span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="p">(</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema20'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema50'</span><span class="p">])</span> <span class="o">&amp;</span>  <span class="c1"># Faster</span>
+        <span class="n">qtpylib</span><span class="o">.</span><span class="n">crossed_above</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">],</span> <span class="mi">50</span><span class="p">)</span> <span class="o">&amp;</span>  <span class="c1"># Momentum confirmation</span>
+        <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'macd'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># Trend confirmation</span>
+    <span class="p">),</span>
+    <span class="s1">'enter_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div>
+<h3 id="exit-logic-optimization">Exit Logic Optimization<a class="headerlink" href="#exit-logic-optimization" title="Permanent link">&para;</a></h3>
+<h4 id="problem-1-early-profit-taking">Problem 1: Early Profit Taking<a class="headerlink" href="#problem-1-early-profit-taking" title="Permanent link">&para;</a></h4>
+<p><strong>Symptoms</strong>:
+- Most trades exit by ROI
+- Average profit &lt; 2%
+- Missing big moves</p>
+<p><strong>Optimization Method</strong>: Use trailing stop or loosen ROI</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Before optimization: ROI too tight</span>
+<span class="n">minimal_roi</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"0"</span><span class="p">:</span> <span class="mf">0.03</span><span class="p">,</span>   <span class="c1"># Exit immediately at 3%</span>
+    <span class="s2">"30"</span><span class="p">:</span> <span class="mf">0.02</span><span class="p">,</span>
+    <span class="s2">"60"</span><span class="p">:</span> <span class="mf">0.01</span>
+<span class="p">}</span>
+
+<span class="c1"># After optimization: Use trailing stop</span>
+<span class="n">minimal_roi</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"0"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">,</span>   <span class="c1"># Increase target</span>
+    <span class="s2">"120"</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+    <span class="s2">"240"</span><span class="p">:</span> <span class="mf">0.02</span>
+<span class="p">}</span>
+
+<span class="n">trailing_stop</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">trailing_stop_positive</span> <span class="o">=</span> <span class="mf">0.01</span>  <span class="c1"># Enable after 1% profit</span>
+<span class="n">trailing_stop_positive_offset</span> <span class="o">=</span> <span class="mf">0.03</span>  <span class="c1"># Stop loss 3% from price</span>
+</code></pre></div>
+<h4 id="problem-2-stop-loss-too-tight">Problem 2: Stop Loss Too Tight<a class="headerlink" href="#problem-2-stop-loss-too-tight" title="Permanent link">&para;</a></h4>
+<p><strong>Symptoms</strong>:
+- Stop loss ratio &gt; 30%
+- Many trades stopped out by normal volatility
+- Very low win rate</p>
+<p><strong>Optimization Method</strong>: Loosen stop loss or use ATR dynamic stop loss</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Before optimization: Fixed stop loss too tight</span>
+<span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.03</span>  <span class="c1"># 3%</span>
+
+<span class="c1"># After optimization: Adjust based on volatility</span>
+<span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.07</span>  <span class="c1"># 7% (low volatility coins)</span>
+<span class="c1"># or</span>
+<span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.12</span>  <span class="c1"># 12% (high volatility coins)</span>
+</code></pre></div>
+<h4 id="problem-3-missing-clear-exit-signals">Problem 3: Missing Clear Exit Signals<a class="headerlink" href="#problem-3-missing-clear-exit-signals" title="Permanent link">&para;</a></h4>
+<p><strong>Symptoms</strong>:
+- Most trades wait for ROI or forced exit
+- Serious profit giveback
+- Holding time too long</p>
+<p><strong>Optimization Method</strong>: Add exit signals</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Before optimization: No exit signals</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">populate_exit_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">,</span> <span class="n">metadata</span><span class="p">):</span>
+    <span class="n">dataframe</span><span class="p">[</span><span class="s1">'exit_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Never actively exit</span>
+    <span class="k">return</span> <span class="n">dataframe</span>
+
+<span class="c1"># After optimization: Add clear exit signals</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">populate_exit_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">,</span> <span class="n">metadata</span><span class="p">):</span>
+    <span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+        <span class="p">(</span>
+            <span class="c1"># Death cross</span>
+            <span class="n">qtpylib</span><span class="o">.</span><span class="n">crossed_below</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema20'</span><span class="p">],</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema50'</span><span class="p">])</span> <span class="o">|</span>
+            <span class="c1"># RSI overbought</span>
+            <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">75</span><span class="p">)</span> <span class="o">|</span>
+            <span class="c1"># MACD death cross</span>
+            <span class="n">qtpylib</span><span class="o">.</span><span class="n">crossed_below</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'macd'</span><span class="p">],</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'macdsignal'</span><span class="p">])</span>
+        <span class="p">),</span>
+        <span class="s1">'exit_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">dataframe</span>
+</code></pre></div>
+<hr />
+<h2 id="124-risk-management-strategies">12.4 Risk Management Strategies<a class="headerlink" href="#124-risk-management-strategies" title="Permanent link">&para;</a></h2>
+<h3 id="position-management">Position Management<a class="headerlink" href="#position-management" title="Permanent link">&para;</a></h3>
+<h4 id="fixed-position-recommended-for-beginners">Fixed Position (Recommended for Beginners)<a class="headerlink" href="#fixed-position-recommended-for-beginners" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"stake_amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">  </span><span class="c1">// Fixed 100 USDT per trade</span>
+<span class="w">  </span><span class="nt">"max_open_trades"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="w">   </span><span class="c1">// Maximum 3 simultaneous trades</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Advantages</strong>: Simple, controllable risk
+<strong>Disadvantages</strong>: Not adjusted based on volatility</p>
+<h4 id="percentage-position">Percentage Position<a class="headerlink" href="#percentage-position" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"stake_amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unlimited"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"stake_percentage"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">  </span><span class="c1">// Use 20% of available funds per trade</span>
+<span class="w">  </span><span class="nt">"max_open_trades"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Advantages</strong>: Dynamic adjustment, more flexible
+<strong>Disadvantages</strong>: Requires careful calculation</p>
+<h4 id="kelly-formula-position-advanced">Kelly Formula Position (Advanced)<a class="headerlink" href="#kelly-formula-position-advanced" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Kelly % = (Win Rate × Risk-Reward Ratio - Loss Rate) / Risk-Reward Ratio</span>
+<span class="c1"># Example: Win rate 60%, risk-reward ratio 2:1</span>
+<span class="n">kelly</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.60</span> <span class="err">×</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">0.40</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">=</span> <span class="mf">0.40</span> <span class="o">=</span> <span class="mi">40</span><span class="o">%</span>
+
+<span class="c1"># Be conservative, use 1/2 Kelly</span>
+<span class="n">position_size</span> <span class="o">=</span> <span class="mf">0.40</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">=</span> <span class="mi">20</span><span class="o">%</span>
+</code></pre></div>
+<h3 id="protection-mechanisms">Protection Mechanisms<a class="headerlink" href="#protection-mechanisms" title="Permanent link">&para;</a></h3>
+<h4 id="cooldown-period">Cooldown Period<a class="headerlink" href="#cooldown-period" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Rest after losses to avoid revenge trading</span>
+<span class="nd">@property</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">protections</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">"method"</span><span class="p">:</span> <span class="s2">"CooldownPeriod"</span><span class="p">,</span>
+            <span class="s2">"stop_duration_candles"</span><span class="p">:</span> <span class="mi">5</span>  <span class="c1"># Rest 5 candles after stop loss</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+</code></pre></div>
+<h4 id="maximum-position-limit">Maximum Position Limit<a class="headerlink" href="#maximum-position-limit" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Maximum 1 position per trading pair</span>
+<span class="n">max_entry_position_adjustment</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div>
+<h4 id="daily-loss-limit">Daily Loss Limit<a class="headerlink" href="#daily-loss-limit" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Maximum daily loss 5%</span>
+<span class="nd">@property</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">protections</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">"method"</span><span class="p">:</span> <span class="s2">"MaxDrawdown"</span><span class="p">,</span>
+            <span class="s2">"lookback_period_candles"</span><span class="p">:</span> <span class="mi">24</span><span class="p">,</span>  <span class="c1"># 24 hours</span>
+            <span class="s2">"trade_limit"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+            <span class="s2">"stop_duration_candles"</span><span class="p">:</span> <span class="mi">24</span><span class="p">,</span>
+            <span class="s2">"max_allowed_drawdown"</span><span class="p">:</span> <span class="mf">0.05</span>  <span class="c1"># 5%</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+</code></pre></div>
+<hr />
+<h2 id="practical-tasks">💡 Practical Tasks<a class="headerlink" href="#practical-tasks" title="Permanent link">&para;</a></h2>
+<h3 id="task-1-compare-two-strategy-types">Task 1: Compare Two Strategy Types<a class="headerlink" href="#task-1-compare-two-strategy-types" title="Permanent link">&para;</a></h3>
+<p>Choose two different strategy types to compare:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Trend strategy</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>MovingAverageCrossStrategy<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+
+<span class="c1"># Mean reversion strategy</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>MeanReversionStrategy<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+</code></pre></div>
+<p>Record comparison results:
+<div class="highlight"><pre><span></span><code>            | Trend Strategy | Mean Reversion |
+------------|---------------|----------------|
+Trade Count | ____          | ____           |
+Win Rate %  | ____%         | ____%          |
+Total Return| ____%         | ____%          |
+Max Drawdown| ____%         | ____%          |
+Avg Holding | ____          | ____           |
+</code></pre></div></p>
+<h3 id="task-2-test-indicator-combinations">Task 2: Test Indicator Combinations<a class="headerlink" href="#task-2-test-indicator-combinations" title="Permanent link">&para;</a></h3>
+<p>Modify a strategy to test different indicator combinations:</p>
+<p><strong>Version A</strong>: EMA only
+<strong>Version B</strong>: EMA + RSI
+<strong>Version C</strong>: EMA + RSI + Volume</p>
+<p>Compare which version performs best.</p>
+<h3 id="task-3-optimize-entry-logic">Task 3: Optimize Entry Logic<a class="headerlink" href="#task-3-optimize-entry-logic" title="Permanent link">&para;</a></h3>
+<p>Find a strategy with too high trading frequency, reduce trade count by adding conditions, and observe the impact on win rate and returns.</p>
+<h3 id="task-4-add-exit-signals">Task 4: Add Exit Signals<a class="headerlink" href="#task-4-add-exit-signals" title="Permanent link">&para;</a></h3>
+<p>Add clear exit logic to a strategy lacking exit signals, and compare performance before and after addition.</p>
+<hr />
+<h2 id="knowledge-check">📚 Knowledge Check<a class="headerlink" href="#knowledge-check" title="Permanent link">&para;</a></h2>
+<h3 id="basic-questions">Basic Questions<a class="headerlink" href="#basic-questions" title="Permanent link">&para;</a></h3>
+<ol>
+<li>What is the core idea of trend following strategies?</li>
+<li>What market conditions are mean reversion strategies suitable for?</li>
+<li>Why should we avoid using redundant indicators?</li>
+</ol>
+<h3 id="answers">Answers<a class="headerlink" href="#answers" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Follow the trend</strong>, trade in the direction of the trend after it forms</li>
+<li><strong>Ranging markets</strong>, prices oscillate within ranges</li>
+<li><strong>Provided information is duplicated</strong>, increases complexity but adds no value, easily overfits</li>
+</ol>
+<h3 id="advanced-questions">Advanced Questions<a class="headerlink" href="#advanced-questions" title="Permanent link">&para;</a></h3>
+<ol>
+<li>How to determine if a strategy's entries are too frequent?</li>
+<li>When should trailing stop be used?</li>
+<li>What are the disadvantages of the Kelly formula?</li>
+</ol>
+<hr />
+<h2 id="key-points-summary">📌 Key Points Summary<a class="headerlink" href="#key-points-summary" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Different strategy types suit different market conditions</strong>: Trend strategies for bull markets, mean reversion for ranging markets</li>
+<li><strong>Effective indicator combinations</strong>: Trend + Momentum + Confirmation</li>
+<li><strong>Avoid redundant indicators</strong>: More is not better</li>
+<li><strong>Entry frequency should be moderate</strong>: Don't overtrade</li>
+<li><strong>Exit is equally important</strong>: Strategies without exit signals are incomplete</li>
+<li><strong>Risk management is fundamental</strong>: Position control and protection mechanisms</li>
+</ol>
+<hr />
+<h2 id="next-lesson-preview">➡️ Next Lesson Preview<a class="headerlink" href="#next-lesson-preview" title="Permanent link">&para;</a></h2>
+<p><strong>Lesson 13: Strategy Scoring System</strong></p>
+<p>In the next lesson, we will:
+- Establish scientific strategy evaluation criteria
+- Learn multi-dimensional scoring methods
+- Create strategy scorecards
+- Select the most suitable strategies for you</p>
+<hr />
+<p><strong>🎯 Learning Assessment Criteria</strong>:
+- ✅ Understand differences between strategy types
+- ✅ Can analyze effectiveness of indicator combinations
+- ✅ Can optimize entry and exit logic
+- ✅ Master basic risk management methods</p>
+<p>After completing these tasks, you have acquired advanced strategy analysis capabilities! 🚀</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,3591 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径">
+      
+      
+      
+        <link rel="canonical" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-10-pair-selection/">
+      
+      
+        <link rel="prev" href="../lesson-09-timerange-testing/">
+      
+      
+        <link rel="next" href="../lesson-11-hyperopt-basics/">
+      
+      
+        
+          <link rel="alternate" href="../../lesson-10-pair-selection/" hreflang="zh">
+        
+          <link rel="alternate" href="./" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>Lesson 10: Trading Pair Selection and Testing - Freqtrade 实战教程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9784658154228475"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VGHZY4EELE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VGHZY4EELE");
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lesson-10-trading-pair-selection-and-testing" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Freqtrade 实战教程" class="md-header__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Freqtrade 实战教程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lesson 10: Trading Pair Selection and Testing
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../lesson-10-pair-selection/" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../strategies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  English Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Freqtrade 实战教程" class="md-nav__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Freqtrade 实战教程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../strategies/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    English Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    English Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 1: Introduction to Quantitative Trading and Freqtrade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-02-environment-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 2: Freqtrade Environment Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-03-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 3: Understanding Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-04-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 4: Data Download and Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-05-first-backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 5: First Strategy Backtest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-06-strategy-performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 6: Strategy Performance Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-07-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 7: Multi-Timeframe Backtesting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-08-strategy-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 8: Strategy Batch Comparison
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-09-timerange-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 9: Time Range Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 10: Trading Pair Selection and Testing
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 10: Trading Pair Selection and Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#course-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 Course Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#101-blue-chips-vs-altcoins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1 Blue Chips vs Altcoins
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.1 Blue Chips vs Altcoins">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trading-pair-classification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trading Pair Classification
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Trading Pair Classification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-blue-chips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Blue Chips
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-mid-caps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Mid-Caps
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-altcoins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Altcoins
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blue-chips-vs-altcoins-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Blue Chips vs Altcoins Comparison
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-configurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommended Configurations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Recommended Configurations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conservative-beginner-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conservative (Beginner Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#balanced" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Balanced
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aggressive-experienced" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aggressive (Experienced)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#102-liquidity-assessment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2 Liquidity Assessment
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.2 Liquidity Assessment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-liquidity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is Liquidity?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-hour-trading-volume" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        24-hour Trading Volume
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#order-book-depth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Order Book Depth
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bid-ask-spread" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bid-Ask Spread
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#impact-of-liquidity-on-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Impact of Liquidity on Strategies
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#103-volatility-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3 Volatility Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.3 Volatility Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-volatility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is Volatility?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#volatility-classification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Volatility Classification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#impact-of-volatility-on-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Impact of Volatility on Strategies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Impact of Volatility on Strategies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#high-volatility-vs-low-volatility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        High Volatility vs Low Volatility
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#volatility-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Volatility Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strategy-adaptation-to-volatility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strategy Adaptation to Volatility
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#104-multi-pair-portfolio-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.4 Multi-Pair Portfolio Testing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.4 Multi-Pair Portfolio Testing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-need-multiple-trading-pairs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Need Multiple Trading Pairs?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-pair-backtesting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-Pair Backtesting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Multi-Pair Backtesting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#method-1-configuration-file-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 1: Configuration File Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-2-command-line-specification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 2: Command Line Specification
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-pair-results-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-Pair Results Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#correlation-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Correlation Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#building-optimal-portfolio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Building Optimal Portfolio
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Practical Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 Practical Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-download-multi-pair-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Download Multi-Pair Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-test-each-pair-individually" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Test Each Pair Individually
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-create-trading-pair-comparison-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: Create Trading Pair Comparison Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-4-portfolio-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 4: Portfolio Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-5-build-your-portfolio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 5: Build Your Portfolio
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#knowledge-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Knowledge Check
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Knowledge Check">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Answers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advanced-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#thought-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Thought Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reference-materials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔗 Reference Materials
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔗 Reference Materials">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-query-websites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Query Websites
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supporting-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supporting Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommended Reading
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-points-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Key Points Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-two-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ➡️ Part Two Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-11-hyperopt-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 11: Hyperopt Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-12-advanced-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 12: Advanced Strategy Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-13-scoring-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 13: Strategy Scoring System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-14-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 14: Risk and Money Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-15-portfolio-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 15: Strategy Portfolio and Diversification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-16-realtime-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 16: Real-time Signal Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-17-telegram-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 17: Telegram Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-18-webui-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 18: Web UI and API Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 19: Visualization Analysis Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-20-dry-run-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 20: Simulated Trading Validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-21-exchange-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 21: Exchange API Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-22-pre-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 22: Pre-Live Trading Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-23-small-capital-live/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 23: Small Capital Live Trading
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-1-order-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.1: Live Trading Order Placement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-2-stop-loss-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.2: Live Trading Stop Loss Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-3-futures-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.3: Binance Futures Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-4-leverage-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.4: Leverage Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-trading-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24: Trading Monitoring and Adjustment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-25-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 25: Risk Control and Psychology Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-26-custom-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 26: Custom Strategy Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-27-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 27: Multi-Timeframe Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-28-grid-hft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 28: HFT and Grid Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-1-freqai-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.1: FreqAI Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-2-advanced-ml-strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.2: Advanced ML Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning-enhanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: ML Basics and Strategy Optimization (Enhanced)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: Machine Learning and Strategy Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-30-conclusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 30: Conclusion and Continuous Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#course-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 Course Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#101-blue-chips-vs-altcoins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1 Blue Chips vs Altcoins
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.1 Blue Chips vs Altcoins">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trading-pair-classification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trading Pair Classification
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Trading Pair Classification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-blue-chips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Blue Chips
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-mid-caps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Mid-Caps
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-altcoins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Altcoins
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blue-chips-vs-altcoins-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Blue Chips vs Altcoins Comparison
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-configurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommended Configurations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Recommended Configurations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conservative-beginner-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conservative (Beginner Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#balanced" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Balanced
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aggressive-experienced" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aggressive (Experienced)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#102-liquidity-assessment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2 Liquidity Assessment
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.2 Liquidity Assessment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-liquidity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is Liquidity?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-hour-trading-volume" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        24-hour Trading Volume
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#order-book-depth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Order Book Depth
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bid-ask-spread" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bid-Ask Spread
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#impact-of-liquidity-on-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Impact of Liquidity on Strategies
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#103-volatility-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3 Volatility Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.3 Volatility Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-volatility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is Volatility?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#volatility-classification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Volatility Classification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#impact-of-volatility-on-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Impact of Volatility on Strategies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Impact of Volatility on Strategies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#high-volatility-vs-low-volatility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        High Volatility vs Low Volatility
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#volatility-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Volatility Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strategy-adaptation-to-volatility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strategy Adaptation to Volatility
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#104-multi-pair-portfolio-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.4 Multi-Pair Portfolio Testing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.4 Multi-Pair Portfolio Testing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-need-multiple-trading-pairs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Need Multiple Trading Pairs?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-pair-backtesting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-Pair Backtesting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Multi-Pair Backtesting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#method-1-configuration-file-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 1: Configuration File Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-2-command-line-specification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 2: Command Line Specification
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-pair-results-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-Pair Results Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#correlation-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Correlation Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#building-optimal-portfolio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Building Optimal Portfolio
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Practical Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 Practical Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-download-multi-pair-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Download Multi-Pair Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-test-each-pair-individually" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Test Each Pair Individually
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-create-trading-pair-comparison-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: Create Trading Pair Comparison Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-4-portfolio-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 4: Portfolio Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-5-build-your-portfolio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 5: Build Your Portfolio
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#knowledge-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Knowledge Check
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Knowledge Check">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Answers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advanced-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#thought-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Thought Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reference-materials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔗 Reference Materials
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔗 Reference Materials">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-query-websites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Query Websites
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supporting-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supporting Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommended Reading
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-points-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Key Points Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-two-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ➡️ Part Two Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="lesson-10-trading-pair-selection-and-testing">Lesson 10: Trading Pair Selection and Testing<a class="headerlink" href="#lesson-10-trading-pair-selection-and-testing" title="Permanent link">&para;</a></h1>
+<p><strong>⏱ Duration</strong>: 1.5 hours
+<strong>🎯 Learning Objectives</strong>: Learn to select suitable trading pairs
+<strong>📚 Difficulty</strong>: ⭐⭐ Backtesting practical</p>
+<hr />
+<h2 id="course-overview">📖 Course Overview<a class="headerlink" href="#course-overview" title="Permanent link">&para;</a></h2>
+<p>Different trading pairs have different characteristics. Choosing suitable trading pairs has a huge impact on strategy performance. This lesson will teach you how to evaluate the liquidity and volatility of trading pairs, and how to build multi-pair portfolios to diversify risk.</p>
+<hr />
+<h2 id="101-blue-chips-vs-altcoins">10.1 Blue Chips vs Altcoins<a class="headerlink" href="#101-blue-chips-vs-altcoins" title="Permanent link">&para;</a></h2>
+<h3 id="trading-pair-classification">Trading Pair Classification<a class="headerlink" href="#trading-pair-classification" title="Permanent link">&para;</a></h3>
+<h4 id="1-blue-chips">1. Blue Chips<a class="headerlink" href="#1-blue-chips" title="Permanent link">&para;</a></h4>
+<p><strong>Definition</strong>: Top 10-20 cryptocurrencies by market cap</p>
+<p><strong>Representative Coins</strong>:
+- <strong>BTC/USDT</strong> (Bitcoin) - #1 market cap
+- <strong>ETH/USDT</strong> (Ethereum) - #2 market cap
+- <strong>BNB/USDT</strong> (Binance Coin) - Exchange token
+- <strong>XRP/USDT</strong> (Ripple)
+- <strong>SOL/USDT</strong> (Solana)
+- <strong>ADA/USDT</strong> (Cardano)</p>
+<p><strong>Characteristics</strong>:
+- ✅ Good liquidity (high trading volume)
+- ✅ Relatively stable volatility
+- ✅ Small price spread (low slippage)
+- ✅ Hard to manipulate
+- ✅ Transparent information
+- ⚠️ Relatively lower returns</p>
+<p><strong>Risk Rating</strong>: 🟢 Low Risk</p>
+<h4 id="2-mid-caps">2. Mid-Caps<a class="headerlink" href="#2-mid-caps" title="Permanent link">&para;</a></h4>
+<p><strong>Definition</strong>: Market cap ranking 20-100</p>
+<p><strong>Representative Coins</strong>:
+- <strong>MATIC/USDT</strong> (Polygon)
+- <strong>LINK/USDT</strong> (Chainlink)
+- <strong>UNI/USDT</strong> (Uniswap)
+- <strong>AVAX/USDT</strong> (Avalanche)
+- <strong>ATOM/USDT</strong> (Cosmos)</p>
+<p><strong>Characteristics</strong>:
+- ✅ Good liquidity
+- ⚠️ Higher volatility
+- ⚠️ Higher return potential
+- ⚠️ Moderate risk</p>
+<p><strong>Risk Rating</strong>: 🟡 Medium Risk</p>
+<h4 id="3-altcoins">3. Altcoins<a class="headerlink" href="#3-altcoins" title="Permanent link">&para;</a></h4>
+<p><strong>Definition</strong>: Market cap ranking 100+</p>
+<p><strong>Characteristics</strong>:
+- ❌ Poor liquidity (low trading volume)
+- ❌ Extremely high volatility (daily volatility 20%+)
+- ❌ Large price spread (high slippage)
+- ❌ Easy to manipulate
+- ❌ Information asymmetry
+- ⚠️ High risk, high return</p>
+<p><strong>Risk Rating</strong>: 🔴 High Risk</p>
+<h3 id="blue-chips-vs-altcoins-comparison">Blue Chips vs Altcoins Comparison<a class="headerlink" href="#blue-chips-vs-altcoins-comparison" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Blue Chips</th>
+<th>Mid-Caps</th>
+<th>Altcoins</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Daily Volume</strong></td>
+<td>&gt; $1B</td>
+<td>$100M-$1B</td>
+<td>&lt; $100M</td>
+</tr>
+<tr>
+<td><strong>Daily Volatility</strong></td>
+<td>2-5%</td>
+<td>5-10%</td>
+<td>10-30%</td>
+</tr>
+<tr>
+<td><strong>Slippage</strong></td>
+<td>&lt; 0.1%</td>
+<td>0.1-0.3%</td>
+<td>&gt; 0.5%</td>
+</tr>
+<tr>
+<td><strong>Manipulation Risk</strong></td>
+<td>Very Low</td>
+<td>Low</td>
+<td>High</td>
+</tr>
+<tr>
+<td><strong>Return Potential</strong></td>
+<td>Medium</td>
+<td>High</td>
+<td>Very High</td>
+</tr>
+<tr>
+<td><strong>Suitable for Beginners</strong></td>
+<td>✅ Yes</td>
+<td>⚠️ Cautious</td>
+<td>❌ No</td>
+</tr>
+</tbody>
+</table>
+<h3 id="recommended-configurations">Recommended Configurations<a class="headerlink" href="#recommended-configurations" title="Permanent link">&para;</a></h3>
+<h4 id="conservative-beginner-recommended">Conservative (Beginner Recommended)<a class="headerlink" href="#conservative-beginner-recommended" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>100% Blue Chips
+- BTC/USDT: 40%
+- ETH/USDT: 40%
+- BNB/USDT: 20%
+</code></pre></div>
+<h4 id="balanced">Balanced<a class="headerlink" href="#balanced" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>70% Blue Chips + 30% Mid-Caps
+- BTC/USDT: 30%
+- ETH/USDT: 30%
+- BNB/USDT: 10%
+- SOL/USDT: 15%
+- MATIC/USDT: 15%
+</code></pre></div>
+<h4 id="aggressive-experienced">Aggressive (Experienced)<a class="headerlink" href="#aggressive-experienced" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>50% Blue Chips + 40% Mid-Caps + 10% Altcoins
+- BTC/USDT: 25%
+- ETH/USDT: 25%
+- SOL/USDT: 20%
+- LINK/USDT: 20%
+- Other small coins: 10%
+</code></pre></div>
+<hr />
+<h2 id="102-liquidity-assessment">10.2 Liquidity Assessment<a class="headerlink" href="#102-liquidity-assessment" title="Permanent link">&para;</a></h2>
+<h3 id="what-is-liquidity">What is Liquidity?<a class="headerlink" href="#what-is-liquidity" title="Permanent link">&para;</a></h3>
+<p><strong>Definition</strong>: The ability of an asset to be quickly bought or sold without significantly affecting its price.</p>
+<p><strong>Key Metrics</strong>:
+1. <strong>24-hour Trading Volume</strong>
+2. <strong>Order Book Depth</strong>
+3. <strong>Bid-Ask Spread</strong></p>
+<h3 id="24-hour-trading-volume">24-hour Trading Volume<a class="headerlink" href="#24-hour-trading-volume" title="Permanent link">&para;</a></h3>
+<p><strong>Evaluation Standards</strong>:
+<div class="highlight"><pre><span></span><code>Excellent: &gt; $500M/day
+Good: $100M-$500M/day
+Average: $20M-$100M/day
+Poor: $5M-$20M/day
+Very Poor: &lt; $5M/day
+</code></pre></div></p>
+<p><strong>How to Check</strong>:
+Visit <a href="https://coinmarketcap.com/">CoinMarketCap</a> or <a href="https://www.coingecko.com/">CoinGecko</a></p>
+<p><strong>Case Comparison</strong>:
+<div class="highlight"><pre><span></span><code>BTC/USDT: $25,000M/day ✅ Excellent
+ETH/USDT: $10,000M/day ✅ Excellent
+SOL/USDT: $800M/day ✅ Excellent
+MATIC/USDT: $300M/day ✅ Good
+DOGE/USDT: $150M/day ✅ Good
+Some small coin/USDT: $2M/day ❌ Very Poor
+</code></pre></div></p>
+<h3 id="order-book-depth">Order Book Depth<a class="headerlink" href="#order-book-depth" title="Permanent link">&para;</a></h3>
+<p><strong>Definition</strong>: The quantity of orders at different price levels.</p>
+<p><strong>How to Check</strong>:
+1. Login to Binance
+2. Open the trading pair page
+3. View "Depth Chart"</p>
+<p><strong>Evaluation Standards</strong>:
+<div class="highlight"><pre><span></span><code>Good depth: Large number of orders within ±2% price range
+Poor depth: Few orders within ±2% price range
+</code></pre></div></p>
+<p><strong>Impact</strong>:
+- Good depth → Large orders won't significantly affect price
+- Poor depth → Large orders will cause significant price fluctuations</p>
+<h3 id="bid-ask-spread">Bid-Ask Spread<a class="headerlink" href="#bid-ask-spread" title="Permanent link">&para;</a></h3>
+<p><strong>Definition</strong>: The difference between the best bid price and best ask price.</p>
+<p><strong>Calculation Formula</strong>:
+<div class="highlight"><pre><span></span><code>Spread = (Ask Price - Bid Price) / Bid Price × 100%
+</code></pre></div></p>
+<p><strong>Case</strong>:
+<div class="highlight"><pre><span></span><code>BTC/USDT:
+Bid Price: $43,500.00
+Ask Price: $43,500.50
+Spread = ($43,500.50 - $43,500.00) / $43,500.00 = 0.0011%
+
+Some small coin/USDT:
+Bid Price: $0.1000
+Ask Price: $0.1050
+Spread = ($0.1050 - $0.1000) / $0.1000 = 5%
+</code></pre></div></p>
+<p><strong>Evaluation Standards</strong>:
+<div class="highlight"><pre><span></span><code>Excellent: &lt; 0.01% (Blue Chips)
+Good: 0.01-0.05%
+Average: 0.05-0.1%
+Poor: 0.1-0.5%
+Very Poor: &gt; 0.5% (Altcoins)
+</code></pre></div></p>
+<h3 id="impact-of-liquidity-on-strategies">Impact of Liquidity on Strategies<a class="headerlink" href="#impact-of-liquidity-on-strategies" title="Permanent link">&para;</a></h3>
+<p><strong>High Liquidity Trading Pairs</strong>:
+- ✅ Small slippage (execution price close to backtest price)
+- ✅ More reliable backtest results
+- ✅ Suitable for high-frequency strategies
+- ✅ Large capital can trade</p>
+<p><strong>Low Liquidity Trading Pairs</strong>:
+- ❌ Large slippage (live trading returns much lower than backtest)
+- ❌ Unreliable backtest results
+- ❌ Not suitable for high-frequency strategies
+- ❌ Large capital will affect price</p>
+<p><strong>Slippage Case</strong>:
+<div class="highlight"><pre><span></span><code>Backtest Results (Ideal):
+Buy Price: $100.00
+Sell Price: $102.00
+Return: +2%
+
+Live Trading Results (Low Liquidity):
+Buy Price: $100.20 (slippage +0.2%)
+Sell Price: $101.60 (slippage -0.4%)
+Return: +1.4% (30% profit loss!)
+</code></pre></div></p>
+<hr />
+<h2 id="103-volatility-analysis">10.3 Volatility Analysis<a class="headerlink" href="#103-volatility-analysis" title="Permanent link">&para;</a></h2>
+<h3 id="what-is-volatility">What is Volatility?<a class="headerlink" href="#what-is-volatility" title="Permanent link">&para;</a></h3>
+<p><strong>Definition</strong>: The magnitude and frequency of price changes.</p>
+<p><strong>Calculation Methods</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Daily volatility (simplified)</span>
+<span class="n">daily_volatility</span> <span class="o">=</span> <span class="p">(</span><span class="n">high</span> <span class="o">-</span> <span class="n">low</span><span class="p">)</span> <span class="o">/</span> <span class="n">low</span> <span class="err">×</span> <span class="mi">100</span><span class="o">%</span>
+
+<span class="c1"># Standard deviation volatility (professional)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="n">returns</span> <span class="o">=</span> <span class="n">prices</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()</span>
+<span class="n">volatility</span> <span class="o">=</span> <span class="n">returns</span><span class="o">.</span><span class="n">std</span><span class="p">()</span> <span class="err">×</span> <span class="mi">100</span><span class="o">%</span>
+</code></pre></div></p>
+<h3 id="volatility-classification">Volatility Classification<a class="headerlink" href="#volatility-classification" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Volatility</th>
+<th>Daily Range</th>
+<th>Representative Coins</th>
+<th>Suitable Strategies</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Very Low</strong></td>
+<td>&lt; 2%</td>
+<td>Stable coin pairs</td>
+<td>Arbitrage</td>
+</tr>
+<tr>
+<td><strong>Low</strong></td>
+<td>2-5%</td>
+<td>BTC, ETH</td>
+<td>Trend Following</td>
+</tr>
+<tr>
+<td><strong>Medium</strong></td>
+<td>5-10%</td>
+<td>Mid-caps</td>
+<td>Balanced Strategies</td>
+</tr>
+<tr>
+<td><strong>High</strong></td>
+<td>10-20%</td>
+<td>Hot altcoins</td>
+<td>Short-term Breakout</td>
+</tr>
+<tr>
+<td><strong>Very High</strong></td>
+<td>&gt; 20%</td>
+<td>Small cap coins</td>
+<td>Not Recommended</td>
+</tr>
+</tbody>
+</table>
+<h3 id="impact-of-volatility-on-strategies">Impact of Volatility on Strategies<a class="headerlink" href="#impact-of-volatility-on-strategies" title="Permanent link">&para;</a></h3>
+<h4 id="high-volatility-vs-low-volatility">High Volatility vs Low Volatility<a class="headerlink" href="#high-volatility-vs-low-volatility" title="Permanent link">&para;</a></h4>
+<p><strong>High Volatility Trading Pairs (Daily Range &gt; 10%)</strong>:</p>
+<p><strong>Advantages</strong>:
+- ✅ Large profit space
+- ✅ Easy to reach take profit targets
+- ✅ Suitable for short-term strategies</p>
+<p><strong>Disadvantages</strong>:
+- ❌ Easy to trigger stop losses
+- ❌ Many false breakouts
+- ❌ High drawdown risk
+- ❌ High psychological pressure</p>
+<p><strong>Suitable Strategies</strong>:
+- Short-term breakout strategies
+- High-frequency trading strategies
+- Need to widen stop loss (&gt; -10%)</p>
+<p><strong>Low Volatility Trading Pairs (Daily Range &lt; 5%)</strong>:</p>
+<p><strong>Advantages</strong>:
+- ✅ Good stability
+- ✅ Small drawdowns
+- ✅ Controllable risk
+- ✅ Suitable for beginners</p>
+<p><strong>Disadvantages</strong>:
+- ⚠️ Small profit space
+- ⚠️ Hard to reach high take profit targets
+- ⚠️ Few trading opportunities</p>
+<p><strong>Suitable Strategies</strong>:
+- Trend following strategies
+- Long-term swing strategies
+- Need to lower ROI targets (2-5%)</p>
+<h3 id="volatility-testing">Volatility Testing<a class="headerlink" href="#volatility-testing" title="Permanent link">&para;</a></h3>
+<p><strong>Using Freqtrade Commands</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Download data</span>
+freqtrade<span class="w"> </span>download-data<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--pairs<span class="w"> </span>BTC/USDT<span class="w"> </span>ETH/USDT<span class="w"> </span>SOL/USDT<span class="w"> </span>DOGE/USDT<span class="w"> </span>--days<span class="w"> </span><span class="m">90</span><span class="w"> </span>--timeframes<span class="w"> </span>1d
+
+<span class="c1"># View price fluctuations</span>
+freqtrade<span class="w"> </span>plot-dataframe<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--pairs<span class="w"> </span>BTC/USDT<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+</code></pre></div></p>
+<p><strong>Manual Calculation</strong>:
+Visit TradingView, view ATR (Average True Range) indicator for different trading pairs.</p>
+<h3 id="strategy-adaptation-to-volatility">Strategy Adaptation to Volatility<a class="headerlink" href="#strategy-adaptation-to-volatility" title="Permanent link">&para;</a></h3>
+<p><strong>Adjust Stop Loss</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Low volatility trading pairs</span>
+<span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.03</span>  <span class="c1"># 3% stop loss</span>
+
+<span class="c1"># Medium volatility trading pairs</span>
+<span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="c1"># 5% stop loss</span>
+
+<span class="c1"># High volatility trading pairs</span>
+<span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.10</span>  <span class="c1"># 10% stop loss</span>
+</code></pre></div></p>
+<p><strong>Adjust ROI</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Low volatility trading pairs (BTC/ETH)</span>
+<span class="n">minimal_roi</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"0"</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>   <span class="c1"># 5% target</span>
+    <span class="s2">"120"</span><span class="p">:</span> <span class="mf">0.03</span><span class="p">,</span>
+    <span class="s2">"240"</span><span class="p">:</span> <span class="mf">0.01</span>
+<span class="p">}</span>
+
+<span class="c1"># High volatility trading pairs (altcoins)</span>
+<span class="n">minimal_roi</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"0"</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span>   <span class="c1"># 15% target</span>
+    <span class="s2">"60"</span><span class="p">:</span> <span class="mf">0.08</span><span class="p">,</span>
+    <span class="s2">"120"</span><span class="p">:</span> <span class="mf">0.03</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<hr />
+<h2 id="104-multi-pair-portfolio-testing">10.4 Multi-Pair Portfolio Testing<a class="headerlink" href="#104-multi-pair-portfolio-testing" title="Permanent link">&para;</a></h2>
+<h3 id="why-need-multiple-trading-pairs">Why Need Multiple Trading Pairs?<a class="headerlink" href="#why-need-multiple-trading-pairs" title="Permanent link">&para;</a></h3>
+<p><strong>Risk of Single Trading Pair</strong>:
+<div class="highlight"><pre><span></span><code>Only trading BTC/USDT:
+- BTC sideways → No strategy signals → No returns
+- BTC crashes → Stop loss triggered → Losses
+</code></pre></div></p>
+<p><strong>Advantages of Multiple Trading Pairs</strong>:
+- ✅ Diversify risk
+- ✅ Increase trading opportunities
+- ✅ Smooth return curve
+- ✅ Reduce drawdowns</p>
+<h3 id="multi-pair-backtesting">Multi-Pair Backtesting<a class="headerlink" href="#multi-pair-backtesting" title="Permanent link">&para;</a></h3>
+<h4 id="method-1-configuration-file-setup">Method 1: Configuration File Setup<a class="headerlink" href="#method-1-configuration-file-setup" title="Permanent link">&para;</a></h4>
+<p>Edit <code>config.json</code>:
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"exchange"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"pair_whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">"BTC/USDT"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"ETH/USDT"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"BNB/USDT"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"SOL/USDT"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"XRP/USDT"</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p>Run backtest:
+<div class="highlight"><pre><span></span><code>freqtrade<span class="w"> </span>backtesting<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+</code></pre></div></p>
+<h4 id="method-2-command-line-specification">Method 2: Command Line Specification<a class="headerlink" href="#method-2-command-line-specification" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>freqtrade<span class="w"> </span>backtesting<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--pairs<span class="w"> </span>BTC/USDT<span class="w"> </span>ETH/USDT<span class="w"> </span>BNB/USDT<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+</code></pre></div>
+<h3 id="multi-pair-results-analysis">Multi-Pair Results Analysis<a class="headerlink" href="#multi-pair-results-analysis" title="Permanent link">&para;</a></h3>
+<p><strong>Backtest Report Example</strong>:
+<div class="highlight"><pre><span></span><code>BACKTESTING REPORT
+┏━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
+┃ Pair       ┃ Trades ┃ Avg Profit ┃ Tot Profit % ┃ Win Rate % ┃
+┡━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━┩
+│ BTC/USDT   │     28 │       1.52 │         8.45 │       85.7 │
+│ ETH/USDT   │     35 │       1.38 │        10.22 │       82.9 │
+│ BNB/USDT   │     22 │       1.65 │         7.15 │       86.4 │
+│ SOL/USDT   │     42 │       0.95 │         6.83 │       78.6 │
+│ XRP/USDT   │     18 │       1.12 │         4.52 │       77.8 │
+├────────────┼────────┼────────────┼──────────────┼────────────┤
+│ TOTAL      │    145 │       1.34 │        37.17 │       82.1 │
+└────────────┴────────┴────────────┴──────────────┴────────────┘
+</code></pre></div></p>
+<p><strong>Analysis Points</strong>:
+1. <strong>Best performing pair</strong>: ETH/USDT (Total profit 10.22%)
+2. <strong>Worst performing pair</strong>: XRP/USDT (Total profit 4.52%)
+3. <strong>Most stable pair</strong>: BNB/USDT (Win rate 86.4%)
+4. <strong>Most traded pair</strong>: SOL/USDT (42 trades)</p>
+<h3 id="correlation-analysis">Correlation Analysis<a class="headerlink" href="#correlation-analysis" title="Permanent link">&para;</a></h3>
+<p><strong>What is Correlation?</strong>
+The similarity of price movements between two trading pairs.</p>
+<p><strong>Correlation Coefficient</strong>:
+<div class="highlight"><pre><span></span><code>+1.0: Perfect positive correlation (move up and down together)
+0.0: No correlation
+-1.0: Perfect negative correlation (one up, one down)
+</code></pre></div></p>
+<p><strong>Typical Correlations</strong>:
+<div class="highlight"><pre><span></span><code>BTC/USDT vs ETH/USDT: 0.85 (High positive correlation)
+BTC/USDT vs DOGE/USDT: 0.65 (Medium positive correlation)
+BTC/USDT vs stable coin pairs: 0.05 (No correlation)
+</code></pre></div></p>
+<p><strong>Risk Diversification Principles</strong>:
+- ❌ Choose pairs with correlation &gt; 0.9 (no diversification effect)
+- ✅ Choose pairs with correlation 0.5-0.8 (optimal balance)
+- ⚠️ Choose pairs with correlation &lt; 0.3 (over-diversified)</p>
+<p><strong>Recommended Portfolios</strong>:
+<div class="highlight"><pre><span></span><code>Portfolio 1 (Conservative):
+- BTC/USDT (40%)
+- ETH/USDT (40%)
+- BNB/USDT (20%)
+Correlation: 0.8-0.9
+
+Portfolio 2 (Balanced):
+- BTC/USDT (30%)
+- ETH/USDT (25%)
+- SOL/USDT (20%)
+- MATIC/USDT (15%)
+- LINK/USDT (10%)
+Correlation: 0.6-0.8
+
+Portfolio 3 (Diversified):
+- BTC/USDT (20%)
+- ETH/USDT (20%)
+- BNB/USDT (15%)
+- SOL/USDT (15%)
+- XRP/USDT (10%)
+- MATIC/USDT (10%)
+- LINK/USDT (10%)
+Correlation: 0.5-0.7
+</code></pre></div></p>
+<h3 id="building-optimal-portfolio">Building Optimal Portfolio<a class="headerlink" href="#building-optimal-portfolio" title="Permanent link">&para;</a></h3>
+<p><strong>Steps</strong>:</p>
+<ol>
+<li><strong>Filter Trading Pairs</strong>:</li>
+<li>24h volume &gt; $100M</li>
+<li>Tradable on Binance</li>
+<li>
+<p>Exclude stable coin pairs</p>
+</li>
+<li>
+<p><strong>Individual Backtests</strong>:
+   <div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>pair<span class="w"> </span><span class="k">in</span><span class="w"> </span>BTC/USDT<span class="w"> </span>ETH/USDT<span class="w"> </span>BNB/USDT<span class="w"> </span>SOL/USDT<span class="w"> </span>XRP/USDT
+<span class="k">do</span>
+<span class="w">  </span>freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--pairs<span class="w"> </span><span class="nv">$pair</span><span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+<span class="k">done</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Select Well-Performing Pairs</strong>:</p>
+</li>
+<li>Total profit &gt; 5%</li>
+<li>Win rate &gt; 70%</li>
+<li>
+<p>Max drawdown &lt; 10%</p>
+</li>
+<li>
+<p><strong>Portfolio Backtest</strong>:
+   <div class="highlight"><pre><span></span><code>freqtrade<span class="w"> </span>backtesting<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--pairs<span class="w"> </span>BTC/USDT<span class="w"> </span>ETH/USDT<span class="w"> </span>BNB/USDT<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Compare Results</strong>:
+   <div class="highlight"><pre><span></span><code>Single Pair (BTC/USDT):
+  Profit: +8.45%
+  Drawdown: -6.2%
+
+Three-Pair Portfolio:
+  Profit: +25.82% (sum of all pairs)
+  Drawdown: -4.8% (lower!)
+
+Conclusion: Portfolio is better ✅
+</code></pre></div></p>
+</li>
+</ol>
+<hr />
+<h2 id="practical-tasks">💡 Practical Tasks<a class="headerlink" href="#practical-tasks" title="Permanent link">&para;</a></h2>
+<h3 id="task-1-download-multi-pair-data">Task 1: Download Multi-Pair Data<a class="headerlink" href="#task-1-download-multi-pair-data" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Download data for 5 mainstream trading pairs</span>
+freqtrade<span class="w"> </span>download-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--pairs<span class="w"> </span>BTC/USDT<span class="w"> </span>ETH/USDT<span class="w"> </span>BNB/USDT<span class="w"> </span>SOL/USDT<span class="w"> </span>XRP/USDT<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--days<span class="w"> </span><span class="m">90</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timeframes<span class="w"> </span>15m
+</code></pre></div>
+<h3 id="task-2-test-each-pair-individually">Task 2: Test Each Pair Individually<a class="headerlink" href="#task-2-test-each-pair-individually" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Test BTC/USDT</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--pairs<span class="w"> </span>BTC/USDT<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930<span class="w"> </span>--timeframe<span class="w"> </span>15m
+
+<span class="c1"># Test ETH/USDT</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--pairs<span class="w"> </span>ETH/USDT<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930<span class="w"> </span>--timeframe<span class="w"> </span>15m
+
+<span class="c1"># Test BNB/USDT</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--pairs<span class="w"> </span>BNB/USDT<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930<span class="w"> </span>--timeframe<span class="w"> </span>15m
+
+<span class="c1"># Test SOL/USDT</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--pairs<span class="w"> </span>SOL/USDT<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930<span class="w"> </span>--timeframe<span class="w"> </span>15m
+
+<span class="c1"># Test XRP/USDT</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--pairs<span class="w"> </span>XRP/USDT<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930<span class="w"> </span>--timeframe<span class="w"> </span>15m
+</code></pre></div>
+<h3 id="task-3-create-trading-pair-comparison-table">Task 3: Create Trading Pair Comparison Table<a class="headerlink" href="#task-3-create-trading-pair-comparison-table" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Trading Pair</th>
+<th>Trade Count</th>
+<th>Win Rate%</th>
+<th>Total Profit%</th>
+<th>Avg Profit%</th>
+<th>Max Drawdown%</th>
+<th>Sharpe</th>
+<th>24h Volume</th>
+<th>Recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BTC/USDT</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>⭐?</td>
+</tr>
+<tr>
+<td>ETH/USDT</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>⭐?</td>
+</tr>
+<tr>
+<td>BNB/USDT</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>⭐?</td>
+</tr>
+<tr>
+<td>SOL/USDT</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>⭐?</td>
+</tr>
+<tr>
+<td>XRP/USDT</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>⭐?</td>
+</tr>
+</tbody>
+</table>
+<h3 id="task-4-portfolio-testing">Task 4: Portfolio Testing<a class="headerlink" href="#task-4-portfolio-testing" title="Permanent link">&para;</a></h3>
+<p>Select the 3 best performing pairs for portfolio backtesting:</p>
+<div class="highlight"><pre><span></span><code>freqtrade<span class="w"> </span>backtesting<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--pairs<span class="w"> </span><span class="o">[</span>your<span class="w"> </span><span class="m">3</span><span class="w"> </span>selected<span class="w"> </span>pairs<span class="o">]</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timeframe<span class="w"> </span>15m
+</code></pre></div>
+<p>Compare single pair vs portfolio:
+<div class="highlight"><pre><span></span><code>Best Single Pair:
+  Pair: ___________
+  Total Profit: ___________%
+  Max Drawdown: ___________%
+
+Three-Pair Portfolio:
+  Total Profit: ___________%
+  Max Drawdown: ___________%
+
+Conclusion:
+  ☐ Portfolio performs better (higher profit or lower drawdown)
+  ☐ Single pair performs better
+</code></pre></div></p>
+<h3 id="task-5-build-your-portfolio">Task 5: Build Your Portfolio<a class="headerlink" href="#task-5-build-your-portfolio" title="Permanent link">&para;</a></h3>
+<p>Based on test results, design your portfolio:</p>
+<p><strong>My Portfolio</strong>:
+<div class="highlight"><pre><span></span><code>Pair 1: ___________ (___%)
+Pair 2: ___________ (___%)
+Pair 3: ___________ (___%)
+Pair 4 (Optional): ___________ (___%)
+Pair 5 (Optional): ___________ (___%)
+
+Total: 100%
+
+Reasons for Selection:
+1. ___________
+2. ___________
+3. ___________
+</code></pre></div></p>
+<hr />
+<h2 id="knowledge-check">📚 Knowledge Check<a class="headerlink" href="#knowledge-check" title="Permanent link">&para;</a></h2>
+<h3 id="basic-questions">Basic Questions<a class="headerlink" href="#basic-questions" title="Permanent link">&para;</a></h3>
+<ol>
+<li>What are the main differences between blue chips and altcoins?</li>
+<li>What characteristics do good liquidity trading pairs have?</li>
+<li>What strategies are suitable for high volatility trading pairs?</li>
+</ol>
+<h3 id="answers">Answers<a class="headerlink" href="#answers" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Liquidity, volatility, and risk</strong>: Blue chips have good liquidity, low volatility, and low risk; altcoins are the opposite</li>
+<li><strong>High trading volume, small bid-ask spread, good order book depth</strong></li>
+<li><strong>Short-term breakout strategies, high-frequency trading strategies</strong>, need to widen stop loss</li>
+</ol>
+<h3 id="advanced-questions">Advanced Questions<a class="headerlink" href="#advanced-questions" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Why are backtest results for low liquidity trading pairs unreliable?</li>
+<li>How to judge correlation between trading pairs?</li>
+<li>What is the principle behind multi-pair portfolios reducing risk?</li>
+</ol>
+<h3 id="thought-questions">Thought Questions<a class="headerlink" href="#thought-questions" title="Permanent link">&para;</a></h3>
+<ol>
+<li>If all trading pairs are highly correlated, does diversification still make sense?</li>
+<li>Altcoin backtest returns are high, should they be traded in live trading?</li>
+<li>How to dynamically adjust trading pair portfolios?</li>
+</ol>
+<hr />
+<h2 id="reference-materials">🔗 Reference Materials<a class="headerlink" href="#reference-materials" title="Permanent link">&para;</a></h2>
+<h3 id="data-query-websites">Data Query Websites<a class="headerlink" href="#data-query-websites" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://coinmarketcap.com/">CoinMarketCap</a> - Check volume and market cap</li>
+<li><a href="https://www.coingecko.com/">CoinGecko</a> - Check trading pair information</li>
+<li><a href="https://www.tradingview.com/">TradingView</a> - Check price fluctuations</li>
+</ul>
+<h3 id="supporting-documentation">Supporting Documentation<a class="headerlink" href="#supporting-documentation" title="Permanent link">&para;</a></h3>
+<ul>
+<li>📄 <a href="../CONFIG_EXPLANATION.md">CONFIG_EXPLANATION.md</a> - Trading pair configuration</li>
+<li>📄 <a href="../STRATEGY_SELECTION_GUIDE.md">STRATEGY_SELECTION_GUIDE.md</a> - Trading pair selection</li>
+</ul>
+<h3 id="recommended-reading">Recommended Reading<a class="headerlink" href="#recommended-reading" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://www.investopedia.com/terms/m/modernportfoliotheory.asp">Portfolio Theory</a></li>
+<li><a href="https://www.investopedia.com/terms/c/correlation.asp">Correlation Analysis</a></li>
+</ul>
+<hr />
+<h2 id="key-points-summary">📌 Key Points Summary<a class="headerlink" href="#key-points-summary" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Beginners recommend blue chips</strong>: BTC, ETH, BNB</li>
+<li><strong>Liquidity &gt; Return Potential</strong>: Avoid low liquidity trading pairs</li>
+<li><strong>Match volatility to strategy</strong>: High volatility for short-term, low volatility for long-term</li>
+<li><strong>Multi-pair diversifies risk</strong>: Don't put all eggs in one basket</li>
+<li><strong>Correlation shouldn't be too high</strong>: 0.5-0.8 is optimal</li>
+<li><strong>Slippage is a silent killer</strong>: Live trading returns may be much lower than backtest</li>
+</ol>
+<hr />
+<h2 id="part-two-summary">➡️ Part Two Summary<a class="headerlink" href="#part-two-summary" title="Permanent link">&para;</a></h2>
+<p><strong>Congratulations! You have completed Part Two: Backtesting Practical (Lessons 5-10)</strong></p>
+<p><strong>You've learned</strong>:
+- ✅ Lesson 5: Run your first complete backtest
+- ✅ Lesson 6: Interpret backtest reports, analyze strategy performance
+- ✅ Lesson 7: Test different timeframes
+- ✅ Lesson 8: Batch compare multiple strategies
+- ✅ Lesson 9: Validate strategy stability, avoid overfitting
+- ✅ Lesson 10: Select suitable trading pairs</p>
+<p><strong>Next Part Preview</strong>:
+<strong>Part Three: Strategy Optimization (Lessons 11-15)</strong></p>
+<p>In Part Three, you will learn:
+- Lesson 11: Use Hyperopt to optimize strategy parameters
+- Lesson 12: Advanced strategy analysis techniques
+- Lesson 13: Build strategy scoring system
+- Lesson 14: Risk management and capital management
+- Lesson 15: Build strategy portfolios</p>
+<p><strong>Preparation</strong>:
+- ✅ Select 1-2 well-performing strategies
+- ✅ Download at least 6 months of historical data
+- ✅ Ensure sufficient computing resources (Hyperopt needs it)</p>
+<hr />
+<p><strong>🎯 Learning Check Standards</strong>:
+- ✅ Can independently select suitable trading pairs
+- ✅ Can evaluate liquidity and volatility of trading pairs
+- ✅ Can build multi-pair portfolios
+- ✅ Understand the impact of correlation on risk diversification</p>
+<p><strong>After completing Part Two, you have mastered the core skills of backtesting! Ready to move on to advanced strategy optimization learning!</strong> 🚀🎉</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

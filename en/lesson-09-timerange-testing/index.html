@@ -1,0 +1,3398 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径">
+      
+      
+      
+        <link rel="canonical" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-09-timerange-testing/">
+      
+      
+        <link rel="prev" href="../lesson-08-strategy-comparison/">
+      
+      
+        <link rel="next" href="../lesson-10-pair-selection/">
+      
+      
+        
+          <link rel="alternate" href="../../lesson-09-timerange-testing/" hreflang="zh">
+        
+          <link rel="alternate" href="./" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>Lesson 9: Time Range Testing - Freqtrade 实战教程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9784658154228475"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VGHZY4EELE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VGHZY4EELE");
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lesson-9-time-range-testing" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Freqtrade 实战教程" class="md-header__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Freqtrade 实战教程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lesson 9: Time Range Testing
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../lesson-09-timerange-testing/" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../strategies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  English Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Freqtrade 实战教程" class="md-nav__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Freqtrade 实战教程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../strategies/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    English Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    English Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 1: Introduction to Quantitative Trading and Freqtrade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-02-environment-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 2: Freqtrade Environment Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-03-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 3: Understanding Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-04-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 4: Data Download and Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-05-first-backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 5: First Strategy Backtest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-06-strategy-performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 6: Strategy Performance Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-07-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 7: Multi-Timeframe Backtesting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-08-strategy-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 8: Strategy Batch Comparison
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 9: Time Range Testing
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 9: Time Range Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#course-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 Course Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#91-why-test-different-time-periods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 Why Test Different Time Periods?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.1 Why Test Different Time Periods?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#three-core-reasons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Three Core Reasons
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Three Core Reasons">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-avoid-overfitting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Avoid Overfitting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-validate-strategy-consistency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Validate Strategy Consistency
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-identify-applicable-markets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Identify Applicable Markets
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#92-bull-market-vs-bear-market-vs-range-bound-market" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Bull Market vs Bear Market vs Range-Bound Market
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.2 Bull Market vs Bear Market vs Range-Bound Market">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#market-type-characteristics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Market Type Characteristics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Market Type Characteristics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-bull-market" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Bull Market
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-bear-market" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Bear Market
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-range-bound-market" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Range-Bound Market
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#market-identification-in-practice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Market Identification in Practice
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#93-out-of-sample-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 Out-of-Sample Testing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.3 Out-of-Sample Testing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-out-of-sample-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is Out-of-Sample Testing?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#time-splitting-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Time Splitting Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Time Splitting Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#method-1-7030-split" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 1: 70/30 Split
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-2-multi-period-rolling-test-walk-forward" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 2: Multi-Period Rolling Test (Walk-Forward)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-3-quarterly-split-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 3: Quarterly Split Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#out-of-sample-testing-evaluation-criteria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Out-of-Sample Testing Evaluation Criteria
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#94-avoiding-overfitting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.4 Avoiding Overfitting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.4 Avoiding Overfitting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overfitting-identification-signals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overfitting Identification Signals
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overfitting Identification Signals">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signal-1-perfect-training-period-poor-testing-period" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Signal 1: Perfect Training Period, Poor Testing Period
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signal-2-extremely-complex-strategy-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Signal 2: Extremely Complex Strategy Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signal-3-dramatic-performance-changes-with-minor-parameter-adjustments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Signal 3: Dramatic Performance Changes with Minor Parameter Adjustments
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#overfitting-prevention-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overfitting Prevention Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overfitting Prevention Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-simplify-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Simplify Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-increase-testing-period" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Increase Testing Period
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-multi-market-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Multi-Market Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-parameter-stability-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Parameter Stability Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-use-regularization-techniques" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Use Regularization Techniques
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Practical Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 Practical Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-different-time-period-comparison-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Different Time Period Comparison Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-create-time-period-comparison-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Create Time Period Comparison Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-out-of-sample-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: Out-of-Sample Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-4-judge-strategy-stability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 4: Judge Strategy Stability
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#knowledge-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Knowledge Check
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Knowledge Check">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Answers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advanced-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#thought-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Thought Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reference-materials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔗 Reference Materials
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔗 Reference Materials">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#supporting-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supporting Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommended Reading
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-points-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Key Points Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-lesson-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ➡️ Next Lesson Preview
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-10-pair-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 10: Trading Pair Selection and Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-11-hyperopt-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 11: Hyperopt Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-12-advanced-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 12: Advanced Strategy Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-13-scoring-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 13: Strategy Scoring System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-14-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 14: Risk and Money Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-15-portfolio-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 15: Strategy Portfolio and Diversification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-16-realtime-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 16: Real-time Signal Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-17-telegram-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 17: Telegram Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-18-webui-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 18: Web UI and API Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 19: Visualization Analysis Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-20-dry-run-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 20: Simulated Trading Validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-21-exchange-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 21: Exchange API Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-22-pre-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 22: Pre-Live Trading Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-23-small-capital-live/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 23: Small Capital Live Trading
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-1-order-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.1: Live Trading Order Placement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-2-stop-loss-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.2: Live Trading Stop Loss Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-3-futures-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.3: Binance Futures Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-4-leverage-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.4: Leverage Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-trading-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24: Trading Monitoring and Adjustment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-25-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 25: Risk Control and Psychology Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-26-custom-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 26: Custom Strategy Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-27-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 27: Multi-Timeframe Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-28-grid-hft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 28: HFT and Grid Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-1-freqai-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.1: FreqAI Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-2-advanced-ml-strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.2: Advanced ML Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning-enhanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: ML Basics and Strategy Optimization (Enhanced)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: Machine Learning and Strategy Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-30-conclusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 30: Conclusion and Continuous Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#course-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 Course Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#91-why-test-different-time-periods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 Why Test Different Time Periods?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.1 Why Test Different Time Periods?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#three-core-reasons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Three Core Reasons
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Three Core Reasons">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-avoid-overfitting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Avoid Overfitting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-validate-strategy-consistency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Validate Strategy Consistency
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-identify-applicable-markets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Identify Applicable Markets
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#92-bull-market-vs-bear-market-vs-range-bound-market" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Bull Market vs Bear Market vs Range-Bound Market
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.2 Bull Market vs Bear Market vs Range-Bound Market">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#market-type-characteristics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Market Type Characteristics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Market Type Characteristics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-bull-market" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Bull Market
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-bear-market" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Bear Market
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-range-bound-market" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Range-Bound Market
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#market-identification-in-practice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Market Identification in Practice
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#93-out-of-sample-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 Out-of-Sample Testing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.3 Out-of-Sample Testing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-out-of-sample-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is Out-of-Sample Testing?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#time-splitting-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Time Splitting Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Time Splitting Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#method-1-7030-split" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 1: 70/30 Split
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-2-multi-period-rolling-test-walk-forward" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 2: Multi-Period Rolling Test (Walk-Forward)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-3-quarterly-split-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 3: Quarterly Split Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#out-of-sample-testing-evaluation-criteria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Out-of-Sample Testing Evaluation Criteria
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#94-avoiding-overfitting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.4 Avoiding Overfitting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.4 Avoiding Overfitting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overfitting-identification-signals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overfitting Identification Signals
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overfitting Identification Signals">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signal-1-perfect-training-period-poor-testing-period" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Signal 1: Perfect Training Period, Poor Testing Period
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signal-2-extremely-complex-strategy-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Signal 2: Extremely Complex Strategy Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signal-3-dramatic-performance-changes-with-minor-parameter-adjustments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Signal 3: Dramatic Performance Changes with Minor Parameter Adjustments
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#overfitting-prevention-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overfitting Prevention Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overfitting Prevention Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-simplify-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Simplify Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-increase-testing-period" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Increase Testing Period
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-multi-market-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Multi-Market Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-parameter-stability-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Parameter Stability Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-use-regularization-techniques" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Use Regularization Techniques
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Practical Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 Practical Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-different-time-period-comparison-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Different Time Period Comparison Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-create-time-period-comparison-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Create Time Period Comparison Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-out-of-sample-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: Out-of-Sample Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-4-judge-strategy-stability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 4: Judge Strategy Stability
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#knowledge-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Knowledge Check
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Knowledge Check">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Answers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advanced-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#thought-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Thought Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reference-materials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔗 Reference Materials
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔗 Reference Materials">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#supporting-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supporting Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommended Reading
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-points-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Key Points Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-lesson-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ➡️ Next Lesson Preview
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="lesson-9-time-range-testing">Lesson 9: Time Range Testing<a class="headerlink" href="#lesson-9-time-range-testing" title="Permanent link">&para;</a></h1>
+<p><strong>⏱ Duration</strong>: 1.5 hours
+<strong>🎯 Learning Objectives</strong>: Validate strategy performance in different market environments
+<strong>📚 Difficulty</strong>: ⭐⭐ Backtesting practical</p>
+<hr />
+<h2 id="course-overview">📖 Course Overview<a class="headerlink" href="#course-overview" title="Permanent link">&para;</a></h2>
+<p>A strategy performing well in one time period doesn't guarantee it will perform well in other periods. This lesson will teach you how to validate strategy stability and adaptability through time range testing, avoiding overfitting traps.</p>
+<hr />
+<h2 id="91-why-test-different-time-periods">9.1 Why Test Different Time Periods?<a class="headerlink" href="#91-why-test-different-time-periods" title="Permanent link">&para;</a></h2>
+<h3 id="three-core-reasons">Three Core Reasons<a class="headerlink" href="#three-core-reasons" title="Permanent link">&para;</a></h3>
+<h4 id="1-avoid-overfitting">1. Avoid Overfitting<a class="headerlink" href="#1-avoid-overfitting" title="Permanent link">&para;</a></h4>
+<p><strong>What is Overfitting?</strong>
+A strategy overfits specific characteristics of historical data, leading to poor performance on new data.</p>
+<p><strong>Overfitting Manifestations</strong>:
+<div class="highlight"><pre><span></span><code>Training Period (2025-01-01 ~ 2025-06-30):
+  Returns: +35%, Win Rate: 92%, Sharpe: 4.5 ✅
+
+Testing Period (2025-07-01 ~ 2025-09-30):
+  Returns: -8%, Win Rate: 45%, Sharpe: 0.3 ❌
+
+Conclusion: Serious overfitting!
+</code></pre></div></p>
+<p><strong>How to Identify Overfitting</strong>:
+- ✅ Excellent performance in training period, poor in testing period
+- ✅ Strategy parameters overly complex (&gt; 10 conditions)
+- ✅ Strategy only works in specific time periods
+- ✅ Performance fluctuates dramatically with minor parameter adjustments</p>
+<h4 id="2-validate-strategy-consistency">2. Validate Strategy Consistency<a class="headerlink" href="#2-validate-strategy-consistency" title="Permanent link">&para;</a></h4>
+<p><strong>Definition of Consistency</strong>:
+Strategy maintains relatively consistent performance across different time periods.</p>
+<p><strong>Consistency Metrics</strong>:
+<div class="highlight"><pre><span></span><code>Q1 (Jan-Mar): Returns +8%, Drawdown -3%
+Q2 (Apr-Jun): Returns +12%, Drawdown -4%
+Q3 (Jul-Sep): Returns +9%, Drawdown -3.5%
+Q4 (Oct-Dec): Returns +11%, Drawdown -3.2%
+
+Conclusion: Strategy stable, consistent quarterly performance ✅
+</code></pre></div></p>
+<p>vs</p>
+<div class="highlight"><pre><span></span><code>Q1: Returns +45%, Drawdown -2%
+Q2: Returns -15%, Drawdown -18%
+Q3: Returns +30%, Drawdown -5%
+Q4: Returns -20%, Drawdown -22%
+
+Conclusion: Strategy unstable, high volatility ❌
+</code></pre></div>
+<h4 id="3-identify-applicable-markets">3. Identify Applicable Markets<a class="headerlink" href="#3-identify-applicable-markets" title="Permanent link">&para;</a></h4>
+<p>Different strategies are suitable for different market conditions:</p>
+<p><strong>Trend Strategy vs Range Strategy</strong>:
+<div class="highlight"><pre><span></span><code>Trend Strategy (MovingAverageCross):
+  Bull Market (2025-01~03): +35% ✅
+  Range-Bound (2025-04~06): -8% ❌
+  Bear Market (2025-07~09): +28% ✅
+
+Mean Reversion Strategy (MeanReversion):
+  Bull Market: +5% ⚠️
+  Range-Bound: +22% ✅
+  Bear Market: +3% ⚠️
+</code></pre></div></p>
+<p><strong>Conclusions</strong>:
+- Trend strategies suitable for bull and bear markets (trending markets)
+- Mean reversion strategies suitable for range-bound markets (range fluctuations)</p>
+<hr />
+<h2 id="92-bull-market-vs-bear-market-vs-range-bound-market">9.2 Bull Market vs Bear Market vs Range-Bound Market<a class="headerlink" href="#92-bull-market-vs-bear-market-vs-range-bound-market" title="Permanent link">&para;</a></h2>
+<h3 id="market-type-characteristics">Market Type Characteristics<a class="headerlink" href="#market-type-characteristics" title="Permanent link">&para;</a></h3>
+<h4 id="1-bull-market">1. Bull Market<a class="headerlink" href="#1-bull-market" title="Permanent link">&para;</a></h4>
+<p><strong>Features</strong>:
+- 📈 Continuous upward trend (gain &gt; 20%)
+- 🔺 Small pullback magnitude (&lt; 10%)
+- 📊 Increased trading volume
+- 💪 Optimistic market sentiment
+- ⏱ Duration: weeks to months</p>
+<p><strong>Identification Method</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Simple judgment: MA50 rising and price above MA50</span>
+<span class="n">price</span> <span class="o">&gt;</span> <span class="n">MA50</span> <span class="ow">and</span> <span class="n">MA50</span> <span class="o">&gt;</span> <span class="n">MA50</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+</code></pre></div></p>
+<p><strong>Suitable Strategies</strong>:
+- ✅ Trend Following
+- ✅ Momentum
+- ✅ Breakout
+- ❌ Not suitable: Mean Reversion</p>
+<p><strong>Backtesting Points</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Test bull market (assume 2025-01~03 is bull market)</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--strategy<span class="w"> </span>MomentumTrendStrategy<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timerange<span class="w"> </span><span class="m">20250101</span>-20250331
+</code></pre></div></p>
+<h4 id="2-bear-market">2. Bear Market<a class="headerlink" href="#2-bear-market" title="Permanent link">&para;</a></h4>
+<p><strong>Features</strong>:
+- 📉 Continuous downward trend (decline &gt; 20%)
+- 🔻 Weak rebounds (&lt; 10%)
+- 📊 Decreased trading volume
+- 😰 Pessimistic market sentiment
+- ⏱ Duration: weeks to months</p>
+<p><strong>Identification Method</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Simple judgment: MA50 falling and price below MA50</span>
+<span class="n">price</span> <span class="o">&lt;</span> <span class="n">MA50</span> <span class="ow">and</span> <span class="n">MA50</span> <span class="o">&lt;</span> <span class="n">MA50</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+</code></pre></div></p>
+<p><strong>Response Strategies</strong>:
+- ⚠️ Reduce position size (50% or lower)
+- ⚠️ Raise stop loss standards
+- ⚠️ Decrease trading frequency
+- 🛑 Consider suspending trading</p>
+<p><strong>Suitable Strategies</strong>:
+- ✅ Conservative strategies
+- ✅ Short selling strategies (if supported)
+- ❌ Not suitable: Aggressive momentum-chasing strategies</p>
+<p><strong>Backtesting Points</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Test bear market (assume 2025-07~09 is bear market)</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+
+<span class="c1"># Focus on drawdown and stop loss performance</span>
+</code></pre></div></p>
+<h4 id="3-range-bound-market">3. Range-Bound Market<a class="headerlink" href="#3-range-bound-market" title="Permanent link">&para;</a></h4>
+<p><strong>Features</strong>:
+- ↔️ Sideways consolidation (fluctuation &lt; 10%)
+- 🔄 Range-bound oscillation
+- 📊 Moderate trading volume
+- 😐 Neutral market sentiment
+- ⏱ Duration: days to weeks</p>
+<p><strong>Identification Method</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Simple judgment: price oscillating within range</span>
+<span class="n">price_range</span> <span class="o">=</span> <span class="p">(</span><span class="n">high_30d</span> <span class="o">-</span> <span class="n">low_30d</span><span class="p">)</span> <span class="o">/</span> <span class="n">low_30d</span>
+<span class="k">if</span> <span class="n">price_range</span> <span class="o">&lt;</span> <span class="mf">0.15</span><span class="p">:</span>  <span class="c1"># Fluctuation &lt; 15%</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Range-bound market"</span><span class="p">)</span>
+</code></pre></div></p>
+<p><strong>Suitable Strategies</strong>:
+- ✅ Mean Reversion
+- ✅ Grid Trading
+- ✅ RSI overbought/oversold strategies
+- ❌ Not suitable: Trend Following</p>
+<p><strong>Backtesting Points</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Test range-bound market</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--strategy<span class="w"> </span>MeanReversionStrategy<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timerange<span class="w"> </span><span class="m">20250401</span>-20250630
+</code></pre></div></p>
+<h3 id="market-identification-in-practice">Market Identification in Practice<a class="headerlink" href="#market-identification-in-practice" title="Permanent link">&para;</a></h3>
+<p><strong>Using TradingView for Identification</strong>:
+1. Open <a href="https://www.tradingview.com/chart/">TradingView</a>
+2. View BTC/USDT daily chart
+3. Add MA50 and MA200 indicators
+4. Observe the last 6-12 months of trends</p>
+<p><strong>Judgment Criteria</strong>:
+<div class="highlight"><pre><span></span><code>Price &gt; MA50 &gt; MA200, and MA50 rising → Bull Market
+Price &lt; MA50 &lt; MA200, and MA50 falling → Bear Market
+Price fluctuating around MA50, MA50 flat → Range-Bound Market
+</code></pre></div></p>
+<hr />
+<h2 id="93-out-of-sample-testing">9.3 Out-of-Sample Testing<a class="headerlink" href="#93-out-of-sample-testing" title="Permanent link">&para;</a></h2>
+<h3 id="what-is-out-of-sample-testing">What is Out-of-Sample Testing?<a class="headerlink" href="#what-is-out-of-sample-testing" title="Permanent link">&para;</a></h3>
+<p><strong>Definition</strong>:
+Divide data into two parts:
+- <strong>Training Set (In-Sample)</strong>: Used for strategy development and optimization
+- <strong>Testing Set (Out-of-Sample)</strong>: Used to validate strategy effectiveness</p>
+<p><strong>Importance</strong>:
+- ✅ Validate strategy generalization ability
+- ✅ Avoid overfitting
+- ✅ Simulate real trading scenarios</p>
+<h3 id="time-splitting-methods">Time Splitting Methods<a class="headerlink" href="#time-splitting-methods" title="Permanent link">&para;</a></h3>
+<h4 id="method-1-7030-split">Method 1: 70/30 Split<a class="headerlink" href="#method-1-7030-split" title="Permanent link">&para;</a></h4>
+<p><strong>Standard Division</strong>:
+<div class="highlight"><pre><span></span><code>Total Data: 2024-07-01 ~ 2025-09-30 (15 months)
+
+Training Set: 2024-07-01 ~ 2025-03-31 (9 months, 60%)
+Testing Set: 2025-04-01 ~ 2025-09-30 (6 months, 40%)
+</code></pre></div></p>
+<p><strong>Backtesting Commands</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Training period backtest</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timerange<span class="w"> </span><span class="m">20240701</span>-20250331
+
+<span class="c1"># Testing period backtest</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timerange<span class="w"> </span><span class="m">20250401</span>-20250930
+</code></pre></div></p>
+<h4 id="method-2-multi-period-rolling-test-walk-forward">Method 2: Multi-Period Rolling Test (Walk-Forward)<a class="headerlink" href="#method-2-multi-period-rolling-test-walk-forward" title="Permanent link">&para;</a></h4>
+<p><strong>Principle</strong>:
+<div class="highlight"><pre><span></span><code>Data: 12 months
+
+Period 1: Train (Jan-Jun) → Test (Jul-Aug)
+Period 2: Train (Mar-Aug) → Test (Sep-Oct)
+Period 3: Train (May-Oct) → Test (Nov-Dec)
+</code></pre></div></p>
+<p><strong>Advantages</strong>:
+- More comprehensive validation
+- Closer to live trading scenarios
+- Reduce single-period bias</p>
+<p><strong>Implementation Script</strong>:
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+
+<span class="nv">STRATEGY</span><span class="o">=</span><span class="s2">"Strategy001"</span>
+<span class="nv">CONFIG</span><span class="o">=</span><span class="s2">"config.json"</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"=== Walk-Forward Testing ==="</span>
+
+<span class="c1"># Period 1</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"Period 1: Train 2024-07~Dec, Test 2025-01~Feb"</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span><span class="nv">$CONFIG</span><span class="w"> </span>--strategy<span class="w"> </span><span class="nv">$STRATEGY</span><span class="w"> </span>--timerange<span class="w"> </span><span class="m">20240701</span>-20241231
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span><span class="nv">$CONFIG</span><span class="w"> </span>--strategy<span class="w"> </span><span class="nv">$STRATEGY</span><span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250101</span>-20250228
+
+<span class="c1"># Period 2</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"Period 2: Train 2024-Sep~2025-Feb, Test 2025-Mar~Apr"</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span><span class="nv">$CONFIG</span><span class="w"> </span>--strategy<span class="w"> </span><span class="nv">$STRATEGY</span><span class="w"> </span>--timerange<span class="w"> </span><span class="m">20240901</span>-20250228
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span><span class="nv">$CONFIG</span><span class="w"> </span>--strategy<span class="w"> </span><span class="nv">$STRATEGY</span><span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250301</span>-20250430
+
+<span class="c1"># Period 3</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"Period 3: Train 2024-Nov~2025-Apr, Test 2025-May~Jun"</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span><span class="nv">$CONFIG</span><span class="w"> </span>--strategy<span class="w"> </span><span class="nv">$STRATEGY</span><span class="w"> </span>--timerange<span class="w"> </span><span class="m">20241101</span>-20250430
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span><span class="nv">$CONFIG</span><span class="w"> </span>--strategy<span class="w"> </span><span class="nv">$STRATEGY</span><span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250501</span>-20250630
+</code></pre></div></p>
+<h4 id="method-3-quarterly-split-testing">Method 3: Quarterly Split Testing<a class="headerlink" href="#method-3-quarterly-split-testing" title="Permanent link">&para;</a></h4>
+<p><strong>Principle</strong>:
+<div class="highlight"><pre><span></span><code>Q1 (Jan-Mar): Test
+Q2 (Apr-Jun): Test
+Q3 (Jul-Sep): Test
+Q4 (Oct-Dec): Test
+
+Compare consistency of quarterly performance
+</code></pre></div></p>
+<p><strong>Backtesting Commands</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Q1</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250101</span>-20250331
+
+<span class="c1"># Q2</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250401</span>-20250630
+
+<span class="c1"># Q3</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+
+<span class="c1"># Q4</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20251001</span>-20251231
+</code></pre></div></p>
+<h3 id="out-of-sample-testing-evaluation-criteria">Out-of-Sample Testing Evaluation Criteria<a class="headerlink" href="#out-of-sample-testing-evaluation-criteria" title="Permanent link">&para;</a></h3>
+<p><strong>Qualified Standards</strong>:
+<div class="highlight"><pre><span></span><code>Training Period Returns: +20%
+Testing Period Returns: +15% (≥ 75% of training period)
+
+Training Period Drawdown: -5%
+Testing Period Drawdown: -7% (≤ 150% of training period)
+
+Training Period Sharpe: 3.0
+Testing Period Sharpe: 2.3 (≥ 75% of training period)
+
+Conclusion: ✅ Strategy stable, can be used
+</code></pre></div></p>
+<p><strong>Warning Signals</strong>:
+<div class="highlight"><pre><span></span><code>Training Period Returns: +30%
+Testing Period Returns: +2% (only 6.7% of training period) ❌
+
+Training Period Drawdown: -3%
+Testing Period Drawdown: -15% (5x training period) ❌
+
+Training Period Sharpe: 4.5
+Testing Period Sharpe: 0.5 (only 11% of training period) ❌
+
+Conclusion: ❌ Serious overfitting, cannot be used
+</code></pre></div></p>
+<hr />
+<h2 id="94-avoiding-overfitting">9.4 Avoiding Overfitting<a class="headerlink" href="#94-avoiding-overfitting" title="Permanent link">&para;</a></h2>
+<h3 id="overfitting-identification-signals">Overfitting Identification Signals<a class="headerlink" href="#overfitting-identification-signals" title="Permanent link">&para;</a></h3>
+<h4 id="signal-1-perfect-training-period-poor-testing-period">Signal 1: Perfect Training Period, Poor Testing Period<a class="headerlink" href="#signal-1-perfect-training-period-poor-testing-period" title="Permanent link">&para;</a></h4>
+<p><strong>Case</strong>:
+<div class="highlight"><pre><span></span><code>Training Period (6 months):
+  Trade Count: 150
+  Win Rate: 95%
+  Total Returns: +45%
+  Sharpe: 5.2
+
+Testing Period (3 months):
+  Trade Count: 72
+  Win Rate: 48%
+  Total Returns: -12%
+  Sharpe: -0.3
+
+Diagnosis: Typical overfitting!
+</code></pre></div></p>
+<h4 id="signal-2-extremely-complex-strategy-parameters">Signal 2: Extremely Complex Strategy Parameters<a class="headerlink" href="#signal-2-extremely-complex-strategy-parameters" title="Permanent link">&para;</a></h4>
+<p><strong>Overfitting Strategy Example</strong>:
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">populate_entry_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">,</span> <span class="n">metadata</span><span class="p">):</span>
+    <span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+        <span class="p">(</span>
+            <span class="c1"># 10 condition combinations</span>
+            <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema5'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema10'</span><span class="p">])</span> <span class="o">&amp;</span>
+            <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema10'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema20'</span><span class="p">])</span> <span class="o">&amp;</span>
+            <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">52.3</span><span class="p">)</span> <span class="o">&amp;</span>  <span class="c1"># Too precise</span>
+            <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">57.8</span><span class="p">)</span> <span class="o">&amp;</span>  <span class="c1"># Too precise</span>
+            <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'macd'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.0023</span><span class="p">)</span> <span class="o">&amp;</span>  <span class="c1"># Too precise</span>
+            <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.234</span><span class="p">)</span> <span class="o">&amp;</span>  <span class="c1"># Too precise</span>
+            <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'close'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'bb_lowerband'</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1.012</span><span class="p">)</span> <span class="o">&amp;</span>
+            <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'adx'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">23.7</span><span class="p">)</span> <span class="o">&amp;</span>
+            <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'cci'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">87.3</span><span class="p">)</span> <span class="o">&amp;</span>
+            <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'mfi'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">42.1</span><span class="p">)</span>
+        <span class="p">),</span>
+        <span class="s1">'enter_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div></p>
+<p><strong>Problems</strong>:
+- ❌ Parameters too precise (e.g., 52.3, 57.8)
+- ❌ Too many conditions (10 conditions)
+- ❌ May only suit specific historical data</p>
+<h4 id="signal-3-dramatic-performance-changes-with-minor-parameter-adjustments">Signal 3: Dramatic Performance Changes with Minor Parameter Adjustments<a class="headerlink" href="#signal-3-dramatic-performance-changes-with-minor-parameter-adjustments" title="Permanent link">&para;</a></h4>
+<p><strong>Test</strong>:
+<div class="highlight"><pre><span></span><code>RSI Threshold = 30 → Returns +25%
+RSI Threshold = 31 → Returns +2%
+RSI Threshold = 29 → Returns -5%
+
+Conclusion: Strategy extremely sensitive to parameters, overfitting!
+</code></pre></div></p>
+<h3 id="overfitting-prevention-methods">Overfitting Prevention Methods<a class="headerlink" href="#overfitting-prevention-methods" title="Permanent link">&para;</a></h3>
+<h4 id="1-simplify-strategy">1. Simplify Strategy<a class="headerlink" href="#1-simplify-strategy" title="Permanent link">&para;</a></h4>
+<p><strong>Principles</strong>:
+- ✅ Condition count ≤ 5
+- ✅ Use integer parameters (e.g., 30, not 30.3)
+- ✅ Clear and understandable logic</p>
+<p><strong>Improvement Example</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Simplified strategy</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">populate_entry_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">,</span> <span class="n">metadata</span><span class="p">):</span>
+    <span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+        <span class="p">(</span>
+            <span class="c1"># Keep only 3 core conditions</span>
+            <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema20'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">'ema50'</span><span class="p">])</span> <span class="o">&amp;</span>  <span class="c1"># Trend confirmation</span>
+            <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'rsi'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">30</span><span class="p">)</span> <span class="o">&amp;</span>  <span class="c1"># Not oversold</span>
+            <span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># Has volume</span>
+        <span class="p">),</span>
+        <span class="s1">'enter_long'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div></p>
+<h4 id="2-increase-testing-period">2. Increase Testing Period<a class="headerlink" href="#2-increase-testing-period" title="Permanent link">&para;</a></h4>
+<p><strong>Recommendations</strong>:
+<div class="highlight"><pre><span></span><code>Short-term strategies (5m-15m): At least 3 months of data
+Medium-term strategies (1h-4h): At least 6 months of data
+Long-term strategies (1d): At least 12 months of data
+</code></pre></div></p>
+<h4 id="3-multi-market-testing">3. Multi-Market Testing<a class="headerlink" href="#3-multi-market-testing" title="Permanent link">&para;</a></h4>
+<p><strong>Validation Checklist</strong>:
+<div class="highlight"><pre><span></span><code>✅ Bull market testing
+✅ Bear market testing
+✅ Range-bound market testing
+✅ High volatility period testing
+✅ Low volatility period testing
+</code></pre></div></p>
+<h4 id="4-parameter-stability-testing">4. Parameter Stability Testing<a class="headerlink" href="#4-parameter-stability-testing" title="Permanent link">&para;</a></h4>
+<p><strong>Method</strong>:
+Fine-tune parameters, observe result changes</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Test RSI threshold stability</span>
+<span class="c1"># Modify RSI threshold in strategy: 25, 30, 35</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>StrategyRSI25<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>StrategyRSI30<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>StrategyRSI35<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+
+<span class="c1"># If three versions have similar results, strategy is stable</span>
+</code></pre></div>
+<h4 id="5-use-regularization-techniques">5. Use Regularization Techniques<a class="headerlink" href="#5-use-regularization-techniques" title="Permanent link">&para;</a></h4>
+<p><strong>Methods</strong>:
+- Limit maximum open positions
+- Set reasonable ROI gradients
+- Use conservative stop losses</p>
+<p><strong>Example</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Conservative settings to prevent overfitting</span>
+<span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.10</span>  <span class="c1"># 10% stop loss (not too tight)</span>
+<span class="n">max_open_trades</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1"># Limit position count</span>
+<span class="n">minimal_roi</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"0"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">,</span>     <span class="c1"># Reasonable target (not too high)</span>
+    <span class="s2">"120"</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+    <span class="s2">"240"</span><span class="p">:</span> <span class="mf">0.02</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<hr />
+<h2 id="practical-tasks">💡 Practical Tasks<a class="headerlink" href="#practical-tasks" title="Permanent link">&para;</a></h2>
+<h3 id="task-1-different-time-period-comparison-testing">Task 1: Different Time Period Comparison Testing<a class="headerlink" href="#task-1-different-time-period-comparison-testing" title="Permanent link">&para;</a></h3>
+<p>Choose a strategy (recommend Strategy001), test 3 different time periods:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Period 1: 2024-10-01 ~ 2024-12-31 (Q4 2024)</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20241001</span>-20241231<span class="w"> </span>--timeframe<span class="w"> </span>15m
+
+<span class="c1"># Period 2: 2025-01-01 ~ 2025-03-31 (Q1 2025)</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250101</span>-20250331<span class="w"> </span>--timeframe<span class="w"> </span>15m
+
+<span class="c1"># Period 3: 2025-04-01 ~ 2025-06-30 (Q2 2025)</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250401</span>-20250630<span class="w"> </span>--timeframe<span class="w"> </span>15m
+
+<span class="c1"># Period 4: 2025-07-01 ~ 2025-09-30 (Q3 2025)</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930<span class="w"> </span>--timeframe<span class="w"> </span>15m
+</code></pre></div>
+<h3 id="task-2-create-time-period-comparison-table">Task 2: Create Time Period Comparison Table<a class="headerlink" href="#task-2-create-time-period-comparison-table" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Time Period</th>
+<th>Trade Count</th>
+<th>Win Rate%</th>
+<th>Total Return%</th>
+<th>Max Drawdown%</th>
+<th>Sharpe</th>
+<th>Market Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024 Q4</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>2025 Q1</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>2025 Q2</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>2025 Q3</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td><strong>Average</strong></td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>Std Dev</strong></td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="task-3-out-of-sample-testing">Task 3: Out-of-Sample Testing<a class="headerlink" href="#task-3-out-of-sample-testing" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Training period: 2024-07-01 ~ 2025-03-31 (9 months)</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20240701</span>-20250331<span class="w"> </span>--timeframe<span class="w"> </span>15m
+
+<span class="c1"># Testing period: 2025-04-01 ~ 2025-09-30 (6 months)</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250401</span>-20250930<span class="w"> </span>--timeframe<span class="w"> </span>15m
+</code></pre></div>
+<p><strong>Comparative Analysis</strong>:
+<div class="highlight"><pre><span></span><code>Training Period Performance:
+  Total Returns: ___________%
+  Win Rate: ___________%
+  Max Drawdown: ___________%
+  Sharpe: ___________
+
+Testing Period Performance:
+  Total Returns: ___________% (____% of training period)
+  Win Rate: ___________% (____% difference)
+  Max Drawdown: ___________% (____% of training period)
+  Sharpe: ___________ (____% of training period)
+
+Conclusion:
+  ☐ Strategy stable, testing period performance close to training period (≥ 75%)
+  ☐ Strategy unstable, testing period performance significantly decreased (&lt; 50%)
+  ☐ Possible overfitting
+</code></pre></div></p>
+<h3 id="task-4-judge-strategy-stability">Task 4: Judge Strategy Stability<a class="headerlink" href="#task-4-judge-strategy-stability" title="Permanent link">&para;</a></h3>
+<p>Based on your test results, answer the following questions:</p>
+<ol>
+<li><strong>Is the standard deviation of quarterly performance large?</strong></li>
+<li>Return standard deviation &lt; 5% → Stable ✅</li>
+<li>
+<p>Return standard deviation &gt; 10% → Unstable ❌</p>
+</li>
+<li>
+<p><strong>How is out-of-sample testing performance?</strong></p>
+</li>
+<li>Testing period ≥ 75% of training period → Stable ✅</li>
+<li>
+<p>Testing period &lt; 50% of training period → Overfitting ❌</p>
+</li>
+<li>
+<p><strong>Can it profit in different market conditions?</strong></p>
+</li>
+<li>3/4 quarters profitable → Strong adaptability ✅</li>
+<li>
+<p>Only 1/4 quarters profitable → Poor adaptability ❌</p>
+</li>
+<li>
+<p><strong>Final Judgment</strong>:
+   <div class="highlight"><pre><span></span><code>☐ Strategy stable and reliable, can enter simulation trading phase
+☐ Strategy needs optimization, return to strategy adjustment phase
+☐ Strategy seriously overfitted, abandon this strategy
+</code></pre></div></p>
+</li>
+</ol>
+<hr />
+<h2 id="knowledge-check">📚 Knowledge Check<a class="headerlink" href="#knowledge-check" title="Permanent link">&para;</a></h2>
+<h3 id="basic-questions">Basic Questions<a class="headerlink" href="#basic-questions" title="Permanent link">&para;</a></h3>
+<ol>
+<li>What is overfitting?</li>
+<li>What is the purpose of out-of-sample testing?</li>
+<li>How to judge if a strategy is stable?</li>
+</ol>
+<h3 id="answers">Answers<a class="headerlink" href="#answers" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Strategy overfits specific characteristics of historical data</strong>, leading to poor performance on new data</li>
+<li><strong>Validate strategy generalization ability</strong>, ensure strategy doesn't only work in specific time periods</li>
+<li>Consistent performance across different time periods, <strong>testing period performance close to training period</strong> (≥ 75%)</li>
+</ol>
+<h3 id="advanced-questions">Advanced Questions<a class="headerlink" href="#advanced-questions" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Why need to test strategies in bull, bear, and range-bound markets?</li>
+<li>Good performance in training period, poor in testing period, what does it indicate?</li>
+<li>How to prevent overfitting?</li>
+</ol>
+<h3 id="thought-questions">Thought Questions<a class="headerlink" href="#thought-questions" title="Permanent link">&para;</a></h3>
+<ol>
+<li>If a strategy performs excellently in all historical periods, does it mean live trading will also be good?</li>
+<li>What proportion of total data is most appropriate for out-of-sample testing?</li>
+<li>What advantages does Walk-Forward testing have over simple 70/30 split?</li>
+</ol>
+<hr />
+<h2 id="reference-materials">🔗 Reference Materials<a class="headerlink" href="#reference-materials" title="Permanent link">&para;</a></h2>
+<h3 id="supporting-documentation">Supporting Documentation<a class="headerlink" href="#supporting-documentation" title="Permanent link">&para;</a></h3>
+<ul>
+<li>📄 <a href="../TESTING_GUIDE.md">TESTING_GUIDE.md</a> - Time range recommendations</li>
+<li>📄 <a href="../STRATEGY_SELECTION_GUIDE.md">STRATEGY_SELECTION_GUIDE.md</a> - Strategy evaluation methods</li>
+</ul>
+<h3 id="recommended-reading">Recommended Reading<a class="headerlink" href="#recommended-reading" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Overfitting">Overfitting and Underfitting</a></li>
+<li><a href="https://www.quantstart.com/articles/Walk-Forward-Analysis/">Walk-Forward Analysis</a></li>
+<li><a href="https://www.investopedia.com/terms/o/out-of-sample.asp">Out-of-Sample Testing Best Practices</a></li>
+</ul>
+<hr />
+<h2 id="key-points-summary">📌 Key Points Summary<a class="headerlink" href="#key-points-summary" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Different time period testing is key to validating strategy stability</strong></li>
+<li><strong>Out-of-sample testing &gt; In-sample testing</strong>: Testing period performance is more important</li>
+<li><strong>Overfitting is the biggest trap in quantitative trading</strong></li>
+<li><strong>Strategies should be tested in bull, bear, and range-bound markets</strong></li>
+<li><strong>Consistency &gt; Returns</strong>: Consistent performance is more important than occasional high returns</li>
+<li><strong>Simple strategy &gt; Complex strategy</strong>: Fewer conditions reduce overfitting risk</li>
+</ol>
+<hr />
+<h2 id="next-lesson-preview">➡️ Next Lesson Preview<a class="headerlink" href="#next-lesson-preview" title="Permanent link">&para;</a></h2>
+<p><strong>Lesson 10: Trading Pair Selection and Testing</strong></p>
+<p>In the next lesson, we will:
+- Learn how to select suitable trading pairs
+- Evaluate liquidity and volatility of trading pairs
+- Test strategy performance on different trading pairs
+- Build multi-pair portfolios</p>
+<p><strong>Preparation</strong>:
+- ✅ Download data for multiple pairs like BTC/USDT, ETH/USDT, BNB/USDT
+- ✅ Select a strategy with stable performance
+- ✅ Understand the difference between mainstream and altcoins</p>
+<hr />
+<p><strong>🎯 Learning Check Standards</strong>:
+- ✅ Can independently conduct out-of-sample testing
+- ✅ Can judge if a strategy is overfitted
+- ✅ Understand the impact of different market conditions on strategies
+- ✅ Can evaluate strategy stability</p>
+<p>After completing these tasks, you have mastered the core skills of strategy validation! Ready to move on to trading pair selection learning! 🚀</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

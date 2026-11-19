@@ -1,0 +1,3555 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径">
+      
+      
+      
+        <link rel="canonical" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-24-1-order-placement/">
+      
+      
+        <link rel="prev" href="../lesson-23-small-capital-live/">
+      
+      
+        <link rel="next" href="../lesson-24-2-stop-loss-operations/">
+      
+      
+        
+          <link rel="alternate" href="../../lesson-24-1-order-placement/" hreflang="zh">
+        
+          <link rel="alternate" href="./" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>Lesson 24.1: Live Trading Order Placement Detailed Guide - Freqtrade 实战教程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9784658154228475"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VGHZY4EELE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VGHZY4EELE");
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lesson-241-live-trading-order-placement-detailed-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Freqtrade 实战教程" class="md-header__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Freqtrade 实战教程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lesson 24.1: Live Trading Order Placement Detailed Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../lesson-24-1-order-placement/" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../strategies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  English Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Freqtrade 实战教程" class="md-nav__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Freqtrade 实战教程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../strategies/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    English Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    English Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 1: Introduction to Quantitative Trading and Freqtrade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-02-environment-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 2: Freqtrade Environment Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-03-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 3: Understanding Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-04-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 4: Data Download and Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-05-first-backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 5: First Strategy Backtest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-06-strategy-performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 6: Strategy Performance Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-07-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 7: Multi-Timeframe Backtesting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-08-strategy-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 8: Strategy Batch Comparison
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-09-timerange-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 9: Time Range Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-10-pair-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 10: Trading Pair Selection and Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-11-hyperopt-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 11: Hyperopt Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-12-advanced-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 12: Advanced Strategy Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-13-scoring-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 13: Strategy Scoring System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-14-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 14: Risk and Money Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-15-portfolio-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 15: Strategy Portfolio and Diversification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-16-realtime-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 16: Real-time Signal Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-17-telegram-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 17: Telegram Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-18-webui-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 18: Web UI and API Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 19: Visualization Analysis Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-20-dry-run-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 20: Simulated Trading Validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-21-exchange-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 21: Exchange API Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-22-pre-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 22: Pre-Live Trading Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-23-small-capital-live/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 23: Small Capital Live Trading
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.1: Live Trading Order Placement
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.1: Live Trading Order Placement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#course-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Course Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-1-binance-order-types-explained" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 1: Binance Order Types Explained
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 1: Binance Order Types Explained">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-spot-trading-order-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Spot Trading Order Types
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1 Spot Trading Order Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#111-limit-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.1 Limit Order
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#112-market-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.2 Market Order
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#113-stop-loss-limit-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.3 Stop Loss Limit Order
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#114-stop-loss-market-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.4 Stop Loss Market Order
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-order-configuration-in-freqtrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Order Configuration in Freqtrade
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.2 Order Configuration in Freqtrade">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#121-basic-order-type-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2.1 Basic Order Type Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#122-advanced-order-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2.2 Advanced Order Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-2-actual-order-placement-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 2: Actual Order Placement Workflow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 2: Actual Order Placement Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-limit-order-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Limit Order Workflow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 Limit Order Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#211-buy-limit-order-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1.1 Buy Limit Order Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#212-order-status-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1.2 Order Status Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-market-order-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Market Order Workflow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 Market Order Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#221-emergency-exit-market-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.1 Emergency Exit Market Order
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#222-market-order-slippage-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.2 Market Order Slippage Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-3-order-optimization-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 3: Order Optimization Strategies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 3: Order Optimization Strategies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-limit-order-optimization-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Limit Order Optimization Tips
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.1 Limit Order Optimization Tips">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#311-price-setting-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1.1 Price Setting Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#312-split-order-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1.2 Split Order Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-stop-loss-order-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Stop Loss Order Optimization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2 Stop Loss Order Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#321-dynamic-stop-loss-setting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2.1 Dynamic Stop Loss Setting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#322-trailing-stop-loss-setting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2.2 Trailing Stop Loss Setting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-4-common-issues-and-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 4: Common Issues and Solutions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 4: Common Issues and Solutions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-orders-not-filled" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Orders Not Filled
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 Orders Not Filled">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#411-issue-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.1 Issue Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#412-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.2 Solutions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-slippage-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Slippage Control
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.2 Slippage Control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#421-slippage-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.1 Slippage Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#422-slippage-optimization-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.2 Slippage Optimization Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-5-practical-configuration-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 5: Practical Configuration Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 5: Practical Configuration Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-conservative-configuration-suitable-for-beginners" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Conservative Configuration (Suitable for Beginners)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-aggressive-configuration-suitable-for-high-frequency-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Aggressive Configuration (Suitable for High-Frequency Strategies)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-hybrid-configuration-balanced-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Hybrid Configuration (Balanced Strategy)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 Practical Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 Practical Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-order-type-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Order Type Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-slippage-measurement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Slippage Measurement
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-order-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: Order Optimization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Key Points
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📌 Key Points">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#order-type-selection-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Order Type Selection Principles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-mistakes-to-avoid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Mistakes to Avoid
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#live-trading-order-placement-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Live Trading Order Placement Checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-lesson-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Next Lesson Preview
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-2-stop-loss-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.2: Live Trading Stop Loss Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-3-futures-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.3: Binance Futures Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-4-leverage-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.4: Leverage Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-trading-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24: Trading Monitoring and Adjustment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-25-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 25: Risk Control and Psychology Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-26-custom-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 26: Custom Strategy Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-27-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 27: Multi-Timeframe Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-28-grid-hft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 28: HFT and Grid Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-1-freqai-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.1: FreqAI Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-2-advanced-ml-strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.2: Advanced ML Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning-enhanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: ML Basics and Strategy Optimization (Enhanced)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: Machine Learning and Strategy Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-30-conclusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 30: Conclusion and Continuous Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#course-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Course Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-1-binance-order-types-explained" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 1: Binance Order Types Explained
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 1: Binance Order Types Explained">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-spot-trading-order-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Spot Trading Order Types
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1 Spot Trading Order Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#111-limit-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.1 Limit Order
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#112-market-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.2 Market Order
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#113-stop-loss-limit-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.3 Stop Loss Limit Order
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#114-stop-loss-market-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.4 Stop Loss Market Order
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-order-configuration-in-freqtrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Order Configuration in Freqtrade
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.2 Order Configuration in Freqtrade">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#121-basic-order-type-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2.1 Basic Order Type Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#122-advanced-order-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2.2 Advanced Order Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-2-actual-order-placement-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 2: Actual Order Placement Workflow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 2: Actual Order Placement Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-limit-order-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Limit Order Workflow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 Limit Order Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#211-buy-limit-order-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1.1 Buy Limit Order Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#212-order-status-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1.2 Order Status Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-market-order-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Market Order Workflow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 Market Order Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#221-emergency-exit-market-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.1 Emergency Exit Market Order
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#222-market-order-slippage-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.2 Market Order Slippage Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-3-order-optimization-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 3: Order Optimization Strategies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 3: Order Optimization Strategies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-limit-order-optimization-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Limit Order Optimization Tips
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.1 Limit Order Optimization Tips">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#311-price-setting-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1.1 Price Setting Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#312-split-order-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1.2 Split Order Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-stop-loss-order-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Stop Loss Order Optimization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2 Stop Loss Order Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#321-dynamic-stop-loss-setting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2.1 Dynamic Stop Loss Setting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#322-trailing-stop-loss-setting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2.2 Trailing Stop Loss Setting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-4-common-issues-and-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 4: Common Issues and Solutions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 4: Common Issues and Solutions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-orders-not-filled" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Orders Not Filled
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 Orders Not Filled">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#411-issue-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.1 Issue Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#412-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.2 Solutions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-slippage-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Slippage Control
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.2 Slippage Control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#421-slippage-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.1 Slippage Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#422-slippage-optimization-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.2 Slippage Optimization Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-5-practical-configuration-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 5: Practical Configuration Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 5: Practical Configuration Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-conservative-configuration-suitable-for-beginners" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Conservative Configuration (Suitable for Beginners)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-aggressive-configuration-suitable-for-high-frequency-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Aggressive Configuration (Suitable for High-Frequency Strategies)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-hybrid-configuration-balanced-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Hybrid Configuration (Balanced Strategy)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 Practical Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 Practical Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-order-type-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Order Type Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-slippage-measurement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Slippage Measurement
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-order-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: Order Optimization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Key Points
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📌 Key Points">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#order-type-selection-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Order Type Selection Principles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-mistakes-to-avoid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Mistakes to Avoid
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#live-trading-order-placement-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Live Trading Order Placement Checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-lesson-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Next Lesson Preview
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="lesson-241-live-trading-order-placement-detailed-guide">Lesson 24.1: Live Trading Order Placement Detailed Guide<a class="headerlink" href="#lesson-241-live-trading-order-placement-detailed-guide" title="Permanent link">&para;</a></h1>
+<p><strong>⏱ Duration</strong>: 1.5 hours
+<strong>🎯 Learning Objectives</strong>: Master various order placement operations on Binance exchange, understand use cases for different order types</p>
+<hr />
+<h2 id="course-overview">Course Overview<a class="headerlink" href="#course-overview" title="Permanent link">&para;</a></h2>
+<p>While Freqtrade automates trading decisions, understanding the underlying order placement mechanisms is crucial for strategy optimization and problem-solving. This lesson will cover:</p>
+<ul>
+<li>Various order types for Binance spot trading</li>
+<li>Use cases for different order types</li>
+<li>How to configure order types in Freqtrade</li>
+<li>Practical considerations for order placement</li>
+</ul>
+<hr />
+<h2 id="part-1-binance-order-types-explained">Part 1: Binance Order Types Explained<a class="headerlink" href="#part-1-binance-order-types-explained" title="Permanent link">&para;</a></h2>
+<h3 id="11-spot-trading-order-types">1.1 Spot Trading Order Types<a class="headerlink" href="#11-spot-trading-order-types" title="Permanent link">&para;</a></h3>
+<h4 id="111-limit-order">1.1.1 Limit Order<a class="headerlink" href="#111-limit-order" title="Permanent link">&para;</a></h4>
+<p><strong>Definition</strong>: Specifies price and quantity, executes only when reaching or better than the specified price.</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTCUSDT"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BUY"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LIMIT"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"timeInForce"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GTC"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.001</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"30000.00"</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Features</strong>:
+<div class="highlight"><pre><span></span><code>✅ Advantages:
+- Price controllable, no slippage
+- Can set buy price below market price
+- Can set sell price above market price
+- Suitable for trend-following strategies
+
+❌ Disadvantages:
+- May not execute (price not reached)
+- Requires active management of unfilled orders
+- May miss opportunities in fast markets
+</code></pre></div></p>
+<p><strong>Use Cases</strong>:
+- Strategy has clear buy/sell prices
+- Not urgent to execute, can wait for ideal price
+- Need to control trading costs
+- Avoid market impact</p>
+<h4 id="112-market-order">1.1.2 Market Order<a class="headerlink" href="#112-market-order" title="Permanent link">&para;</a></h4>
+<p><strong>Definition</strong>: Executes immediately at current best market price.</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTCUSDT"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BUY"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MARKET"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.001</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Features</strong>:
+<div class="highlight"><pre><span></span><code>✅ Advantages:
+- Guaranteed execution
+- Fast execution speed
+- Suitable for emergency entry/exit
+- Simple and straightforward
+
+❌ Disadvantages:
+- Price uncontrollable, slippage exists
+- May execute at unfavorable prices
+- Uncertain trading costs
+- May be subject to "fishing"
+</code></pre></div></p>
+<p><strong>Use Cases</strong>:
+- Stop-loss orders (must execute immediately)
+- Chasing surges/catching dips during market breakouts
+- High-liquidity mainstream coins
+- Don't mind small price differences</p>
+<h4 id="113-stop-loss-limit-order">1.1.3 Stop Loss Limit Order<a class="headerlink" href="#113-stop-loss-limit-order" title="Permanent link">&para;</a></h4>
+<p><strong>Definition</strong>: When price triggers specified stop price, submits a limit order.</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTCUSDT"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SELL"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"STOP_LOSS_LIMIT"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"timeInForce"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GTC"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.001</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"29500.00"</span><span class="p">,</span><span class="w">      </span><span class="c1">// Limit order price</span>
+<span class="w">  </span><span class="nt">"stopPrice"</span><span class="p">:</span><span class="w"> </span><span class="s2">"29550.00"</span><span class="w">   </span><span class="c1">// Trigger price</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Execution Logic</strong>:
+<div class="highlight"><pre><span></span><code>1. Market price drops to 29550 USDT
+2. Automatically triggers limit sell order at 29500
+3. Waits for buyer to execute at 29500 or better price
+</code></pre></div></p>
+<p><strong>Use Cases</strong>:
+- Need precise control over stop-loss price
+- Don't want additional losses from slippage
+- High requirements for stop-loss execution</p>
+<h4 id="114-stop-loss-market-order">1.1.4 Stop Loss Market Order<a class="headerlink" href="#114-stop-loss-market-order" title="Permanent link">&para;</a></h4>
+<p><strong>Definition</strong>: When price triggers specified stop price, executes immediately at market price.</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTCUSDT"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SELL"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"STOP_LOSS_MARKET"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.001</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"stopPrice"</span><span class="p">:</span><span class="w"> </span><span class="s2">"29500.00"</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Features</strong>:
+<div class="highlight"><pre><span></span><code>✅ Advantages:
+- Guaranteed execution after trigger
+- Fast execution speed
+- Avoid further losses
+
+❌ Disadvantages:
+- Uncertain execution price
+- May experience significant slippage
+- Potential larger losses in rapid declines
+</code></pre></div></p>
+<h3 id="12-order-configuration-in-freqtrade">1.2 Order Configuration in Freqtrade<a class="headerlink" href="#12-order-configuration-in-freqtrade" title="Permanent link">&para;</a></h3>
+<h4 id="121-basic-order-type-configuration">1.2.1 Basic Order Type Configuration<a class="headerlink" href="#121-basic-order-type-configuration" title="Permanent link">&para;</a></h4>
+<p>Configure in config.json:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"order_types"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"emergency_exit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"force_exit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"force_entry"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stoploss"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stoploss_on_exchange"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stoploss_on_exchange_interval"</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Configuration Explanation</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Options</th>
+<th>Recommended</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>entry</td>
+<td>limit/market</td>
+<td>limit</td>
+<td>Entry order type</td>
+</tr>
+<tr>
+<td>exit</td>
+<td>limit/market</td>
+<td>limit</td>
+<td>Exit order type</td>
+</tr>
+<tr>
+<td>emergency_exit</td>
+<td>market</td>
+<td>market</td>
+<td>Emergency exit order</td>
+</tr>
+<tr>
+<td>stoploss</td>
+<td>market/limit</td>
+<td>market</td>
+<td>Stop-loss order type</td>
+</tr>
+<tr>
+<td>stoploss_on_exchange</td>
+<td>true/false</td>
+<td>true</td>
+<td>Whether to set stop-loss on exchange</td>
+</tr>
+<tr>
+<td>stoploss_on_exchange_interval</td>
+<td>number</td>
+<td>60</td>
+<td>Stop-loss check interval (seconds)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="122-advanced-order-configuration">1.2.2 Advanced Order Configuration<a class="headerlink" href="#122-advanced-order-configuration" title="Permanent link">&para;</a></h4>
+<p><strong>Order Timeout Settings</strong>:
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"unfilledtimeout"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">    </span><span class="c1">// Entry order timeout (minutes)</span>
+<span class="w">    </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">     </span><span class="c1">// Exit order timeout (minutes)</span>
+<span class="w">    </span><span class="nt">"exit_timeout_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="c1">// Exit timeout retry count</span>
+<span class="w">    </span><span class="nt">"unit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"minutes"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p><strong>Order Settings</strong>:
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"order_time_in_force"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="s2">"gtc"</span><span class="p">,</span><span class="w">  </span><span class="c1">// gtc: Good Till Canceled</span>
+<span class="w">    </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"gtc"</span><span class="w">    </span><span class="c1">// ioc: Immediate Or Cancel</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p><strong>TIF (Time In Force) Options</strong>:
+- <code>GTC</code> (Good Till Canceled): Valid until canceled
+- <code>IOC</code> (Immediate Or Cancel): Execute immediately or cancel
+- <code>FOK</code> (Fill Or Kill): Fill completely or cancel</p>
+<hr />
+<h2 id="part-2-actual-order-placement-workflow">Part 2: Actual Order Placement Workflow<a class="headerlink" href="#part-2-actual-order-placement-workflow" title="Permanent link">&para;</a></h2>
+<h3 id="21-limit-order-workflow">2.1 Limit Order Workflow<a class="headerlink" href="#21-limit-order-workflow" title="Permanent link">&para;</a></h3>
+<h4 id="211-buy-limit-order-example">2.1.1 Buy Limit Order Example<a class="headerlink" href="#211-buy-limit-order-example" title="Permanent link">&para;</a></h4>
+<p><strong>Strategy Scenario</strong>: BTC price at 30500, strategy thinks 30000 is a good entry point.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># In strategy, Freqtrade handles order placement automatically</span>
+<span class="c1"># Following is for understanding underlying API call flow</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">ccxt</span>
+
+<span class="n">exchange</span> <span class="o">=</span> <span class="n">ccxt</span><span class="o">.</span><span class="n">binance</span><span class="p">({</span>
+    <span class="s1">'apiKey'</span><span class="p">:</span> <span class="s1">'your_api_key'</span><span class="p">,</span>
+    <span class="s1">'secret'</span><span class="p">:</span> <span class="s1">'your_secret'</span><span class="p">,</span>
+    <span class="s1">'options'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">'defaultType'</span><span class="p">:</span> <span class="s1">'spot'</span>
+    <span class="p">}</span>
+<span class="p">})</span>
+
+<span class="c1"># Create limit buy order</span>
+<span class="n">order</span> <span class="o">=</span> <span class="n">exchange</span><span class="o">.</span><span class="n">create_limit_buy_order</span><span class="p">(</span>
+    <span class="n">symbol</span><span class="o">=</span><span class="s1">'BTC/USDT'</span><span class="p">,</span>
+    <span class="n">amount</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
+    <span class="n">price</span><span class="o">=</span><span class="mf">30000.00</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Order ID: </span><span class="si">{</span><span class="n">order</span><span class="p">[</span><span class="s1">'id'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Status: </span><span class="si">{</span><span class="n">order</span><span class="p">[</span><span class="s1">'status'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Price: </span><span class="si">{</span><span class="n">order</span><span class="p">[</span><span class="s1">'price'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Quantity: </span><span class="si">{</span><span class="n">order</span><span class="p">[</span><span class="s1">'amount'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Example Output</strong>:
+<div class="highlight"><pre><span></span><code>Order ID: 123456789
+Status: open
+Price: 30000.00
+Quantity: 0.001
+</code></pre></div></p>
+<h4 id="212-order-status-monitoring">2.1.2 Order Status Monitoring<a class="headerlink" href="#212-order-status-monitoring" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Check order status</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">check_order_status</span><span class="p">(</span><span class="n">exchange</span><span class="p">,</span> <span class="n">order_id</span><span class="p">,</span> <span class="n">symbol</span><span class="p">):</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">exchange</span><span class="o">.</span><span class="n">fetch_order</span><span class="p">(</span><span class="n">order_id</span><span class="p">,</span> <span class="n">symbol</span><span class="p">)</span>
+
+    <span class="n">status_map</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">'open'</span><span class="p">:</span> <span class="s1">'Waiting to be filled'</span><span class="p">,</span>
+        <span class="s1">'closed'</span><span class="p">:</span> <span class="s1">'Filled'</span><span class="p">,</span>
+        <span class="s1">'canceled'</span><span class="p">:</span> <span class="s1">'Canceled'</span><span class="p">,</span>
+        <span class="s1">'expired'</span><span class="p">:</span> <span class="s1">'Expired'</span><span class="p">,</span>
+        <span class="s1">'rejected'</span><span class="p">:</span> <span class="s1">'Rejected'</span>
+    <span class="p">}</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Order Status: </span><span class="si">{</span><span class="n">status_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">order</span><span class="p">[</span><span class="s1">'status'</span><span class="p">],</span><span class="w"> </span><span class="n">order</span><span class="p">[</span><span class="s1">'status'</span><span class="p">])</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Filled Quantity: </span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'filled'</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Remaining Quantity: </span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'remaining'</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">order</span>
+
+<span class="c1"># Regular monitoring</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="n">order_id</span> <span class="o">=</span> <span class="s1">'123456789'</span>
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">check_order_status</span><span class="p">(</span><span class="n">exchange</span><span class="p">,</span> <span class="n">order_id</span><span class="p">,</span> <span class="s1">'BTC/USDT'</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">order</span><span class="p">[</span><span class="s1">'status'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'closed'</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Order filled!"</span><span class="p">)</span>
+        <span class="k">break</span>
+    <span class="k">elif</span> <span class="n">order</span><span class="p">[</span><span class="s1">'status'</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'canceled'</span><span class="p">,</span> <span class="s1">'expired'</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Order not filled"</span><span class="p">)</span>
+        <span class="k">break</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>  <span class="c1"># Check every 30 seconds</span>
+</code></pre></div>
+<h3 id="22-market-order-workflow">2.2 Market Order Workflow<a class="headerlink" href="#22-market-order-workflow" title="Permanent link">&para;</a></h3>
+<h4 id="221-emergency-exit-market-order">2.2.1 Emergency Exit Market Order<a class="headerlink" href="#221-emergency-exit-market-order" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Strategy detects strong sell signal</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">emergency_sell</span><span class="p">(</span><span class="n">exchange</span><span class="p">,</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">amount</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Create market sell order</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="n">exchange</span><span class="o">.</span><span class="n">create_market_sell_order</span><span class="p">(</span>
+            <span class="n">symbol</span><span class="o">=</span><span class="n">symbol</span><span class="p">,</span>
+            <span class="n">amount</span><span class="o">=</span><span class="n">amount</span>
+        <span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Emergency sell successful!"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Order ID: </span><span class="si">{</span><span class="n">order</span><span class="p">[</span><span class="s1">'id'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Average Price: </span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'average'</span><span class="p">,</span><span class="w"> </span><span class="s1">'N/A'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Filled Amount: </span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'filled'</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">order</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'average'</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">order</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Sell failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+<span class="c1"># Usage example</span>
+<span class="n">emergency_sell</span><span class="p">(</span><span class="n">exchange</span><span class="p">,</span> <span class="s1">'BTC/USDT'</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="222-market-order-slippage-calculation">2.2.2 Market Order Slippage Calculation<a class="headerlink" href="#222-market-order-slippage-calculation" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">calculate_slippage</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">expected_price</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Calculate slippage for market orders</span>
+<span class="sd">    """</span>
+    <span class="n">actual_price</span> <span class="o">=</span> <span class="n">order</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'average'</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">actual_price</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="n">slippage</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">actual_price</span> <span class="o">-</span> <span class="n">expected_price</span><span class="p">)</span> <span class="o">/</span> <span class="n">expected_price</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="k">return</span> <span class="n">slippage</span>
+
+<span class="c1"># Usage example</span>
+<span class="n">order</span> <span class="o">=</span> <span class="n">emergency_sell</span><span class="p">(</span><span class="n">exchange</span><span class="p">,</span> <span class="s1">'BTC/USDT'</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+<span class="n">expected_price</span> <span class="o">=</span> <span class="mi">30000</span>  <span class="c1"># Strategy expected price</span>
+
+<span class="k">if</span> <span class="n">order</span><span class="p">:</span>
+    <span class="n">slippage</span> <span class="o">=</span> <span class="n">calculate_slippage</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">expected_price</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Slippage: </span><span class="si">{</span><span class="n">slippage</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">slippage</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"⚠️ High slippage, needs attention"</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h2 id="part-3-order-optimization-strategies">Part 3: Order Optimization Strategies<a class="headerlink" href="#part-3-order-optimization-strategies" title="Permanent link">&para;</a></h2>
+<h3 id="31-limit-order-optimization-tips">3.1 Limit Order Optimization Tips<a class="headerlink" href="#31-limit-order-optimization-tips" title="Permanent link">&para;</a></h3>
+<h4 id="311-price-setting-strategy">3.1.1 Price Setting Strategy<a class="headerlink" href="#311-price-setting-strategy" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">calculate_optimal_price</span><span class="p">(</span><span class="n">current_price</span><span class="p">,</span> <span class="n">side</span><span class="p">,</span> <span class="n">spread_percentage</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Calculate optimal limit order price</span>
+<span class="sd">    """</span>
+    <span class="n">spread</span> <span class="o">=</span> <span class="n">current_price</span> <span class="o">*</span> <span class="p">(</span><span class="n">spread_percentage</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">side</span> <span class="o">==</span> <span class="s1">'buy'</span><span class="p">:</span>
+        <span class="c1"># Buy orders: slightly below current price</span>
+        <span class="n">optimal_price</span> <span class="o">=</span> <span class="n">current_price</span> <span class="o">-</span> <span class="n">spread</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Sell orders: slightly above current price</span>
+        <span class="n">optimal_price</span> <span class="o">=</span> <span class="n">current_price</span> <span class="o">+</span> <span class="n">spread</span>
+
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">optimal_price</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Usage example</span>
+<span class="n">current_price</span> <span class="o">=</span> <span class="mf">30150.00</span>
+<span class="n">buy_price</span> <span class="o">=</span> <span class="n">calculate_optimal_price</span><span class="p">(</span><span class="n">current_price</span><span class="p">,</span> <span class="s1">'buy'</span><span class="p">)</span>
+<span class="n">sell_price</span> <span class="o">=</span> <span class="n">calculate_optimal_price</span><span class="p">(</span><span class="n">current_price</span><span class="p">,</span> <span class="s1">'sell'</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Current Price: </span><span class="si">{</span><span class="n">current_price</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Suggested Buy Price: </span><span class="si">{</span><span class="n">buy_price</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Suggested Sell Price: </span><span class="si">{</span><span class="n">sell_price</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="312-split-order-strategy">3.1.2 Split Order Strategy<a class="headerlink" href="#312-split-order-strategy" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">split_order</span><span class="p">(</span><span class="n">total_amount</span><span class="p">,</span> <span class="n">price</span><span class="p">,</span> <span class="n">num_orders</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Split large orders into multiple smaller orders</span>
+<span class="sd">    """</span>
+    <span class="n">order_size</span> <span class="o">=</span> <span class="n">total_amount</span> <span class="o">/</span> <span class="n">num_orders</span>
+    <span class="n">orders</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_orders</span><span class="p">):</span>
+        <span class="c1"># Set slightly different prices for each order</span>
+        <span class="n">price_adjustment</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="mf">0.01</span>  <span class="c1"># 0.01% price difference</span>
+        <span class="n">order_price</span> <span class="o">=</span> <span class="n">price</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">price_adjustment</span> <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">price_adjustment</span><span class="p">)</span>
+
+        <span class="n">orders</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s1">'amount'</span><span class="p">:</span> <span class="n">order_size</span><span class="p">,</span>
+            <span class="s1">'price'</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">order_price</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">orders</span>
+
+<span class="c1"># Usage example</span>
+<span class="n">orders</span> <span class="o">=</span> <span class="n">split_order</span><span class="p">(</span><span class="mf">0.003</span><span class="p">,</span> <span class="mi">30000</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">order</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">orders</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Order </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">order</span><span class="p">[</span><span class="s1">'amount'</span><span class="p">]</span><span class="si">}</span><span class="s2"> BTC @ $</span><span class="si">{</span><span class="n">order</span><span class="p">[</span><span class="s1">'price'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="32-stop-loss-order-optimization">3.2 Stop Loss Order Optimization<a class="headerlink" href="#32-stop-loss-order-optimization" title="Permanent link">&para;</a></h3>
+<h4 id="321-dynamic-stop-loss-setting">3.2.1 Dynamic Stop Loss Setting<a class="headerlink" href="#321-dynamic-stop-loss-setting" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">calculate_dynamic_stoploss</span><span class="p">(</span><span class="n">entry_price</span><span class="p">,</span> <span class="n">current_price</span><span class="p">,</span> <span class="n">atr</span><span class="p">,</span> <span class="n">multiplier</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Dynamic stop loss based on ATR</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">current_price</span> <span class="o">&gt;</span> <span class="n">entry_price</span><span class="p">:</span>
+        <span class="c1"># When in profit, raise stop loss price</span>
+        <span class="n">stoploss</span> <span class="o">=</span> <span class="n">current_price</span> <span class="o">-</span> <span class="p">(</span><span class="n">atr</span> <span class="o">*</span> <span class="n">multiplier</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># When in loss, maintain original stop loss</span>
+        <span class="n">stoploss</span> <span class="o">=</span> <span class="n">entry_price</span> <span class="o">-</span> <span class="p">(</span><span class="n">atr</span> <span class="o">*</span> <span class="n">multiplier</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">stoploss</span>
+
+<span class="c1"># Usage example</span>
+<span class="n">entry_price</span> <span class="o">=</span> <span class="mi">30000</span>
+<span class="n">current_price</span> <span class="o">=</span> <span class="mi">30500</span>
+<span class="n">atr</span> <span class="o">=</span> <span class="mi">150</span>  <span class="c1"># Average True Range</span>
+
+<span class="n">stoploss</span> <span class="o">=</span> <span class="n">calculate_dynamic_stoploss</span><span class="p">(</span><span class="n">entry_price</span><span class="p">,</span> <span class="n">current_price</span><span class="p">,</span> <span class="n">atr</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Dynamic stop loss price: $</span><span class="si">{</span><span class="n">stoploss</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="322-trailing-stop-loss-setting">3.2.2 Trailing Stop Loss Setting<a class="headerlink" href="#322-trailing-stop-loss-setting" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">trailing_stoploss</span><span class="p">(</span><span class="n">current_price</span><span class="p">,</span> <span class="n">highest_price</span><span class="p">,</span> <span class="n">stoploss_pct</span><span class="p">,</span> <span class="n">trailing_pct</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Trailing stop loss calculation</span>
+<span class="sd">    """</span>
+    <span class="c1"># Calculate base stop loss price</span>
+    <span class="n">base_stoploss</span> <span class="o">=</span> <span class="n">highest_price</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">stoploss_pct</span><span class="p">)</span>
+
+    <span class="c1"># Calculate trailing stop loss price</span>
+    <span class="n">trailing_stoploss</span> <span class="o">=</span> <span class="n">current_price</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">trailing_pct</span><span class="p">)</span>
+
+    <span class="c1"># Take the higher as stop loss price</span>
+    <span class="n">final_stoploss</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">base_stoploss</span><span class="p">,</span> <span class="n">trailing_stoploss</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">final_stoploss</span>
+
+<span class="c1"># Usage example</span>
+<span class="n">current_price</span> <span class="o">=</span> <span class="mi">31000</span>
+<span class="n">highest_price</span> <span class="o">=</span> <span class="mi">31500</span>
+<span class="n">stoploss_pct</span> <span class="o">=</span> <span class="mf">0.05</span>  <span class="c1"># 5% stop loss</span>
+<span class="n">trailing_pct</span> <span class="o">=</span> <span class="mf">0.03</span>  <span class="c1"># 3% trailing</span>
+
+<span class="n">final_stop</span> <span class="o">=</span> <span class="n">trailing_stoploss</span><span class="p">(</span><span class="n">current_price</span><span class="p">,</span> <span class="n">highest_price</span><span class="p">,</span> <span class="n">stoploss_pct</span><span class="p">,</span> <span class="n">trailing_pct</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Trailing stop loss price: $</span><span class="si">{</span><span class="n">final_stop</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h2 id="part-4-common-issues-and-solutions">Part 4: Common Issues and Solutions<a class="headerlink" href="#part-4-common-issues-and-solutions" title="Permanent link">&para;</a></h2>
+<h3 id="41-orders-not-filled">4.1 Orders Not Filled<a class="headerlink" href="#41-orders-not-filled" title="Permanent link">&para;</a></h3>
+<h4 id="411-issue-analysis">4.1.1 Issue Analysis<a class="headerlink" href="#411-issue-analysis" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">analyze_unfilled_order</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">current_price</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Analyze reasons for unfilled orders</span>
+<span class="sd">    """</span>
+    <span class="n">order_price</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">order</span><span class="p">[</span><span class="s1">'price'</span><span class="p">])</span>
+    <span class="n">price_diff</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">current_price</span> <span class="o">-</span> <span class="n">order_price</span><span class="p">)</span> <span class="o">/</span> <span class="n">current_price</span> <span class="o">*</span> <span class="mi">100</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Order Price: $</span><span class="si">{</span><span class="n">order_price</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Current Price: $</span><span class="si">{</span><span class="n">current_price</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Price Difference: </span><span class="si">{</span><span class="n">price_diff</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">price_diff</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"❌ Large price difference, suggest adjusting order price"</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">order</span><span class="p">[</span><span class="s1">'status'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'expired'</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"❌ Order expired, suggest resubmitting"</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">order</span><span class="p">[</span><span class="s1">'status'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'rejected'</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"❌ Order rejected, check account balance"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"⏳ Order still waiting to be filled"</span><span class="p">)</span>
+
+<span class="c1"># Usage example</span>
+<span class="n">order</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'price'</span><span class="p">:</span> <span class="s1">'29500.00'</span><span class="p">,</span> <span class="s1">'status'</span><span class="p">:</span> <span class="s1">'open'</span><span class="p">}</span>
+<span class="n">current_price</span> <span class="o">=</span> <span class="mi">30100</span>
+<span class="n">analyze_unfilled_order</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">current_price</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="412-solutions">4.1.2 Solutions<a class="headerlink" href="#412-solutions" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">handle_unfilled_order</span><span class="p">(</span><span class="n">exchange</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="s1">'adjust'</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Handle unfilled orders</span>
+<span class="sd">    """</span>
+    <span class="n">current_price</span> <span class="o">=</span> <span class="n">exchange</span><span class="o">.</span><span class="n">fetch_ticker</span><span class="p">(</span><span class="n">symbol</span><span class="p">)[</span><span class="s1">'last'</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">strategy</span> <span class="o">==</span> <span class="s1">'adjust'</span><span class="p">:</span>
+        <span class="c1"># Price adjustment strategy</span>
+        <span class="n">new_price</span> <span class="o">=</span> <span class="n">calculate_optimal_price</span><span class="p">(</span><span class="n">current_price</span><span class="p">,</span> <span class="n">order</span><span class="p">[</span><span class="s1">'side'</span><span class="p">])</span>
+
+        <span class="c1"># Cancel original order</span>
+        <span class="n">exchange</span><span class="o">.</span><span class="n">cancel_order</span><span class="p">(</span><span class="n">order</span><span class="p">[</span><span class="s1">'id'</span><span class="p">],</span> <span class="n">symbol</span><span class="p">)</span>
+
+        <span class="c1"># Create new order</span>
+        <span class="n">new_order</span> <span class="o">=</span> <span class="n">exchange</span><span class="o">.</span><span class="n">create_limit_order</span><span class="p">(</span>
+            <span class="n">symbol</span><span class="o">=</span><span class="n">symbol</span><span class="p">,</span>
+            <span class="n">side</span><span class="o">=</span><span class="n">order</span><span class="p">[</span><span class="s1">'side'</span><span class="p">],</span>
+            <span class="n">amount</span><span class="o">=</span><span class="n">order</span><span class="p">[</span><span class="s1">'remaining'</span><span class="p">],</span>
+            <span class="n">price</span><span class="o">=</span><span class="n">new_price</span>
+        <span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Adjusted order price to: $</span><span class="si">{</span><span class="n">new_price</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">new_order</span>
+
+    <span class="k">elif</span> <span class="n">strategy</span> <span class="o">==</span> <span class="s1">'market'</span><span class="p">:</span>
+        <span class="c1"># Change to market order</span>
+        <span class="n">exchange</span><span class="o">.</span><span class="n">cancel_order</span><span class="p">(</span><span class="n">order</span><span class="p">[</span><span class="s1">'id'</span><span class="p">],</span> <span class="n">symbol</span><span class="p">)</span>
+
+        <span class="n">market_order</span> <span class="o">=</span> <span class="n">exchange</span><span class="o">.</span><span class="n">create_market_order</span><span class="p">(</span>
+            <span class="n">symbol</span><span class="o">=</span><span class="n">symbol</span><span class="p">,</span>
+            <span class="n">side</span><span class="o">=</span><span class="n">order</span><span class="p">[</span><span class="s1">'side'</span><span class="p">],</span>
+            <span class="n">amount</span><span class="o">=</span><span class="n">order</span><span class="p">[</span><span class="s1">'remaining'</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Changed to market order"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">market_order</span>
+
+    <span class="k">return</span> <span class="kc">None</span>
+</code></pre></div>
+<h3 id="42-slippage-control">4.2 Slippage Control<a class="headerlink" href="#42-slippage-control" title="Permanent link">&para;</a></h3>
+<h4 id="421-slippage-monitoring">4.2.1 Slippage Monitoring<a class="headerlink" href="#421-slippage-monitoring" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">SlippageMonitor</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_slippage</span><span class="o">=</span><span class="mf">0.3</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_slippage</span> <span class="o">=</span> <span class="n">max_slippage</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">slippage_history</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_trade</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expected_price</span><span class="p">,</span> <span class="n">actual_price</span><span class="p">,</span> <span class="n">trade_type</span><span class="p">):</span>
+        <span class="n">slippage</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">actual_price</span> <span class="o">-</span> <span class="n">expected_price</span><span class="p">)</span> <span class="o">/</span> <span class="n">expected_price</span> <span class="o">*</span> <span class="mi">100</span>
+        <span class="n">direction</span> <span class="o">=</span> <span class="s1">'positive'</span> <span class="k">if</span> <span class="n">actual_price</span> <span class="o">&lt;</span> <span class="n">expected_price</span> <span class="k">else</span> <span class="s1">'negative'</span>
+
+        <span class="n">trade_data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">'timestamp'</span><span class="p">:</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">(),</span>
+            <span class="s1">'expected_price'</span><span class="p">:</span> <span class="n">expected_price</span><span class="p">,</span>
+            <span class="s1">'actual_price'</span><span class="p">:</span> <span class="n">actual_price</span><span class="p">,</span>
+            <span class="s1">'slippage'</span><span class="p">:</span> <span class="n">slippage</span><span class="p">,</span>
+            <span class="s1">'direction'</span><span class="p">:</span> <span class="n">direction</span><span class="p">,</span>
+            <span class="s1">'type'</span><span class="p">:</span> <span class="n">trade_type</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">slippage_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trade_data</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">slippage</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_slippage</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"⚠️ High slippage: </span><span class="si">{</span><span class="n">slippage</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">% (Expected: $</span><span class="si">{</span><span class="n">expected_price</span><span class="si">}</span><span class="s2">, Actual: $</span><span class="si">{</span><span class="n">actual_price</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">trade_data</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_average_slippage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trades</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
+        <span class="n">recent_trades</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slippage_history</span><span class="p">[</span><span class="o">-</span><span class="n">trades</span><span class="p">:]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">recent_trades</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="n">avg_slippage</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="s1">'slippage'</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">recent_trades</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">recent_trades</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">avg_slippage</span>
+
+<span class="c1"># Usage example</span>
+<span class="n">monitor</span> <span class="o">=</span> <span class="n">SlippageMonitor</span><span class="p">(</span><span class="n">max_slippage</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">monitor</span><span class="o">.</span><span class="n">add_trade</span><span class="p">(</span><span class="mi">30000</span><span class="p">,</span> <span class="mi">30090</span><span class="p">,</span> <span class="s1">'buy'</span><span class="p">)</span>
+<span class="n">monitor</span><span class="o">.</span><span class="n">add_trade</span><span class="p">(</span><span class="mi">30500</span><span class="p">,</span> <span class="mi">30470</span><span class="p">,</span> <span class="s1">'sell'</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Average slippage: </span><span class="si">{</span><span class="n">monitor</span><span class="o">.</span><span class="n">get_average_slippage</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="422-slippage-optimization-strategy">4.2.2 Slippage Optimization Strategy<a class="headerlink" href="#422-slippage-optimization-strategy" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">optimize_order_type</span><span class="p">(</span><span class="n">symbol</span><span class="p">,</span> <span class="n">volatility</span><span class="p">,</span> <span class="n">liquidity_score</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Optimize order types based on market conditions</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">volatility</span> <span class="o">&gt;</span> <span class="mf">0.05</span><span class="p">:</span>  <span class="c1"># High volatility</span>
+        <span class="k">if</span> <span class="n">liquidity_score</span> <span class="o">&gt;</span> <span class="mf">0.8</span><span class="p">:</span>  <span class="c1"># High liquidity</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s1">'entry'</span><span class="p">:</span> <span class="s1">'limit'</span><span class="p">,</span>
+                <span class="s1">'exit'</span><span class="p">:</span> <span class="s1">'market'</span><span class="p">,</span>
+                <span class="s1">'reason'</span><span class="p">:</span> <span class="s1">'High volatility environment, use limit buy to control costs, market sell to ensure execution'</span>
+            <span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># Low liquidity</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s1">'entry'</span><span class="p">:</span> <span class="s1">'limit'</span><span class="p">,</span>
+                <span class="s1">'exit'</span><span class="p">:</span> <span class="s1">'limit'</span><span class="p">,</span>
+                <span class="s1">'reason'</span><span class="p">:</span> <span class="s1">'High volatility + low liquidity, use limit orders to avoid slippage'</span>
+            <span class="p">}</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># Low volatility</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">'entry'</span><span class="p">:</span> <span class="s1">'limit'</span><span class="p">,</span>
+            <span class="s1">'exit'</span><span class="p">:</span> <span class="s1">'limit'</span><span class="p">,</span>
+            <span class="s1">'reason'</span><span class="p">:</span> <span class="s1">'Low volatility environment, limit orders can better control price'</span>
+        <span class="p">}</span>
+
+<span class="c1"># Usage example</span>
+<span class="n">volatility</span> <span class="o">=</span> <span class="mf">0.03</span>  <span class="c1"># 3% daily volatility</span>
+<span class="n">liquidity_score</span> <span class="o">=</span> <span class="mf">0.9</span>  <span class="c1"># High liquidity</span>
+
+<span class="n">recommendation</span> <span class="o">=</span> <span class="n">optimize_order_type</span><span class="p">(</span><span class="s1">'BTC/USDT'</span><span class="p">,</span> <span class="n">volatility</span><span class="p">,</span> <span class="n">liquidity_score</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Recommended order types: </span><span class="si">{</span><span class="n">recommendation</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h2 id="part-5-practical-configuration-examples">Part 5: Practical Configuration Examples<a class="headerlink" href="#part-5-practical-configuration-examples" title="Permanent link">&para;</a></h2>
+<h3 id="51-conservative-configuration-suitable-for-beginners">5.1 Conservative Configuration (Suitable for Beginners)<a class="headerlink" href="#51-conservative-configuration-suitable-for-beginners" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"order_types"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"emergency_exit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stoploss"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stoploss_on_exchange"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stoploss_on_exchange_interval"</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"unfilledtimeout"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"unit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"minutes"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"order_time_in_force"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="s2">"gtc"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"gtc"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Features</strong>:
+- Mainly uses limit orders to control trading costs
+- Uses market orders in emergencies
+- Longer order timeout (15 minutes)
+- Suitable for strategies not urgent to execute</p>
+<h3 id="52-aggressive-configuration-suitable-for-high-frequency-strategies">5.2 Aggressive Configuration (Suitable for High-Frequency Strategies)<a class="headerlink" href="#52-aggressive-configuration-suitable-for-high-frequency-strategies" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"order_types"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"emergency_exit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stoploss"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stoploss_on_exchange"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stoploss_on_exchange_interval"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"unfilledtimeout"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"unit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"minutes"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"order_time_in_force"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ioc"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ioc"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Features</strong>:
+- Buy with limit orders to control costs
+- Sell with market orders to ensure execution
+- Short order timeout (5-10 minutes)
+- Suitable for strategies requiring fast execution</p>
+<h3 id="53-hybrid-configuration-balanced-strategy">5.3 Hybrid Configuration (Balanced Strategy)<a class="headerlink" href="#53-hybrid-configuration-balanced-strategy" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"order_types"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"emergency_exit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stoploss"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"stoploss_on_exchange"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"unfilledtimeout"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"unit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"minutes"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"order_time_in_force"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"entry"</span><span class="p">:</span><span class="w"> </span><span class="s2">"gtc"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"gtc"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Features</strong>:
+- Uses limit orders exclusively for precise price control
+- Stop loss also uses limit orders to avoid slippage
+- Suitable for strategies with high price control requirements</p>
+<hr />
+<h2 id="practical-tasks">📝 Practical Tasks<a class="headerlink" href="#practical-tasks" title="Permanent link">&para;</a></h2>
+<h3 id="task-1-order-type-testing">Task 1: Order Type Testing<a class="headerlink" href="#task-1-order-type-testing" title="Permanent link">&para;</a></h3>
+<p>Test different order types using testnet:
+1. Create limit buy orders with different price differences
+2. Create market orders and observe slippage
+3. Test stop-loss order execution
+4. Record performance under different market conditions</p>
+<h3 id="task-2-slippage-measurement">Task 2: Slippage Measurement<a class="headerlink" href="#task-2-slippage-measurement" title="Permanent link">&para;</a></h3>
+<p>Actual slippage measurement:
+1. Record execution prices vs expected prices for 10 limit orders
+2. Record slippage for 10 market orders
+3. Analyze relationship between slippage and market volatility
+4. Optimize your order configuration</p>
+<h3 id="task-3-order-optimization">Task 3: Order Optimization<a class="headerlink" href="#task-3-order-optimization" title="Permanent link">&para;</a></h3>
+<p>Based on your strategy characteristics:
+1. Analyze strategy's execution needs
+2. Choose appropriate order types
+3. Configure timeout parameters
+4. Test optimized configuration</p>
+<hr />
+<h2 id="key-points">📌 Key Points<a class="headerlink" href="#key-points" title="Permanent link">&para;</a></h2>
+<h3 id="order-type-selection-principles">Order Type Selection Principles<a class="headerlink" href="#order-type-selection-principles" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Limit Order Use Cases:
+✅ Price-sensitive strategies
+✅ Not urgent to execute
+✅ Need to control trading costs
+✅ Mainstream coins with good liquidity
+
+Market Order Use Cases:
+✅ Emergency stop loss
+✅ Market breakouts
+✅ High liquidity coins
+✅ Don't mind small price differences
+</code></pre></div>
+<h3 id="common-mistakes-to-avoid">Common Mistakes to Avoid<a class="headerlink" href="#common-mistakes-to-avoid" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Mistake</th>
+<th>Consequence</th>
+<th>Correct Approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stop loss using limit orders</td>
+<td>May not execute</td>
+<td>Use market orders for stop loss</td>
+</tr>
+<tr>
+<td>Limit order price too far from market</td>
+<td>Long wait for execution</td>
+<td>Set reasonable price difference</td>
+</tr>
+<tr>
+<td>Not monitoring order status</td>
+<td>Miss optimal timing</td>
+<td>Regularly check order status</td>
+</tr>
+<tr>
+<td>Ignoring slippage impact</td>
+<td>Actual returns lower than expected</td>
+<td>Monitor slippage in real-time</td>
+</tr>
+</tbody>
+</table>
+<h3 id="live-trading-order-placement-checklist">Live Trading Order Placement Checklist<a class="headerlink" href="#live-trading-order-placement-checklist" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Pre-order checks:
+□ Order type set correctly
+□ Price/quantity reasonable
+□ Sufficient account balance
+□ Appropriate market liquidity
+
+Post-order monitoring:
+□ Normal order status
+□ Reasonable execution price
+□ Slippage within acceptable range
+□ Correct fee calculation
+</code></pre></div>
+<hr />
+<h2 id="next-lesson-preview">🎯 Next Lesson Preview<a class="headerlink" href="#next-lesson-preview" title="Permanent link">&para;</a></h2>
+<p><strong>Lesson 24.2: Stop Loss Operations Detailed Guide</strong></p>
+<p>In the next lesson, we will learn:
+- Various stop-loss types and their usage
+- Implementation of dynamic and trailing stop losses
+- Processing flow after stop loss triggers
+- How to optimize stop-loss strategies to reduce risk</p>
+<p>After understanding order mechanisms, next we learn how to effectively control risks.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

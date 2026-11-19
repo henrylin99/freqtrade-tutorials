@@ -1,0 +1,4135 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径">
+      
+      
+      
+        <link rel="canonical" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-24-trading-monitoring/">
+      
+      
+        <link rel="prev" href="../lesson-24-4-leverage-trading/">
+      
+      
+        <link rel="next" href="../lesson-25-risk-management/">
+      
+      
+        
+          <link rel="alternate" href="../../lesson-24-trading-monitoring/" hreflang="zh">
+        
+          <link rel="alternate" href="./" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>Lesson 24: Trading Monitoring and Adjustment - Freqtrade 实战教程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9784658154228475"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VGHZY4EELE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VGHZY4EELE");
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lesson-24-trading-monitoring-and-adjustment" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Freqtrade 实战教程" class="md-header__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Freqtrade 实战教程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lesson 24: Trading Monitoring and Adjustment
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../lesson-24-trading-monitoring/" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../strategies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  English Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Freqtrade 实战教程" class="md-nav__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Freqtrade 实战教程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../strategies/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    English Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    English Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 1: Introduction to Quantitative Trading and Freqtrade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-02-environment-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 2: Freqtrade Environment Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-03-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 3: Understanding Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-04-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 4: Data Download and Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-05-first-backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 5: First Strategy Backtest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-06-strategy-performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 6: Strategy Performance Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-07-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 7: Multi-Timeframe Backtesting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-08-strategy-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 8: Strategy Batch Comparison
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-09-timerange-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 9: Time Range Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-10-pair-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 10: Trading Pair Selection and Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-11-hyperopt-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 11: Hyperopt Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-12-advanced-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 12: Advanced Strategy Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-13-scoring-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 13: Strategy Scoring System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-14-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 14: Risk and Money Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-15-portfolio-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 15: Strategy Portfolio and Diversification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-16-realtime-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 16: Real-time Signal Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-17-telegram-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 17: Telegram Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-18-webui-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 18: Web UI and API Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 19: Visualization Analysis Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-20-dry-run-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 20: Simulated Trading Validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-21-exchange-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 21: Exchange API Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-22-pre-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 22: Pre-Live Trading Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-23-small-capital-live/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 23: Small Capital Live Trading
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-1-order-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.1: Live Trading Order Placement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-2-stop-loss-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.2: Live Trading Stop Loss Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-3-futures-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.3: Binance Futures Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-4-leverage-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.4: Leverage Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24: Trading Monitoring and Adjustment
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24: Trading Monitoring and Adjustment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#course-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Course Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-1-daily-monitoring-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 1: Daily Monitoring Best Practices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 1: Daily Monitoring Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-three-level-monitoring-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Three-Level Monitoring System
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1 Three-Level Monitoring System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#real-time-monitoring-automated" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Real-time Monitoring (Automated)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scheduled-checks-active" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scheduled Checks (Active)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deep-analysis-periodic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deep Analysis (Periodic)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-efficient-monitoring-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Efficient Monitoring Tools
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.2 Efficient Monitoring Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tool-1-telegram-bot-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tool 1: Telegram Bot Commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tool-2-frequi-panel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tool 2: FreqUI Panel
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tool-3-custom-monitoring-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tool 3: Custom Monitoring Scripts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-monitoring-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Monitoring Checklist
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.3 Monitoring Checklist">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#daily-morning-checklist-5-10-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Daily Morning Checklist (5-10 minutes)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#daily-evening-summary-checklist-15-20-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Daily Evening Summary Checklist (15-20 minutes)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-2-identifying-adjustment-signals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 2: Identifying Adjustment Signals
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 2: Identifying Adjustment Signals">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-normal-fluctuations-vs-systematic-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Normal Fluctuations vs Systematic Problems
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 Normal Fluctuations vs Systematic Problems">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#normal-fluctuations-no-adjustment-needed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Normal Fluctuations (No Adjustment Needed)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#systematic-problems-need-adjustment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Systematic Problems (Need Adjustment)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-signals-requiring-adjustment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Signals Requiring Adjustment
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 Signals Requiring Adjustment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signal-1-win-rate-consistently-below-40" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Signal 1: Win Rate Consistently Below 40%
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signal-2-maximum-drawdown-exceeds-expectations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Signal 2: Maximum Drawdown Exceeds Expectations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signal-3-abnormal-trading-frequency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Signal 3: Abnormal Trading Frequency
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signal-4-specific-trading-pair-poor-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Signal 4: Specific Trading Pair Poor Performance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-situations-not-requiring-adjustment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Situations Not Requiring Adjustment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-3-timing-and-methods-of-adjustment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 3: Timing and Methods of Adjustment
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 3: Timing and Methods of Adjustment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-adjustment-decision-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Adjustment Decision Process
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-golden-rules-of-adjustment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Golden Rules of Adjustment
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2 Golden Rules of Adjustment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rule-1-adjust-only-one-variable-at-a-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rule 1: Adjust Only One Variable at a Time
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-2-small-steps-gradual-adjustment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rule 2: Small Steps, Gradual Adjustment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-3-verify-in-dry-run-before-adjusting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rule 3: Verify in Dry-run Before Adjusting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-4-set-adjustment-cooling-period" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rule 4: Set Adjustment Cooling Period
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-common-adjustment-scenarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Common Adjustment Scenarios
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.3 Common Adjustment Scenarios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario-1-market-environment-changed-trend-range-bound" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario 1: Market Environment Changed (Trend → Range-bound)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-2-frequent-stop-losses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario 2: Frequent Stop Losses
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-3-single-trading-pair-poor-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario 3: Single Trading Pair Poor Performance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-4-stable-but-low-returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario 4: Stable but Low Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-adjustment-record-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Adjustment Record Template
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-4-long-term-monitoring-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 4: Long-term Monitoring Strategy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 4: Long-term Monitoring Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-establish-monitoring-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Establish Monitoring Dashboard
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 Establish Monitoring Dashboard">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#table-1-daily-snapshot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table 1: Daily Snapshot
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#table-2-weekly-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table 2: Weekly Comparison
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#table-3-key-indicator-trends" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table 3: Key Indicator Trends
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-automated-reports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Automated Reports
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-performance-degradation-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Performance Degradation Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 Practical Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 Practical Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-establish-monitoring-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Establish Monitoring System
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-create-adjustment-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Create Adjustment Guidelines
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-simulate-adjustment-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: Simulate Adjustment Process
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-4-establish-monthly-review-habit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 4: Establish Monthly Review Habit
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Key Points
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📌 Key Points">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#three-levels-of-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Three Levels of Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#golden-rules-of-adjustment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Golden Rules of Adjustment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-to-adjust-when-not-to" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to Adjust, When Not to
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-lesson-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Next Lesson Preview
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-25-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 25: Risk Control and Psychology Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-26-custom-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 26: Custom Strategy Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-27-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 27: Multi-Timeframe Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-28-grid-hft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 28: HFT and Grid Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-1-freqai-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.1: FreqAI Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-2-advanced-ml-strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.2: Advanced ML Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning-enhanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: ML Basics and Strategy Optimization (Enhanced)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: Machine Learning and Strategy Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-30-conclusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 30: Conclusion and Continuous Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#course-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Course Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-1-daily-monitoring-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 1: Daily Monitoring Best Practices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 1: Daily Monitoring Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-three-level-monitoring-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Three-Level Monitoring System
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1 Three-Level Monitoring System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#real-time-monitoring-automated" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Real-time Monitoring (Automated)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scheduled-checks-active" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scheduled Checks (Active)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deep-analysis-periodic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deep Analysis (Periodic)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-efficient-monitoring-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Efficient Monitoring Tools
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.2 Efficient Monitoring Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tool-1-telegram-bot-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tool 1: Telegram Bot Commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tool-2-frequi-panel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tool 2: FreqUI Panel
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tool-3-custom-monitoring-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tool 3: Custom Monitoring Scripts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-monitoring-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Monitoring Checklist
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.3 Monitoring Checklist">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#daily-morning-checklist-5-10-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Daily Morning Checklist (5-10 minutes)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#daily-evening-summary-checklist-15-20-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Daily Evening Summary Checklist (15-20 minutes)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-2-identifying-adjustment-signals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 2: Identifying Adjustment Signals
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 2: Identifying Adjustment Signals">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-normal-fluctuations-vs-systematic-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Normal Fluctuations vs Systematic Problems
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 Normal Fluctuations vs Systematic Problems">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#normal-fluctuations-no-adjustment-needed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Normal Fluctuations (No Adjustment Needed)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#systematic-problems-need-adjustment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Systematic Problems (Need Adjustment)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-signals-requiring-adjustment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Signals Requiring Adjustment
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 Signals Requiring Adjustment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signal-1-win-rate-consistently-below-40" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Signal 1: Win Rate Consistently Below 40%
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signal-2-maximum-drawdown-exceeds-expectations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Signal 2: Maximum Drawdown Exceeds Expectations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signal-3-abnormal-trading-frequency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Signal 3: Abnormal Trading Frequency
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signal-4-specific-trading-pair-poor-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Signal 4: Specific Trading Pair Poor Performance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-situations-not-requiring-adjustment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Situations Not Requiring Adjustment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-3-timing-and-methods-of-adjustment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 3: Timing and Methods of Adjustment
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 3: Timing and Methods of Adjustment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-adjustment-decision-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Adjustment Decision Process
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-golden-rules-of-adjustment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Golden Rules of Adjustment
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2 Golden Rules of Adjustment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rule-1-adjust-only-one-variable-at-a-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rule 1: Adjust Only One Variable at a Time
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-2-small-steps-gradual-adjustment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rule 2: Small Steps, Gradual Adjustment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-3-verify-in-dry-run-before-adjusting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rule 3: Verify in Dry-run Before Adjusting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-4-set-adjustment-cooling-period" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rule 4: Set Adjustment Cooling Period
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-common-adjustment-scenarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Common Adjustment Scenarios
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.3 Common Adjustment Scenarios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario-1-market-environment-changed-trend-range-bound" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario 1: Market Environment Changed (Trend → Range-bound)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-2-frequent-stop-losses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario 2: Frequent Stop Losses
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-3-single-trading-pair-poor-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario 3: Single Trading Pair Poor Performance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-4-stable-but-low-returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario 4: Stable but Low Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-adjustment-record-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Adjustment Record Template
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-4-long-term-monitoring-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 4: Long-term Monitoring Strategy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 4: Long-term Monitoring Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-establish-monitoring-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Establish Monitoring Dashboard
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 Establish Monitoring Dashboard">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#table-1-daily-snapshot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table 1: Daily Snapshot
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#table-2-weekly-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table 2: Weekly Comparison
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#table-3-key-indicator-trends" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table 3: Key Indicator Trends
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-automated-reports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Automated Reports
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-performance-degradation-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Performance Degradation Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 Practical Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 Practical Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-establish-monitoring-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Establish Monitoring System
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-create-adjustment-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Create Adjustment Guidelines
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-simulate-adjustment-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: Simulate Adjustment Process
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-4-establish-monthly-review-habit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 4: Establish Monthly Review Habit
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Key Points
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📌 Key Points">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#three-levels-of-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Three Levels of Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#golden-rules-of-adjustment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Golden Rules of Adjustment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-to-adjust-when-not-to" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to Adjust, When Not to
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-lesson-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Next Lesson Preview
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="lesson-24-trading-monitoring-and-adjustment">Lesson 24: Trading Monitoring and Adjustment<a class="headerlink" href="#lesson-24-trading-monitoring-and-adjustment" title="Permanent link">&para;</a></h1>
+<p><strong>⏱ Duration</strong>: 1.5 hours
+<strong>🎯 Learning Objectives</strong>: Master best practices for daily trading monitoring, learn when to adjust versus over-intervene</p>
+<hr />
+<h2 id="course-overview">Course Overview<a class="headerlink" href="#course-overview" title="Permanent link">&para;</a></h2>
+<p>After live trading starts, monitoring and adjustment become daily work. But excessive monitoring leads to anxiety, excessive adjustment destroys strategy stability.</p>
+<p><strong>Core Philosophy of This Lesson</strong>:</p>
+<blockquote>
+<p><strong>Monitoring is to discover problems in time, not to find excuses to intervene in strategies.</strong></p>
+</blockquote>
+<p>This lesson will help you:
+- Establish efficient daily monitoring processes
+- Identify signals that truly need adjustment
+- Distinguish normal fluctuations from systematic problems
+- Master timing and methods of adjustment</p>
+<hr />
+<h2 id="part-1-daily-monitoring-best-practices">Part 1: Daily Monitoring Best Practices<a class="headerlink" href="#part-1-daily-monitoring-best-practices" title="Permanent link">&para;</a></h2>
+<h3 id="11-three-level-monitoring-system">1.1 Three-Level Monitoring System<a class="headerlink" href="#11-three-level-monitoring-system" title="Permanent link">&para;</a></h3>
+<h4 id="real-time-monitoring-automated">Real-time Monitoring (Automated)<a class="headerlink" href="#real-time-monitoring-automated" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Receive automatically through Telegram:
+✅ Entry notifications
+✅ Exit notifications
+✅ Stop loss notifications
+✅ Error alerts
+✅ Protection mechanism triggers
+
+Features:
+- No active viewing needed, passive reception
+- 24/7 coverage
+- No missed key events
+
+Recommended configuration:
+"notification_settings": {
+  "status": "silent",        // Status queries don't notify
+  "warning": "on",            // Warnings must notify
+  "entry": "on",              // Entry notifications
+  "exit": "on",               // Exit notifications
+  "protection_trigger": "on"  // Protection trigger notifications
+}
+</code></pre></div>
+<h4 id="scheduled-checks-active">Scheduled Checks (Active)<a class="headerlink" href="#scheduled-checks-active" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Three fixed daily checks:
+
+Morning check (8:00-9:00):
+- View overnight positions
+- Check system status
+- Browse Telegram message history
+Time: 10-15 minutes
+
+Midday check (12:00-13:00):
+- View current position P/L
+- Confirm no abnormal trades
+- Check new signals
+Time: 5-10 minutes
+
+Evening summary (21:00-22:00):
+- View daily trading details
+- Calculate returns and win rate
+- Record trading logs
+- Analyze problem trades
+Time: 15-20 minutes
+
+Total time: 30-45 minutes daily
+</code></pre></div>
+<h4 id="deep-analysis-periodic">Deep Analysis (Periodic)<a class="headerlink" href="#deep-analysis-periodic" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Weekly analysis (Sunday evening):
+- Generate weekly report
+- Compare with backtest and Dry-run
+- Analyze best/worst trades
+- Evaluate if adjustment needed
+Time: 30-60 minutes
+
+Monthly review (beginning of month):
+- Generate monthly report
+- Calculate key indicators
+- Strategy performance evaluation
+- Make next month plan
+Time: 1-2 hours
+</code></pre></div>
+<h3 id="12-efficient-monitoring-tools">1.2 Efficient Monitoring Tools<a class="headerlink" href="#12-efficient-monitoring-tools" title="Permanent link">&para;</a></h3>
+<h4 id="tool-1-telegram-bot-commands">Tool 1: Telegram Bot Commands<a class="headerlink" href="#tool-1-telegram-bot-commands" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Common commands:
+
+/status
+- View current positions
+- Display P/L situation
+- Most used command
+
+/profit [days]
+- View profit statistics
+- Example: /profit 7 (last 7 days)
+
+/daily [days]
+- View daily returns
+- Example: /daily 30
+
+/performance
+- View trading pair performance
+- Find best/worst trading pairs
+
+/count [days]
+- View trade count statistics
+- Grouped by trading pair
+
+/balance
+- View account balance
+- Confirm fund status
+
+/stopbuy
+- Pause buying (keep positions)
+- Emergency use
+
+/reload_config
+- Reload configuration
+- Use after config changes
+</code></pre></div>
+<h4 id="tool-2-frequi-panel">Tool 2: FreqUI Panel<a class="headerlink" href="#tool-2-frequi-panel" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Advantages:
+✅ Visual interface
+✅ Real-time charts
+✅ Historical trade queries
+✅ One-click operations
+
+Access:
+http://your-server-ip:8080
+
+Main functions:
+1. Dashboard - Overview
+2. Trades - Trading history
+3. Performance - Performance analysis
+4. Charts - K-line charts
+5. Settings - Settings
+</code></pre></div>
+<h4 id="tool-3-custom-monitoring-scripts">Tool 3: Custom Monitoring Scripts<a class="headerlink" href="#tool-3-custom-monitoring-scripts" title="Permanent link">&para;</a></h4>
+<p>Create <code>daily_summary.py</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">"""</span>
+<span class="sd">Daily auto-summary script</span>
+<span class="sd">Runs daily, generates summary and sends to Telegram</span>
+<span class="sd">"""</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">sqlite3</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+
+<span class="c1"># Configuration</span>
+<span class="n">DB_PATH</span> <span class="o">=</span> <span class="s1">'tradesv3.sqlite'</span>
+<span class="n">TELEGRAM_TOKEN</span> <span class="o">=</span> <span class="s1">'YOUR_BOT_TOKEN'</span>
+<span class="n">TELEGRAM_CHAT_ID</span> <span class="o">=</span> <span class="s1">'YOUR_CHAT_ID'</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">send_telegram_message</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Send Telegram message"""</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"https://api.telegram.org/bot</span><span class="si">{</span><span class="n">TELEGRAM_TOKEN</span><span class="si">}</span><span class="s2">/sendMessage"</span>
+    <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">'chat_id'</span><span class="p">:</span> <span class="n">TELEGRAM_CHAT_ID</span><span class="p">,</span>
+        <span class="s1">'text'</span><span class="p">:</span> <span class="n">message</span><span class="p">,</span>
+        <span class="s1">'parse_mode'</span><span class="p">:</span> <span class="s1">'Markdown'</span>
+    <span class="p">}</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Send failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_today_stats</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">"""Get today's statistics"""</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">DB_PATH</span><span class="p">)</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+
+    <span class="n">today</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
+    <span class="n">today_start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">combine</span><span class="p">(</span><span class="n">today</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
+
+    <span class="c1"># Today's closed trades</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">        SELECT</span>
+<span class="s2">            close_profit_abs,</span>
+<span class="s2">            close_profit,</span>
+<span class="s2">            pair</span>
+<span class="s2">        FROM trades</span>
+<span class="s2">        WHERE close_date &gt;= ?</span>
+<span class="s2">        AND close_date IS NOT NULL</span>
+<span class="s2">        ORDER BY close_date DESC</span>
+<span class="s2">    """</span><span class="p">,</span> <span class="p">(</span><span class="n">today_start</span><span class="p">,))</span>
+
+    <span class="n">trades</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">trades</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="c1"># Statistics</span>
+    <span class="n">total_profit</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trades</span><span class="p">)</span>
+    <span class="n">win_trades</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trades</span> <span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">loss_trades</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trades</span> <span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">stats</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">'total_trades'</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">trades</span><span class="p">),</span>
+        <span class="s1">'win_trades'</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">win_trades</span><span class="p">),</span>
+        <span class="s1">'loss_trades'</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">loss_trades</span><span class="p">),</span>
+        <span class="s1">'win_rate'</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">win_trades</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">trades</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span> <span class="k">if</span> <span class="n">trades</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">'total_profit'</span><span class="p">:</span> <span class="n">total_profit</span><span class="p">,</span>
+        <span class="s1">'best_trade'</span><span class="p">:</span> <span class="nb">max</span><span class="p">(</span><span class="n">trades</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">if</span> <span class="n">trades</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s1">'worst_trade'</span><span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="n">trades</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">if</span> <span class="n">trades</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">stats</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_summary</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">"""Generate daily summary"""</span>
+    <span class="n">stats</span> <span class="o">=</span> <span class="n">get_today_stats</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">stats</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">"📊 *Daily Trading Summary*</span><span class="se">\n\n</span><span class="s2">No completed trades today"</span>
+
+    <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"""📊 *Daily Trading Summary* - </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'%Y-%m-</span><span class="si">%d</span><span class="s1">'</span><span class="p">)</span><span class="si">}</span>
+
+<span class="s2">📈 *Trading Overview*</span>
+<span class="s2">Total trades: </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">'total_trades'</span><span class="p">]</span><span class="si">}</span>
+<span class="s2">Win rate: </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">'win_rate'</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">% (</span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">'win_trades'</span><span class="p">]</span><span class="si">}</span><span class="s2"> wins / </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">'loss_trades'</span><span class="p">]</span><span class="si">}</span><span class="s2"> losses)</span>
+
+<span class="s2">💰 *P/L Situation*</span>
+<span class="s2">Today's P/L: </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">'total_profit'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> USDT</span>
+
+<span class="s2">🏆 *Best Trade*</span>
+<span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">'best_trade'</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">: +</span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">'best_trade'</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> USDT (</span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">'best_trade'</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%)</span>
+
+<span class="s2">📉 *Worst Trade*</span>
+<span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">'worst_trade'</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">'worst_trade'</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> USDT (</span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">'worst_trade'</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%)</span>
+
+<span class="s2">---</span>
+<span class="s2">_Auto-generated at </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'%H:%M:%S'</span><span class="p">)</span><span class="si">}</span><span class="s2">_</span>
+<span class="s2">"""</span>
+
+    <span class="k">return</span> <span class="n">message</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="n">summary</span> <span class="o">=</span> <span class="n">generate_summary</span><span class="p">()</span>
+    <span class="n">send_telegram_message</span><span class="p">(</span><span class="n">summary</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Daily summary sent"</span><span class="p">)</span>
+</code></pre></div>
+<p>Set scheduled task:
+<div class="highlight"><pre><span></span><code><span class="c1"># Send summary at 9 PM every day</span>
+crontab<span class="w"> </span>-e
+
+<span class="m">0</span><span class="w"> </span><span class="m">21</span><span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/path/to/freqtrade<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>python3<span class="w"> </span>daily_summary.py
+</code></pre></div></p>
+<h3 id="13-monitoring-checklist">1.3 Monitoring Checklist<a class="headerlink" href="#13-monitoring-checklist" title="Permanent link">&para;</a></h3>
+<h4 id="daily-morning-checklist-5-10-minutes">Daily Morning Checklist (5-10 minutes)<a class="headerlink" href="#daily-morning-checklist-5-10-minutes" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>□ System status
+  □ Freqtrade process running normally
+  □ CPU/memory usage normal
+  □ No error logs
+
+□ Position status
+  □ Current positions: ____
+  □ Total position P/L: ____
+  □ Any positions needing attention
+
+□ Overnight trades
+  □ Any trades overnight
+  □ Any stop losses triggered
+  □ Any abnormalities
+
+□ Market environment
+  □ BTC trend: ____ (up/down/sideways)
+  □ Overall market sentiment: ____
+  □ Any major news
+</code></pre></div>
+<h4 id="daily-evening-summary-checklist-15-20-minutes">Daily Evening Summary Checklist (15-20 minutes)<a class="headerlink" href="#daily-evening-summary-checklist-15-20-minutes" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>□ Trading statistics
+  - Today's trades: ____
+  - Win rate: ____%
+  - Today's P/L: ____ USDT (____%)
+  - Cumulative P/L: ____ USDT (____%)
+
+□ Trading analysis
+  □ Best trade reason analysis
+  □ Worst trade reason analysis
+  □ Any patterns
+
+□ Problem records
+  □ Any system errors
+  □ Any abnormal trades
+  □ Any adjustments needed
+
+□ Tomorrow's plan
+  □ Need to adjust parameters?
+  □ Need to change trading pairs?
+  □ Need to pause trading?
+</code></pre></div>
+<hr />
+<h2 id="part-2-identifying-adjustment-signals">Part 2: Identifying Adjustment Signals<a class="headerlink" href="#part-2-identifying-adjustment-signals" title="Permanent link">&para;</a></h2>
+<h3 id="21-normal-fluctuations-vs-systematic-problems">2.1 Normal Fluctuations vs Systematic Problems<a class="headerlink" href="#21-normal-fluctuations-vs-systematic-problems" title="Permanent link">&para;</a></h3>
+<h4 id="normal-fluctuations-no-adjustment-needed">Normal Fluctuations (No Adjustment Needed)<a class="headerlink" href="#normal-fluctuations-no-adjustment-needed" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Characteristics:
+✅ Short-term (1-3 days) performance fluctuations
+✅ Win rate fluctuates within ±10% range
+✅ Single-day P/L within ±3% range
+✅ Trading logic meets expectations
+✅ No system errors
+
+Example:
+- Monday: +2.5%
+- Tuesday: -1.2%
+- Wednesday: +3.1%
+- Thursday: -0.8%
+- Friday: +1.8%
+
+Analysis: Fluctuations exist, but overall upward, no adjustment needed
+</code></pre></div>
+<h4 id="systematic-problems-need-adjustment">Systematic Problems (Need Adjustment)<a class="headerlink" href="#systematic-problems-need-adjustment" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Characteristics:
+❌ Persistent (&gt;7 days) poor performance
+❌ Win rate consistently below 40%
+❌ Multiple consecutive days of losses (&gt;5 days)
+❌ Frequent protection mechanism triggers
+❌ Huge difference from backtest (&gt;70%)
+
+Example:
+- Week 1: -2.5%
+- Week 2: -1.8%
+- Week 3: -3.2%
+- Week 4: -2.1%
+
+Analysis: 4 consecutive weeks of losses, clear systematic problem, needs adjustment
+</code></pre></div>
+<h3 id="22-signals-requiring-adjustment">2.2 Signals Requiring Adjustment<a class="headerlink" href="#22-signals-requiring-adjustment" title="Permanent link">&para;</a></h3>
+<h4 id="signal-1-win-rate-consistently-below-40">Signal 1: Win Rate Consistently Below 40%<a class="headerlink" href="#signal-1-win-rate-consistently-below-40" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Phenomenon:
+- Win rate &lt; 40% for 2 consecutive weeks
+- Most trades stopped out
+- Few profitable trades
+
+Possible causes:
+1. Market environment changed, strategy not adapted
+2. Stop loss set too tight
+3. Entry signal quality poor
+
+Adjustment plan:
+A. Analyze losing trade causes
+   - Is it counter-trend trading?
+   - Is it fake breakout?
+   - Is stop loss too tight?
+
+B. Adjust according to causes
+   - Add trend filter (ADX)
+   - Relax stop loss (-3% → -4%)
+   - Raise entry standards
+
+C. If market environment unsuitable
+   - Pause trading, wait for better timing
+   - Or switch to strategy suitable for current environment
+</code></pre></div>
+<h4 id="signal-2-maximum-drawdown-exceeds-expectations">Signal 2: Maximum Drawdown Exceeds Expectations<a class="headerlink" href="#signal-2-maximum-drawdown-exceeds-expectations" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Phenomenon:
+- Backtest max drawdown: -12%
+- Live max drawdown: -20%+
+- Exceeds tolerable range
+
+Possible causes:
+1. Position size too large
+2. Stop loss not effectively executed
+3. Consecutive losses not stopped in time
+
+Adjustment plan:
+A. Immediately reduce risk exposure
+   - Reduce per trade amount (-30%)
+   - Reduce max positions (-1 to -2)
+   - Strengthen stop loss execution
+
+B. Enable protection mechanisms
+   "protections": [
+     {
+       "method": "MaxDrawdown",
+       "max_allowed_drawdown": 0.15,  // 15%
+       "lookback_period_candles": 200,
+       "stop_duration_candles": 50
+     }
+   ]
+
+C. If already exceeded -20%
+   - Consider pausing trading
+   - Deep analysis of problems
+   - Test again with small capital
+</code></pre></div>
+<h4 id="signal-3-abnormal-trading-frequency">Signal 3: Abnormal Trading Frequency<a class="headerlink" href="#signal-3-abnormal-trading-frequency" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Phenomenon A: Trading frequency too high
+- Expected: 3-5 trades per day
+- Actual: 15-20 trades per day
+- Fees erode profits
+
+Adjustment plan:
+- Extend holding time (adjust exit conditions)
+- Add entry filter conditions
+- Increase ROI targets
+
+Phenomenon B: Trading frequency too low
+- Expected: 3-5 trades per day
+- Actual: 1-2 trades per week
+- Low fund utilization
+
+Adjustment plan:
+- Relax entry conditions
+- Increase number of trading pairs
+- Lower indicator thresholds
+</code></pre></div>
+<h4 id="signal-4-specific-trading-pair-poor-performance">Signal 4: Specific Trading Pair Poor Performance<a class="headerlink" href="#signal-4-specific-trading-pair-poor-performance" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Check performance with /performance:
+
+BTC/USDT: 15 trades, Win rate: 73%, Profit: +125.50 USDT
+ETH/USDT: 18 trades, Win rate: 61%, Profit: +82.30 USDT
+BNB/USDT: 22 trades, Win rate: 36%, Profit: -45.20 USDT  ❌
+ADA/USDT: 12 trades, Win rate: 42%, Profit: -18.50 USDT  ❌
+
+Analysis:
+- BNB/USDT and ADA/USDT clearly drag down overall performance
+- Low win rates, cumulative losses
+
+Adjustment plan:
+- Move poor-performing pairs to blacklist
+- Or analyze these pairs' problems separately
+- Consider adding new high-quality pairs
+</code></pre></div>
+<h3 id="23-situations-not-requiring-adjustment">2.3 Situations Not Requiring Adjustment<a class="headerlink" href="#23-situations-not-requiring-adjustment" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>❌ Wrong adjustment motivations:
+
+1. Adjust because of 1-2 days of losses
+   - Short-term fluctuations are normal
+   - Frequent adjustments destroy strategy consistency
+
+2. Adjust because you see a new strategy
+   - "The grass is always greener on the other side"
+   - No perfect strategies
+
+3. Adjust because of market volatility
+   - Every market volatility change, you're chasing
+   - Strategies should adapt to various environments
+
+4. Adjust for higher returns
+   - Increase leverage
+   - Turn off stop loss
+   - Go all in
+
+5. Adjust based on emotions
+   - Fear: reduce positions to extremely low after consecutive losses
+   - Greed: significantly increase positions after consecutive profits
+</code></pre></div>
+<hr />
+<h2 id="part-3-timing-and-methods-of-adjustment">Part 3: Timing and Methods of Adjustment<a class="headerlink" href="#part-3-timing-and-methods-of-adjustment" title="Permanent link">&para;</a></h2>
+<h3 id="31-adjustment-decision-process">3.1 Adjustment Decision Process<a class="headerlink" href="#31-adjustment-decision-process" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>发现问题
+    ↓
+记录并观察（至少 7 天）
+    ↓
+数据分析（是正常波动还是系统问题？）
+    ↓
+┌─────────────┬─────────────┐
+│  正常波动    │  系统问题    │
+│  继续观察    │  制定方案    │
+└─────────────┴─────────────┘
+                    ↓
+          在测试环境验证（Dry-run）
+                    ↓
+          ┌──────────────┐
+          │ 验证成功？    │
+          └──────────────┘
+           ↙          ↘
+        是              否
+         ↓              ↓
+    应用到实盘      放弃或重新设计
+         ↓
+    小幅度调整（单一变量）
+         ↓
+    观察 7-14 天
+         ↓
+    评估效果
+</code></pre></div>
+<h3 id="32-golden-rules-of-adjustment">3.2 Golden Rules of Adjustment<a class="headerlink" href="#32-golden-rules-of-adjustment" title="Permanent link">&para;</a></h3>
+<h4 id="rule-1-adjust-only-one-variable-at-a-time">Rule 1: Adjust Only One Variable at a Time<a class="headerlink" href="#rule-1-adjust-only-one-variable-at-a-time" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>❌ Wrong approach:
+Simultaneously modify:
+- stake_amount: 200 → 300
+- max_open_trades: 3 → 5
+- stoploss: -0.03 → -0.04
+- Add new trading pairs
+- Change indicator parameters
+
+Problem: Cannot know which change was effective
+
+✅ Correct approach:
+Week 1: Only adjust stake_amount: 200 → 250
+Observe effect
+
+Week 2: If effective, adjust next parameter
+</code></pre></div>
+<h4 id="rule-2-small-steps-gradual-adjustment">Rule 2: Small Steps, Gradual Adjustment<a class="headerlink" href="#rule-2-small-steps-gradual-adjustment" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>❌ Wrong: stake_amount: 200 → 500 (aggressive, +150%)
+✅ Correct: stake_amount: 200 → 250 → 300 (gradual, +25% each)
+
+❌ Wrong: stoploss: -0.03 → -0.06 (double)
+✅ Correct: stoploss: -0.03 → -0.035 → -0.04 (small adjustments)
+</code></pre></div>
+<h4 id="rule-3-verify-in-dry-run-before-adjusting">Rule 3: Verify in Dry-run Before Adjusting<a class="headerlink" href="#rule-3-verify-in-dry-run-before-adjusting" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Process:
+1. Modify configuration file
+2. Start new Dry-run process (use different database)
+3. Run at least 3-7 days
+4. Compare new vs old configuration performance
+5. If new config better, apply to live
+
+Commands:
+# New config Dry-run (independent database)
+freqtrade trade \
+    -c config.new.json \
+    --strategy YourStrategy \
+    --db-url sqlite:///tradesv3.dryrun.test.sqlite
+
+# Compare
+freqtrade backtesting-analysis \
+    --db-url sqlite:///tradesv3.sqlite \
+    --export-filename trades_old.json
+
+freqtrade backtesting-analysis \
+    --db-url sqlite:///tradesv3.dryrun.test.sqlite \
+    --export-filename trades_new.json
+</code></pre></div>
+<h4 id="rule-4-set-adjustment-cooling-period">Rule 4: Set Adjustment Cooling Period<a class="headerlink" href="#rule-4-set-adjustment-cooling-period" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Must observe after adjustment:
+- Parameter fine-tuning: 7 days
+- Trading pair changes: 7 days
+- Strategy switch: 14 days
+- Capital adjustment: 14 days
+
+During period:
+- No other adjustments
+- Detailed performance recording
+- Objective evaluation of effects
+</code></pre></div>
+<h3 id="33-common-adjustment-scenarios">3.3 Common Adjustment Scenarios<a class="headerlink" href="#33-common-adjustment-scenarios" title="Permanent link">&para;</a></h3>
+<h4 id="scenario-1-market-environment-changed-trend-range-bound">Scenario 1: Market Environment Changed (Trend → Range-bound)<a class="headerlink" href="#scenario-1-market-environment-changed-trend-range-bound" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Symptoms:
+- Strategy suddenly performs poorly
+- Frequent stop losses
+- Win rate drops significantly
+
+Analysis:
+- Trend following strategy fails in range-bound market
+
+Response plan A: Pause trading
+- Use /stopbuy to pause buying
+- Wait for market to return to trend
+
+Response plan B: Adjust strategy
+- Add ADX trend filter
+  "minimal_adx": 25  // Only trade when trend obvious
+
+- Or switch to range-bound strategy
+  - Mean reversion strategy
+  - Grid strategy
+
+Response plan C: Reduce risk exposure
+- Reduce position by 50%
+- Reduce number of positions
+- Keep running but reduce risk
+</code></pre></div>
+<h4 id="scenario-2-frequent-stop-losses">Scenario 2: Frequent Stop Losses<a class="headerlink" href="#scenario-2-frequent-stop-losses" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Symptoms:
+- Win rate &lt; 40%
+- Most trades stopped out
+- Average holding time very short (&lt;1 hour)
+
+Analysis:
+May be stop loss set too tight
+
+Adjustment plan:
+1. Calculate average volatility (ATR)
+   - If BTC's 5m ATR = 0.3%
+   - Current stop loss = -2%
+   - Ratio = 2% / 0.3% = 6.67x ATR
+
+2. Adjust to reasonable range
+   - Recommendation: 8-10x ATR
+   - New stop loss = -2.5% to -3%
+
+3. Test in Dry-run for 7 days
+
+4. Compare stop loss trigger frequency
+   - Before: 5-6 times per day
+   - After: 2-3 times per day
+</code></pre></div>
+<h4 id="scenario-3-single-trading-pair-poor-performance">Scenario 3: Single Trading Pair Poor Performance<a class="headerlink" href="#scenario-3-single-trading-pair-poor-performance" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Symptoms:
+BNB/USDT: 20 trades, Win rate: 35%, Profit: -50 USDT
+
+Adjustment plan A: Remove this trading pair
+"pair_blacklist": [
+  "BNB/USDT"
+]
+
+Adjustment plan B: Optimize this pair separately
+- Analyze pair's characteristics
+- Adjust specific parameters (if strategy supports)
+- Or this pair uses different strategy
+
+Adjustment plan C: Add replacement pairs
+- Remove poor performers
+- Add high-liquidity, moderate volatility pairs
+- Such as: SOL/USDT, AVAX/USDT
+</code></pre></div>
+<h4 id="scenario-4-stable-but-low-returns">Scenario 4: Stable but Low Returns<a class="headerlink" href="#scenario-4-stable-but-low-returns" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Symptoms:
+- Monthly return +2% (expected 5-8%)
+- Win rate normal (55%)
+- No major issues, just low returns
+
+Analysis:
+- Strategy itself may be too conservative
+- Or market volatility decreased
+
+Adjustment plan A: Increase fund utilization
+- Increase max_open_trades: 3 → 4
+- Appropriately increase stake_amount
+
+Adjustment plan B: Optimize exit conditions
+- Relax take profit conditions, let profits run
+- Use trailing take profit
+  "trailing_stop": true,
+  "trailing_stop_positive": 0.01,
+  "trailing_stop_positive_offset": 0.02
+
+Adjustment plan C: Increase trading frequency
+- Lower entry thresholds
+- Increase number of trading pairs
+</code></pre></div>
+<h3 id="34-adjustment-record-template">3.4 Adjustment Record Template<a class="headerlink" href="#34-adjustment-record-template" title="Permanent link">&para;</a></h3>
+<p>Every adjustment should be recorded in detail:</p>
+<div class="highlight"><pre><span></span><code>==========================================
+Adjustment Record #1
+==========================================
+
+Date: 2023-05-15
+Adjustment type: Parameter optimization
+
+Problem description:
+- Win rate consistently below 45% for past 2 weeks
+- Frequent stop loss triggers
+- Average holding time only 1.2 hours
+
+Data support:
+- Week 1: Win rate 42%, P/L -12 USDT
+- Week 2: Win rate 43%, P/L -8 USDT
+- Stop loss count: 28 times (65% of total)
+
+Root cause analysis:
+- ATR analysis shows stop loss set too tight
+- Current stop loss -2% = 5x ATR
+- Recommended range: 8-10x ATR
+
+Adjustment plan:
+Modify parameters:
+- stoploss: -0.02 → -0.03 (+50%)
+
+Verification plan:
+1. Test in Dry-run for 7 days
+2. Compare stop loss trigger frequency
+3. Evaluate win rate changes
+
+Expected results:
+- Stop loss triggers reduced 30-40%
+- Win rate increased to &gt;50%
+- Average holding time increased to 2-3 hours
+
+------------------------------------------
+
+Tracking updates (7 days later):
+
+Actual results:
+- Dry-run performance: Win rate 52%, P/L +15 USDT
+- Stop loss triggers: 12 times (reduced 57%)
+- Average holding time: 2.5 hours
+
+Evaluation: ✅ Effect meets expectations
+
+Decision: Apply to live
+
+Application date: 2023-05-22
+
+------------------------------------------
+
+Final evaluation (14 days after live application):
+
+Live results:
+- Win rate: 54% (meets standard)
+- P/L: +28 USDT (significantly improved)
+- Stop loss triggers: 20 times (greatly reduced)
+
+Conclusion: ✅ Adjustment successful
+
+Experience summary:
+- Stop loss should be dynamically adjusted based on ATR
+- Small adjustments (-2% → -3%) can significantly improve
+- Must verify in Dry-run first
+==========================================
+</code></pre></div>
+<hr />
+<h2 id="part-4-long-term-monitoring-strategy">Part 4: Long-term Monitoring Strategy<a class="headerlink" href="#part-4-long-term-monitoring-strategy" title="Permanent link">&para;</a></h2>
+<h3 id="41-establish-monitoring-dashboard">4.1 Establish Monitoring Dashboard<a class="headerlink" href="#41-establish-monitoring-dashboard" title="Permanent link">&para;</a></h3>
+<p>Create monitoring dashboard using Excel or Google Sheets:</p>
+<h4 id="table-1-daily-snapshot">Table 1: Daily Snapshot<a class="headerlink" href="#table-1-daily-snapshot" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Trades</th>
+<th>Win Rate</th>
+<th>Daily P/L</th>
+<th>Cumulative P/L</th>
+<th>Positions</th>
+<th>Max Drawdown</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>05/15</td>
+<td>4</td>
+<td>75%</td>
+<td>+8.5</td>
+<td>+125.5</td>
+<td>2</td>
+<td>-1.2%</td>
+<td>Normal</td>
+</tr>
+<tr>
+<td>05/16</td>
+<td>5</td>
+<td>60%</td>
+<td>+3.2</td>
+<td>+128.7</td>
+<td>3</td>
+<td>-1.5%</td>
+<td>Normal</td>
+</tr>
+<tr>
+<td>05/17</td>
+<td>3</td>
+<td>33%</td>
+<td>-5.1</td>
+<td>+123.6</td>
+<td>1</td>
+<td>-2.8%</td>
+<td>Consecutive stop losses ⚠️</td>
+</tr>
+</tbody>
+</table>
+<h4 id="table-2-weekly-comparison">Table 2: Weekly Comparison<a class="headerlink" href="#table-2-weekly-comparison" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Week</th>
+<th>Trades</th>
+<th>Win Rate</th>
+<th>Weekly P/L</th>
+<th>vs Dry-run</th>
+<th>vs Backtest</th>
+<th>Rating</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Week 1</td>
+<td>28</td>
+<td>57%</td>
+<td>+4.6%</td>
+<td>25%</td>
+<td>18%</td>
+<td>A-</td>
+</tr>
+<tr>
+<td>Week 2</td>
+<td>32</td>
+<td>53%</td>
+<td>+3.2%</td>
+<td>18%</td>
+<td>13%</td>
+<td>B+</td>
+</tr>
+<tr>
+<td>Week 3</td>
+<td>25</td>
+<td>60%</td>
+<td>+5.8%</td>
+<td>32%</td>
+<td>23%</td>
+<td>A</td>
+</tr>
+<tr>
+<td>Week 4</td>
+<td>30</td>
+<td>55%</td>
+<td>+4.1%</td>
+<td>23%</td>
+<td>16%</td>
+<td>A-</td>
+</tr>
+</tbody>
+</table>
+<h4 id="table-3-key-indicator-trends">Table 3: Key Indicator Trends<a class="headerlink" href="#table-3-key-indicator-trends" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Charts display:
+- Cumulative return curve (should rise smoothly)
+- Win rate trend line (should stay stable above 50%)
+- Drawdown curve (should be controlled within safe range)
+- Weekly trade counts (should be relatively stable)
+</code></pre></div>
+<h3 id="42-automated-reports">4.2 Automated Reports<a class="headerlink" href="#42-automated-reports" title="Permanent link">&para;</a></h3>
+<p>Create automated weekly report script <code>weekly_report.py</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">"""</span>
+<span class="sd">Automated weekly report generation script</span>
+<span class="sd">Runs Sunday evening, generates detailed reports</span>
+<span class="sd">"""</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">sqlite3</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">DB_PATH</span> <span class="o">=</span> <span class="s1">'tradesv3.sqlite'</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_weekly_report</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">"""Generate weekly report"""</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">DB_PATH</span><span class="p">)</span>
+
+    <span class="c1"># Get last 7 days of trades</span>
+    <span class="n">week_ago</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+
+    <span class="n">query</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">        SELECT</span>
+<span class="s2">            pair,</span>
+<span class="s2">            open_date,</span>
+<span class="s2">            close_date,</span>
+<span class="s2">            profit_abs,</span>
+<span class="s2">            profit_ratio,</span>
+<span class="s2">            sell_reason</span>
+<span class="s2">        FROM trades</span>
+<span class="s2">        WHERE close_date &gt;= ?</span>
+<span class="s2">        AND close_date IS NOT NULL</span>
+<span class="s2">        ORDER BY close_date DESC</span>
+<span class="s2">    """</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql_query</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">(</span><span class="n">week_ago</span><span class="p">,))</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">"No trades this week"</span>
+
+    <span class="c1"># Statistics</span>
+    <span class="n">total_trades</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">win_trades</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">'profit_abs'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="n">loss_trades</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">'profit_abs'</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="n">win_rate</span> <span class="o">=</span> <span class="n">win_trades</span> <span class="o">/</span> <span class="n">total_trades</span> <span class="o">*</span> <span class="mi">100</span>
+
+    <span class="n">total_profit</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'profit_abs'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">avg_profit</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'profit_abs'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+    <span class="n">best_trade</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">'profit_abs'</span><span class="p">]</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()]</span>
+    <span class="n">worst_trade</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">'profit_abs'</span><span class="p">]</span><span class="o">.</span><span class="n">idxmin</span><span class="p">()]</span>
+
+    <span class="c1"># Group by trading pair</span>
+    <span class="n">pair_stats</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'pair'</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span>
+        <span class="s1">'profit_abs'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'sum'</span><span class="p">,</span> <span class="s1">'count'</span><span class="p">],</span>
+        <span class="s1">'profit_ratio'</span><span class="p">:</span> <span class="s1">'mean'</span>
+    <span class="p">})</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># Group by sell reason</span>
+    <span class="n">sell_reason_stats</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'sell_reason'</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+
+    <span class="c1"># Generate report</span>
+    <span class="n">report</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"""</span>
+<span class="s2">╔══════════════════════════════════════╗</span>
+<span class="s2">║        Weekly Trading Report              ║</span>
+<span class="s2">║  </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'%Y-%m-</span><span class="si">%d</span><span class="s1">'</span><span class="p">)</span><span class="si">}</span><span class="s2">                    ║</span>
+<span class="s2">╚══════════════════════════════════════╝</span>
+
+<span class="s2">📊 Overall Performance</span>
+<span class="s2">─────────────────────────────────────</span>
+<span class="s2">Total trades: </span><span class="si">{</span><span class="n">total_trades</span><span class="si">}</span>
+<span class="s2">Win rate: </span><span class="si">{</span><span class="n">win_rate</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">% (</span><span class="si">{</span><span class="n">win_trades</span><span class="si">}</span><span class="s2"> wins/</span><span class="si">{</span><span class="n">loss_trades</span><span class="si">}</span><span class="s2"> losses)</span>
+<span class="s2">Total P/L: </span><span class="si">{</span><span class="n">total_profit</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> USDT</span>
+<span class="s2">Average P/L: </span><span class="si">{</span><span class="n">avg_profit</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> USDT</span>
+
+<span class="s2">🏆 Best Trade</span>
+<span class="si">{</span><span class="n">best_trade</span><span class="p">[</span><span class="s1">'pair'</span><span class="p">]</span><span class="si">}</span><span class="s2">: +</span><span class="si">{</span><span class="n">best_trade</span><span class="p">[</span><span class="s1">'profit_abs'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> USDT (</span><span class="si">{</span><span class="n">best_trade</span><span class="p">[</span><span class="s1">'profit_ratio'</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%)</span>
+<span class="s2">Time: </span><span class="si">{</span><span class="n">best_trade</span><span class="p">[</span><span class="s1">'close_date'</span><span class="p">]</span><span class="si">}</span>
+
+<span class="s2">📉 Worst Trade</span>
+<span class="si">{</span><span class="n">worst_trade</span><span class="p">[</span><span class="s1">'pair'</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">worst_trade</span><span class="p">[</span><span class="s1">'profit_abs'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> USDT (</span><span class="si">{</span><span class="n">worst_trade</span><span class="p">[</span><span class="s1">'profit_ratio'</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%)</span>
+<span class="s2">Time: </span><span class="si">{</span><span class="n">worst_trade</span><span class="p">[</span><span class="s1">'close_date'</span><span class="p">]</span><span class="si">}</span>
+
+<span class="s2">💹 Trading Pair Performance</span>
+<span class="s2">─────────────────────────────────────</span>
+<span class="si">{</span><span class="n">pair_stats</span><span class="o">.</span><span class="n">to_string</span><span class="p">()</span><span class="si">}</span>
+
+<span class="s2">📋 Exit Reason Distribution</span>
+<span class="s2">─────────────────────────────────────</span>
+<span class="si">{</span><span class="n">sell_reason_stats</span><span class="o">.</span><span class="n">to_string</span><span class="p">()</span><span class="si">}</span>
+
+<span class="s2">═══════════════════════════════════════</span>
+<span class="s2">Report generated: </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S'</span><span class="p">)</span><span class="si">}</span>
+<span class="s2">═══════════════════════════════════════</span>
+<span class="s2">"""</span>
+
+    <span class="k">return</span> <span class="n">report</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="n">report</span> <span class="o">=</span> <span class="n">generate_weekly_report</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">report</span><span class="p">)</span>
+
+    <span class="c1"># Save to file</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"weekly_report_</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'%Y%m</span><span class="si">%d</span><span class="s1">'</span><span class="p">)</span><span class="si">}</span><span class="s2">.txt"</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">report</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Report saved to: </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<p>Set weekly auto-detection:
+<div class="highlight"><pre><span></span><code><span class="c1"># Run Sunday evening at 10 PM</span>
+<span class="m">0</span><span class="w"> </span><span class="m">22</span><span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/path/to/freqtrade<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>python3<span class="w"> </span>weekly_report.py
+</code></pre></div></p>
+<h3 id="43-performance-degradation-detection">4.3 Performance Degradation Detection<a class="headerlink" href="#43-performance-degradation-detection" title="Permanent link">&para;</a></h3>
+<p>Create detection script <code>performance_check.py</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">"""</span>
+<span class="sd">Performance degradation detection</span>
+<span class="sd">Compare live vs historical benchmarks to detect strategy degradation</span>
+<span class="sd">"""</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">sqlite3</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+
+<span class="n">DB_PATH</span> <span class="o">=</span> <span class="s1">'tradesv3.sqlite'</span>
+
+<span class="c1"># Benchmark data (from backtest or early live)</span>
+<span class="n">BENCHMARK</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'win_rate'</span><span class="p">:</span> <span class="mf">55.0</span><span class="p">,</span>       <span class="c1"># Benchmark win rate</span>
+    <span class="s1">'avg_profit'</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">,</span>      <span class="c1"># Benchmark average profit (USDT)</span>
+    <span class="s1">'profit_ratio'</span><span class="p">:</span> <span class="mf">0.015</span><span class="p">,</span>  <span class="c1"># Benchmark profit rate</span>
+<span class="p">}</span>
+
+<span class="c1"># Alert thresholds</span>
+<span class="n">THRESHOLD</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'win_rate'</span><span class="p">:</span> <span class="mf">0.85</span><span class="p">,</span>       <span class="c1"># Win rate below 85% of benchmark triggers alert</span>
+    <span class="s1">'avg_profit'</span><span class="p">:</span> <span class="mf">0.70</span><span class="p">,</span>     <span class="c1"># Average profit below 70% of benchmark triggers alert</span>
+<span class="p">}</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">check_performance</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">"""Check if recent performance has degraded"""</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">DB_PATH</span><span class="p">)</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+
+    <span class="c1"># Last 14 days of trades</span>
+    <span class="n">days_ago</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">        SELECT</span>
+<span class="s2">            profit_abs,</span>
+<span class="s2">            profit_ratio</span>
+<span class="s2">        FROM trades</span>
+<span class="s2">        WHERE close_date &gt;= ?</span>
+<span class="s2">        AND close_date IS NOT NULL</span>
+<span class="s2">    """</span><span class="p">,</span> <span class="p">(</span><span class="n">days_ago</span><span class="p">,))</span>
+
+    <span class="n">trades</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">trades</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"⚠️ Insufficient trading samples (&lt; 10), cannot evaluate"</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="c1"># Calculate current metrics</span>
+    <span class="n">win_trades</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trades</span> <span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">current_win_rate</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">win_trades</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">trades</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="n">current_avg_profit</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trades</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">trades</span><span class="p">)</span>
+
+    <span class="c1"># Compare with benchmarks</span>
+    <span class="n">win_rate_ratio</span> <span class="o">=</span> <span class="n">current_win_rate</span> <span class="o">/</span> <span class="n">BENCHMARK</span><span class="p">[</span><span class="s1">'win_rate'</span><span class="p">]</span>
+    <span class="n">avg_profit_ratio</span> <span class="o">=</span> <span class="n">current_avg_profit</span> <span class="o">/</span> <span class="n">BENCHMARK</span><span class="p">[</span><span class="s1">'avg_profit'</span><span class="p">]</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"="</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Performance Degradation Check Report"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"="</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Metric comparison (last 14 days vs benchmark):</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Win rate:"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Current: </span><span class="si">{</span><span class="n">current_win_rate</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Benchmark: </span><span class="si">{</span><span class="n">BENCHMARK</span><span class="p">[</span><span class="s1">'win_rate'</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Ratio: </span><span class="si">{</span><span class="n">win_rate_ratio</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> "</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">win_rate_ratio</span> <span class="o">&lt;</span> <span class="n">THRESHOLD</span><span class="p">[</span><span class="s1">'win_rate'</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"❌ Alert: Below threshold"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"✅"</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Average profit:"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Current: </span><span class="si">{</span><span class="n">current_avg_profit</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> USDT"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Benchmark: </span><span class="si">{</span><span class="n">BENCHMARK</span><span class="p">[</span><span class="s1">'avg_profit'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> USDT"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Ratio: </span><span class="si">{</span><span class="n">avg_profit_ratio</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> "</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">avg_profit_ratio</span> <span class="o">&lt;</span> <span class="n">THRESHOLD</span><span class="p">[</span><span class="s1">'avg_profit'</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"❌ Alert: Below threshold"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"✅"</span><span class="p">)</span>
+
+    <span class="c1"># Overall assessment</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Overall assessment:"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">win_rate_ratio</span> <span class="o">&lt;</span> <span class="n">THRESHOLD</span><span class="p">[</span><span class="s1">'win_rate'</span><span class="p">]</span> <span class="ow">or</span> <span class="n">avg_profit_ratio</span> <span class="o">&lt;</span> <span class="n">THRESHOLD</span><span class="p">[</span><span class="s1">'avg_profit'</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"❌ Performance degradation detected, suggestions:"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"   1. Check if market environment has changed"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"   2. Analyze recent losing trades"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"   3. Consider adjusting strategy or pausing trading"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"✅ Performance normal, continue running"</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"="</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="n">check_performance</span><span class="p">()</span>
+</code></pre></div>
+<p>Set weekly auto-detection:
+<div class="highlight"><pre><span></span><code><span class="c1"># Run Sunday evening at 10 PM</span>
+<span class="m">0</span><span class="w"> </span><span class="m">22</span><span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/path/to/freqtrade<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>python3<span class="w"> </span>performance_check.py<span class="w"> </span><span class="p">|</span><span class="w"> </span>mail<span class="w"> </span>-s<span class="w"> </span><span class="s2">"Performance Check"</span><span class="w"> </span>your@email.com
+</code></pre></div></p>
+<hr />
+<h2 id="practical-tasks">📝 Practical Tasks<a class="headerlink" href="#practical-tasks" title="Permanent link">&para;</a></h2>
+<h3 id="task-1-establish-monitoring-system">Task 1: Establish Monitoring System<a class="headerlink" href="#task-1-establish-monitoring-system" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Configure Telegram Bot all notifications</li>
+<li>Set three fixed daily check times (phone calendar reminders)</li>
+<li>Create monitoring spreadsheets (Excel/Google Sheets)</li>
+<li>Deploy automated summary scripts</li>
+</ol>
+<h3 id="task-2-create-adjustment-guidelines">Task 2: Create Adjustment Guidelines<a class="headerlink" href="#task-2-create-adjustment-guidelines" title="Permanent link">&para;</a></h3>
+<p>Create your adjustment decision document:
+<div class="highlight"><pre><span></span><code>When to observe:
+- ________
+
+When to be alert:
+- ________
+
+When to adjust:
+- ________
+
+When to stop:
+- ________
+</code></pre></div></p>
+<h3 id="task-3-simulate-adjustment-process">Task 3: Simulate Adjustment Process<a class="headerlink" href="#task-3-simulate-adjustment-process" title="Permanent link">&para;</a></h3>
+<p>Choose a hypothetical problem scenario, complete adjustment process:
+1. Problem description
+2. Data analysis
+3. Develop plan
+4. Dry-run verification
+5. Apply to live
+6. Effect evaluation</p>
+<h3 id="task-4-establish-monthly-review-habit">Task 4: Establish Monthly Review Habit<a class="headerlink" href="#task-4-establish-monthly-review-habit" title="Permanent link">&para;</a></h3>
+<p>Set monthly 1st day calendar reminder for monthly review:
+- Review last month's all trades
+- Calculate key indicators
+- Find problems and highlights
+- Make next month plan</p>
+<hr />
+<h2 id="key-points">📌 Key Points<a class="headerlink" href="#key-points" title="Permanent link">&para;</a></h2>
+<h3 id="three-levels-of-monitoring">Three Levels of Monitoring<a class="headerlink" href="#three-levels-of-monitoring" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>1. Real-time monitoring (automated)
+   - Telegram notifications
+   - Passive reception
+   - 24/7 coverage
+
+2. Scheduled checks (active)
+   - 3 times daily
+   - Fixed times
+   - 30-45 minutes
+
+3. Deep analysis (periodic)
+   - Weekly + monthly
+   - Data-driven
+   - 1-2 hours
+</code></pre></div>
+<h3 id="golden-rules-of-adjustment">Golden Rules of Adjustment<a class="headerlink" href="#golden-rules-of-adjustment" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>1. One variable at a time
+2. Small steps
+3. Verify in Dry-run first
+4. Set cooling period
+5. Detailed recording
+</code></pre></div>
+<h3 id="when-to-adjust-when-not-to">When to Adjust, When Not to<a class="headerlink" href="#when-to-adjust-when-not-to" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>✅ Should adjust:
+- Consecutive 7 days of poor performance
+- Win rate consistently &lt; 40%
+- Difference from benchmark &gt; 70%
+- Systematic problems
+
+❌ Should not adjust:
+- 1-2 day fluctuations
+- Single trade loss
+- See new strategy and want to switch
+- Make decisions based on emotions
+</code></pre></div>
+<hr />
+<h2 id="next-lesson-preview">🎯 Next Lesson Preview<a class="headerlink" href="#next-lesson-preview" title="Permanent link">&para;</a></h2>
+<p><strong>Lesson 25: Risk Control and Psychology Management</strong></p>
+<p>In the next lesson, we will learn:
+- Advanced risk control techniques
+- Importance of psychology management
+- How to handle consecutive losses
+- Keys to long-term stable profitability</p>
+<p>Monitoring and adjustment are technical aspects, but what truly determines long-term success is risk control and psychology management.</p>
+<hr />
+<p><strong>🎓 Learning Suggestions</strong>:
+1. <strong>Scheduled monitoring</strong>: Establish fixed monitoring habits
+2. <strong>Data-driven</strong>: Make decisions based on data, not emotions
+3. <strong>Careful adjustment</strong>: Better to be slow than to be unstable
+4. <strong>Detailed recording</strong>: Record every adjustment and its effects
+5. <strong>Long-term perspective</strong>: Focus on trends, not daily fluctuations</p>
+<p>Remember: <strong>Good monitoring discovers problems, good adjustment solves problems, but the best strategy is one that doesn't need frequent adjustments.</strong></p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,3028 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径">
+      
+      
+      
+        <link rel="canonical" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-15-portfolio-strategy/">
+      
+      
+        <link rel="prev" href="../lesson-14-risk-management/">
+      
+      
+        <link rel="next" href="../lesson-16-realtime-signals/">
+      
+      
+        
+          <link rel="alternate" href="../../lesson-15-portfolio-strategy/" hreflang="zh">
+        
+          <link rel="alternate" href="./" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>Lesson 15: Strategy Portfolio and Diversification - Freqtrade 实战教程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9784658154228475"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VGHZY4EELE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VGHZY4EELE");
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lesson-15-strategy-portfolio-and-diversification" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Freqtrade 实战教程" class="md-header__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Freqtrade 实战教程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lesson 15: Strategy Portfolio and Diversification
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../lesson-15-portfolio-strategy/" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../strategies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  English Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Freqtrade 实战教程" class="md-nav__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Freqtrade 实战教程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../strategies/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    English Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    English Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 1: Introduction to Quantitative Trading and Freqtrade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-02-environment-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 2: Freqtrade Environment Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-03-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 3: Understanding Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-04-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 4: Data Download and Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-05-first-backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 5: First Strategy Backtest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-06-strategy-performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 6: Strategy Performance Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-07-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 7: Multi-Timeframe Backtesting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-08-strategy-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 8: Strategy Batch Comparison
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-09-timerange-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 9: Time Range Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-10-pair-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 10: Trading Pair Selection and Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-11-hyperopt-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 11: Hyperopt Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-12-advanced-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 12: Advanced Strategy Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-13-scoring-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 13: Strategy Scoring System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-14-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 14: Risk and Money Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 15: Strategy Portfolio and Diversification
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 15: Strategy Portfolio and Diversification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#course-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 Course Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#151-why-combine-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.1 Why Combine Strategies?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="15.1 Why Combine Strategies?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#risks-of-single-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Risks of Single Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advantages-of-strategy-portfolios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advantages of Strategy Portfolios
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#152-strategy-correlation-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.2 Strategy Correlation Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="15.2 Strategy Correlation Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-strategy-correlation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is Strategy Correlation?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#impact-of-correlation-on-portfolios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Impact of Correlation on Portfolios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-calculate-strategy-correlation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to Calculate Strategy Correlation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#correlation-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Correlation Guidelines
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#153-multi-strategy-capital-allocation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.3 Multi-Strategy Capital Allocation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="15.3 Multi-Strategy Capital Allocation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-equal-weight-allocation-simplest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Equal Weight Allocation (Simplest)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-score-based-allocation-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Score-Based Allocation (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-risk-parity-allocation-advanced" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Risk Parity Allocation (Advanced)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-core-satellite-configuration-practical" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Core-Satellite Configuration (Practical)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#154-strategy-portfolio-construction-practice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.4 Strategy Portfolio Construction Practice
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="15.4 Strategy Portfolio Construction Practice">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-select-candidate-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Select Candidate Strategies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-correlation-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Correlation Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-build-investment-portfolio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Build Investment Portfolio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-backtest-verify-portfolio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Backtest Verify Portfolio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-dynamic-rebalancing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Dynamic Rebalancing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Practical Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 Practical Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-build-your-strategy-portfolio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Build Your Strategy Portfolio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-calculate-strategy-correlations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Calculate Strategy Correlations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-simulate-portfolio-backtest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: Simulate Portfolio Backtest
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#strategy-portfolio-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Strategy Portfolio Best Practices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Strategy Portfolio Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-golden-combination-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Golden Combination Templates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-strategy-number-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Strategy Number Recommendations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-common-mistakes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Common Mistakes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-points-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Key Points Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-three-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎉 Part Three Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-16-realtime-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 16: Real-time Signal Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-17-telegram-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 17: Telegram Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-18-webui-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 18: Web UI and API Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 19: Visualization Analysis Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-20-dry-run-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 20: Simulated Trading Validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-21-exchange-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 21: Exchange API Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-22-pre-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 22: Pre-Live Trading Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-23-small-capital-live/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 23: Small Capital Live Trading
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-1-order-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.1: Live Trading Order Placement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-2-stop-loss-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.2: Live Trading Stop Loss Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-3-futures-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.3: Binance Futures Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-4-leverage-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.4: Leverage Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-trading-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24: Trading Monitoring and Adjustment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-25-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 25: Risk Control and Psychology Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-26-custom-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 26: Custom Strategy Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-27-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 27: Multi-Timeframe Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-28-grid-hft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 28: HFT and Grid Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-1-freqai-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.1: FreqAI Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-2-advanced-ml-strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.2: Advanced ML Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning-enhanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: ML Basics and Strategy Optimization (Enhanced)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: Machine Learning and Strategy Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-30-conclusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 30: Conclusion and Continuous Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#course-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 Course Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#151-why-combine-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.1 Why Combine Strategies?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="15.1 Why Combine Strategies?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#risks-of-single-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Risks of Single Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advantages-of-strategy-portfolios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advantages of Strategy Portfolios
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#152-strategy-correlation-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.2 Strategy Correlation Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="15.2 Strategy Correlation Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-strategy-correlation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is Strategy Correlation?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#impact-of-correlation-on-portfolios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Impact of Correlation on Portfolios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-calculate-strategy-correlation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to Calculate Strategy Correlation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#correlation-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Correlation Guidelines
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#153-multi-strategy-capital-allocation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.3 Multi-Strategy Capital Allocation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="15.3 Multi-Strategy Capital Allocation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-equal-weight-allocation-simplest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Equal Weight Allocation (Simplest)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-score-based-allocation-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Score-Based Allocation (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-risk-parity-allocation-advanced" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Risk Parity Allocation (Advanced)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-core-satellite-configuration-practical" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Core-Satellite Configuration (Practical)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#154-strategy-portfolio-construction-practice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.4 Strategy Portfolio Construction Practice
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="15.4 Strategy Portfolio Construction Practice">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-select-candidate-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Select Candidate Strategies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-correlation-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Correlation Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-build-investment-portfolio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Build Investment Portfolio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-backtest-verify-portfolio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Backtest Verify Portfolio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-dynamic-rebalancing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Dynamic Rebalancing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Practical Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 Practical Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-build-your-strategy-portfolio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Build Your Strategy Portfolio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-calculate-strategy-correlations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Calculate Strategy Correlations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-simulate-portfolio-backtest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: Simulate Portfolio Backtest
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#strategy-portfolio-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Strategy Portfolio Best Practices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Strategy Portfolio Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-golden-combination-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Golden Combination Templates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-strategy-number-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Strategy Number Recommendations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-common-mistakes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Common Mistakes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-points-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Key Points Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-three-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎉 Part Three Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="lesson-15-strategy-portfolio-and-diversification">Lesson 15: Strategy Portfolio and Diversification<a class="headerlink" href="#lesson-15-strategy-portfolio-and-diversification" title="Permanent link">&para;</a></h1>
+<p><strong>⏱ Duration</strong>: 1.5 hours
+<strong>🎯 Learning Objectives</strong>: Learn to build strategy portfolios
+<strong>📚 Difficulty</strong>: ⭐⭐⭐ Strategy Optimization</p>
+<hr />
+<h2 id="course-overview">📖 Course Overview<a class="headerlink" href="#course-overview" title="Permanent link">&para;</a></h2>
+<p>"Don't put all your eggs in one basket" - this investment principle also applies to quantitative trading. This lesson will teach you how to build multi-strategy investment portfolios, reduce risk through strategy diversification, and improve return stability.</p>
+<hr />
+<h2 id="151-why-combine-strategies">15.1 Why Combine Strategies?<a class="headerlink" href="#151-why-combine-strategies" title="Permanent link">&para;</a></h2>
+<h3 id="risks-of-single-strategy">Risks of Single Strategy<a class="headerlink" href="#risks-of-single-strategy" title="Permanent link">&para;</a></h3>
+<p><strong>Case: Using Trend Strategy Only</strong>
+<div class="highlight"><pre><span></span><code>2025 Q1 (Bull Market): +25% ✅
+2025 Q2 (Ranging Market): -8% ❌
+2025 Q3 (Bull Market): +18% ✅
+2025 Q4 (Bear Market): -12% ❌
+
+Annual Total Return: +23% - 20% = +19.1%
+Max Drawdown: -12%
+High return volatility, poor experience
+</code></pre></div></p>
+<p><strong>Case: Using Strategy Portfolio</strong>
+<div class="highlight"><pre><span></span><code>Strategy Portfolio:
+  - 50% Trend Strategy
+  - 30% Mean Reversion Strategy
+  - 20% Breakout Strategy
+
+2025 Q1 (Bull Market):
+  Trend: +25% → Contributes +12.5%
+  Mean Reversion: +5% → Contributes +1.5%
+  Breakout: +15% → Contributes +3%
+  Portfolio: +17% ✅
+
+2025 Q2 (Ranging Market):
+  Trend: -8% → Contributes -4%
+  Mean Reversion: +18% → Contributes +5.4%
+  Breakout: +2% → Contributes +0.4%
+  Portfolio: +1.8% ✅ (Avoided losses!)
+
+Annual Total Return: +20.5%
+Max Drawdown: -3.5% (Significantly reduced!)
+More stable returns, better experience
+</code></pre></div></p>
+<h3 id="advantages-of-strategy-portfolios">Advantages of Strategy Portfolios<a class="headerlink" href="#advantages-of-strategy-portfolios" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Reduce Drawdowns</strong></li>
+<li>Single strategy drawdown: -12%</li>
+<li>Portfolio strategy drawdown: -3.5%</li>
+<li>
+<p>71% drawdown reduction!</p>
+</li>
+<li>
+<p><strong>Smooth Return Curve</strong></p>
+</li>
+<li>No big ups and downs in single quarters</li>
+<li>Less psychological pressure</li>
+<li>
+<p>Easier to stick with</p>
+</li>
+<li>
+<p><strong>Adapt to Different Market Conditions</strong></p>
+</li>
+<li>Bull markets have trend strategies</li>
+<li>Ranging markets have mean reversion</li>
+<li>
+<p>Bear markets have conservative strategies</p>
+</li>
+<li>
+<p><strong>Increase Trading Opportunities</strong></p>
+</li>
+<li>Other strategies supplement when single strategy has few signals</li>
+<li>Improve capital utilization</li>
+</ol>
+<hr />
+<h2 id="152-strategy-correlation-analysis">15.2 Strategy Correlation Analysis<a class="headerlink" href="#152-strategy-correlation-analysis" title="Permanent link">&para;</a></h2>
+<h3 id="what-is-strategy-correlation">What is Strategy Correlation?<a class="headerlink" href="#what-is-strategy-correlation" title="Permanent link">&para;</a></h3>
+<p><strong>Definition</strong>: The degree of synchronization between two strategies' returns.</p>
+<p><strong>Correlation Coefficient</strong>:
+<div class="highlight"><pre><span></span><code>+1.0: Perfectly positive correlation (move up and down together)
+0.0: No correlation
+-1.0: Perfectly negative correlation (when one rises, the other falls)
+</code></pre></div></p>
+<h3 id="impact-of-correlation-on-portfolios">Impact of Correlation on Portfolios<a class="headerlink" href="#impact-of-correlation-on-portfolios" title="Permanent link">&para;</a></h3>
+<p><strong>High Correlation Portfolio (❌ Not Recommended)</strong>:
+<div class="highlight"><pre><span></span><code>Strategy A: Trend Strategy (EMA Crossover)
+Strategy B: Trend Strategy (MACD)
+Correlation: 0.95
+
+Q1 Performance:
+  Strategy A: +20%
+  Strategy B: +18%
+  Portfolio: +19%
+
+Q2 Performance:
+  Strategy A: -10%
+  Strategy B: -9%
+  Portfolio: -9.5% (No diversification effect!)
+</code></pre></div></p>
+<p><strong>Low Correlation Portfolio (✅ Recommended)</strong>:
+<div class="highlight"><pre><span></span><code>Strategy A: Trend Strategy
+Strategy B: Mean Reversion Strategy
+Correlation: 0.25
+
+Q1 Performance:
+  Strategy A: +20%
+  Strategy B: +5%
+  Portfolio: +12.5%
+
+Q2 Performance:
+  Strategy A: -10%
+  Strategy B: +15%
+  Portfolio: +2.5% (Successful hedging!)
+</code></pre></div></p>
+<h3 id="how-to-calculate-strategy-correlation">How to Calculate Strategy Correlation<a class="headerlink" href="#how-to-calculate-strategy-correlation" title="Permanent link">&para;</a></h3>
+<p><strong>Method 1: Quarterly Return Correlation</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">pearsonr</span>
+
+<span class="c1"># Quarterly returns for Strategy A and B</span>
+<span class="n">returns_A</span> <span class="o">=</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">]</span>  <span class="c1"># Q1-Q4</span>
+<span class="n">returns_B</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">]</span>
+
+<span class="c1"># Calculate correlation</span>
+<span class="n">correlation</span><span class="p">,</span> <span class="n">p_value</span> <span class="o">=</span> <span class="n">pearsonr</span><span class="p">(</span><span class="n">returns_A</span><span class="p">,</span> <span class="n">returns_B</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Correlation: </span><span class="si">{</span><span class="n">correlation</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Method 2: Daily Return Correlation</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Assume daily return data is available</span>
+<span class="n">daily_returns_A</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>  <span class="c1"># 90 days</span>
+<span class="n">daily_returns_B</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+
+<span class="n">correlation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">daily_returns_A</span><span class="p">,</span> <span class="n">daily_returns_B</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</code></pre></div>
+<h3 id="correlation-guidelines">Correlation Guidelines<a class="headerlink" href="#correlation-guidelines" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Correlation</th>
+<th>Diversification Effect</th>
+<th>Recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>&gt; 0.8</strong></td>
+<td>Very Poor</td>
+<td>❌ Avoid combining</td>
+</tr>
+<tr>
+<td><strong>0.5-0.8</strong></td>
+<td>Poor</td>
+<td>⚠️ Combine cautiously</td>
+</tr>
+<tr>
+<td><strong>0.2-0.5</strong></td>
+<td>Good</td>
+<td>✅ Recommended combination</td>
+</tr>
+<tr>
+<td><strong>-0.2-0.2</strong></td>
+<td>Excellent</td>
+<td>✅ Ideal combination</td>
+</tr>
+<tr>
+<td><strong>&lt; -0.2</strong></td>
+<td>Outstanding</td>
+<td>⭐ Best combination</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="153-multi-strategy-capital-allocation">15.3 Multi-Strategy Capital Allocation<a class="headerlink" href="#153-multi-strategy-capital-allocation" title="Permanent link">&para;</a></h2>
+<h3 id="1-equal-weight-allocation-simplest">1. Equal Weight Allocation (Simplest)<a class="headerlink" href="#1-equal-weight-allocation-simplest" title="Permanent link">&para;</a></h3>
+<p><strong>Principle</strong>: Each strategy allocated same capital.</p>
+<p><strong>Configuration</strong>:
+<div class="highlight"><pre><span></span><code>Total Capital: $10,000
+Number of Strategies: 3
+
+Strategy A: $3,333
+Strategy B: $3,333
+Strategy C: $3,334
+</code></pre></div></p>
+<p><strong>Advantages</strong>:
+- ✅ Simple and direct
+- ✅ No calculation needed</p>
+<p><strong>Disadvantages</strong>:
+- ❌ Doesn't consider strategy quality differences
+- ❌ Doesn't consider risk differences</p>
+<p><strong>Suitable for</strong>: When strategy performance is similar</p>
+<hr />
+<h3 id="2-score-based-allocation-recommended">2. Score-Based Allocation (Recommended)<a class="headerlink" href="#2-score-based-allocation-recommended" title="Permanent link">&para;</a></h3>
+<p><strong>Principle</strong>: Allocate capital based on strategy scores.</p>
+<p><strong>Calculation Method</strong>:
+<div class="highlight"><pre><span></span><code>Strategy A: Score 9.0
+Strategy B: Score 8.0
+Strategy C: Score 7.0
+Total Score: 24.0
+
+Strategy A Allocation = 9.0 / 24.0 = 37.5%
+Strategy B Allocation = 8.0 / 24.0 = 33.3%
+Strategy C Allocation = 7.0 / 24.0 = 29.2%
+
+Total Capital $10,000:
+  Strategy A: $3,750
+  Strategy B: $3,333
+  Strategy C: $2,917
+</code></pre></div></p>
+<p><strong>Advantages</strong>:
+- ✅ Better-performing strategies get more capital
+- ✅ Reasonably optimizes overall returns</p>
+<p><strong>Disadvantages</strong>:
+- ⚠️ Scores may become outdated
+- ⚠️ Requires regular adjustment</p>
+<hr />
+<h3 id="3-risk-parity-allocation-advanced">3. Risk Parity Allocation (Advanced)<a class="headerlink" href="#3-risk-parity-allocation-advanced" title="Permanent link">&para;</a></h3>
+<p><strong>Principle</strong>: Let each strategy contribute equal risk.</p>
+<p><strong>Calculation Method</strong>:
+<div class="highlight"><pre><span></span><code>Strategy A: Volatility 10%, Score 9.0
+Strategy B: Volatility 15%, Score 8.0
+Strategy C: Volatility 20%, Score 7.0
+
+# Risk Contribution = Capital Allocation × Volatility
+# Goal: Make each strategy's risk contribution equal
+
+Assume target portfolio volatility is 12%
+
+Strategy A Allocation = 12% / 10% = 1.2 × base position
+Strategy B Allocation = 12% / 15% = 0.8 × base position
+Strategy C Allocation = 12% / 20% = 0.6 × base position
+
+After normalization:
+  Strategy A: 46.2%
+  Strategy B: 30.8%
+  Strategy C: 23.0%
+</code></pre></div></p>
+<p><strong>Advantages</strong>:
+- ✅ Risk balanced
+- ✅ Professional allocation</p>
+<p><strong>Disadvantages</strong>:
+- ❌ Complex calculation
+- ❌ Needs volatility data
+- ❌ Not suitable for beginners</p>
+<hr />
+<h3 id="4-core-satellite-configuration-practical">4. Core-Satellite Configuration (Practical)<a class="headerlink" href="#4-core-satellite-configuration-practical" title="Permanent link">&para;</a></h3>
+<p><strong>Principle</strong>: Core assets seek stability, satellite assets seek high returns.</p>
+<p><strong>Configuration</strong>:
+<div class="highlight"><pre><span></span><code>Total Capital: $10,000
+
+Core Assets (70%): $7,000
+  ├─ High-score Strategy A (S Grade): $4,000 (40%)
+  └─ High-score Strategy B (A Grade): $3,000 (30%)
+
+Satellite Assets (30%): $3,000
+  ├─ Test Strategy C (B Grade): $1,500 (15%)
+  ├─ Test Strategy D (B Grade): $1,000 (10%)
+  └─ Experimental Strategy E (C Grade): $500 (5%)
+</code></pre></div></p>
+<p><strong>Advantages</strong>:
+- ✅ Balances returns and risk
+- ✅ Core assets protect principal
+- ✅ Satellite assets pursue excess returns
+- ✅ Allows trying new strategies</p>
+<p><strong>Suitable for</strong>:
+- Experienced traders
+- Capital &gt; $10,000
+- Want to explore new strategies</p>
+<hr />
+<h2 id="154-strategy-portfolio-construction-practice">15.4 Strategy Portfolio Construction Practice<a class="headerlink" href="#154-strategy-portfolio-construction-practice" title="Permanent link">&para;</a></h2>
+<h3 id="step-1-select-candidate-strategies">Step 1: Select Candidate Strategies<a class="headerlink" href="#step-1-select-candidate-strategies" title="Permanent link">&para;</a></h3>
+<p><strong>Criteria</strong>:
+- ✅ Score &gt; 7.0
+- ✅ Pass out-of-sample validation
+- ✅ Different strategy types</p>
+<p><strong>Candidate Strategy Pool</strong>:
+<div class="highlight"><pre><span></span><code>1. MomentumTrendStrategy (Trend, S Grade, 9.36 points)
+2. MeanReversionStrategy (Mean Reversion, A Grade, 8.52 points)
+3. BreakoutTrendStrategy (Breakout, A Grade, 8.18 points)
+4. ADXTrendStrategy (Trend, B Grade, 7.85 points)
+5. GridTradingStrategy (Grid, B Grade, 7.42 points)
+</code></pre></div></p>
+<hr />
+<h3 id="step-2-correlation-analysis">Step 2: Correlation Analysis<a class="headerlink" href="#step-2-correlation-analysis" title="Permanent link">&para;</a></h3>
+<p><strong>Test Correlations</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Backtest all strategies, record daily/weekly returns</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>MomentumTrendStrategy<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250101</span>-20250930
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>MeanReversionStrategy<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250101</span>-20250930
+<span class="c1"># ...</span>
+
+<span class="c1"># Analyze correlations (need to export data and analyze with Python)</span>
+</code></pre></div></p>
+<p><strong>Correlation Matrix</strong>:
+<div class="highlight"><pre><span></span><code>                 | Momentum | MeanRev | Breakout | ADX  | Grid
+Momentum         | 1.00     | 0.25    | 0.72     | 0.85 | 0.15
+MeanReversion    | 0.25     | 1.00    | 0.30     | 0.22 | 0.68
+Breakout         | 0.72     | 0.30    | 1.00     | 0.68 | 0.28
+ADX              | 0.85     | 0.22    | 0.68     | 1.00 | 0.18
+Grid             | 0.15     | 0.68    | 0.28     | 0.18 | 1.00
+</code></pre></div></p>
+<p><strong>Analysis Conclusion</strong>:
+- ❌ Momentum and ADX highly correlated (0.85) → Don't select both
+- ✅ Momentum and MeanReversion low correlation (0.25) → Good combination
+- ✅ Momentum and Grid low correlation (0.15) → Good combination</p>
+<hr />
+<h3 id="step-3-build-investment-portfolio">Step 3: Build Investment Portfolio<a class="headerlink" href="#step-3-build-investment-portfolio" title="Permanent link">&para;</a></h3>
+<p><strong>Plan A: Conservative (Recommended for Beginners)</strong>
+<div class="highlight"><pre><span></span><code>Total Capital: $10,000
+
+Core (80%):
+  ├─ MomentumTrendStrategy: $5,000 (50%)
+  └─ MeanReversionStrategy: $3,000 (30%)
+
+Testing (20%):
+  └─ BreakoutTrendStrategy: $2,000 (20%)
+
+Expected Performance:
+  - Annual Return: 60-80%
+  - Max Drawdown: 5-8%
+  - Sharpe Ratio: 2.5-3.0
+</code></pre></div></p>
+<p><strong>Plan B: Balanced (Recommended for Intermediate)</strong>
+<div class="highlight"><pre><span></span><code>Total Capital: $10,000
+
+Core (60%):
+  ├─ MomentumTrendStrategy: $3,000 (30%)
+  └─ MeanReversionStrategy: $3,000 (30%)
+
+Growth (30%):
+  ├─ BreakoutTrendStrategy: $2,000 (20%)
+  └─ ADXTrendStrategy: $1,000 (10%)
+
+Experimental (10%):
+  └─ GridTradingStrategy: $1,000 (10%)
+
+Expected Performance:
+  - Annual Return: 80-120%
+  - Max Drawdown: 8-12%
+  - Sharpe Ratio: 2.0-2.5
+</code></pre></div></p>
+<p><strong>Plan C: Aggressive (For Experienced)</strong>
+<div class="highlight"><pre><span></span><code>Total Capital: $10,000
+
+Balanced Allocation:
+  ├─ MomentumTrendStrategy: $2,500 (25%)
+  ├─ MeanReversionStrategy: $2,000 (20%)
+  ├─ BreakoutTrendStrategy: $2,000 (20%)
+  ├─ ADXTrendStrategy: $1,500 (15%)
+  ├─ GridTradingStrategy: $1,500 (15%)
+  └─ Other Strategies: $500 (5%)
+
+Expected Performance:
+  - Annual Return: 100-150%
+  - Max Drawdown: 12-18%
+  - Sharpe Ratio: 1.5-2.0
+</code></pre></div></p>
+<hr />
+<h3 id="step-4-backtest-verify-portfolio">Step 4: Backtest Verify Portfolio<a class="headerlink" href="#step-4-backtest-verify-portfolio" title="Permanent link">&para;</a></h3>
+<p><strong>Test Each Strategy Separately</strong>:
+<div class="highlight"><pre><span></span><code>freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config_momentum.json<span class="w"> </span>--strategy<span class="w"> </span>MomentumTrendStrategy<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250101</span>-20250930
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config_meanrev.json<span class="w"> </span>--strategy<span class="w"> </span>MeanReversionStrategy<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250101</span>-20250930
+</code></pre></div></p>
+<p><strong>Simulate Portfolio Performance</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Calculate portfolio returns</span>
+<span class="n">momentum_return</span> <span class="o">=</span> <span class="mf">0.23</span>  <span class="c1"># 23%</span>
+<span class="n">meanrev_return</span> <span class="o">=</span> <span class="mf">0.15</span>   <span class="c1"># 15%</span>
+
+<span class="c1"># 50% + 30% allocation</span>
+<span class="n">portfolio_return</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.23</span> <span class="err">×</span> <span class="mf">0.50</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mf">0.15</span> <span class="err">×</span> <span class="mf">0.30</span><span class="p">)</span> <span class="o">=</span> <span class="mf">0.16</span> <span class="o">=</span> <span class="mi">16</span><span class="o">%</span>
+
+<span class="c1"># Calculate portfolio drawdown (simplified)</span>
+<span class="n">momentum_drawdown</span> <span class="o">=</span> <span class="mf">0.05</span>  <span class="c1"># 5%</span>
+<span class="n">meanrev_drawdown</span> <span class="o">=</span> <span class="mf">0.03</span>   <span class="c1"># 3%</span>
+
+<span class="c1"># Assume不完全同步 (correlation 0.25)</span>
+<span class="n">portfolio_drawdown</span> <span class="err">≈</span> <span class="mf">0.04</span> <span class="o">=</span> <span class="mi">4</span><span class="o">%</span> <span class="p">(</span><span class="n">between</span> <span class="n">the</span> <span class="n">two</span><span class="p">)</span>
+</code></pre></div></p>
+<hr />
+<h3 id="step-5-dynamic-rebalancing">Step 5: Dynamic Rebalancing<a class="headerlink" href="#step-5-dynamic-rebalancing" title="Permanent link">&para;</a></h3>
+<p><strong>Why Rebalancing is Needed?</strong>
+<div class="highlight"><pre><span></span><code>Initial Configuration (2025-01-01):
+  Strategy A: $5,000 (50%)
+  Strategy B: $5,000 (50%)
+
+After 3 months (2025-03-31):
+  Strategy A: $6,500 (30% growth) → 54.2%
+  Strategy B: $5,500 (10% growth) → 45.8%
+
+Deviated from target configuration! Need rebalancing.
+</code></pre></div></p>
+<p><strong>Rebalancing Methods</strong>:</p>
+<p><strong>Method 1: Regular Rebalancing (Recommended)</strong>
+<div class="highlight"><pre><span></span><code>Frequency: 1st of each month
+Action: Adjust capital back to target proportions
+
+Example:
+  Total Capital: $12,000
+  Target: A=50%, B=50%
+
+  Action:
+    Withdraw from Strategy A: $6,500 - $6,000 = $500
+    Add to Strategy B: $5,500 + $500 = $6,000
+</code></pre></div></p>
+<p><strong>Method 2: Threshold Rebalancing</strong>
+<div class="highlight"><pre><span></span><code>Trigger Condition: Deviation from target &gt; 10%
+
+Example:
+  Target: A=50%, B=50%
+  Actual: A=55%, B=45%
+  Deviation: 5% (not triggered)
+
+  Actual: A=62%, B=38%
+  Deviation: 12% (trigger rebalancing)
+</code></pre></div></p>
+<p><strong>Method 3: No Rebalancing (Let Profits Run)</strong>
+<div class="highlight"><pre><span></span><code>Philosophy: Give more capital to better-performing strategies
+
+Advantages:
+  - ✅ Follow the trend
+  - ✅ Reduce trading costs
+
+Disadvantages:
+  - ❌ Risk concentration
+  - ❌ May miss mean reversion opportunities
+</code></pre></div></p>
+<hr />
+<h2 id="practical-tasks">💡 Practical Tasks<a class="headerlink" href="#practical-tasks" title="Permanent link">&para;</a></h2>
+<h3 id="task-1-build-your-strategy-portfolio">Task 1: Build Your Strategy Portfolio<a class="headerlink" href="#task-1-build-your-strategy-portfolio" title="Permanent link">&para;</a></h3>
+<p>Based on what you've learned, build your investment portfolio:</p>
+<div class="highlight"><pre><span></span><code><span class="gh"># My Strategy Investment Portfolio</span>
+
+<span class="gu">## Total Capital</span>
+$_______
+
+<span class="gu">## Risk Preference</span>
+☐ Conservative  ☐ Balanced  ☐ Aggressive
+
+<span class="gu">## Strategy Configuration</span>
+
+<span class="gu">### Core Assets (____%)</span>
+<span class="k">1.</span> ___________ Strategy: $_______ (___%)
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>Score: _____
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>Suitable Market Conditions: _____
+
+<span class="k">2.</span> ___________ Strategy: $_______ (___%)
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>Score: _____
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>Suitable Market Conditions: _____
+
+<span class="gu">### Growth/Satellite Assets (____%)</span>
+<span class="k">3.</span> ___________ Strategy: $_______ (___%)
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>Score: _____
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>Suitable Market Conditions: _____
+
+<span class="k">4.</span> ___________ Strategy: $_______ (___%)
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>Score: _____
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>Suitable Market Conditions: _____
+
+<span class="gu">## Expected Targets</span>
+<span class="k">-</span><span class="w"> </span>Annual Return Target: _____%
+<span class="k">-</span><span class="w"> </span>Acceptable Max Drawdown: _____%
+<span class="k">-</span><span class="w"> </span>Target Sharpe Ratio: _____
+
+<span class="gu">## Rebalancing Plan</span>
+<span class="k">-</span><span class="w"> </span>Frequency: ☐ Monthly  ☐ Quarterly  ☐ When deviation &gt; 10%
+<span class="k">-</span><span class="w"> </span>Next Rebalancing Date: _____
+</code></pre></div>
+<h3 id="task-2-calculate-strategy-correlations">Task 2: Calculate Strategy Correlations<a class="headerlink" href="#task-2-calculate-strategy-correlations" title="Permanent link">&para;</a></h3>
+<p>Select 2-3 strategies, backtest the same time period, calculate their correlations:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Export daily returns for each strategy</span>
+<span class="c1"># Use numpy or pandas to calculate correlations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">strategy1_returns</span> <span class="o">=</span> <span class="p">[</span><span class="o">...</span><span class="p">]</span>  <span class="c1"># Daily returns for strategy 1</span>
+<span class="n">strategy2_returns</span> <span class="o">=</span> <span class="p">[</span><span class="o">...</span><span class="p">]</span>  <span class="c1"># Daily returns for strategy 2</span>
+
+<span class="n">correlation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">strategy1_returns</span><span class="p">,</span> <span class="n">strategy2_returns</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Correlation: </span><span class="si">{</span><span class="n">correlation</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># Judge</span>
+<span class="k">if</span> <span class="n">correlation</span> <span class="o">&gt;</span> <span class="mf">0.7</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"⚠️ Highly correlated, not suitable for combination"</span><span class="p">)</span>
+<span class="k">elif</span> <span class="mf">0.2</span> <span class="o">&lt;</span> <span class="n">correlation</span> <span class="o">&lt;</span> <span class="mf">0.7</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"✅ Moderately correlated, can combine"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"⭐ Low or negative correlation, ideal combination"</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="task-3-simulate-portfolio-backtest">Task 3: Simulate Portfolio Backtest<a class="headerlink" href="#task-3-simulate-portfolio-backtest" title="Permanent link">&para;</a></h3>
+<p>Calculate expected performance of your strategy portfolio:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Assume 3 strategies</span>
+<span class="n">strategies</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'MomentumTrend'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'return'</span><span class="p">:</span> <span class="mf">0.23</span><span class="p">,</span> <span class="s1">'drawdown'</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span> <span class="s1">'sharpe'</span><span class="p">:</span> <span class="mf">3.5</span><span class="p">,</span> <span class="s1">'weight'</span><span class="p">:</span> <span class="mf">0.50</span><span class="p">},</span>
+    <span class="s1">'MeanReversion'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'return'</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s1">'drawdown'</span><span class="p">:</span> <span class="mf">0.03</span><span class="p">,</span> <span class="s1">'sharpe'</span><span class="p">:</span> <span class="mf">2.8</span><span class="p">,</span> <span class="s1">'weight'</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">},</span>
+    <span class="s1">'Breakout'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'return'</span><span class="p">:</span> <span class="mf">0.18</span><span class="p">,</span> <span class="s1">'drawdown'</span><span class="p">:</span> <span class="mf">0.06</span><span class="p">,</span> <span class="s1">'sharpe'</span><span class="p">:</span> <span class="mf">2.5</span><span class="p">,</span> <span class="s1">'weight'</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1"># Calculate portfolio return (weighted average)</span>
+<span class="n">portfolio_return</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s1">'return'</span><span class="p">]</span> <span class="o">*</span> <span class="n">s</span><span class="p">[</span><span class="s1">'weight'</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">strategies</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Portfolio Expected Return: </span><span class="si">{</span><span class="n">portfolio_return</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># Calculate portfolio risk (simplified, assume correlation 0.3)</span>
+<span class="n">portfolio_risk</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s1">'drawdown'</span><span class="p">]</span> <span class="o">*</span> <span class="n">s</span><span class="p">[</span><span class="s1">'weight'</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">strategies</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">*</span> <span class="mf">0.8</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Portfolio Expected Drawdown: </span><span class="si">{</span><span class="n">portfolio_risk</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># Estimate Sharpe</span>
+<span class="n">portfolio_sharpe</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s1">'sharpe'</span><span class="p">]</span> <span class="o">*</span> <span class="n">s</span><span class="p">[</span><span class="s1">'weight'</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">strategies</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Portfolio Expected Sharpe: </span><span class="si">{</span><span class="n">portfolio_sharpe</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h2 id="strategy-portfolio-best-practices">📚 Strategy Portfolio Best Practices<a class="headerlink" href="#strategy-portfolio-best-practices" title="Permanent link">&para;</a></h2>
+<h3 id="1-golden-combination-templates">1. Golden Combination Templates<a class="headerlink" href="#1-golden-combination-templates" title="Permanent link">&para;</a></h3>
+<p><strong>Trend + Mean Reversion (Most Classic)</strong>
+<div class="highlight"><pre><span></span><code>60% Trend Strategy (good in bull/bear markets)
+40% Mean Reversion Strategy (good in ranging markets)
+
+Correlation: 0.2-0.4 (ideal)
+Suitable for: All market conditions
+Risk: Low-Medium
+Recommendation: ⭐⭐⭐⭐⭐
+</code></pre></div></p>
+<p><strong>Trend + Breakout + Mean Reversion (All-Purpose)</strong>
+<div class="highlight"><pre><span></span><code>40% Trend Strategy
+30% Breakout Strategy
+30% Mean Reversion Strategy
+
+Correlation: 0.3-0.5
+Suitable for: All market conditions
+Risk: Medium
+Recommendation: ⭐⭐⭐⭐
+</code></pre></div></p>
+<h3 id="2-strategy-number-recommendations">2. Strategy Number Recommendations<a class="headerlink" href="#2-strategy-number-recommendations" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Account Capital</th>
+<th>Recommended Strategies</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>&lt; $5,000</strong></td>
+<td>1-2</td>
+<td>Too little capital, diversification effect not obvious</td>
+</tr>
+<tr>
+<td><strong>$5,000-$20,000</strong></td>
+<td>2-3</td>
+<td>Moderate diversification, easy to manage</td>
+</tr>
+<tr>
+<td><strong>$20,000-$50,000</strong></td>
+<td>3-5</td>
+<td>Full diversification, controllable risk</td>
+</tr>
+<tr>
+<td><strong>&gt; $50,000</strong></td>
+<td>5-10</td>
+<td>Professional-level diversification, recommend portfolio management</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-common-mistakes">3. Common Mistakes<a class="headerlink" href="#3-common-mistakes" title="Permanent link">&para;</a></h3>
+<p><strong>Mistake 1: Over-Diversification</strong>
+<div class="highlight"><pre><span></span><code>❌ 10 strategies, each 10%
+Result: Complex management, returns averaged out, lose advantages
+
+✅ 3-5 high-quality strategies, focus allocation
+</code></pre></div></p>
+<p><strong>Mistake 2: Similar Strategy Combination</strong>
+<div class="highlight"><pre><span></span><code>❌ 3 trend strategies combined
+Result: High correlation (0.8+), no diversification effect
+
+✅ Trend + Mean Reversion + Breakout, different types combined
+</code></pre></div></p>
+<p><strong>Mistake 3: Ignoring Rebalancing</strong>
+<div class="highlight"><pre><span></span><code>❌ Set portfolio and never adjust
+Result: Configuration drift, risk out of control
+
+✅ Regular rebalancing (monthly or quarterly)
+</code></pre></div></p>
+<hr />
+<h2 id="key-points-summary">📌 Key Points Summary<a class="headerlink" href="#key-points-summary" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Strategy portfolios reduce risk</strong>: Drawdowns can be reduced by 50-70%</li>
+<li><strong>Choose low-correlation strategies</strong>: Correlation &lt; 0.5 is best</li>
+<li><strong>Core-satellite configuration</strong>: 70% core + 30% satellite</li>
+<li><strong>Regular rebalancing</strong>: Monthly or when deviation &gt; 10%</li>
+<li><strong>Moderate strategy numbers</strong>: 3-5 is most suitable</li>
+<li><strong>Trend + Mean Reversion</strong>: Most classic combination</li>
+</ol>
+<hr />
+<h2 id="part-three-summary">🎉 Part Three Summary<a class="headerlink" href="#part-three-summary" title="Permanent link">&para;</a></h2>
+<p><strong>Congratulations! You have completed Part Three: Strategy Optimization (Lessons 11-15)</strong></p>
+<p><strong>You learned</strong>:
+- ✅ Lesson 11: Using Hyperopt to optimize strategy parameters
+- ✅ Lesson 12: Deep analysis of different strategy types
+- ✅ Lesson 13: Establishing scientific strategy scoring system
+- ✅ Lesson 14: Mastering risk and capital management methods
+- ✅ Lesson 15: Building multi-strategy investment portfolios</p>
+<p><strong>Next Part Preview</strong>:
+<strong>Part Four: Real-time Signals and Paper Trading (Lessons 16-20)</strong></p>
+<p>In Part Four, you will learn:
+- Lesson 16: Real-time signal monitoring
+- Lesson 17: Telegram notification configuration
+- Lesson 18: Web UI and API usage
+- Lesson 19: Visualization analysis tools
+- Lesson 20: Paper trading verification</p>
+<p><strong>Preparation</strong>:
+- ✅ Complete strategy portfolio design
+- ✅ Prepare to enter paper trading stage
+- ✅ Ensure stable network environment</p>
+<hr />
+<p><strong>🎯 Learning Assessment Criteria</strong>:
+- ✅ Understand importance of strategy portfolios
+- ✅ Can analyze strategy correlations
+- ✅ Can build reasonable investment portfolios
+- ✅ Master rebalancing methods</p>
+<p><strong>After completing Part Three, you have acquired complete strategy optimization capabilities! Ready to enter the final stage before live trading—real-time signal monitoring and paper trading!</strong> 🚀🎊</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

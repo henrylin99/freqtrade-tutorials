@@ -1,0 +1,3588 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径">
+      
+      
+      
+        <link rel="canonical" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-10-pair-selection/">
+      
+      
+        <link rel="prev" href="../lesson-09-timerange-testing/">
+      
+      
+        <link rel="next" href="../lesson-11-hyperopt-basics/">
+      
+      
+        
+          <link rel="alternate" href="./" hreflang="zh">
+        
+          <link rel="alternate" href="../en/lesson-10-pair-selection/" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>第 10 课：Freqtrade交易对选择与测试 - Freqtrade 实战教程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9784658154228475"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VGHZY4EELE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VGHZY4EELE");
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#10-freqtrade" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="Freqtrade 实战教程" class="md-header__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Freqtrade 实战教程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第 10 课：Freqtrade交易对选择与测试
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="选择当前语言">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../en/lesson-10-pair-selection/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/henrylin99/freqtrade-tutorials" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../strategies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🇨🇳 中文教程
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Freqtrade 实战教程" class="md-nav__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Freqtrade 实战教程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/henrylin99/freqtrade-tutorials" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../strategies/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🇨🇳 中文教程
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🇨🇳 中文教程
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 1 课：量化交易与 Freqtrade 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-02-environment-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 2 课：Freqtrade 环境搭建
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-03-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 3 课：核心概念理解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-04-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 4 课：数据下载与管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-05-first-backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 5 课：第一次策略回测
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-06-strategy-performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 6 课：策略性能分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-07-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 7 课：多时间框架回测
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-08-strategy-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 8 课：策略批量对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-09-timerange-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 9 课：Freqtrade时间范围测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 10 课：Freqtrade交易对选择与测试
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 10 课：Freqtrade交易对选择与测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 课程概览
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#101-vs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1 主流币 vs 山寨币
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.1 主流币 vs 山寨币">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        交易对分类
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="交易对分类">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-blue-chips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 主流币（Blue Chips）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-mid-caps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 中盘币（Mid-Caps）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-altcoins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 山寨币（Altcoins）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        主流币 vs 山寨币对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐配置
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="推荐配置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保守型（新手推荐）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        平衡型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        激进型（有经验者）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#102" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2 流动性评估
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.2 流动性评估">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        什么是流动性？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        24小时成交量
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        订单簿深度
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spread" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        买卖价差（Spread）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        流动性对策略的影响
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#103" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3 波动率分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.3 波动率分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        什么是波动率？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        波动率分类
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        波动率对策略的影响
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="波动率对策略的影响">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vs_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        高波动 vs 低波动
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        波动率测试
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        策略适配波动率
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#104" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.4 多交易对组合测试
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.4 多交易对组合测试">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        为什么需要多交易对？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        多交易对回测
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="多交易对回测">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 1：配置文件设置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 2：命令行指定
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        多交易对结果分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        相关性分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        构建最优投资组合
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 实践任务
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 实践任务">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 1：下载多交易对数据
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 2：单独测试每个交易对
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 3：制作交易对对比表
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 4：组合测试
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 5：构建你的投资组合
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 知识检查
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 知识检查">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基础问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        答案
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        进阶问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        思考题
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔗 参考资料
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔗 参考资料">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        数据查询网站
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        配套文档
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐阅读
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 核心要点总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ➡️ 第二部分总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-11-hyperopt-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 11 课：Freqtrade参数优化入门（Hyperopt）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-12-advanced-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 12 课：高级策略分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-13-scoring-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 13 课：策略评分体系
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-14-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 14 课：风险管理与资金管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-15-portfolio-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 15 课：Freqtrade策略组合与分散
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-16-realtime-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 16 课：实时信号监控
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-17-telegram-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 17 课：Telegram 通知配置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-18-webui-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 18 课：Web UI 与 API 使用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 19 课：可视化分析工具
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-20-dry-run-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 20 课：模拟交易验证
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-21-exchange-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 21 课：交易所 API 配置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-22-pre-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 22 课：实盘前检查清单
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-23-small-capital-live/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 23 课：小资金实盘测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-1-order-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.1 课：实盘交易下单操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-2-stop-loss-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.2 课：实盘交易止损操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-3-futures-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.3 课：币安合约交易操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-4-leverage-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.4 课：杠杆交易操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-trading-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24 课：交易监控与调整
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-25-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 25 课：风险控制与心态管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-26-custom-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 26 课：自定义策略开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-27-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 27 课：多时间框架策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-28-grid-hft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 28 课：高频交易与网格策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-1-freqai-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29.1 课：FreqAI 深度实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-2-advanced-ml-strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29.2 课：高级机器学习策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning-enhanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29 课：机器学习基础与策略优化（增强版）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29 课：机器学习与策略优化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-30-conclusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 30 课：总结与持续学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 课程概览
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#101-vs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1 主流币 vs 山寨币
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.1 主流币 vs 山寨币">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        交易对分类
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="交易对分类">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-blue-chips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 主流币（Blue Chips）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-mid-caps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 中盘币（Mid-Caps）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-altcoins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 山寨币（Altcoins）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        主流币 vs 山寨币对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐配置
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="推荐配置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保守型（新手推荐）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        平衡型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        激进型（有经验者）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#102" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2 流动性评估
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.2 流动性评估">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        什么是流动性？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        24小时成交量
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        订单簿深度
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spread" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        买卖价差（Spread）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        流动性对策略的影响
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#103" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3 波动率分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.3 波动率分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        什么是波动率？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        波动率分类
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        波动率对策略的影响
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="波动率对策略的影响">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vs_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        高波动 vs 低波动
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        波动率测试
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        策略适配波动率
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#104" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.4 多交易对组合测试
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.4 多交易对组合测试">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        为什么需要多交易对？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        多交易对回测
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="多交易对回测">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 1：配置文件设置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 2：命令行指定
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        多交易对结果分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        相关性分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        构建最优投资组合
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 实践任务
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 实践任务">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 1：下载多交易对数据
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 2：单独测试每个交易对
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 3：制作交易对对比表
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 4：组合测试
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 5：构建你的投资组合
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 知识检查
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 知识检查">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基础问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        答案
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        进阶问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        思考题
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔗 参考资料
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔗 参考资料">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        数据查询网站
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        配套文档
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐阅读
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 核心要点总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ➡️ 第二部分总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="10-freqtrade">第 10 课：Freqtrade交易对选择与测试<a class="headerlink" href="#10-freqtrade" title="Permanent link">&para;</a></h1>
+<p><strong>⏱ 课时</strong>：1.5 小时
+<strong>🎯 学习目标</strong>：学会选择合适的交易对
+<strong>📚 难度</strong>：⭐⭐ 回测实战</p>
+<hr />
+<h2 id="_1">📖 课程概览<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>不同的交易对有不同的特性。选择合适的交易对对策略表现有巨大影响。本课将教你如何评估交易对的流动性、波动率，以及如何构建多交易对组合来分散风险。</p>
+<hr />
+<h2 id="101-vs">10.1 主流币 vs 山寨币<a class="headerlink" href="#101-vs" title="Permanent link">&para;</a></h2>
+<h3 id="_2">交易对分类<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<h4 id="1-blue-chips">1. 主流币（Blue Chips）<a class="headerlink" href="#1-blue-chips" title="Permanent link">&para;</a></h4>
+<p><strong>定义</strong>：市值前 10-20 的加密货币</p>
+<p><strong>代表币种</strong>：
+- <strong>BTC/USDT</strong>（比特币）- 市值第一
+- <strong>ETH/USDT</strong>（以太坊）- 市值第二
+- <strong>BNB/USDT</strong>（币安币）- 交易所代币
+- <strong>XRP/USDT</strong>（瑞波币）
+- <strong>SOL/USDT</strong>（Solana）
+- <strong>ADA/USDT</strong>（Cardano）</p>
+<p><strong>特点</strong>：
+- ✅ 流动性好（成交量大）
+- ✅ 波动相对稳定
+- ✅ 价差小（滑点低）
+- ✅ 不易被操纵
+- ✅ 信息透明
+- ⚠️ 收益相对较低</p>
+<p><strong>风险评级</strong>：🟢 低风险</p>
+<h4 id="2-mid-caps">2. 中盘币（Mid-Caps）<a class="headerlink" href="#2-mid-caps" title="Permanent link">&para;</a></h4>
+<p><strong>定义</strong>：市值排名 20-100</p>
+<p><strong>代表币种</strong>：
+- <strong>MATIC/USDT</strong>（Polygon）
+- <strong>LINK/USDT</strong>（Chainlink）
+- <strong>UNI/USDT</strong>（Uniswap）
+- <strong>AVAX/USDT</strong>（Avalanche）
+- <strong>ATOM/USDT</strong>（Cosmos）</p>
+<p><strong>特点</strong>：
+- ✅ 流动性较好
+- ⚠️ 波动性较大
+- ⚠️ 收益潜力更高
+- ⚠️ 风险适中</p>
+<p><strong>风险评级</strong>：🟡 中等风险</p>
+<h4 id="3-altcoins">3. 山寨币（Altcoins）<a class="headerlink" href="#3-altcoins" title="Permanent link">&para;</a></h4>
+<p><strong>定义</strong>：市值排名 100+</p>
+<p><strong>特点</strong>：
+- ❌ 流动性差（成交量小）
+- ❌ 波动极大（日波动 20%+）
+- ❌ 价差大（滑点高）
+- ❌ 容易被操纵
+- ❌ 信息不对称
+- ⚠️ 高风险高收益</p>
+<p><strong>风险评级</strong>：🔴 高风险</p>
+<h3 id="vs">主流币 vs 山寨币对比<a class="headerlink" href="#vs" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>特征</th>
+<th>主流币</th>
+<th>中盘币</th>
+<th>山寨币</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>日均成交量</strong></td>
+<td>&gt; $1B</td>
+<td>$100M-$1B</td>
+<td>&lt; $100M</td>
+</tr>
+<tr>
+<td><strong>日波动率</strong></td>
+<td>2-5%</td>
+<td>5-10%</td>
+<td>10-30%</td>
+</tr>
+<tr>
+<td><strong>滑点</strong></td>
+<td>&lt; 0.1%</td>
+<td>0.1-0.3%</td>
+<td>&gt; 0.5%</td>
+</tr>
+<tr>
+<td><strong>操纵风险</strong></td>
+<td>极低</td>
+<td>低</td>
+<td>高</td>
+</tr>
+<tr>
+<td><strong>收益潜力</strong></td>
+<td>中等</td>
+<td>较高</td>
+<td>极高</td>
+</tr>
+<tr>
+<td><strong>适合新手</strong></td>
+<td>✅ 是</td>
+<td>⚠️ 谨慎</td>
+<td>❌ 否</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_3">推荐配置<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<h4 id="_4">保守型（新手推荐）<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>100% 主流币
+- BTC/USDT: 40%
+- ETH/USDT: 40%
+- BNB/USDT: 20%
+</code></pre></div>
+<h4 id="_5">平衡型<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>70% 主流币 + 30% 中盘币
+- BTC/USDT: 30%
+- ETH/USDT: 30%
+- BNB/USDT: 10%
+- SOL/USDT: 15%
+- MATIC/USDT: 15%
+</code></pre></div>
+<h4 id="_6">激进型（有经验者）<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>50% 主流币 + 40% 中盘币 + 10% 山寨币
+- BTC/USDT: 25%
+- ETH/USDT: 25%
+- SOL/USDT: 20%
+- LINK/USDT: 20%
+- 其他小币: 10%
+</code></pre></div>
+<hr />
+<h2 id="102">10.2 流动性评估<a class="headerlink" href="#102" title="Permanent link">&para;</a></h2>
+<h3 id="_7">什么是流动性？<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p><strong>定义</strong>：资产能够快速买入或卖出而不显著影响价格的能力。</p>
+<p><strong>关键指标</strong>：
+1. <strong>24小时成交量</strong>
+2. <strong>订单簿深度</strong>
+3. <strong>买卖价差（Spread）</strong></p>
+<h3 id="24">24小时成交量<a class="headerlink" href="#24" title="Permanent link">&para;</a></h3>
+<p><strong>评估标准</strong>：
+<div class="highlight"><pre><span></span><code>优秀：&gt; $500M/天
+良好：$100M-$500M/天
+一般：$20M-$100M/天
+较差：$5M-$20M/天
+很差：&lt; $5M/天
+</code></pre></div></p>
+<p><strong>查看方法</strong>：
+访问 <a href="https://coinmarketcap.com/">CoinMarketCap</a> 或 <a href="https://www.coingecko.com/">CoinGecko</a></p>
+<p><strong>案例对比</strong>：
+<div class="highlight"><pre><span></span><code>BTC/USDT: $25,000M/天 ✅ 优秀
+ETH/USDT: $10,000M/天 ✅ 优秀
+SOL/USDT: $800M/天 ✅ 优秀
+MATIC/USDT: $300M/天 ✅ 良好
+DOGE/USDT: $150M/天 ✅ 良好
+某小币/USDT: $2M/天 ❌ 很差
+</code></pre></div></p>
+<h3 id="_8">订单簿深度<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<p><strong>定义</strong>：在不同价格水平上挂单的数量。</p>
+<p><strong>查看方法</strong>：
+1. 登录 Binance
+2. 打开交易对页面
+3. 查看"深度图"（Depth Chart）</p>
+<p><strong>评估标准</strong>：
+<div class="highlight"><pre><span></span><code>深度好：±2% 价格范围内有大量挂单
+深度差：±2% 价格范围内挂单稀少
+</code></pre></div></p>
+<p><strong>影响</strong>：
+- 深度好 → 大单不会显著影响价格
+- 深度差 → 大单会造成价格剧烈波动</p>
+<h3 id="spread">买卖价差（Spread）<a class="headerlink" href="#spread" title="Permanent link">&para;</a></h3>
+<p><strong>定义</strong>：最佳买价和最佳卖价之间的差额。</p>
+<p><strong>计算公式</strong>：
+<div class="highlight"><pre><span></span><code>Spread = (卖一价 - 买一价) / 买一价 × 100%
+</code></pre></div></p>
+<p><strong>案例</strong>：
+<div class="highlight"><pre><span></span><code>BTC/USDT:
+买一价：$43,500.00
+卖一价：$43,500.50
+Spread = ($43,500.50 - $43,500.00) / $43,500.00 = 0.0011%
+
+某小币/USDT:
+买一价：$0.1000
+卖一价：$0.1050
+Spread = ($0.1050 - $0.1000) / $0.1000 = 5%
+</code></pre></div></p>
+<p><strong>评估标准</strong>：
+<div class="highlight"><pre><span></span><code>优秀：&lt; 0.01%（主流币）
+良好：0.01-0.05%
+一般：0.05-0.1%
+较差：0.1-0.5%
+很差：&gt; 0.5%（山寨币）
+</code></pre></div></p>
+<h3 id="_9">流动性对策略的影响<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<p><strong>高流动性交易对</strong>：
+- ✅ 滑点小（执行价格接近回测价格）
+- ✅ 回测结果更可信
+- ✅ 适合高频策略
+- ✅ 大资金可以交易</p>
+<p><strong>低流动性交易对</strong>：
+- ❌ 滑点大（实盘收益远低于回测）
+- ❌ 回测结果不可信
+- ❌ 不适合高频策略
+- ❌ 大资金会影响价格</p>
+<p><strong>滑点案例</strong>：
+<div class="highlight"><pre><span></span><code>回测结果（理想情况）：
+买入价：$100.00
+卖出价：$102.00
+收益：+2%
+
+实盘结果（低流动性）：
+买入价：$100.20（滑点 +0.2%）
+卖出价：$101.60（滑点 -0.4%）
+收益：+1.4%（损失 30% 的利润！）
+</code></pre></div></p>
+<hr />
+<h2 id="103">10.3 波动率分析<a class="headerlink" href="#103" title="Permanent link">&para;</a></h2>
+<h3 id="_10">什么是波动率？<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<p><strong>定义</strong>：价格变动的幅度和频率。</p>
+<p><strong>计算方法</strong>：
+<div class="highlight"><pre><span></span><code><span class="c1"># 日波动率（简化版）</span>
+<span class="n">daily_volatility</span> <span class="o">=</span> <span class="p">(</span><span class="n">high</span> <span class="o">-</span> <span class="n">low</span><span class="p">)</span> <span class="o">/</span> <span class="n">low</span> <span class="err">×</span> <span class="mi">100</span><span class="o">%</span>
+
+<span class="c1"># 标准差波动率（专业版）</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="n">returns</span> <span class="o">=</span> <span class="n">prices</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()</span>
+<span class="n">volatility</span> <span class="o">=</span> <span class="n">returns</span><span class="o">.</span><span class="n">std</span><span class="p">()</span> <span class="err">×</span> <span class="mi">100</span><span class="o">%</span>
+</code></pre></div></p>
+<h3 id="_11">波动率分类<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>波动率</th>
+<th>日振幅</th>
+<th>代表币种</th>
+<th>适合策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>极低</strong></td>
+<td>&lt; 2%</td>
+<td>稳定币对</td>
+<td>套利</td>
+</tr>
+<tr>
+<td><strong>低</strong></td>
+<td>2-5%</td>
+<td>BTC, ETH</td>
+<td>趋势跟踪</td>
+</tr>
+<tr>
+<td><strong>中等</strong></td>
+<td>5-10%</td>
+<td>中盘币</td>
+<td>均衡策略</td>
+</tr>
+<tr>
+<td><strong>高</strong></td>
+<td>10-20%</td>
+<td>热门山寨币</td>
+<td>短线突破</td>
+</tr>
+<tr>
+<td><strong>极高</strong></td>
+<td>&gt; 20%</td>
+<td>小市值币</td>
+<td>不建议</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_12">波动率对策略的影响<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<h4 id="vs_1">高波动 vs 低波动<a class="headerlink" href="#vs_1" title="Permanent link">&para;</a></h4>
+<p><strong>高波动交易对（日振幅 &gt; 10%）</strong>：</p>
+<p><strong>优点</strong>：
+- ✅ 盈利空间大
+- ✅ 容易达到止盈目标
+- ✅ 适合短线策略</p>
+<p><strong>缺点</strong>：
+- ❌ 容易触发止损
+- ❌ 假突破多
+- ❌ 回撤风险大
+- ❌ 心理压力大</p>
+<p><strong>适合策略</strong>：
+- 短线突破策略
+- 高频交易策略
+- 需要放宽止损（-10% 以上）</p>
+<p><strong>低波动交易对（日振幅 &lt; 5%）</strong>：</p>
+<p><strong>优点</strong>：
+- ✅ 稳定性好
+- ✅ 回撤小
+- ✅ 风险可控
+- ✅ 适合新手</p>
+<p><strong>缺点</strong>：
+- ⚠️ 盈利空间小
+- ⚠️ 难以达到高止盈目标
+- ⚠️ 交易机会少</p>
+<p><strong>适合策略</strong>：
+- 趋势跟踪策略
+- 长线波段策略
+- 需要降低 ROI 目标（2-5%）</p>
+<h3 id="_13">波动率测试<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
+<p><strong>使用 Freqtrade 命令</strong>：
+<div class="highlight"><pre><span></span><code><span class="c1"># 下载数据</span>
+freqtrade<span class="w"> </span>download-data<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--pairs<span class="w"> </span>BTC/USDT<span class="w"> </span>ETH/USDT<span class="w"> </span>SOL/USDT<span class="w"> </span>DOGE/USDT<span class="w"> </span>--days<span class="w"> </span><span class="m">90</span><span class="w"> </span>--timeframes<span class="w"> </span>1d
+
+<span class="c1"># 查看价格波动</span>
+freqtrade<span class="w"> </span>plot-dataframe<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--pairs<span class="w"> </span>BTC/USDT<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+</code></pre></div></p>
+<p><strong>手动计算</strong>：
+访问 TradingView，查看不同交易对的 ATR（Average True Range）指标。</p>
+<h3 id="_14">策略适配波动率<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
+<p><strong>调整止损</strong>：
+<div class="highlight"><pre><span></span><code><span class="c1"># 低波动交易对</span>
+<span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.03</span>  <span class="c1"># 3% 止损</span>
+
+<span class="c1"># 中波动交易对</span>
+<span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="c1"># 5% 止损</span>
+
+<span class="c1"># 高波动交易对</span>
+<span class="n">stoploss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.10</span>  <span class="c1"># 10% 止损</span>
+</code></pre></div></p>
+<p><strong>调整 ROI</strong>：
+<div class="highlight"><pre><span></span><code><span class="c1"># 低波动交易对（BTC/ETH）</span>
+<span class="n">minimal_roi</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"0"</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>   <span class="c1"># 5% 目标</span>
+    <span class="s2">"120"</span><span class="p">:</span> <span class="mf">0.03</span><span class="p">,</span>
+    <span class="s2">"240"</span><span class="p">:</span> <span class="mf">0.01</span>
+<span class="p">}</span>
+
+<span class="c1"># 高波动交易对（山寨币）</span>
+<span class="n">minimal_roi</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"0"</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span>   <span class="c1"># 15% 目标</span>
+    <span class="s2">"60"</span><span class="p">:</span> <span class="mf">0.08</span><span class="p">,</span>
+    <span class="s2">"120"</span><span class="p">:</span> <span class="mf">0.03</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<hr />
+<h2 id="104">10.4 多交易对组合测试<a class="headerlink" href="#104" title="Permanent link">&para;</a></h2>
+<h3 id="_15">为什么需要多交易对？<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h3>
+<p><strong>单一交易对的风险</strong>：
+<div class="highlight"><pre><span></span><code>只交易 BTC/USDT:
+- BTC 横盘 → 策略无信号 → 无收益
+- BTC 崩盘 → 触发止损 → 亏损
+</code></pre></div></p>
+<p><strong>多交易对的优势</strong>：
+- ✅ 分散风险
+- ✅ 增加交易机会
+- ✅ 平滑收益曲线
+- ✅ 降低回撤</p>
+<h3 id="_16">多交易对回测<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h3>
+<h4 id="1">方法 1：配置文件设置<a class="headerlink" href="#1" title="Permanent link">&para;</a></h4>
+<p>编辑 <code>config.json</code>：
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"exchange"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"pair_whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">"BTC/USDT"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"ETH/USDT"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"BNB/USDT"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"SOL/USDT"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"XRP/USDT"</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p>运行回测：
+<div class="highlight"><pre><span></span><code>freqtrade<span class="w"> </span>backtesting<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+</code></pre></div></p>
+<h4 id="2">方法 2：命令行指定<a class="headerlink" href="#2" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>freqtrade<span class="w"> </span>backtesting<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--pairs<span class="w"> </span>BTC/USDT<span class="w"> </span>ETH/USDT<span class="w"> </span>BNB/USDT<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+</code></pre></div>
+<h3 id="_17">多交易对结果分析<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h3>
+<p><strong>回测报告示例</strong>：
+<div class="highlight"><pre><span></span><code>BACKTESTING REPORT
+┏━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
+┃ Pair       ┃ Trades ┃ Avg Profit ┃ Tot Profit % ┃ Win Rate % ┃
+┡━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━┩
+│ BTC/USDT   │     28 │       1.52 │         8.45 │       85.7 │
+│ ETH/USDT   │     35 │       1.38 │        10.22 │       82.9 │
+│ BNB/USDT   │     22 │       1.65 │         7.15 │       86.4 │
+│ SOL/USDT   │     42 │       0.95 │         6.83 │       78.6 │
+│ XRP/USDT   │     18 │       1.12 │         4.52 │       77.8 │
+├────────────┼────────┼────────────┼──────────────┼────────────┤
+│ TOTAL      │    145 │       1.34 │        37.17 │       82.1 │
+└────────────┴────────┴────────────┴──────────────┴────────────┘
+</code></pre></div></p>
+<p><strong>分析要点</strong>：
+1. <strong>表现最好的交易对</strong>：ETH/USDT（总收益 10.22%）
+2. <strong>表现最差的交易对</strong>：XRP/USDT（总收益 4.52%）
+3. <strong>最稳定的交易对</strong>：BNB/USDT（胜率 86.4%）
+4. <strong>交易最多的交易对</strong>：SOL/USDT（42 次）</p>
+<h3 id="_18">相关性分析<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h3>
+<p><strong>什么是相关性？</strong>
+两个交易对价格走势的相似程度。</p>
+<p><strong>相关性系数</strong>：
+<div class="highlight"><pre><span></span><code>+1.0: 完全正相关（同涨同跌）
+0.0:  无相关
+-1.0: 完全负相关（此涨彼跌）
+</code></pre></div></p>
+<p><strong>典型相关性</strong>：
+<div class="highlight"><pre><span></span><code>BTC/USDT vs ETH/USDT: 0.85（高度正相关）
+BTC/USDT vs DOGE/USDT: 0.65（中度正相关）
+BTC/USDT vs 稳定币对: 0.05（无相关）
+</code></pre></div></p>
+<p><strong>分散风险的原则</strong>：
+- ❌ 选择相关性 &gt; 0.9 的交易对（无分散效果）
+- ✅ 选择相关性 0.5-0.8 的交易对（最佳平衡）
+- ⚠️ 选择相关性 &lt; 0.3 的交易对（过于分散）</p>
+<p><strong>推荐组合</strong>：
+<div class="highlight"><pre><span></span><code>组合 1（保守）：
+- BTC/USDT（40%）
+- ETH/USDT（40%）
+- BNB/USDT（20%）
+相关性：0.8-0.9
+
+组合 2（平衡）：
+- BTC/USDT（30%）
+- ETH/USDT（25%）
+- SOL/USDT（20%）
+- MATIC/USDT（15%）
+- LINK/USDT（10%）
+相关性：0.6-0.8
+
+组合 3（分散）：
+- BTC/USDT（20%）
+- ETH/USDT（20%）
+- BNB/USDT（15%）
+- SOL/USDT（15%）
+- XRP/USDT（10%）
+- MATIC/USDT（10%）
+- LINK/USDT（10%）
+相关性：0.5-0.7
+</code></pre></div></p>
+<h3 id="_19">构建最优投资组合<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h3>
+<p><strong>步骤</strong>：</p>
+<ol>
+<li><strong>筛选交易对</strong>：</li>
+<li>24h 成交量 &gt; $100M</li>
+<li>在 Binance 上可交易</li>
+<li>
+<p>排除稳定币对</p>
+</li>
+<li>
+<p><strong>单独回测</strong>：
+   <div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>pair<span class="w"> </span><span class="k">in</span><span class="w"> </span>BTC/USDT<span class="w"> </span>ETH/USDT<span class="w"> </span>BNB/USDT<span class="w"> </span>SOL/USDT<span class="w"> </span>XRP/USDT
+<span class="k">do</span>
+<span class="w">  </span>freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--pairs<span class="w"> </span><span class="nv">$pair</span><span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+<span class="k">done</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>选择表现优秀的交易对</strong>：</p>
+</li>
+<li>总收益 &gt; 5%</li>
+<li>胜率 &gt; 70%</li>
+<li>
+<p>最大回撤 &lt; 10%</p>
+</li>
+<li>
+<p><strong>组合回测</strong>：
+   <div class="highlight"><pre><span></span><code>freqtrade<span class="w"> </span>backtesting<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--pairs<span class="w"> </span>BTC/USDT<span class="w"> </span>ETH/USDT<span class="w"> </span>BNB/USDT<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>对比结果</strong>：
+   <div class="highlight"><pre><span></span><code>单一交易对（BTC/USDT）：
+  收益：+8.45%
+  回撤：-6.2%
+
+三交易对组合：
+  收益：+25.82%（组合所有交易对）
+  回撤：-4.8%（更低！）
+
+结论：组合更优 ✅
+</code></pre></div></p>
+</li>
+</ol>
+<hr />
+<h2 id="_20">💡 实践任务<a class="headerlink" href="#_20" title="Permanent link">&para;</a></h2>
+<h3 id="1_1">任务 1：下载多交易对数据<a class="headerlink" href="#1_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 下载 5 个主流交易对的数据</span>
+freqtrade<span class="w"> </span>download-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--pairs<span class="w"> </span>BTC/USDT<span class="w"> </span>ETH/USDT<span class="w"> </span>BNB/USDT<span class="w"> </span>SOL/USDT<span class="w"> </span>XRP/USDT<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--days<span class="w"> </span><span class="m">90</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timeframes<span class="w"> </span>15m
+</code></pre></div>
+<h3 id="2_1">任务 2：单独测试每个交易对<a class="headerlink" href="#2_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 测试 BTC/USDT</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--pairs<span class="w"> </span>BTC/USDT<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930<span class="w"> </span>--timeframe<span class="w"> </span>15m
+
+<span class="c1"># 测试 ETH/USDT</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--pairs<span class="w"> </span>ETH/USDT<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930<span class="w"> </span>--timeframe<span class="w"> </span>15m
+
+<span class="c1"># 测试 BNB/USDT</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--pairs<span class="w"> </span>BNB/USDT<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930<span class="w"> </span>--timeframe<span class="w"> </span>15m
+
+<span class="c1"># 测试 SOL/USDT</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--pairs<span class="w"> </span>SOL/USDT<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930<span class="w"> </span>--timeframe<span class="w"> </span>15m
+
+<span class="c1"># 测试 XRP/USDT</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--pairs<span class="w"> </span>XRP/USDT<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930<span class="w"> </span>--timeframe<span class="w"> </span>15m
+</code></pre></div>
+<h3 id="3">任务 3：制作交易对对比表<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>交易对</th>
+<th>交易次数</th>
+<th>胜率%</th>
+<th>总收益%</th>
+<th>平均收益%</th>
+<th>最大回撤%</th>
+<th>Sharpe</th>
+<th>24h成交量</th>
+<th>推荐度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BTC/USDT</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>⭐?</td>
+</tr>
+<tr>
+<td>ETH/USDT</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>⭐?</td>
+</tr>
+<tr>
+<td>BNB/USDT</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>⭐?</td>
+</tr>
+<tr>
+<td>SOL/USDT</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>⭐?</td>
+</tr>
+<tr>
+<td>XRP/USDT</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>⭐?</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4">任务 4：组合测试<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
+<p>选择表现最好的 3 个交易对，进行组合回测：</p>
+<div class="highlight"><pre><span></span><code>freqtrade<span class="w"> </span>backtesting<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--pairs<span class="w"> </span><span class="o">[</span>你选的3个交易对<span class="o">]</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timeframe<span class="w"> </span>15m
+</code></pre></div>
+<p>对比单一交易对 vs 组合：
+<div class="highlight"><pre><span></span><code>最佳单一交易对：
+  交易对：___________
+  总收益：___________%
+  最大回撤：___________%
+
+三交易对组合：
+  总收益：___________%
+  最大回撤：___________%
+
+结论：
+  ☐ 组合表现更好（收益更高或回撤更低）
+  ☐ 单一交易对表现更好
+</code></pre></div></p>
+<h3 id="5">任务 5：构建你的投资组合<a class="headerlink" href="#5" title="Permanent link">&para;</a></h3>
+<p>根据测试结果，设计你的投资组合：</p>
+<p><strong>我的投资组合</strong>：
+<div class="highlight"><pre><span></span><code>交易对 1：___________（___%）
+交易对 2：___________（___%）
+交易对 3：___________（___%）
+交易对 4（可选）：___________（___%）
+交易对 5（可选）：___________（___%）
+
+总计：100%
+
+选择理由：
+1. ___________
+2. ___________
+3. ___________
+</code></pre></div></p>
+<hr />
+<h2 id="_21">📚 知识检查<a class="headerlink" href="#_21" title="Permanent link">&para;</a></h2>
+<h3 id="_22">基础问题<a class="headerlink" href="#_22" title="Permanent link">&para;</a></h3>
+<ol>
+<li>主流币和山寨币的主要区别是什么？</li>
+<li>流动性好的交易对有哪些特征？</li>
+<li>高波动率交易对适合什么策略？</li>
+</ol>
+<h3 id="_23">答案<a class="headerlink" href="#_23" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>流动性、波动性和风险</strong>：主流币流动性好、波动小、风险低；山寨币相反</li>
+<li><strong>成交量大、买卖价差小、订单簿深度好</strong></li>
+<li><strong>短线突破策略、高频交易策略</strong>，需要放宽止损</li>
+</ol>
+<h3 id="_24">进阶问题<a class="headerlink" href="#_24" title="Permanent link">&para;</a></h3>
+<ol>
+<li>为什么低流动性交易对回测结果不可信？</li>
+<li>如何判断交易对之间的相关性？</li>
+<li>多交易对组合能降低风险的原理是什么？</li>
+</ol>
+<h3 id="_25">思考题<a class="headerlink" href="#_25" title="Permanent link">&para;</a></h3>
+<ol>
+<li>如果所有交易对都是高度相关的，组合还有意义吗？</li>
+<li>山寨币回测收益很高，是否应该实盘交易？</li>
+<li>如何动态调整交易对组合？</li>
+</ol>
+<hr />
+<h2 id="_26">🔗 参考资料<a class="headerlink" href="#_26" title="Permanent link">&para;</a></h2>
+<h3 id="_27">数据查询网站<a class="headerlink" href="#_27" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://coinmarketcap.com/">CoinMarketCap</a> - 查看交易量和市值</li>
+<li><a href="https://www.coingecko.com/">CoinGecko</a> - 查看交易对信息</li>
+<li><a href="https://www.tradingview.com/">TradingView</a> - 查看价格波动</li>
+</ul>
+<h3 id="_28">配套文档<a class="headerlink" href="#_28" title="Permanent link">&para;</a></h3>
+<ul>
+<li>📄 <a href="../CONFIG_EXPLANATION.md">CONFIG_EXPLANATION.md</a> - 交易对配置</li>
+<li>📄 <a href="../STRATEGY_SELECTION_GUIDE.md">STRATEGY_SELECTION_GUIDE.md</a> - 交易对选择</li>
+</ul>
+<h3 id="_29">推荐阅读<a class="headerlink" href="#_29" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://www.investopedia.com/terms/m/modernportfoliotheory.asp">投资组合理论</a></li>
+<li><a href="https://www.investopedia.com/terms/c/correlation.asp">相关性分析</a></li>
+</ul>
+<hr />
+<h2 id="_30">📌 核心要点总结<a class="headerlink" href="#_30" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>新手推荐主流币</strong>：BTC、ETH、BNB</li>
+<li><strong>流动性 &gt; 收益潜力</strong>：避免低流动性交易对</li>
+<li><strong>波动率匹配策略</strong>：高波动配短线，低波动配长线</li>
+<li><strong>多交易对分散风险</strong>：不要把鸡蛋放在一个篮子里</li>
+<li><strong>相关性不宜过高</strong>：0.5-0.8 最佳</li>
+<li><strong>滑点是隐形杀手</strong>：实盘收益可能远低于回测</li>
+</ol>
+<hr />
+<h2 id="_31">➡️ 第二部分总结<a class="headerlink" href="#_31" title="Permanent link">&para;</a></h2>
+<p><strong>恭喜！你已完成第二部分：回测实战（第 5-10 课）</strong></p>
+<p><strong>你学到了</strong>：
+- ✅ 第5课：运行第一次完整回测
+- ✅ 第6课：解读回测报告，分析策略性能
+- ✅ 第7课：测试不同时间框架
+- ✅ 第8课：批量对比多个策略
+- ✅ 第9课：验证策略稳定性，避免过拟合
+- ✅ 第10课：选择合适的交易对</p>
+<p><strong>下一部分预告</strong>：
+<strong>第三部分：策略优化（第 11-15 课）</strong></p>
+<p>在第三部分中，你将学习：
+- 第 11 课：使用 Hyperopt 优化策略参数
+- 第 12 课：高级策略分析技巧
+- 第 13 课：建立策略评分体系
+- 第 14 课：风险管理与资金管理
+- 第 15 课：构建策略组合</p>
+<p><strong>准备工作</strong>：
+- ✅ 选定 1-2 个表现稳定的策略
+- ✅ 下载至少 6 个月的历史数据
+- ✅ 确保有足够的计算资源（Hyperopt 需要）</p>
+<hr />
+<p><strong>🎯 学习检验标准</strong>：
+- ✅ 能独立选择合适的交易对
+- ✅ 会评估交易对的流动性和波动率
+- ✅ 能构建多交易对组合
+- ✅ 理解相关性对风险分散的影响</p>
+<p><strong>完成第二部分后，你已经掌握了回测的核心技能！准备进入策略优化的进阶学习吧！</strong> 🚀🎉</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

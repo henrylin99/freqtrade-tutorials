@@ -1,0 +1,3025 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径">
+      
+      
+      
+        <link rel="canonical" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-15-portfolio-strategy/">
+      
+      
+        <link rel="prev" href="../lesson-14-risk-management/">
+      
+      
+        <link rel="next" href="../lesson-16-realtime-signals/">
+      
+      
+        
+          <link rel="alternate" href="./" hreflang="zh">
+        
+          <link rel="alternate" href="../en/lesson-15-portfolio-strategy/" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>第 15 课：Freqtrade策略组合与分散 - Freqtrade 实战教程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9784658154228475"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VGHZY4EELE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VGHZY4EELE");
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#15-freqtrade" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="Freqtrade 实战教程" class="md-header__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Freqtrade 实战教程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第 15 课：Freqtrade策略组合与分散
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="选择当前语言">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../en/lesson-15-portfolio-strategy/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/henrylin99/freqtrade-tutorials" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../strategies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🇨🇳 中文教程
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Freqtrade 实战教程" class="md-nav__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Freqtrade 实战教程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/henrylin99/freqtrade-tutorials" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../strategies/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🇨🇳 中文教程
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🇨🇳 中文教程
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 1 课：量化交易与 Freqtrade 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-02-environment-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 2 课：Freqtrade 环境搭建
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-03-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 3 课：核心概念理解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-04-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 4 课：数据下载与管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-05-first-backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 5 课：第一次策略回测
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-06-strategy-performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 6 课：策略性能分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-07-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 7 课：多时间框架回测
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-08-strategy-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 8 课：策略批量对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-09-timerange-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 9 课：Freqtrade时间范围测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-10-pair-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 10 课：Freqtrade交易对选择与测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-11-hyperopt-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 11 课：Freqtrade参数优化入门（Hyperopt）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-12-advanced-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 12 课：高级策略分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-13-scoring-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 13 课：策略评分体系
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-14-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 14 课：风险管理与资金管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 15 课：Freqtrade策略组合与分散
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 15 课：Freqtrade策略组合与分散
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 课程概览
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#151" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.1 为什么要组合策略？
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="15.1 为什么要组合策略？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        单一策略的风险
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        组合策略的优势
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#152" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.2 策略相关性分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="15.2 策略相关性分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        什么是策略相关性？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        相关性对组合的影响
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        如何计算策略相关性
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        相关性指导原则
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#153" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.3 多策略分配资金
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="15.3 多策略分配资金">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 等权重分配（最简单）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 按评分分配（推荐）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 风险平价分配（高级）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 核心-卫星配置（实用）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#154" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.4 策略组合构建实战
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="15.4 策略组合构建实战">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        步骤 1：选择候选策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        步骤 2：相关性分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        步骤 3：构建投资组合
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        步骤 4：回测验证组合
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        步骤 5：动态再平衡
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 实践任务
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 实践任务">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 1：构建你的策略组合
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 2：计算策略相关性
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 3：模拟组合回测
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 策略组合最佳实践
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 策略组合最佳实践">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 黄金组合模板
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 策略数量建议
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 常见错误
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 核心要点总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎉 第三部分总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-16-realtime-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 16 课：实时信号监控
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-17-telegram-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 17 课：Telegram 通知配置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-18-webui-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 18 课：Web UI 与 API 使用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 19 课：可视化分析工具
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-20-dry-run-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 20 课：模拟交易验证
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-21-exchange-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 21 课：交易所 API 配置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-22-pre-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 22 课：实盘前检查清单
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-23-small-capital-live/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 23 课：小资金实盘测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-1-order-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.1 课：实盘交易下单操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-2-stop-loss-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.2 课：实盘交易止损操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-3-futures-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.3 课：币安合约交易操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-4-leverage-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.4 课：杠杆交易操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-trading-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24 课：交易监控与调整
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-25-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 25 课：风险控制与心态管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-26-custom-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 26 课：自定义策略开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-27-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 27 课：多时间框架策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-28-grid-hft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 28 课：高频交易与网格策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-1-freqai-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29.1 课：FreqAI 深度实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-2-advanced-ml-strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29.2 课：高级机器学习策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning-enhanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29 课：机器学习基础与策略优化（增强版）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29 课：机器学习与策略优化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-30-conclusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 30 课：总结与持续学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 课程概览
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#151" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.1 为什么要组合策略？
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="15.1 为什么要组合策略？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        单一策略的风险
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        组合策略的优势
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#152" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.2 策略相关性分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="15.2 策略相关性分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        什么是策略相关性？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        相关性对组合的影响
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        如何计算策略相关性
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        相关性指导原则
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#153" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.3 多策略分配资金
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="15.3 多策略分配资金">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 等权重分配（最简单）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 按评分分配（推荐）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 风险平价分配（高级）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 核心-卫星配置（实用）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#154" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.4 策略组合构建实战
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="15.4 策略组合构建实战">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        步骤 1：选择候选策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        步骤 2：相关性分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        步骤 3：构建投资组合
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        步骤 4：回测验证组合
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        步骤 5：动态再平衡
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 实践任务
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 实践任务">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 1：构建你的策略组合
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 2：计算策略相关性
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 3：模拟组合回测
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 策略组合最佳实践
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 策略组合最佳实践">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 黄金组合模板
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 策略数量建议
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 常见错误
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 核心要点总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎉 第三部分总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="15-freqtrade">第 15 课：Freqtrade策略组合与分散<a class="headerlink" href="#15-freqtrade" title="Permanent link">&para;</a></h1>
+<p><strong>⏱ 课时</strong>：1.5 小时
+<strong>🎯 学习目标</strong>：学会构建策略组合
+<strong>📚 难度</strong>：⭐⭐⭐ 策略优化</p>
+<hr />
+<h2 id="_1">📖 课程概览<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>"不要把所有鸡蛋放在一个篮子里"——这个投资原则同样适用于量化交易。本课将教你如何构建多策略投资组合，通过策略分散降低风险，提高收益的稳定性。</p>
+<hr />
+<h2 id="151">15.1 为什么要组合策略？<a class="headerlink" href="#151" title="Permanent link">&para;</a></h2>
+<h3 id="_2">单一策略的风险<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<p><strong>案例：只用趋势策略</strong>
+<div class="highlight"><pre><span></span><code>2025 Q1（牛市）：+25% ✅
+2025 Q2（震荡市）：-8% ❌
+2025 Q3（牛市）：+18% ✅
+2025 Q4（熊市）：-12% ❌
+
+年度总收益：+23% -  20% = +19.1%
+最大回撤：-12%
+收益波动大，体验差
+</code></pre></div></p>
+<p><strong>案例：使用策略组合</strong>
+<div class="highlight"><pre><span></span><code>策略组合：
+  - 50% 趋势策略
+  - 30% 均值回归策略
+  - 20% 突破策略
+
+2025 Q1（牛市）：
+  趋势：+25% → 贡献 +12.5%
+  均值回归：+5% → 贡献 +1.5%
+  突破：+15% → 贡献 +3%
+  组合：+17% ✅
+
+2025 Q2（震荡市）：
+  趋势：-8% → 贡献 -4%
+  均值回归：+18% → 贡献 +5.4%
+  突破：+2% → 贡献 +0.4%
+  组合：+1.8% ✅（避免了亏损！）
+
+年度总收益：+20.5%
+最大回撤：-3.5%（大幅降低！）
+收益更稳定，体验好
+</code></pre></div></p>
+<h3 id="_3">组合策略的优势<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>降低回撤</strong></li>
+<li>单一策略回撤 -12%</li>
+<li>组合策略回撤 -3.5%</li>
+<li>
+<p>减少 71% 的回撤！</p>
+</li>
+<li>
+<p><strong>平滑收益曲线</strong></p>
+</li>
+<li>单季度不会大起大落</li>
+<li>心理压力小</li>
+<li>
+<p>更容易坚持</p>
+</li>
+<li>
+<p><strong>适应不同市况</strong></p>
+</li>
+<li>牛市有趋势策略</li>
+<li>震荡市有均值回归</li>
+<li>
+<p>熊市有保守策略</p>
+</li>
+<li>
+<p><strong>增加交易机会</strong></p>
+</li>
+<li>单一策略信号少时，其他策略补充</li>
+<li>提高资金利用率</li>
+</ol>
+<hr />
+<h2 id="152">15.2 策略相关性分析<a class="headerlink" href="#152" title="Permanent link">&para;</a></h2>
+<h3 id="_4">什么是策略相关性？<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p><strong>定义</strong>：两个策略收益的同步程度。</p>
+<p><strong>相关性系数</strong>：
+<div class="highlight"><pre><span></span><code>+1.0：完全正相关（同涨同跌）
+0.0：无相关
+-1.0：完全负相关（此涨彼跌）
+</code></pre></div></p>
+<h3 id="_5">相关性对组合的影响<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p><strong>高相关性组合（❌ 不推荐）</strong>：
+<div class="highlight"><pre><span></span><code>策略 A：趋势策略（EMA交叉）
+策略 B：趋势策略（MACD）
+相关性：0.95
+
+Q1 表现：
+  策略 A：+20%
+  策略 B：+18%
+  组合：+19%
+
+Q2 表现：
+  策略 A：-10%
+  策略 B：-9%
+  组合：-9.5%（未起到分散作用！）
+</code></pre></div></p>
+<p><strong>低相关性组合（✅ 推荐）</strong>：
+<div class="highlight"><pre><span></span><code>策略 A：趋势策略
+策略 B：均值回归策略
+相关性：0.25
+
+Q1 表现：
+  策略 A：+20%
+  策略 B：+5%
+  组合：+12.5%
+
+Q2 表现：
+  策略 A：-10%
+  策略 B：+15%
+  组合：+2.5%（成功对冲！）
+</code></pre></div></p>
+<h3 id="_6">如何计算策略相关性<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<p><strong>方法 1：季度收益相关性</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">pearsonr</span>
+
+<span class="c1"># 策略 A 和 B 的季度收益</span>
+<span class="n">returns_A</span> <span class="o">=</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">]</span>  <span class="c1"># Q1-Q4</span>
+<span class="n">returns_B</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">]</span>
+
+<span class="c1"># 计算相关性</span>
+<span class="n">correlation</span><span class="p">,</span> <span class="n">p_value</span> <span class="o">=</span> <span class="n">pearsonr</span><span class="p">(</span><span class="n">returns_A</span><span class="p">,</span> <span class="n">returns_B</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"相关性: </span><span class="si">{</span><span class="n">correlation</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>方法 2：每日收益相关性</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 假设有每日收益数据</span>
+<span class="n">daily_returns_A</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>  <span class="c1"># 90 天</span>
+<span class="n">daily_returns_B</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+
+<span class="n">correlation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">daily_returns_A</span><span class="p">,</span> <span class="n">daily_returns_B</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</code></pre></div>
+<h3 id="_7">相关性指导原则<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>相关性</th>
+<th>分散效果</th>
+<th>建议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>&gt; 0.8</strong></td>
+<td>很差</td>
+<td>❌ 避免组合</td>
+</tr>
+<tr>
+<td><strong>0.5-0.8</strong></td>
+<td>一般</td>
+<td>⚠️ 谨慎组合</td>
+</tr>
+<tr>
+<td><strong>0.2-0.5</strong></td>
+<td>良好</td>
+<td>✅ 推荐组合</td>
+</tr>
+<tr>
+<td><strong>-0.2-0.2</strong></td>
+<td>优秀</td>
+<td>✅ 理想组合</td>
+</tr>
+<tr>
+<td><strong>&lt; -0.2</strong></td>
+<td>极好</td>
+<td>⭐ 最佳组合</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="153">15.3 多策略分配资金<a class="headerlink" href="#153" title="Permanent link">&para;</a></h2>
+<h3 id="1">1. 等权重分配（最简单）<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
+<p><strong>原理</strong>：每个策略分配相同资金。</p>
+<p><strong>配置</strong>：
+<div class="highlight"><pre><span></span><code>总资金：$10,000
+策略数：3
+
+策略 A：$3,333
+策略 B：$3,333
+策略 C：$3,334
+</code></pre></div></p>
+<p><strong>优点</strong>：
+- ✅ 简单直接
+- ✅ 无需计算</p>
+<p><strong>缺点</strong>：
+- ❌ 未考虑策略质量差异
+- ❌ 未考虑风险差异</p>
+<p><strong>适用</strong>：策略表现相近时</p>
+<hr />
+<h3 id="2">2. 按评分分配（推荐）<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<p><strong>原理</strong>：根据策略评分分配资金。</p>
+<p><strong>计算方法</strong>：
+<div class="highlight"><pre><span></span><code>策略 A：评分 9.0
+策略 B：评分 8.0
+策略 C：评分 7.0
+总分：24.0
+
+策略 A 分配比例 = 9.0 / 24.0 = 37.5%
+策略 B 分配比例 = 8.0 / 24.0 = 33.3%
+策略 C 分配比例 = 7.0 / 24.0 = 29.2%
+
+总资金 $10,000：
+  策略 A：$3,750
+  策略 B：$3,333
+  策略 C：$2,917
+</code></pre></div></p>
+<p><strong>优点</strong>：
+- ✅ 表现好的策略获得更多资金
+- ✅ 合理优化整体收益</p>
+<p><strong>缺点</strong>：
+- ⚠️ 评分可能过时
+- ⚠️ 需要定期调整</p>
+<hr />
+<h3 id="3">3. 风险平价分配（高级）<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
+<p><strong>原理</strong>：让每个策略贡献相同的风险。</p>
+<p><strong>计算方法</strong>：
+<div class="highlight"><pre><span></span><code>策略 A：波动率 10%，评分 9.0
+策略 B：波动率 15%，评分 8.0
+策略 C：波动率 20%，评分 7.0
+
+# 风险贡献 = 资金分配 × 波动率
+# 目标：使每个策略的风险贡献相等
+
+假设目标组合波动率为 12%
+
+策略 A 分配 = 12% / 10% = 1.2 倍基础仓位
+策略 B 分配 = 12% / 15% = 0.8 倍基础仓位
+策略 C 分配 = 12% / 20% = 0.6 倍基础仓位
+
+标准化后：
+  策略 A：46.2%
+  策略 B：30.8%
+  策略 C：23.0%
+</code></pre></div></p>
+<p><strong>优点</strong>：
+- ✅ 风险均衡
+- ✅ 专业化配置</p>
+<p><strong>缺点</strong>：
+- ❌ 计算复杂
+- ❌ 需要波动率数据
+- ❌ 不适合新手</p>
+<hr />
+<h3 id="4-">4. 核心-卫星配置（实用）<a class="headerlink" href="#4-" title="Permanent link">&para;</a></h3>
+<p><strong>原理</strong>：核心资产求稳，卫星资产求高收益。</p>
+<p><strong>配置</strong>：
+<div class="highlight"><pre><span></span><code>总资金：$10,000
+
+核心资产（70%）：$7,000
+  ├─ 高分策略 A（S级）：$4,000（40%）
+  └─ 高分策略 B（A级）：$3,000（30%）
+
+卫星资产（30%）：$3,000
+  ├─ 测试策略 C（B级）：$1,500（15%）
+  ├─ 测试策略 D（B级）：$1,000（10%）
+  └─ 实验策略 E（C级）：$500（5%）
+</code></pre></div></p>
+<p><strong>优点</strong>：
+- ✅ 平衡收益和风险
+- ✅ 核心资产保护本金
+- ✅ 卫星资产追求超额收益
+- ✅ 允许尝试新策略</p>
+<p><strong>适用</strong>：
+- 有经验的交易者
+- 资金 &gt; $10,000
+- 想要探索新策略</p>
+<hr />
+<h2 id="154">15.4 策略组合构建实战<a class="headerlink" href="#154" title="Permanent link">&para;</a></h2>
+<h3 id="1_1">步骤 1：选择候选策略<a class="headerlink" href="#1_1" title="Permanent link">&para;</a></h3>
+<p><strong>标准</strong>：
+- ✅ 评分 &gt; 7.0
+- ✅ 样本外验证通过
+- ✅ 不同策略类型</p>
+<p><strong>候选策略池</strong>：
+<div class="highlight"><pre><span></span><code>1. MomentumTrendStrategy（趋势，S级，9.36分）
+2. MeanReversionStrategy（均值回归，A级，8.52分）
+3. BreakoutTrendStrategy（突破，A级，8.18分）
+4. ADXTrendStrategy（趋势，B级，7.85分）
+5. GridTradingStrategy（网格，B级，7.42分）
+</code></pre></div></p>
+<hr />
+<h3 id="2_1">步骤 2：相关性分析<a class="headerlink" href="#2_1" title="Permanent link">&para;</a></h3>
+<p><strong>测试相关性</strong>：
+<div class="highlight"><pre><span></span><code><span class="c1"># 回测所有策略，记录每日/每周收益</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>MomentumTrendStrategy<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250101</span>-20250930
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>MeanReversionStrategy<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250101</span>-20250930
+<span class="c1"># ...</span>
+
+<span class="c1"># 分析相关性（需要导出数据后用 Python 分析）</span>
+</code></pre></div></p>
+<p><strong>相关性矩阵</strong>：
+<div class="highlight"><pre><span></span><code>                 | Momentum | MeanRev | Breakout | ADX  | Grid
+Momentum         | 1.00     | 0.25    | 0.72     | 0.85 | 0.15
+MeanReversion    | 0.25     | 1.00    | 0.30     | 0.22 | 0.68
+Breakout         | 0.72     | 0.30    | 1.00     | 0.68 | 0.28
+ADX              | 0.85     | 0.22    | 0.68     | 1.00 | 0.18
+Grid             | 0.15     | 0.68    | 0.28     | 0.18 | 1.00
+</code></pre></div></p>
+<p><strong>分析结论</strong>：
+- ❌ Momentum 和 ADX 高度相关（0.85）→ 不要同时选
+- ✅ Momentum 和 MeanReversion 低相关（0.25）→ 好组合
+- ✅ Momentum 和 Grid 低相关（0.15）→ 好组合</p>
+<hr />
+<h3 id="3_1">步骤 3：构建投资组合<a class="headerlink" href="#3_1" title="Permanent link">&para;</a></h3>
+<p><strong>方案 A：保守型（推荐新手）</strong>
+<div class="highlight"><pre><span></span><code>总资金：$10,000
+
+核心（80%）：
+  ├─ MomentumTrendStrategy：$5,000（50%）
+  └─ MeanReversionStrategy：$3,000（30%）
+
+测试（20%）：
+  └─ BreakoutTrendStrategy：$2,000（20%）
+
+预期表现：
+  - 年化收益：60-80%
+  - 最大回撤：5-8%
+  - Sharpe Ratio：2.5-3.0
+</code></pre></div></p>
+<p><strong>方案 B：平衡型（推荐进阶）</strong>
+<div class="highlight"><pre><span></span><code>总资金：$10,000
+
+核心（60%）：
+  ├─ MomentumTrendStrategy：$3,000（30%）
+  └─ MeanReversionStrategy：$3,000（30%）
+
+成长（30%）：
+  ├─ BreakoutTrendStrategy：$2,000（20%）
+  └─ ADXTrendStrategy：$1,000（10%）
+
+实验（10%）：
+  └─ GridTradingStrategy：$1,000（10%）
+
+预期表现：
+  - 年化收益：80-120%
+  - 最大回撤：8-12%
+  - Sharpe Ratio：2.0-2.5
+</code></pre></div></p>
+<p><strong>方案 C：激进型（经验者）</strong>
+<div class="highlight"><pre><span></span><code>总资金：$10,000
+
+均衡配置：
+  ├─ MomentumTrendStrategy：$2,500（25%）
+  ├─ MeanReversionStrategy：$2,000（20%）
+  ├─ BreakoutTrendStrategy：$2,000（20%）
+  ├─ ADXTrendStrategy：$1,500（15%）
+  ├─ GridTradingStrategy：$1,500（15%）
+  └─ 其他策略：$500（5%）
+
+预期表现：
+  - 年化收益：100-150%
+  - 最大回撤：12-18%
+  - Sharpe Ratio：1.5-2.0
+</code></pre></div></p>
+<hr />
+<h3 id="4">步骤 4：回测验证组合<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
+<p><strong>单独测试每个策略</strong>：
+<div class="highlight"><pre><span></span><code>freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config_momentum.json<span class="w"> </span>--strategy<span class="w"> </span>MomentumTrendStrategy<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250101</span>-20250930
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config_meanrev.json<span class="w"> </span>--strategy<span class="w"> </span>MeanReversionStrategy<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250101</span>-20250930
+</code></pre></div></p>
+<p><strong>模拟组合表现</strong>：
+<div class="highlight"><pre><span></span><code><span class="c1"># 计算组合收益</span>
+<span class="n">momentum_return</span> <span class="o">=</span> <span class="mf">0.23</span>  <span class="c1"># 23%</span>
+<span class="n">meanrev_return</span> <span class="o">=</span> <span class="mf">0.15</span>   <span class="c1"># 15%</span>
+
+<span class="c1"># 50% + 30% 配置</span>
+<span class="n">portfolio_return</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.23</span> <span class="err">×</span> <span class="mf">0.50</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mf">0.15</span> <span class="err">×</span> <span class="mf">0.30</span><span class="p">)</span> <span class="o">=</span> <span class="mf">0.16</span> <span class="o">=</span> <span class="mi">16</span><span class="o">%</span>
+
+<span class="c1"># 计算组合回撤（简化）</span>
+<span class="n">momentum_drawdown</span> <span class="o">=</span> <span class="mf">0.05</span>  <span class="c1"># 5%</span>
+<span class="n">meanrev_drawdown</span> <span class="o">=</span> <span class="mf">0.03</span>   <span class="c1"># 3%</span>
+
+<span class="c1"># 假设不完全同步（相关性 0.25）</span>
+<span class="n">portfolio_drawdown</span> <span class="err">≈</span> <span class="mf">0.04</span> <span class="o">=</span> <span class="mi">4</span><span class="o">%</span><span class="err">（</span><span class="n">介于两者之间</span><span class="err">）</span>
+</code></pre></div></p>
+<hr />
+<h3 id="5">步骤 5：动态再平衡<a class="headerlink" href="#5" title="Permanent link">&para;</a></h3>
+<p><strong>为什么需要再平衡？</strong>
+<div class="highlight"><pre><span></span><code>初始配置（2025-01-01）：
+  策略 A：$5,000（50%）
+  策略 B：$5,000（50%）
+
+3 个月后（2025-03-31）：
+  策略 A：$6,500（增长 30%）→ 占比 54.2%
+  策略 B：$5,500（增长 10%）→ 占比 45.8%
+
+偏离目标配置！需要再平衡。
+</code></pre></div></p>
+<p><strong>再平衡方法</strong>：</p>
+<p><strong>方法 1：定期再平衡（推荐）</strong>
+<div class="highlight"><pre><span></span><code>频率：每月 1 号
+操作：将资金调整回目标比例
+
+示例：
+  总资金：$12,000
+  目标：A=50%, B=50%
+
+  操作：
+    从策略 A 撤出：$6,500 - $6,000 = $500
+    投入策略 B：$5,500 + $500 = $6,000
+</code></pre></div></p>
+<p><strong>方法 2：阈值再平衡</strong>
+<div class="highlight"><pre><span></span><code>触发条件：偏离目标 &gt; 10%
+
+示例：
+  目标：A=50%, B=50%
+  实际：A=55%, B=45%
+  偏离：5%（未触发）
+
+  实际：A=62%, B=38%
+  偏离：12%（触发再平衡）
+</code></pre></div></p>
+<p><strong>方法 3：不再平衡（让利润奔跑）</strong>
+<div class="highlight"><pre><span></span><code>理念：表现好的策略给更多资金
+
+优点：
+  - ✅ 顺势而为
+  - ✅ 减少交易成本
+
+缺点：
+  - ❌ 风险集中
+  - ❌ 可能错过均值回归机会
+</code></pre></div></p>
+<hr />
+<h2 id="_8">💡 实践任务<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<h3 id="1_2">任务 1：构建你的策略组合<a class="headerlink" href="#1_2" title="Permanent link">&para;</a></h3>
+<p>根据前面学习的内容，构建你的投资组合：</p>
+<div class="highlight"><pre><span></span><code><span class="gh"># 我的策略投资组合</span>
+
+<span class="gu">## 总资金</span>
+$_______
+
+<span class="gu">## 风险偏好</span>
+☐ 保守型  ☐ 平衡型  ☐ 激进型
+
+<span class="gu">## 策略配置</span>
+
+<span class="gu">### 核心资产（____%）</span>
+<span class="k">1.</span> ___________ 策略：$_______ (___%)
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>评分：_____
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>适用市况：_____
+
+<span class="k">2.</span> ___________ 策略：$_______ (___%)
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>评分：_____
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>适用市况：_____
+
+<span class="gu">### 成长/卫星资产（____%）</span>
+<span class="k">3.</span> ___________ 策略：$_______ (___%)
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>评分：_____
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>适用市况：_____
+
+<span class="k">4.</span> ___________ 策略：$_______ (___%)
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>评分：_____
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>适用市况：_____
+
+<span class="gu">## 预期目标</span>
+<span class="k">-</span><span class="w"> </span>年化收益目标：_____%
+<span class="k">-</span><span class="w"> </span>可接受最大回撤：_____%
+<span class="k">-</span><span class="w"> </span>目标 Sharpe Ratio：_____
+
+<span class="gu">## 再平衡计划</span>
+<span class="k">-</span><span class="w"> </span>频率：☐ 每月  ☐ 每季度  ☐ 偏离&gt;10%时
+<span class="k">-</span><span class="w"> </span>下次再平衡日期：_____
+</code></pre></div>
+<h3 id="2_2">任务 2：计算策略相关性<a class="headerlink" href="#2_2" title="Permanent link">&para;</a></h3>
+<p>选择 2-3 个策略，回测相同时间段，计算它们的相关性：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 导出每个策略的每日收益</span>
+<span class="c1"># 使用 numpy 或 pandas 计算相关性</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">strategy1_returns</span> <span class="o">=</span> <span class="p">[</span><span class="o">...</span><span class="p">]</span>  <span class="c1"># 策略 1 的每日收益</span>
+<span class="n">strategy2_returns</span> <span class="o">=</span> <span class="p">[</span><span class="o">...</span><span class="p">]</span>  <span class="c1"># 策略 2 的每日收益</span>
+
+<span class="n">correlation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">strategy1_returns</span><span class="p">,</span> <span class="n">strategy2_returns</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"相关性: </span><span class="si">{</span><span class="n">correlation</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># 判断</span>
+<span class="k">if</span> <span class="n">correlation</span> <span class="o">&gt;</span> <span class="mf">0.7</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"⚠️ 高度相关，不适合组合"</span><span class="p">)</span>
+<span class="k">elif</span> <span class="mf">0.2</span> <span class="o">&lt;</span> <span class="n">correlation</span> <span class="o">&lt;</span> <span class="mf">0.7</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"✅ 适度相关，可以组合"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"⭐ 低相关或负相关，理想组合"</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="3_2">任务 3：模拟组合回测<a class="headerlink" href="#3_2" title="Permanent link">&para;</a></h3>
+<p>计算你的策略组合的预期表现：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 假设有 3 个策略</span>
+<span class="n">strategies</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'MomentumTrend'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'return'</span><span class="p">:</span> <span class="mf">0.23</span><span class="p">,</span> <span class="s1">'drawdown'</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span> <span class="s1">'sharpe'</span><span class="p">:</span> <span class="mf">3.5</span><span class="p">,</span> <span class="s1">'weight'</span><span class="p">:</span> <span class="mf">0.50</span><span class="p">},</span>
+    <span class="s1">'MeanReversion'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'return'</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s1">'drawdown'</span><span class="p">:</span> <span class="mf">0.03</span><span class="p">,</span> <span class="s1">'sharpe'</span><span class="p">:</span> <span class="mf">2.8</span><span class="p">,</span> <span class="s1">'weight'</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">},</span>
+    <span class="s1">'Breakout'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'return'</span><span class="p">:</span> <span class="mf">0.18</span><span class="p">,</span> <span class="s1">'drawdown'</span><span class="p">:</span> <span class="mf">0.06</span><span class="p">,</span> <span class="s1">'sharpe'</span><span class="p">:</span> <span class="mf">2.5</span><span class="p">,</span> <span class="s1">'weight'</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1"># 计算组合收益（加权平均）</span>
+<span class="n">portfolio_return</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s1">'return'</span><span class="p">]</span> <span class="o">*</span> <span class="n">s</span><span class="p">[</span><span class="s1">'weight'</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">strategies</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"组合预期收益: </span><span class="si">{</span><span class="n">portfolio_return</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># 计算组合风险（简化，假设相关性 0.3）</span>
+<span class="n">portfolio_risk</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s1">'drawdown'</span><span class="p">]</span> <span class="o">*</span> <span class="n">s</span><span class="p">[</span><span class="s1">'weight'</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">strategies</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">*</span> <span class="mf">0.8</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"组合预期回撤: </span><span class="si">{</span><span class="n">portfolio_risk</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># 估算 Sharpe</span>
+<span class="n">portfolio_sharpe</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s1">'sharpe'</span><span class="p">]</span> <span class="o">*</span> <span class="n">s</span><span class="p">[</span><span class="s1">'weight'</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">strategies</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"组合预期 Sharpe: </span><span class="si">{</span><span class="n">portfolio_sharpe</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h2 id="_9">📚 策略组合最佳实践<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<h3 id="1_3">1. 黄金组合模板<a class="headerlink" href="#1_3" title="Permanent link">&para;</a></h3>
+<p><strong>趋势 + 均值回归（最经典）</strong>
+<div class="highlight"><pre><span></span><code>60% 趋势策略（牛市/熊市表现好）
+40% 均值回归策略（震荡市表现好）
+
+相关性：0.2-0.4（理想）
+适用：所有市况
+风险：中低
+推荐度：⭐⭐⭐⭐⭐
+</code></pre></div></p>
+<p><strong>趋势 + 突破 + 均值回归（全能型）</strong>
+<div class="highlight"><pre><span></span><code>40% 趋势策略
+30% 突破策略
+30% 均值回归策略
+
+相关性：0.3-0.5
+适用：所有市况
+风险：中
+推荐度：⭐⭐⭐⭐
+</code></pre></div></p>
+<h3 id="2_3">2. 策略数量建议<a class="headerlink" href="#2_3" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>账户资金</th>
+<th>推荐策略数</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>&lt; $5,000</strong></td>
+<td>1-2 个</td>
+<td>资金太少，分散效果不明显</td>
+</tr>
+<tr>
+<td><strong>$5,000-$20,000</strong></td>
+<td>2-3 个</td>
+<td>适度分散，易于管理</td>
+</tr>
+<tr>
+<td><strong>$20,000-$50,000</strong></td>
+<td>3-5 个</td>
+<td>充分分散，风险可控</td>
+</tr>
+<tr>
+<td><strong>&gt; $50,000</strong></td>
+<td>5-10 个</td>
+<td>专业级分散，建议组合管理</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3_3">3. 常见错误<a class="headerlink" href="#3_3" title="Permanent link">&para;</a></h3>
+<p><strong>错误 1：过度分散</strong>
+<div class="highlight"><pre><span></span><code>❌ 10 个策略，每个 10%
+结果：管理复杂，收益被平均化，失去优势
+
+✅ 3-5 个高质量策略，重点配置
+</code></pre></div></p>
+<p><strong>错误 2：同类策略组合</strong>
+<div class="highlight"><pre><span></span><code>❌ 3 个趋势策略组合
+结果：相关性高（0.8+），未起到分散作用
+
+✅ 趋势 + 均值回归 + 突破，不同类型组合
+</code></pre></div></p>
+<p><strong>错误 3：忽略再平衡</strong>
+<div class="highlight"><pre><span></span><code>❌ 设置好组合后从不调整
+结果：配置漂移，风险失控
+
+✅ 定期再平衡（每月或每季度）
+</code></pre></div></p>
+<hr />
+<h2 id="_10">📌 核心要点总结<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>策略组合降低风险</strong>：回撤可减少 50-70%</li>
+<li><strong>选择低相关性策略</strong>：相关性 &lt; 0.5 最佳</li>
+<li><strong>核心-卫星配置</strong>：70% 核心 + 30% 卫星</li>
+<li><strong>定期再平衡</strong>：每月或偏离 &gt; 10% 时</li>
+<li><strong>策略数量适中</strong>：3-5 个最合适</li>
+<li><strong>趋势 + 均值回归</strong>：最经典的组合</li>
+</ol>
+<hr />
+<h2 id="_11">🎉 第三部分总结<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
+<p><strong>恭喜！你已完成第三部分：策略优化（第 11-15 课）</strong></p>
+<p><strong>你学到了</strong>：
+- ✅ 第 11 课：使用 Hyperopt 优化策略参数
+- ✅ 第 12 课：深入分析不同策略类型
+- ✅ 第 13 课：建立科学的策略评分体系
+- ✅ 第 14 课：掌握风险和资金管理方法
+- ✅ 第 15 课：构建多策略投资组合</p>
+<p><strong>下一部分预告</strong>：
+<strong>第四部分：实时信号与模拟交易（第 16-20 课）</strong></p>
+<p>在第四部分中，你将学习：
+- 第 16 课：实时信号监控
+- 第 17 课：Telegram 通知配置
+- 第 18 课：Web UI 与 API 使用
+- 第 19 课：可视化分析工具
+- 第 20 课：模拟交易验证</p>
+<p><strong>准备工作</strong>：
+- ✅ 完成策略组合设计
+- ✅ 准备进入模拟交易阶段
+- ✅ 确保有稳定的网络环境</p>
+<hr />
+<p><strong>🎯 学习检验标准</strong>：
+- ✅ 理解策略组合的重要性
+- ✅ 会分析策略相关性
+- ✅ 能构建合理的投资组合
+- ✅ 掌握再平衡方法</p>
+<p><strong>完成第三部分后，你已经具备了策略优化的完整能力！准备进入实盘前的最后阶段——实时信号监控和模拟交易！</strong> 🚀🎊</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

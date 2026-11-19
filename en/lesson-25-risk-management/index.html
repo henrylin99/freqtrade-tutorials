@@ -1,0 +1,3896 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径">
+      
+      
+      
+        <link rel="canonical" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-25-risk-management/">
+      
+      
+        <link rel="prev" href="../lesson-24-trading-monitoring/">
+      
+      
+        <link rel="next" href="../lesson-26-custom-strategy/">
+      
+      
+        
+          <link rel="alternate" href="../../lesson-25-risk-management/" hreflang="zh">
+        
+          <link rel="alternate" href="./" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>Lesson 25: Risk Control and Psychology Management - Freqtrade 实战教程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9784658154228475"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VGHZY4EELE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VGHZY4EELE");
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lesson-25-risk-control-and-psychology-management" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Freqtrade 实战教程" class="md-header__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Freqtrade 实战教程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lesson 25: Risk Control and Psychology Management
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../lesson-25-risk-management/" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../strategies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  English Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Freqtrade 实战教程" class="md-nav__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Freqtrade 实战教程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../strategies/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    English Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    English Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 1: Introduction to Quantitative Trading and Freqtrade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-02-environment-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 2: Freqtrade Environment Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-03-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 3: Understanding Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-04-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 4: Data Download and Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-05-first-backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 5: First Strategy Backtest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-06-strategy-performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 6: Strategy Performance Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-07-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 7: Multi-Timeframe Backtesting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-08-strategy-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 8: Strategy Batch Comparison
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-09-timerange-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 9: Time Range Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-10-pair-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 10: Trading Pair Selection and Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-11-hyperopt-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 11: Hyperopt Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-12-advanced-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 12: Advanced Strategy Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-13-scoring-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 13: Strategy Scoring System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-14-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 14: Risk and Money Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-15-portfolio-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 15: Strategy Portfolio and Diversification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-16-realtime-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 16: Real-time Signal Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-17-telegram-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 17: Telegram Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-18-webui-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 18: Web UI and API Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 19: Visualization Analysis Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-20-dry-run-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 20: Simulated Trading Validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-21-exchange-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 21: Exchange API Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-22-pre-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 22: Pre-Live Trading Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-23-small-capital-live/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 23: Small Capital Live Trading
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-1-order-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.1: Live Trading Order Placement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-2-stop-loss-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.2: Live Trading Stop Loss Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-3-futures-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.3: Binance Futures Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-4-leverage-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.4: Leverage Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-trading-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24: Trading Monitoring and Adjustment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 25: Risk Control and Psychology Management
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 25: Risk Control and Psychology Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#course-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Course Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-1-advanced-risk-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 1: Advanced Risk Control
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 1: Advanced Risk Control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-multi-layered-risk-control-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Multi-layered Risk Control System
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1 Multi-layered Risk Control System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#layer-1-single-trade-risk-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layer 1: Single Trade Risk Control
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layer-2-total-risk-exposure-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layer 2: Total Risk Exposure Control
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layer-3-daily-loss-limit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layer 3: Daily Loss Limit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layer-4-weeklymonthly-loss-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layer 4: Weekly/Monthly Loss Limits
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-dynamic-stop-loss-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Dynamic Stop Loss Strategies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.2 Dynamic Stop Loss Strategies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#strategy-1-fixed-percentage-stop-loss-basic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strategy 1: Fixed Percentage Stop Loss (Basic)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strategy-2-trailing-stop-loss-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strategy 2: Trailing Stop Loss (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strategy-3-atr-based-dynamic-stop-loss-advanced" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strategy 3: ATR-based Dynamic Stop Loss (Advanced)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-advanced-position-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Advanced Position Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.3 Advanced Position Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#method-1-fixed-position-size-already-learned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 1: Fixed Position Size (Already Learned)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-2-fixed-percentage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 2: Fixed Percentage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-3-kelly-formula-advanced" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 3: Kelly Formula (Advanced)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-4-tiered-position-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 4: Tiered Position Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-protection-mechanism-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Protection Mechanism Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.4 Protection Mechanism Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#protection-1-stoplossguard-stop-loss-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Protection 1: StopLossGuard (Stop Loss Protection)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#protection-2-maxdrawdown-drawdown-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Protection 2: MaxDrawdown (Drawdown Protection)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#protection-3-lowprofitpairs-low-profit-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Protection 3: LowProfitPairs (Low Profit Protection)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#protection-4-cooldownperiod-cooldown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Protection 4: CooldownPeriod (Cooldown)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comprehensive-protection-configuration-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comprehensive Protection Configuration (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-2-psychology-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 2: Psychology Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 2: Psychology Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-four-major-enemies-of-trading-psychology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Four Major Enemies of Trading Psychology
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 Four Major Enemies of Trading Psychology">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enemy-1-fear-fear" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enemy 1: Fear (Fear)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enemy-3-revenge-trading-revenge-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enemy 3: Revenge Trading (Revenge Trading)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-establish-trading-discipline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Establish Trading Discipline
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 Establish Trading Discipline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trading-discipline-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trading Discipline Rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-coping-with-consecutive-losses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Coping with Consecutive Losses
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 Coping with Consecutive Losses">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#consecutive-loss-handling-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consecutive Loss Handling Process
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#psychological-recovery-techniques" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Psychological Recovery Techniques
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-long-term-mindset-cultivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Long-term Mindset Cultivation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.4 Long-term Mindset Cultivation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#professional-traders-psychological-traits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Professional Trader's Psychological Traits
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#daily-mindset-practice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Daily Mindset Practice
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-3-risk-management-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 3: Risk Management Tools
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 3: Risk Management Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-risk-monitoring-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Risk Monitoring Scripts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-trading-journal-tool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Trading Journal Tool
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 Practical Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 Practical Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-calculate-your-risk-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Calculate Your Risk Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-configure-protection-mechanisms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Configure Protection Mechanisms
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-sign-trading-discipline-pledge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: Sign Trading Discipline Pledge
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-4-start-writing-trading-journal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 4: Start Writing Trading Journal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-5-psychological-stress-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 5: Psychological Stress Test
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Key Points
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📌 Key Points">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#iron-rules-of-risk-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Iron Rules of Risk Control
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-points-of-psychology-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Points of Psychology Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#long-term-survival-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Long-term Survival Rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-lesson-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Next Lesson Preview
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-26-custom-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 26: Custom Strategy Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-27-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 27: Multi-Timeframe Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-28-grid-hft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 28: HFT and Grid Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-1-freqai-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.1: FreqAI Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-2-advanced-ml-strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.2: Advanced ML Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning-enhanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: ML Basics and Strategy Optimization (Enhanced)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: Machine Learning and Strategy Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-30-conclusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 30: Conclusion and Continuous Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#course-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Course Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-1-advanced-risk-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 1: Advanced Risk Control
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 1: Advanced Risk Control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-multi-layered-risk-control-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Multi-layered Risk Control System
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1 Multi-layered Risk Control System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#layer-1-single-trade-risk-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layer 1: Single Trade Risk Control
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layer-2-total-risk-exposure-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layer 2: Total Risk Exposure Control
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layer-3-daily-loss-limit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layer 3: Daily Loss Limit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layer-4-weeklymonthly-loss-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layer 4: Weekly/Monthly Loss Limits
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-dynamic-stop-loss-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Dynamic Stop Loss Strategies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.2 Dynamic Stop Loss Strategies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#strategy-1-fixed-percentage-stop-loss-basic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strategy 1: Fixed Percentage Stop Loss (Basic)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strategy-2-trailing-stop-loss-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strategy 2: Trailing Stop Loss (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strategy-3-atr-based-dynamic-stop-loss-advanced" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strategy 3: ATR-based Dynamic Stop Loss (Advanced)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-advanced-position-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Advanced Position Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.3 Advanced Position Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#method-1-fixed-position-size-already-learned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 1: Fixed Position Size (Already Learned)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-2-fixed-percentage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 2: Fixed Percentage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-3-kelly-formula-advanced" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 3: Kelly Formula (Advanced)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-4-tiered-position-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 4: Tiered Position Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-protection-mechanism-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Protection Mechanism Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.4 Protection Mechanism Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#protection-1-stoplossguard-stop-loss-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Protection 1: StopLossGuard (Stop Loss Protection)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#protection-2-maxdrawdown-drawdown-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Protection 2: MaxDrawdown (Drawdown Protection)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#protection-3-lowprofitpairs-low-profit-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Protection 3: LowProfitPairs (Low Profit Protection)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#protection-4-cooldownperiod-cooldown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Protection 4: CooldownPeriod (Cooldown)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comprehensive-protection-configuration-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comprehensive Protection Configuration (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-2-psychology-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 2: Psychology Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 2: Psychology Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-four-major-enemies-of-trading-psychology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Four Major Enemies of Trading Psychology
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 Four Major Enemies of Trading Psychology">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enemy-1-fear-fear" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enemy 1: Fear (Fear)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enemy-3-revenge-trading-revenge-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enemy 3: Revenge Trading (Revenge Trading)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-establish-trading-discipline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Establish Trading Discipline
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 Establish Trading Discipline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trading-discipline-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trading Discipline Rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-coping-with-consecutive-losses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Coping with Consecutive Losses
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 Coping with Consecutive Losses">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#consecutive-loss-handling-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consecutive Loss Handling Process
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#psychological-recovery-techniques" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Psychological Recovery Techniques
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-long-term-mindset-cultivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Long-term Mindset Cultivation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.4 Long-term Mindset Cultivation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#professional-traders-psychological-traits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Professional Trader's Psychological Traits
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#daily-mindset-practice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Daily Mindset Practice
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-3-risk-management-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 3: Risk Management Tools
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 3: Risk Management Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-risk-monitoring-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Risk Monitoring Scripts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-trading-journal-tool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Trading Journal Tool
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 Practical Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 Practical Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-calculate-your-risk-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Calculate Your Risk Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-configure-protection-mechanisms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Configure Protection Mechanisms
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-sign-trading-discipline-pledge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: Sign Trading Discipline Pledge
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-4-start-writing-trading-journal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 4: Start Writing Trading Journal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-5-psychological-stress-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 5: Psychological Stress Test
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Key Points
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📌 Key Points">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#iron-rules-of-risk-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Iron Rules of Risk Control
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-points-of-psychology-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Points of Psychology Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#long-term-survival-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Long-term Survival Rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-lesson-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Next Lesson Preview
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="lesson-25-risk-control-and-psychology-management">Lesson 25: Risk Control and Psychology Management<a class="headerlink" href="#lesson-25-risk-control-and-psychology-management" title="Permanent link">&para;</a></h1>
+<p><strong>⏱ Duration</strong>: 1.5 hours
+<strong>🎯 Learning Objectives</strong>: Master the core elements of long-term stable profitability - risk control and psychology management</p>
+<hr />
+<h2 id="course-overview">Course Overview<a class="headerlink" href="#course-overview" title="Permanent link">&para;</a></h2>
+<p>Technology, strategy, monitoring are all important, but what truly determines long-term success is risk control and psychology management.</p>
+<p><strong>Statistical Data Shows</strong>:
+- 90% of traders fail not because their strategy is poor, but because:
+  - Poor risk control (excessive leverage, no stop loss)
+  - Loss of psychological control (fear, greed, revenge trading)</p>
+<p><strong>Core Philosophy of This Lesson</strong>:</p>
+<blockquote>
+<p><strong>Control risk, manage psychology, to survive and profit long-term.</strong></p>
+</blockquote>
+<hr />
+<h2 id="part-1-advanced-risk-control">Part 1: Advanced Risk Control<a class="headerlink" href="#part-1-advanced-risk-control" title="Permanent link">&para;</a></h2>
+<h3 id="11-multi-layered-risk-control-system">1.1 Multi-layered Risk Control System<a class="headerlink" href="#11-multi-layered-risk-control-system" title="Permanent link">&para;</a></h3>
+<h4 id="layer-1-single-trade-risk-control">Layer 1: Single Trade Risk Control<a class="headerlink" href="#layer-1-single-trade-risk-control" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Single trade risk = Maximum loss per trade
+
+Recommended configuration:
+- Conservative: 1% of total funds per trade
+- Moderate: 2% of total funds per trade
+- Aggressive: 3% of total funds per trade (not recommended for beginners)
+
+Example (total funds $10,000):
+Single trade risk 2% = $200
+
+If stop loss set at -4%:
+Position size = $200 / 0.04 = $5,000
+
+Configuration:
+"stake_amount": 5000,
+"stoploss": -0.04
+</code></pre></div>
+<p><strong>Important</strong>: Regardless of profit amount, single trade risk should never exceed 5% of total funds.</p>
+<h4 id="layer-2-total-risk-exposure-control">Layer 2: Total Risk Exposure Control<a class="headerlink" href="#layer-2-total-risk-exposure-control" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Total risk exposure = Sum of all position risks
+
+Recommended configuration:
+- Conservative: Total risk ≤ 5% of total funds
+- Moderate: Total risk ≤ 10% of total funds
+- Aggressive: Total risk ≤ 15% of total funds
+
+Example (2% single trade risk, max 3 positions):
+Total risk exposure = 2% × 3 = 6%
+
+If all 3 positions trigger stop loss:
+Maximum loss = $10,000 × 6% = $600
+
+Configuration:
+"max_open_trades": 3,
+"stake_amount": 5000,
+"stoploss": -0.04
+</code></pre></div>
+<h4 id="layer-3-daily-loss-limit">Layer 3: Daily Loss Limit<a class="headerlink" href="#layer-3-daily-loss-limit" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Set maximum daily loss limit, stop trading when triggered
+
+Recommended configuration:
+- Maximum daily loss: 3-5% of total funds
+
+Implementation method:
+1. Use MaxDrawdown protection
+2. Or custom script monitoring
+
+Configuration:
+"protections": [
+  {
+    "method": "MaxDrawdown",
+    "lookback_period": 24,  # 24 hours
+    "trade_limit": 0,
+    "stop_duration": 1440,  # Stop for 24 hours
+    "max_allowed_drawdown": 0.05  # 5%
+  }
+]
+</code></pre></div>
+<h4 id="layer-4-weeklymonthly-loss-limits">Layer 4: Weekly/Monthly Loss Limits<a class="headerlink" href="#layer-4-weeklymonthly-loss-limits" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Cumulative loss control:
+- Weekly loss limit: -10%
+- Monthly loss limit: -15%
+
+Actions triggered:
+- Weekly loss &gt; -10%: Pause trading for 3 days, deep analysis
+- Monthly loss &gt; -15%: Stop trading, comprehensive strategy evaluation
+
+Manual monitoring and execution (requires discipline)
+</code></pre></div>
+<h3 id="12-dynamic-stop-loss-strategies">1.2 Dynamic Stop Loss Strategies<a class="headerlink" href="#12-dynamic-stop-loss-strategies" title="Permanent link">&para;</a></h3>
+<h4 id="strategy-1-fixed-percentage-stop-loss-basic">Strategy 1: Fixed Percentage Stop Loss (Basic)<a class="headerlink" href="#strategy-1-fixed-percentage-stop-loss-basic" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"stoploss"</span><span class="p">:</span><span class="w"> </span><span class="mf">-0.03</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Advantages:
+- ✅ Simple and clear
+- ✅ Controllable risk</p>
+<p>Disadvantages:
+- ⚠️ Doesn't consider market volatility
+- ⚠️ May be too tight or too loose</p>
+<h4 id="strategy-2-trailing-stop-loss-recommended">Strategy 2: Trailing Stop Loss (Recommended)<a class="headerlink" href="#strategy-2-trailing-stop-loss-recommended" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"stoploss"</span><span class="p">:</span><span class="w"> </span><span class="mf">-0.03</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"trailing_stop"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"trailing_stop_positive"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.01</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"trailing_stop_positive_offset"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.02</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"trailing_only_offset_is_reached"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Working principle:
+<div class="highlight"><pre><span></span><code>1. Open position price: $100
+   Stop loss: $97 (-3%)
+
+2. Price rises to $102 (profit +2%, reaches offset)
+   Trailing stop activates
+   New stop loss: $102 × (1 - 0.01) = $100.98 (+0.98%)
+
+3. Price rises to $105
+   Stop loss moves up: $105 × (1 - 0.01) = $103.95 (+3.95%)
+
+4. Price falls to $103.95
+   Trailing stop triggers, locks +3.95% profit
+</code></pre></div></p>
+<p>Advantages:
+- ✅ Protects profits
+- ✅ Lets profits run
+- ✅ Auto-adjusts</p>
+<h4 id="strategy-3-atr-based-dynamic-stop-loss-advanced">Strategy 3: ATR-based Dynamic Stop Loss (Advanced)<a class="headerlink" href="#strategy-3-atr-based-dynamic-stop-loss-advanced" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Custom stop loss in strategy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">freqtrade.strategy</span><span class="w"> </span><span class="kn">import</span> <span class="n">IStrategy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">talib.abstract</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ta</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">DynamicStopLossStrategy</span><span class="p">(</span><span class="n">IStrategy</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">custom_stoploss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pair</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">trade</span><span class="p">:</span> <span class="s1">'Trade'</span><span class="p">,</span> <span class="n">current_time</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span>
+                        <span class="n">current_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">current_profit</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Dynamic stop loss based on ATR</span>
+<span class="sd">        """</span>
+        <span class="n">dataframe</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dp</span><span class="o">.</span><span class="n">get_analyzed_dataframe</span><span class="p">(</span><span class="n">pair</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeframe</span><span class="p">)</span>
+        <span class="n">last_candle</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+
+        <span class="c1"># Calculate ATR</span>
+        <span class="n">atr</span> <span class="o">=</span> <span class="n">last_candle</span><span class="p">[</span><span class="s1">'atr'</span><span class="p">]</span>
+        <span class="n">current_price</span> <span class="o">=</span> <span class="n">current_rate</span>
+
+        <span class="c1"># Set stop loss at 2x ATR</span>
+        <span class="n">atr_stop_distance</span> <span class="o">=</span> <span class="p">(</span><span class="n">atr</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">current_price</span>
+
+        <span class="c1"># Minimum stop loss -2%, maximum -5%</span>
+        <span class="n">stop_loss</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="o">-</span><span class="n">atr_stop_distance</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.02</span><span class="p">),</span> <span class="o">-</span><span class="mf">0.05</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">stop_loss</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_indicators</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+        <span class="c1"># Add ATR indicator</span>
+        <span class="n">dataframe</span><span class="p">[</span><span class="s1">'atr'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ta</span><span class="o">.</span><span class="n">ATR</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">timeperiod</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dataframe</span>
+</code></pre></div>
+<p>Advantages:
+- ✅ Adapts to market volatility
+- ✅ Wider stop loss in high volatility
+- ✅ Tighter stop loss in low volatility</p>
+<h3 id="13-advanced-position-management">1.3 Advanced Position Management<a class="headerlink" href="#13-advanced-position-management" title="Permanent link">&para;</a></h3>
+<h4 id="method-1-fixed-position-size-already-learned">Method 1: Fixed Position Size (Already Learned)<a class="headerlink" href="#method-1-fixed-position-size-already-learned" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Fixed amount per trade
+"stake_amount": 1000
+</code></pre></div>
+<h4 id="method-2-fixed-percentage">Method 2: Fixed Percentage<a class="headerlink" href="#method-2-fixed-percentage" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Fixed percentage per trade
+"stake_amount": "unlimited",
+"tradable_balance_ratio": 0.33  # 1/3 of available funds per trade
+</code></pre></div>
+<h4 id="method-3-kelly-formula-advanced">Method 3: Kelly Formula (Advanced)<a class="headerlink" href="#method-3-kelly-formula-advanced" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Kelly formula to calculate optimal position</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">kelly_criterion</span><span class="p">(</span><span class="n">win_rate</span><span class="p">,</span> <span class="n">avg_win</span><span class="p">,</span> <span class="n">avg_loss</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Kelly % = W - [(1-W) / R]</span>
+<span class="sd">    W = Win rate</span>
+<span class="sd">    R = Average win/Average loss (profit/loss ratio)</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">avg_loss</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="n">R</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">avg_win</span> <span class="o">/</span> <span class="n">avg_loss</span><span class="p">)</span>
+    <span class="n">kelly</span> <span class="o">=</span> <span class="n">win_rate</span> <span class="o">-</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">win_rate</span><span class="p">)</span> <span class="o">/</span> <span class="n">R</span><span class="p">)</span>
+
+    <span class="c1"># Conservative: use Half Kelly</span>
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">kelly</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">)</span>
+
+<span class="c1"># Example calculation</span>
+<span class="n">win_rate</span> <span class="o">=</span> <span class="mf">0.55</span>  <span class="c1"># 55% win rate</span>
+<span class="n">avg_win</span> <span class="o">=</span> <span class="mf">3.5</span>    <span class="c1"># Average win $3.5</span>
+<span class="n">avg_loss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.0</span>  <span class="c1"># Average loss $2.0</span>
+
+<span class="n">kelly_pct</span> <span class="o">=</span> <span class="n">kelly_criterion</span><span class="p">(</span><span class="n">win_rate</span><span class="p">,</span> <span class="n">avg_win</span><span class="p">,</span> <span class="n">avg_loss</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Kelly position: </span><span class="si">{</span><span class="n">kelly_pct</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+
+<span class="c1"># Output: Kelly position: 16.4%</span>
+<span class="c1"># Means each trade should invest 16.4% of total funds</span>
+</code></pre></div>
+<p><strong>Warning</strong>: Kelly formula is theoretically optimal but in practice:
+- ⚠️ Requires accurate win rate and profit/loss ratio (difficult to predict)
+- ⚠️ High volatility, high psychological pressure
+- ✅ Recommend using Half Kelly or Quarter Kelly</p>
+<h4 id="method-4-tiered-position-management">Method 4: Tiered Position Management<a class="headerlink" href="#method-4-tiered-position-management" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Adjust position based on signal strength:
+
+Strong signal (multiple indicators confirm):
+"stake_amount": 1500  # 150% standard position
+
+Medium signal (standard):
+"stake_amount": 1000  # 100% standard position
+
+Weak signal (uncertain):
+"stake_amount": 500   # 50% standard position
+
+Implementation (in strategy):
+def custom_stake_amount(self, pair: str, current_time: datetime,
+                        current_rate: float, proposed_stake: float,
+                        min_stake: float, max_stake: float, **kwargs) -&gt; float:
+
+    dataframe, _ = self.dp.get_analyzed_dataframe(pair, self.timeframe)
+    last_candle = dataframe.iloc[-1].squeeze()
+
+    # Calculate signal strength
+    signal_strength = 0
+
+    if last_candle['rsi'] &lt; 30:
+        signal_strength += 1
+    if last_candle['macd'] &gt; last_candle['macdsignal']:
+        signal_strength += 1
+    if last_candle['adx'] &gt; 25:
+        signal_strength += 1
+
+    # Adjust position based on signal strength
+    if signal_strength &gt;= 3:
+        return proposed_stake * 1.5  # Strong signal
+    elif signal_strength == 2:
+        return proposed_stake * 1.0  # Standard
+    else:
+        return proposed_stake * 0.5  # Weak signal
+</code></pre></div>
+<h3 id="14-protection-mechanism-configuration">1.4 Protection Mechanism Configuration<a class="headerlink" href="#14-protection-mechanism-configuration" title="Permanent link">&para;</a></h3>
+<h4 id="protection-1-stoplossguard-stop-loss-protection">Protection 1: StopLossGuard (Stop Loss Protection)<a class="headerlink" href="#protection-1-stoplossguard-stop-loss-protection" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"protections"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"StopLossGuard"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"lookback_period_candles"</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"trade_limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"stop_duration_candles"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"required_profit"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Function:
+- 3 stop losses within 60 candles
+- Pause trading for 30 candles
+- Prevent consecutive stop losses</p>
+<h4 id="protection-2-maxdrawdown-drawdown-protection">Protection 2: MaxDrawdown (Drawdown Protection)<a class="headerlink" href="#protection-2-maxdrawdown-drawdown-protection" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"protections"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MaxDrawdown"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"lookback_period_candles"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"trade_limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"stop_duration_candles"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"max_allowed_drawdown"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.15</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Function:
+- Drawdown exceeds 15% in 200 candles
+- Pause trading for 50 candles
+- Prevent continued losses</p>
+<h4 id="protection-3-lowprofitpairs-low-profit-protection">Protection 3: LowProfitPairs (Low Profit Protection)<a class="headerlink" href="#protection-3-lowprofitpairs-low-profit-protection" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"protections"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LowProfitPairs"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"lookback_period_candles"</span><span class="p">:</span><span class="w"> </span><span class="mi">360</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"trade_limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"stop_duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">120</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"required_profit"</span><span class="p">:</span><span class="w"> </span><span class="mf">-0.05</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Function:
+- 4 trades for a pair lose &gt;5% in 360 candles
+- That pair pauses trading for 120 minutes
+- Prevent single pair continued losses</p>
+<h4 id="protection-4-cooldownperiod-cooldown">Protection 4: CooldownPeriod (Cooldown)<a class="headerlink" href="#protection-4-cooldownperiod-cooldown" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"protections"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CooldownPeriod"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"stop_duration_candles"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Function:
+- 5 candles cooldown after each position close
+- Prevent immediate re-entry
+- Avoid emotional trading</p>
+<h4 id="comprehensive-protection-configuration-recommended">Comprehensive Protection Configuration (Recommended)<a class="headerlink" href="#comprehensive-protection-configuration-recommended" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"protections"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"StopLossGuard"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"lookback_period_candles"</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"trade_limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"stop_duration_candles"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MaxDrawdown"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"lookback_period_candles"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"stop_duration_candles"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"max_allowed_drawdown"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.15</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LowProfitPairs"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"lookback_period_candles"</span><span class="p">:</span><span class="w"> </span><span class="mi">360</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"trade_limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"stop_duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">120</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"required_profit"</span><span class="p">:</span><span class="w"> </span><span class="mf">-0.05</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CooldownPeriod"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"stop_duration_candles"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="part-2-psychology-management">Part 2: Psychology Management<a class="headerlink" href="#part-2-psychology-management" title="Permanent link">&para;</a></h2>
+<h3 id="21-four-major-enemies-of-trading-psychology">2.1 Four Major Enemies of Trading Psychology<a class="headerlink" href="#21-four-major-enemies-of-trading-psychology" title="Permanent link">&para;</a></h3>
+<h4 id="enemy-1-fear-fear">Enemy 1: Fear (Fear)<a class="headerlink" href="#enemy-1-fear-fear" title="Permanent link">&para;</a></h4>
+<p><strong>Manifestations</strong>:
+- Afraid to open positions after consecutive losses
+- Close positions early when profitable
+- Want to stop trading when seeing drawdowns
+- Doubt strategy effectiveness</p>
+<p><strong>Case Example</strong>:
+<div class="highlight"><pre><span></span><code>Trader A's story:
+- First 3 trades all stopped, lost $150
+- 4th trade, strategy signals buy
+- But due to fear, manually skipped signal
+- Result: That trade made $80 profit
+- Regretted, became more anxious
+</code></pre></div></p>
+<p><strong>Coping Methods</strong>:
+1. <strong>Accept that losses are normal</strong>
+   - Even with 60% win rate, 40% will lose
+   - 3-5 consecutive losses are probabilistic</p>
+<ol>
+<li><strong>Trust backtest data</strong></li>
+<li>Review backtest results</li>
+<li>Confirm strategy's long-term effectiveness</li>
+<li>
+<p>Short-term fluctuations don't indicate failure</p>
+</li>
+<li>
+<p><strong>Reduce position size</strong></p>
+</li>
+<li>If fear affects decisions</li>
+<li>Temporarily reduce position by 50%</li>
+<li>
+<p>Regain confidence then increase</p>
+</li>
+<li>
+<p><strong>Automated execution</strong></p>
+</li>
+<li>Fully automated, no manual intervention</li>
+<li>Avoid emotional impact on decisions
+<div class="highlight"><pre><span></span><code>#### Enemy 2: Greed (Greed)
+
+**Manifestations**:
+- Want to increase position size after profits
+- Unwilling to take profits, want more
+- Use leverage to pursue high returns
+- Ignore risks, only see returns
+
+**Case Example**:
+</code></pre></div>
+Trader B's story:</li>
+<li>First month profit +15%, very excited</li>
+<li>Decided to increase position, stake_amount: 1000 → 3000</li>
+<li>Second month encountered -20% drawdown</li>
+<li>Because position large, actual loss $1800</li>
+<li>Not only lost last month's profit, but also went negative
+<div class="highlight"><pre><span></span><code>**Coping Methods**:
+1. **Set realistic goals**
+   - Monthly return 5-10% is already very good
+   - Don't pursue unrealistic high returns
+   - Stability is better than explosive profits
+
+2. **Strictly follow position management**
+   - Don't arbitrarily increase positions due to profits
+   - Increase gradually as planned (like Lesson 23)
+   - Single trade risk doesn't exceed 2-3%
+
+3. **Take profits timely**
+   - Take profits when targets reached
+   - Don't expect "perfect" tops
+   - Secure profits
+
+4. **Record successes and failures**
+   - Record failures caused by greed
+   - Review regularly as reminders
+</code></pre></div></li>
+</ol>
+<h4 id="enemy-3-revenge-trading-revenge-trading">Enemy 3: Revenge Trading (Revenge Trading)<a class="headerlink" href="#enemy-3-revenge-trading-revenge-trading" title="Permanent link">&para;</a></h4>
+<p><strong>Manifestations</strong>:
+- Want to immediately "win back" after losses
+- Increase position or trade frequently
+- Ignore strategy signals, trade blindly
+- Emotional out of control</p>
+<p><strong>Case Example</strong>:
+<div class="highlight"><pre><span></span><code>Trader C's story:
+- BTC/USDT stopped, lost $100
+- Mentally unbalanced, immediately manually opened ETH/USDT
+- No signal confirmation, purely wanted to "win back"
+- Result: Another stop loss, lost $120
+- Emotional breakdown, daily loss $220
+</code></pre></div></p>
+<p><strong>Coping Methods</strong>:
+1. <strong>Accept that losses are costs</strong>
+   - Losses are part of trading
+   - Not personal failure
+   - Accept calmly</p>
+<ol>
+<li><strong>Set cooldown period</strong></li>
+<li>Rest 1-2 hours after large losses</li>
+<li>Leave trading interface</li>
+<li>
+<p>Do other things to divert attention</p>
+</li>
+<li>
+<p><strong>Enable CooldownPeriod protection</strong></p>
+</li>
+<li>Forced cooldown period</li>
+<li>
+<p>Prevent impulsive trading</p>
+</li>
+<li>
+<p><strong>Set daily loss limits</strong></p>
+</li>
+<li>Automatically stop when limit reached</li>
+<li>Prevent扩大损失
+<div class="highlight"><pre><span></span><code>#### Enemy 4: Overconfidence (Overconfidence)
+
+**Manifestations**:
+- Think you're "invincible" after consecutive profits
+- Ignore risk management
+- Modify strategies randomly
+- No longer cautious
+
+**Case Example**:
+</code></pre></div>
+Trader D's story:</li>
+<li>Consecutive 2 weeks profit +20%</li>
+<li>Thought they "mastered the market"</li>
+<li>Turned off stop loss protection, used leverage</li>
+<li>Market reversal, single-day loss -30%</li>
+<li>Two weeks of profits all lost
+<div class="highlight"><pre><span></span><code>**Coping Methods**:
+1. **Stay humble**
+   - Market is always unpredictable
+   - Today's profit doesn't guarantee tomorrow's
+   - Luck plays a big part
+
+2. **Stick to risk management**
+   - Risk rules unchanged regardless of profits
+   - Don't relax vigilance due to profits
+
+3. **Regular review**
+   - Analyze whether profits are from strategy or luck
+   - Is it sustainable
+   - Pressure test yourself
+</code></pre></div></li>
+</ol>
+<h3 id="22-establish-trading-discipline">2.2 Establish Trading Discipline<a class="headerlink" href="#22-establish-trading-discipline" title="Permanent link">&para;</a></h3>
+<h4 id="trading-discipline-rules">Trading Discipline Rules<a class="headerlink" href="#trading-discipline-rules" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>I promise to strictly follow the following discipline:
+
+1. Risk management
+   □ Single trade risk ≤ 2% total funds
+   □ Total risk exposure ≤ 10% total funds
+   □ Always set stop loss
+   □ Don't use leverage (initially)
+
+2. Strategy execution
+   □ Trade strictly according to strategy signals
+   □ Don't manually intervene in automated trading
+   □ Don't modify parameters based on emotions
+   □ Don't chase highs and sell lows
+
+3. Adjustment rules
+   □ Verify in Dry-run before any adjustment
+   □ Adjust only one variable at a time
+   □ Observe at least 7 days after adjustment
+   □ Make decisions based on data, not emotions
+
+4. Stop loss discipline
+   □ Execute stop loss immediately when triggered, no hesitation
+   □ Don't regret "should have not stopped loss" afterwards
+   □ Accept stop loss as cost
+
+5. Psychology management
+   □ Rest 1 day after consecutive losses
+   □ Analyze calmly, don't revenge
+   □ Don't be blindly confident after profits
+   □ Maintain long-term perspective
+
+6. Continuous learning
+   □ Review trading records weekly
+   ▤ Analyze success and failure reasons
+   ▤ Continuously learn and improve
+   □ But don't frequently adjust strategies
+
+Signature: __________  Date: __________
+
+Discipline violation penalties:
+- 1st violation: Stop trading for 3 days, deep reflection
+- 2nd violation: Stop trading for 7 days, re-evaluate
+- 3rd violation: Stop trading for 30 days, start over from learning
+</code></pre></div>
+<h3 id="23-coping-with-consecutive-losses">2.3 Coping with Consecutive Losses<a class="headerlink" href="#23-coping-with-consecutive-losses" title="Permanent link">&para;</a></h3>
+<h4 id="consecutive-loss-handling-process">Consecutive Loss Handling Process<a class="headerlink" href="#consecutive-loss-handling-process" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>3 consecutive losses:
+□ Deep breath, stay calm
+□ Check for technical issues
+□ Confirm strategy logic is normal
+□ Continue observing, no adjustment needed
+
+5 consecutive losses:
+□ Pause buying (/stopbuy)
+□ Detailed analysis of each losing trade
+□ Check if market environment has changed
+□ Confirm if protection mechanisms triggered
+□ Decide whether to continue or adjust
+
+7 consecutive losses:
+□ Stop trading at least 1 day
+□ Comprehensive strategy evaluation
+□ Compare with backtest and Dry-run
+□ Consider reducing positions or switching strategies
+□ Seek advice from others (community, mentors)
+
+10 consecutive losses:
+□ Stop trading at least 3 days
+□ Strategy may have major issues
+□ Re-backtest recent data
+□ Consider returning to Dry-run
+□ Or stop using this strategy
+</code></pre></div>
+<h4 id="psychological-recovery-techniques">Psychological Recovery Techniques<a class="headerlink" href="#psychological-recovery-techniques" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Technique 1: Leave trading interface
+- Close all trading-related pages
+- Go for a walk or exercise
+- Do other interested activities
+- Rest at least 2-3 hours
+
+Technique 2: Review success stories
+- Browse previous profitable trades
+- Remind yourself that strategy works
+- Rebuild confidence
+
+Technique 3: Reduce positions
+- If psychological pressure high
+- Temporarily reduce positions by 50%
+- Reduce P/L fluctuations
+- Restore calm mindset
+
+Technique 4: Write trading diary
+- Record feelings in detail
+- "I feel fearful because..."
+- "How should I improve..."
+- Writing helps clear thoughts
+
+Technique 5: Communicate with others
+- Find trusted people to talk to
+- Join trader communities
+- Share experiences and feelings
+- Get support and suggestions
+</code></pre></div>
+<h3 id="24-long-term-mindset-cultivation">2.4 Long-term Mindset Cultivation<a class="headerlink" href="#24-long-term-mindset-cultivation" title="Permanent link">&para;</a></h3>
+<h4 id="professional-traders-psychological-traits">Professional Trader's Psychological Traits<a class="headerlink" href="#professional-traders-psychological-traits" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>1. Probabilistic thinking
+   - Don't judge success by single trades
+   - Focus on long-term statistical performance
+   - Accept short-term randomness
+
+2. Emotional stability
+   - Maintain equanimity with profits and losses
+   - Don't be anxious about daily fluctuations
+   - Process-oriented, not result-oriented
+
+3. Patience
+   - Wait for suitable entry opportunities
+   - Don't rush to "get rich quick"
+   - Enjoy the power of compounding
+
+4. Continuous learning
+   - Maintain curiosity
+   - Continuously improve systems
+   - But don't chase new strategies
+
+5. Self-discipline
+   - Strictly execute plans
+   - Don't be swayed by emotions
+   - Knowledge and action aligned
+</code></pre></div>
+<h4 id="daily-mindset-practice">Daily Mindset Practice<a class="headerlink" href="#daily-mindset-practice" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Morning (before trading):
+1. Deep breath 10 times, meditate 5 minutes
+2. Review trading discipline rules
+3. Set today's expectations:
+   - "Today may profit or may lose"
+   - "I focus on execution, not results"
+   - "I trust my strategy"
+
+During trading:
+1. Maintain emotional stability
+2. Don't check P/L frequently
+3. Timed checks, not constant monitoring
+4. Rest immediately when emotional fluctuations detected
+
+Evening (after trading):
+1. Record today's trades and mindset
+2. Analyze objectively, no self-blame
+3. Be grateful for today's learning opportunities
+4. Prepare to continue execution tomorrow
+</code></pre></div>
+<hr />
+<h2 id="part-3-risk-management-tools">Part 3: Risk Management Tools<a class="headerlink" href="#part-3-risk-management-tools" title="Permanent link">&para;</a></h2>
+<h3 id="31-risk-monitoring-scripts">3.1 Risk Monitoring Scripts<a class="headerlink" href="#31-risk-monitoring-scripts" title="Permanent link">&para;</a></h3>
+<p>Create <code>risk_monitor.py</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">"""</span>
+<span class="sd">Real-time risk monitoring script</span>
+<span class="sd">Monitor current risk exposure, alert when thresholds exceeded</span>
+<span class="sd">"""</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">sqlite3</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="n">DB_PATH</span> <span class="o">=</span> <span class="s1">'tradesv3.sqlite'</span>
+<span class="n">TELEGRAM_TOKEN</span> <span class="o">=</span> <span class="s1">'YOUR_BOT_TOKEN'</span>
+<span class="n">TELEGRAM_CHAT_ID</span> <span class="o">=</span> <span class="s1">'YOUR_CHAT_ID'</span>
+
+<span class="c1"># Configuration</span>
+<span class="n">TOTAL_CAPITAL</span> <span class="o">=</span> <span class="mi">10000</span>  <span class="c1"># Total capital</span>
+<span class="n">MAX_RISK_PER_TRADE</span> <span class="o">=</span> <span class="mf">0.02</span>  <span class="c1"># Single trade risk 2%</span>
+<span class="n">MAX_TOTAL_RISK</span> <span class="o">=</span> <span class="mf">0.10</span>  <span class="c1"># Total risk 10%</span>
+<span class="n">MAX_DAILY_LOSS</span> <span class="o">=</span> <span class="mf">0.05</span>  <span class="c1"># Daily loss limit 5%</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">send_alert</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Send Telegram alert"""</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"https://api.telegram.org/bot</span><span class="si">{</span><span class="n">TELEGRAM_TOKEN</span><span class="si">}</span><span class="s2">/sendMessage"</span>
+    <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">'chat_id'</span><span class="p">:</span> <span class="n">TELEGRAM_CHAT_ID</span><span class="p">,</span>
+        <span class="s1">'text'</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"🚨 *Risk Alert* 🚨</span><span class="se">\n\n</span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="s1">'parse_mode'</span><span class="p">:</span> <span class="s1">'Markdown'</span>
+    <span class="p">}</span>
+    <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_current_risk</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">"""Calculate current risk exposure"""</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">DB_PATH</span><span class="p">)</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+
+    <span class="c1"># Get all open positions</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">        SELECT</span>
+<span class="s2">            pair,</span>
+<span class="s2">            stake_amount,</span>
+<span class="s2">            stop_loss_pct</span>
+<span class="s2">        FROM trades</span>
+<span class="s2">        WHERE is_open = 1</span>
+<span class="s2">    """</span><span class="p">)</span>
+
+    <span class="n">open_trades</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">open_trades</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">'open_trades'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s1">'total_exposure'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s1">'total_risk'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s1">'risk_ratio'</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="p">}</span>
+
+    <span class="c1"># Calculate risk</span>
+    <span class="n">total_exposure</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">open_trades</span><span class="p">)</span>
+    <span class="n">total_risk_amount</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="nb">abs</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">open_trades</span> <span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">risk_ratio</span> <span class="o">=</span> <span class="n">total_risk_amount</span> <span class="o">/</span> <span class="n">TOTAL_CAPITAL</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">'open_trades'</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">open_trades</span><span class="p">),</span>
+        <span class="s1">'total_exposure'</span><span class="p">:</span> <span class="n">total_exposure</span><span class="p">,</span>
+        <span class="s1">'total_risk'</span><span class="p">:</span> <span class="n">total_risk_amount</span><span class="p">,</span>
+        <span class="s1">'risk_ratio'</span><span class="p">:</span> <span class="n">risk_ratio</span><span class="p">,</span>
+        <span class="s1">'trades'</span><span class="p">:</span> <span class="n">open_trades</span>
+    <span class="p">}</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_daily_pnl</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">"""Get today's P/L"""</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">DB_PATH</span><span class="p">)</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+
+    <span class="n">today</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">        SELECT SUM(close_profit_abs)</span>
+<span class="s2">        FROM trades</span>
+<span class="s2">        WHERE DATE(close_date) = ?</span>
+<span class="s2">    """</span><span class="p">,</span> <span class="p">(</span><span class="n">today</span><span class="p">,))</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="n">daily_pnl</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="n">daily_pnl_ratio</span> <span class="o">=</span> <span class="n">daily_pnl</span> <span class="o">/</span> <span class="n">TOTAL_CAPITAL</span>
+
+    <span class="k">return</span> <span class="n">daily_pnl</span><span class="p">,</span> <span class="n">daily_pnl_ratio</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">check_risk</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">"""Check risk and alert"""</span>
+    <span class="n">risk_info</span> <span class="o">=</span> <span class="n">get_current_risk</span><span class="p">()</span>
+    <span class="n">daily_pnl</span><span class="p">,</span> <span class="n">daily_pnl_ratio</span> <span class="o">=</span> <span class="n">get_daily_pnl</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"=== Risk Monitoring Report </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S'</span><span class="p">)</span><span class="si">}</span><span class="s2"> ==="</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Open positions: </span><span class="si">{</span><span class="n">risk_info</span><span class="p">[</span><span class="s1">'open_trades'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Total exposure: $</span><span class="si">{</span><span class="n">risk_info</span><span class="p">[</span><span class="s1">'total_exposure'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Total risk: $</span><span class="si">{</span><span class="n">risk_info</span><span class="p">[</span><span class="s1">'total_risk'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">risk_info</span><span class="p">[</span><span class="s1">'risk_ratio'</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%)"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Today's P/L: $</span><span class="si">{</span><span class="n">daily_pnl</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">daily_pnl_ratio</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%)"</span><span class="p">)</span>
+
+    <span class="c1"># Check alerts</span>
+    <span class="n">alerts</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># 1. Check total risk exposure</span>
+    <span class="k">if</span> <span class="n">risk_info</span><span class="p">[</span><span class="s1">'risk_ratio'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">MAX_TOTAL_RISK</span><span class="p">:</span>
+        <span class="n">alerts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"⚠️ Total risk exposure too high: </span><span class="si">{</span><span class="n">risk_info</span><span class="p">[</span><span class="s1">'risk_ratio'</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">% "</span>
+            <span class="sa">f</span><span class="s2">"(Limit: </span><span class="si">{</span><span class="n">MAX_TOTAL_RISK</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">%)"</span>
+        <span class="p">)</span>
+
+    <span class="c1"># 2. Check daily loss</span>
+    <span class="k">if</span> <span class="n">daily_pnl_ratio</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">MAX_DAILY_LOSS</span><span class="p">:</span>
+        <span class="n">alerts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"⚠️ Today's loss exceeds limit: </span><span class="si">{</span><span class="n">daily_pnl_ratio</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">% "</span>
+            <span class="sa">f</span><span class="s2">"(Limit: -</span><span class="si">{</span><span class="n">MAX_DAILY_LOSS</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">%)</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s2">"Recommend stopping trading immediately!"</span>
+        <span class="p">)</span>
+
+    <span class="c1"># 3. Check single trade risk (if detailed data available)</span>
+    <span class="k">for</span> <span class="n">trade</span> <span class="ow">in</span> <span class="n">risk_info</span><span class="p">[</span><span class="s1">'trades'</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">trade</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>  <span class="c1"># If stop loss data available</span>
+            <span class="n">trade_risk</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">trade</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">trade_risk</span> <span class="o">&gt;</span> <span class="n">MAX_RISK_PER_TRADE</span><span class="p">:</span>
+                <span class="n">alerts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"⚠️ </span><span class="si">{</span><span class="n">trade</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> single trade risk too high: </span><span class="si">{</span><span class="n">trade_risk</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">% "</span>
+                    <span class="sa">f</span><span class="s2">"(Limit: </span><span class="si">{</span><span class="n">MAX_RISK_PER_TRADE</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">%)"</span>
+                <span class="p">)</span>
+
+    <span class="c1"># Send alerts</span>
+    <span class="k">if</span> <span class="n">alerts</span><span class="p">:</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\n\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">alerts</span><span class="p">)</span>
+        <span class="n">message</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"</span><span class="se">\n\n</span><span class="s2">Current positions: </span><span class="si">{</span><span class="n">risk_info</span><span class="p">[</span><span class="s1">'open_trades'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+        <span class="n">message</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Total risk: $</span><span class="si">{</span><span class="n">risk_info</span><span class="p">[</span><span class="s1">'total_risk'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span>
+        <span class="n">send_alert</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">❌ Risk alert sent!"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">✅ Risk within controllable range"</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"="</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="n">check_risk</span><span class="p">()</span>
+</code></pre></div>
+<p>Set scheduled checks:
+<div class="highlight"><pre><span></span><code><span class="c1"># Check hourly</span>
+<span class="m">0</span><span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/path/to/freqtrade<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>python3<span class="w"> </span>risk_monitor.py
+</code></pre></div></p>
+<h3 id="32-trading-journal-tool">3.2 Trading Journal Tool<a class="headerlink" href="#32-trading-journal-tool" title="Permanent link">&para;</a></h3>
+<p>Create <code>trading_journal.py</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">"""</span>
+<span class="sd">Trading journal tool</span>
+<span class="sd">Record daily trading and psychological state</span>
+<span class="sd">"""</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="n">JOURNAL_FILE</span> <span class="o">=</span> <span class="s1">'trading_journal.json'</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">load_journal</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">"""Load journal"""</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">JOURNAL_FILE</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">save_journal</span><span class="p">(</span><span class="n">entries</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Save journal"""</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">JOURNAL_FILE</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">entries</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">add_entry</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">"""Add journal entry"""</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">=== Trading Journal ===</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="n">date</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Date (leave blank for today): "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">date</span><span class="p">:</span>
+        <span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'%Y-%m-</span><span class="si">%d</span><span class="s1">'</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">1. Trading data:"</span><span class="p">)</span>
+    <span class="n">trades</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Today's trades: "</span><span class="p">)</span>
+    <span class="n">pnl</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Today's P/L (USDT): "</span><span class="p">)</span>
+    <span class="n">win_rate</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Win rate (%): "</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">2. Psychological state (1-10 score):"</span><span class="p">)</span>
+    <span class="n">emotional_state</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Emotional stability: "</span><span class="p">)</span>
+    <span class="n">confidence</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Strategy confidence: "</span><span class="p">)</span>
+    <span class="n">stress</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Stress level: "</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">3. Discipline compliance:"</span><span class="p">)</span>
+    <span class="n">followed_plan</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Strictly executed strategy? (yes/no): "</span><span class="p">)</span>
+    <span class="n">manual_intervention</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Manual intervention? (yes/no): "</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">4. Reflections:"</span><span class="p">)</span>
+    <span class="n">what_went_well</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"What went well today: "</span><span class="p">)</span>
+    <span class="n">what_to_improve</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"What needs improvement: "</span><span class="p">)</span>
+    <span class="n">lessons_learned</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Lessons learned: "</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">5. Tomorrow's plan:"</span><span class="p">)</span>
+    <span class="n">tomorrow_plan</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Tomorrow's focus: "</span><span class="p">)</span>
+
+    <span class="n">entry</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">'date'</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span>
+        <span class="s1">'trades'</span><span class="p">:</span> <span class="n">trades</span><span class="p">,</span>
+        <span class="s1">'pnl'</span><span class="p">:</span> <span class="n">pnl</span><span class="p">,</span>
+        <span class="s1">'win_rate'</span><span class="p">:</span> <span class="n">win_rate</span><span class="p">,</span>
+        <span class="s1">'emotional_state'</span><span class="p">:</span> <span class="n">emotional_state</span><span class="p">,</span>
+        <span class="s1">'confidence'</span><span class="p">:</span> <span class="n">confidence</span><span class="p">,</span>
+        <span class="s1">'stress'</span><span class="p">:</span> <span class="n">stress</span><span class="p">,</span>
+        <span class="s1">'followed_plan'</span><span class="p">:</span> <span class="n">followed_plan</span><span class="p">,</span>
+        <span class="s1">'manual_intervention'</span><span class="p">:</span> <span class="n">manual_intervention</span><span class="p">,</span>
+        <span class="s1">'what_went_well'</span><span class="p">:</span> <span class="n">what_went_well</span><span class="p">,</span>
+        <span class="s1">'what_to_improve'</span><span class="p">:</span> <span class="n">what_to_improve</span><span class="p">,</span>
+        <span class="s1">'lessons_learned'</span><span class="p">:</span> <span class="n">lessons_learned</span><span class="p">,</span>
+        <span class="s1">'tomorrow_plan'</span><span class="p">:</span> <span class="n">tomorrow_plan</span>
+    <span class="p">}</span>
+
+    <span class="n">entries</span> <span class="o">=</span> <span class="n">load_journal</span><span class="p">()</span>
+    <span class="n">entries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+    <span class="n">save_journal</span><span class="p">(</span><span class="n">entries</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">✅ Journal saved!</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">view_journal</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">"""View journal"""</span>
+    <span class="n">entries</span> <span class="o">=</span> <span class="n">load_journal</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">entries</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">No journal entries yet</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">=== Trading Journal Records ===</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">entry</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">entries</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">:]),</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">entry</span><span class="p">[</span><span class="s1">'date'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   Trades: </span><span class="si">{</span><span class="n">entry</span><span class="p">[</span><span class="s1">'trades'</span><span class="p">]</span><span class="si">}</span><span class="s2">, P/L: </span><span class="si">{</span><span class="n">entry</span><span class="p">[</span><span class="s1">'pnl'</span><span class="p">]</span><span class="si">}</span><span class="s2"> USDT"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   Mood: </span><span class="si">{</span><span class="n">entry</span><span class="p">[</span><span class="s1">'emotional_state'</span><span class="p">]</span><span class="si">}</span><span class="s2">/10, Stress: </span><span class="si">{</span><span class="n">entry</span><span class="p">[</span><span class="s1">'stress'</span><span class="p">]</span><span class="si">}</span><span class="s2">/10"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   Lessons: </span><span class="si">{</span><span class="n">entry</span><span class="p">[</span><span class="s1">'lessons_learned'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">1. Add today's journal"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"2. View recent journal"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"3. Exit"</span><span class="p">)</span>
+
+        <span class="n">choice</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Select: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">choice</span> <span class="o">==</span> <span class="s1">'1'</span><span class="p">:</span>
+            <span class="n">add_entry</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">choice</span> <span class="o">==</span> <span class="s1">'2'</span><span class="p">:</span>
+            <span class="n">view_journal</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">choice</span> <span class="o">==</span> <span class="s1">'3'</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"Invalid selection"</span><span class="p">)</span>
+</code></pre></div>
+<p>Usage:
+<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>trading_journal.py
+</code></pre></div></p>
+<hr />
+<h2 id="practical-tasks">📝 Practical Tasks<a class="headerlink" href="#practical-tasks" title="Permanent link">&para;</a></h2>
+<h3 id="task-1-calculate-your-risk-parameters">Task 1: Calculate Your Risk Parameters<a class="headerlink" href="#task-1-calculate-your-risk-parameters" title="Permanent link">&para;</a></h3>
+<p>Based on your total capital and risk tolerance, calculate:</p>
+<div class="highlight"><pre><span></span><code>Total capital: $__________
+
+Single trade risk: __________% (recommended 2%)
+Single trade maximum loss: $________ (total capital × single risk%)
+
+Maximum positions: __________ (recommended 3-5)
+Total risk exposure: __________% (single risk × positions)
+Total maximum loss: $________ (total capital × total risk%)
+
+Daily loss limit: __________% (recommended 5%)
+Daily maximum loss: $________ (total capital × daily loss limit)
+
+Weekly loss limit: __________% (recommended 10%)
+Monthly loss limit: __________% (recommended 15%)
+</code></pre></div>
+<h3 id="task-2-configure-protection-mechanisms">Task 2: Configure Protection Mechanisms<a class="headerlink" href="#task-2-configure-protection-mechanisms" title="Permanent link">&para;</a></h3>
+<p>In <code>config.json</code> add protection mechanisms:
+- StopLossGuard
+- MaxDrawdown
+- LowProfitPairs
+- CooldownPeriod</p>
+<p>Test if trigger conditions are reasonable.</p>
+<h3 id="task-3-sign-trading-discipline-pledge">Task 3: Sign Trading Discipline Pledge<a class="headerlink" href="#task-3-sign-trading-discipline-pledge" title="Permanent link">&para;</a></h3>
+<p>Print or copy trading discipline rules, sign and post prominently in trading area. Read aloud before trading every day.</p>
+<h3 id="task-4-start-writing-trading-journal">Task 4: Start Writing Trading Journal<a class="headerlink" href="#task-4-start-writing-trading-journal" title="Permanent link">&para;</a></h3>
+<p>From today, spend 10 minutes every evening writing trading journal. Continue for at least 30 days.</p>
+<h3 id="task-5-psychological-stress-test">Task 5: Psychological Stress Test<a class="headerlink" href="#task-5-psychological-stress-test" title="Permanent link">&para;</a></h3>
+<p>Imagine the following scenarios, honestly answer how you would react:</p>
+<div class="highlight"><pre><span></span><code>Scenario 1: 5 consecutive losing trades, lost $500
+You would:
+A. Analyze reasons calmly, continue executing strategy
+B. Pause trading, rest 1 day
+C. Increase position size, try to "win back"
+D. Immediately modify strategy parameters
+
+Scenario 2: Single day profit $1000, exceeding expectations
+You would:
+A. Maintain calm, continue trading as planned
+B. Get excited and increase position size
+C. Take profits, reward yourself
+D. Worry about tomorrow giving back profits
+
+Scenario 3: Position at +10% but starts falling to +5%
+You would:
+A. Let trailing stop loss auto close
+B. Manually close to lock profits
+C. Continue holding, expect rise again
+D. Regret not closing at +10%
+
+Ideal answers:
+Scenario 1: A or B
+Scenario 2: A or C
+Scenario 3: A
+
+If your answers differ, consider reasons and develop improvement plan.
+</code></pre></div>
+<hr />
+<h2 id="key-points">📌 Key Points<a class="headerlink" href="#key-points" title="Permanent link">&para;</a></h2>
+<h3 id="iron-rules-of-risk-control">Iron Rules of Risk Control<a class="headerlink" href="#iron-rules-of-risk-control" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>1. Always set stop loss
+2. Single trade risk ≤ 2% total funds
+3. Total risk exposure ≤ 10% total funds
+4. Stop trading when daily loss limit reached
+5. Don't use leverage (initially)
+</code></pre></div>
+<h3 id="key-points-of-psychology-management">Key Points of Psychology Management<a class="headerlink" href="#key-points-of-psychology-management" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>1. Accept that losses are costs
+2. Focus on process, not results
+3. Maintain emotional stability
+4. Strictly follow discipline
+5. Continuous learning and improvement
+</code></pre></div>
+<h3 id="long-term-survival-rules">Long-term Survival Rules<a class="headerlink" href="#long-term-survival-rules" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>1. Small start, gradually increase
+2. Control risk first, profit second
+3. Stay humble, respect the market
+4. Don't pursue explosive profits, pursue stability
+5. Surviving is more important than anything
+</code></pre></div>
+<hr />
+<h2 id="next-lesson-preview">🎯 Next Lesson Preview<a class="headerlink" href="#next-lesson-preview" title="Permanent link">&para;</a></h2>
+<p><strong>Lesson 26: Custom Strategy Development</strong></p>
+<p>In the next lesson, we will learn:
+- How to write your own trading strategies
+- Complete strategy development process
+- Common technical indicator implementation
+- Strategy testing and optimization</p>
+<p>Having mastered risk control and psychology management, you have the foundation for long-term survival. Next, we will enter advanced topics, learning how to develop your own strategies.</p>
+<hr />
+<p><strong>🎓 Learning Suggestions</strong>:
+1. <strong>Risk first</strong>: Always prioritize risk control
+2. <strong>Emotional management</strong>: Regularly reflect on your psychological state
+3. <strong>Write trading journal</strong>: This is the best way to improve
+4. <strong>Long-term perspective</strong>: Don't judge by single days
+5. <strong>Stay humble</strong>: The market will teach you humility</p>
+<p>Remember: <strong>In trading, control what you can control (risk, discipline, psychology), accept what you can't control (market, luck, results).</strong></p>
+<p>This is the most important lesson in quantitative trading. If you can only remember one lesson's content, remember this one.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

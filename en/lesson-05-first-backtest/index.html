@@ -1,0 +1,3722 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径">
+      
+      
+      
+        <link rel="canonical" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-05-first-backtest/">
+      
+      
+        <link rel="prev" href="../lesson-04-data-management/">
+      
+      
+        <link rel="next" href="../lesson-06-strategy-performance/">
+      
+      
+        
+          <link rel="alternate" href="../../lesson-05-first-backtest/" hreflang="zh">
+        
+          <link rel="alternate" href="./" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>Lesson 5: First Strategy Backtest - Freqtrade 实战教程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9784658154228475"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VGHZY4EELE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VGHZY4EELE");
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#title-lesson-5-first-strategy-backtest" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Freqtrade 实战教程" class="md-header__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Freqtrade 实战教程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lesson 5: First Strategy Backtest
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../lesson-05-first-backtest/" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../strategies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  English Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Freqtrade 实战教程" class="md-nav__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Freqtrade 实战教程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../strategies/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    English Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    English Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 1: Introduction to Quantitative Trading and Freqtrade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-02-environment-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 2: Freqtrade Environment Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-03-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 3: Understanding Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-04-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 4: Data Download and Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 5: First Strategy Backtest
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 5: First Strategy Backtest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#title-lesson-5-first-strategy-backtest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        title: Lesson 5: First Strategy Backtest
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lesson-5-first-strategy-backtest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lesson 5: First Strategy Backtest
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Lesson 5: First Strategy Backtest">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#learning-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Learning Objectives
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Prerequisites
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📋 Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-conditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Required Conditions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#environment-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Verification
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#theoretical-knowledge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 Theoretical Knowledge
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📖 Theoretical Knowledge">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-what-is-backtesting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 What is Backtesting?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.1 What is Backtesting?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-backtesting-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How Backtesting Works
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backtesting-vs-live-trading-differences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backtesting vs Live Trading Differences
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-why-backtest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Why Backtest?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.2 Why Backtest?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5-key-reasons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5 Key Reasons
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#limitations-of-backtesting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations of Backtesting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-basic-backtesting-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Basic Backtesting Process
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practical-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💻 Practical Operations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💻 Practical Operations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#54-first-backtest-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 First Backtest Command
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.4 First Backtest Command">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#command-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Command Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-by-step-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step-by-Step Execution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execution-process-explanation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Execution Process Explanation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-complete-backtest-report-interpretation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 Complete Backtest Report Interpretation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.5 Complete Backtest Report Interpretation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#table-1-backtesting-report-core-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Table 1: BACKTESTING REPORT (Core Report)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#table-2-left-open-trades-report-open-positions-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Table 2: LEFT OPEN TRADES REPORT (Open Positions Report)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#table-3-enter-tag-stats-entry-tag-statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Table 3: ENTER TAG STATS (Entry Tag Statistics)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#table-4-exit-reason-stats-exit-reason-statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Table 4: EXIT REASON STATS (Exit Reason Statistics)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#table-5-summary-metrics-summary-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Table 5: SUMMARY METRICS (Summary Metrics)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#56-how-to-judge-strategy-quality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.6 How to Judge Strategy Quality?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.6 How to Judge Strategy Quality?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#advantages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Advantages
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disadvantages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❌ Disadvantages
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#overall-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Overall Evaluation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-errors-and-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🐛 Common Errors and Solutions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🐛 Common Errors and Solutions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#error-1-no-data-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error 1: No data found
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-2-strategy-not-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error 2: Strategy not found
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-3-timeframe-mismatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error 3: Timeframe mismatch
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practical-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 Practical Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 Practical Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-basic-backtesting-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Basic Backtesting (Required)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-error-diagnosis-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Error Diagnosis (Optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-comparative-analysis-advanced" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: Comparative Analysis (Advanced)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extended-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Extended Reading
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Extended Reading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recommended-articles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommended Articles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#related-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-class-quiz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎓 Post-Class Quiz
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 Post-Class Quiz">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multiple-choice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multiple Choice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calculation-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculation Problems
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practical-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Practical Problems
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#learning-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Learning Checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#next-lesson-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Next Lesson Preview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-class-discussion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💬 Post-Class Discussion
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💬 Post-Class Discussion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#thinking-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Thinking Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#share-your-backtest-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Share Your Backtest Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quiz-answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Quiz Answers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-06-strategy-performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 6: Strategy Performance Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-07-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 7: Multi-Timeframe Backtesting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-08-strategy-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 8: Strategy Batch Comparison
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-09-timerange-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 9: Time Range Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-10-pair-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 10: Trading Pair Selection and Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-11-hyperopt-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 11: Hyperopt Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-12-advanced-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 12: Advanced Strategy Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-13-scoring-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 13: Strategy Scoring System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-14-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 14: Risk and Money Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-15-portfolio-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 15: Strategy Portfolio and Diversification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-16-realtime-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 16: Real-time Signal Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-17-telegram-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 17: Telegram Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-18-webui-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 18: Web UI and API Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 19: Visualization Analysis Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-20-dry-run-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 20: Simulated Trading Validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-21-exchange-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 21: Exchange API Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-22-pre-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 22: Pre-Live Trading Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-23-small-capital-live/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 23: Small Capital Live Trading
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-1-order-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.1: Live Trading Order Placement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-2-stop-loss-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.2: Live Trading Stop Loss Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-3-futures-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.3: Binance Futures Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-4-leverage-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.4: Leverage Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-trading-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24: Trading Monitoring and Adjustment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-25-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 25: Risk Control and Psychology Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-26-custom-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 26: Custom Strategy Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-27-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 27: Multi-Timeframe Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-28-grid-hft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 28: HFT and Grid Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-1-freqai-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.1: FreqAI Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-2-advanced-ml-strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.2: Advanced ML Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning-enhanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: ML Basics and Strategy Optimization (Enhanced)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: Machine Learning and Strategy Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-30-conclusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 30: Conclusion and Continuous Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#title-lesson-5-first-strategy-backtest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        title: Lesson 5: First Strategy Backtest
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lesson-5-first-strategy-backtest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lesson 5: First Strategy Backtest
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Lesson 5: First Strategy Backtest">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#learning-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Learning Objectives
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Prerequisites
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📋 Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-conditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Required Conditions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#environment-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Verification
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#theoretical-knowledge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 Theoretical Knowledge
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📖 Theoretical Knowledge">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-what-is-backtesting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 What is Backtesting?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.1 What is Backtesting?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-backtesting-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How Backtesting Works
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backtesting-vs-live-trading-differences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backtesting vs Live Trading Differences
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-why-backtest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Why Backtest?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.2 Why Backtest?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5-key-reasons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5 Key Reasons
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#limitations-of-backtesting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations of Backtesting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-basic-backtesting-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Basic Backtesting Process
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practical-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💻 Practical Operations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💻 Practical Operations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#54-first-backtest-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 First Backtest Command
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.4 First Backtest Command">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#command-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Command Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-by-step-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step-by-Step Execution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execution-process-explanation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Execution Process Explanation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-complete-backtest-report-interpretation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 Complete Backtest Report Interpretation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.5 Complete Backtest Report Interpretation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#table-1-backtesting-report-core-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Table 1: BACKTESTING REPORT (Core Report)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#table-2-left-open-trades-report-open-positions-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Table 2: LEFT OPEN TRADES REPORT (Open Positions Report)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#table-3-enter-tag-stats-entry-tag-statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Table 3: ENTER TAG STATS (Entry Tag Statistics)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#table-4-exit-reason-stats-exit-reason-statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Table 4: EXIT REASON STATS (Exit Reason Statistics)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#table-5-summary-metrics-summary-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Table 5: SUMMARY METRICS (Summary Metrics)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#56-how-to-judge-strategy-quality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.6 How to Judge Strategy Quality?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.6 How to Judge Strategy Quality?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#advantages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Advantages
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disadvantages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❌ Disadvantages
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#overall-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Overall Evaluation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-errors-and-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🐛 Common Errors and Solutions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🐛 Common Errors and Solutions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#error-1-no-data-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error 1: No data found
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-2-strategy-not-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error 2: Strategy not found
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-3-timeframe-mismatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error 3: Timeframe mismatch
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practical-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 Practical Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 Practical Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-basic-backtesting-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Basic Backtesting (Required)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-error-diagnosis-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Error Diagnosis (Optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-comparative-analysis-advanced" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: Comparative Analysis (Advanced)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extended-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Extended Reading
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Extended Reading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recommended-articles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommended Articles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#related-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-class-quiz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎓 Post-Class Quiz
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 Post-Class Quiz">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multiple-choice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multiple Choice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calculation-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculation Problems
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practical-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Practical Problems
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#learning-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Learning Checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#next-lesson-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Next Lesson Preview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-class-discussion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💬 Post-Class Discussion
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💬 Post-Class Discussion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#thinking-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Thinking Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#share-your-backtest-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Share Your Backtest Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quiz-answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Quiz Answers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<hr />
+<h2 id="title-lesson-5-first-strategy-backtest">title: Lesson 5: First Strategy Backtest<a class="headerlink" href="#title-lesson-5-first-strategy-backtest" title="Permanent link">&para;</a></h2>
+<h1 id="lesson-5-first-strategy-backtest">Lesson 5: First Strategy Backtest<a class="headerlink" href="#lesson-5-first-strategy-backtest" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>📚 <strong>Course Series</strong>: Complete Freqtrade Quantitative Trading Course
+📖 <strong>Section</strong>: Part 2 - Backtesting Practice
+⏱ <strong>Duration</strong>: 2 hours
+🎯 <strong>Difficulty</strong>: ⭐⭐ Beginner</p>
+</blockquote>
+<hr />
+<h2 id="learning-objectives">🎯 Learning Objectives<a class="headerlink" href="#learning-objectives" title="Permanent link">&para;</a></h2>
+<p>After completing this lesson, you will be able to:
+- ✅ Understand what backtesting is and why we backtest
+- ✅ Master basic backtesting command usage
+- ✅ Read and understand various metrics in backtest reports
+- ✅ Identify and resolve common backtesting errors
+- ✅ Evaluate whether a strategy is worth further research</p>
+<hr />
+<h2 id="prerequisites">📋 Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
+<h3 id="required-conditions">Required Conditions<a class="headerlink" href="#required-conditions" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[x] Completed lessons 1-4</li>
+<li>[x] Freqtrade environment installed and configured</li>
+<li>[x] Downloaded at least 30 days of historical data</li>
+</ul>
+<h3 id="environment-verification">Environment Verification<a class="headerlink" href="#environment-verification" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Activate environment</span>
+conda<span class="w"> </span>activate<span class="w"> </span>freqtrade
+
+<span class="c1"># 2. Verify version</span>
+freqtrade<span class="w"> </span>--version
+<span class="c1"># Should show: freqtrade 2025.9 or higher</span>
+
+<span class="c1"># 3. Verify strategy is available</span>
+freqtrade<span class="w"> </span>list-strategies<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>Strategy001
+<span class="c1"># Should show: │ Strategy001 │ Strategy001.py │ OK │</span>
+
+<span class="c1"># 4. Verify data is downloaded</span>
+freqtrade<span class="w"> </span>list-data<span class="w"> </span>-c<span class="w"> </span>config.json
+<span class="c1"># Should show downloaded trading pairs and timeframes</span>
+</code></pre></div>
+<p>If any step has issues, please return to the corresponding lesson for review.</p>
+<hr />
+<h2 id="theoretical-knowledge">📖 Theoretical Knowledge<a class="headerlink" href="#theoretical-knowledge" title="Permanent link">&para;</a></h2>
+<h3 id="51-what-is-backtesting">5.1 What is Backtesting?<a class="headerlink" href="#51-what-is-backtesting" title="Permanent link">&para;</a></h3>
+<p><strong>Backtesting</strong> is the process of simulating trading strategies using historical data, aimed at evaluating the strategy's past performance.</p>
+<h4 id="how-backtesting-works">How Backtesting Works<a class="headerlink" href="#how-backtesting-works" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Historical Data → Strategy Logic → Simulated Trading → Performance Report
+    ↓          ↓          ↓          ↓
+  Candle Data   Buy/Sell Signals   Position Records   Profit Statistics
+</code></pre></div>
+<p><strong>Example Explanation</strong>:
+- Assume today is 2025-09-30
+- We use historical data from 2025-09-01 to 2025-09-30
+- Simulate what would happen if the strategy ran during these 30 days
+- Statistics on profit/loss, win rate, maximum drawdown, etc.</p>
+<h4 id="backtesting-vs-live-trading-differences">Backtesting vs Live Trading Differences<a class="headerlink" href="#backtesting-vs-live-trading-differences" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Backtesting</th>
+<th>Live Trading</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Data</td>
+<td>Historical data (known)</td>
+<td>Real-time data (unknown)</td>
+</tr>
+<tr>
+<td>Execution</td>
+<td>Instant completion</td>
+<td>Real waiting</td>
+</tr>
+<tr>
+<td>Slippage</td>
+<td>May be ignored</td>
+<td>Actually exists</td>
+</tr>
+<tr>
+<td>Fees</td>
+<td>Estimated</td>
+<td>Actually deducted</td>
+</tr>
+<tr>
+<td>Psychology</td>
+<td>No pressure</td>
+<td>Emotional fluctuations</td>
+</tr>
+</tbody>
+</table>
+<p>⚠️ <strong>Important Note</strong>: Good backtesting doesn't guarantee good live trading, but poor backtesting definitely means poor live trading!</p>
+<hr />
+<h3 id="52-why-backtest">5.2 Why Backtest?<a class="headerlink" href="#52-why-backtest" title="Permanent link">&para;</a></h3>
+<h4 id="5-key-reasons">5 Key Reasons<a class="headerlink" href="#5-key-reasons" title="Permanent link">&para;</a></h4>
+<ol>
+<li><strong>Verify Strategy Logic</strong></li>
+<li>Is the strategy concept correct?</li>
+<li>
+<p>Are buy/sell signals reasonable?</p>
+</li>
+<li>
+<p><strong>Evaluate Profitability</strong></p>
+</li>
+<li>Can it make money? How much?</li>
+<li>
+<p>What's the win rate?</p>
+</li>
+<li>
+<p><strong>Assess Risk Level</strong></p>
+</li>
+<li>What's the maximum drawdown?</li>
+<li>
+<p>Can it be tolerated?</p>
+</li>
+<li>
+<p><strong>Optimize Parameters</strong></p>
+</li>
+<li>Which parameters work better?</li>
+<li>
+<p>How to adjust stop-loss and take-profit?</p>
+</li>
+<li>
+<p><strong>Build Confidence</strong></p>
+</li>
+<li>Only use real money after strategy validation</li>
+</ol>
+<h4 id="limitations-of-backtesting">Limitations of Backtesting<a class="headerlink" href="#limitations-of-backtesting" title="Permanent link">&para;</a></h4>
+<p>❌ <strong>What backtesting cannot do</strong>:
+- Cannot predict the future (history doesn't exactly repeat)
+- Cannot eliminate all risks
+- Cannot replace live trading verification</p>
+<p>✅ <strong>What backtesting can do</strong>:
+- Quickly screen strategies
+- Discover obvious problems
+- Provide optimization directions</p>
+<hr />
+<h3 id="53-basic-backtesting-process">5.3 Basic Backtesting Process<a class="headerlink" href="#53-basic-backtesting-process" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>graph LR
+    A[Prepare Data] --&gt; B[Select Strategy]
+    B --&gt; C[Set Parameters]
+    C --&gt; D[Execute Backtest]
+    D --&gt; E[Analyze Results]
+    E --&gt; F{Strategy Good?}
+    F --&gt;|Yes| G[Enter Live Testing]
+    F --&gt;|No| H[Optimize or Abandon]
+    H --&gt; C
+</code></pre></div>
+<hr />
+<h2 id="practical-operations">💻 Practical Operations<a class="headerlink" href="#practical-operations" title="Permanent link">&para;</a></h2>
+<h3 id="54-first-backtest-command">5.4 First Backtest Command<a class="headerlink" href="#54-first-backtest-command" title="Permanent link">&para;</a></h3>
+<h4 id="command-structure">Command Structure<a class="headerlink" href="#command-structure" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>freqtrade<span class="w"> </span>backtesting<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\ </span><span class="w">                   </span><span class="c1"># Configuration file</span>
+<span class="w">  </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span><span class="se">\ </span><span class="w">           </span><span class="c1"># Strategy name</span>
+<span class="w">  </span>--timerange<span class="w"> </span><span class="m">20250901</span>-20250930<span class="w">       </span><span class="c1"># Time range</span>
+</code></pre></div>
+<h4 id="step-by-step-execution">Step-by-Step Execution<a class="headerlink" href="#step-by-step-execution" title="Permanent link">&para;</a></h4>
+<p><strong>Step 1: Activate Environment</strong>
+<div class="highlight"><pre><span></span><code>conda<span class="w"> </span>activate<span class="w"> </span>freqtrade
+<span class="nb">cd</span><span class="w"> </span>/path/to/freqtrade-strategies
+</code></pre></div></p>
+<p><strong>Step 2: Verify Data</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># Ensure data is downloaded</span>
+freqtrade<span class="w"> </span>list-data<span class="w"> </span>-c<span class="w"> </span>config.json
+
+<span class="c1"># Sample output:</span>
+<span class="c1"># BTC/USDT  5m  2025-09-01 -&gt; 2025-09-30</span>
+<span class="c1"># ETH/USDT  5m  2025-09-01 -&gt; 2025-09-30</span>
+</code></pre></div></p>
+<p><strong>Step 3: Execute Backtest</strong>
+<div class="highlight"><pre><span></span><code>freqtrade<span class="w"> </span>backtesting<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timerange<span class="w"> </span><span class="m">20250901</span>-20250930
+</code></pre></div></p>
+<h4 id="execution-process-explanation">Execution Process Explanation<a class="headerlink" href="#execution-process-explanation" title="Permanent link">&para;</a></h4>
+<p>After starting the backtest, you'll see output similar to this:</p>
+<div class="highlight"><pre><span></span><code>2025-09-30 16:00:00 - freqtrade - INFO - freqtrade 2025.9
+2025-09-30 16:00:01 - freqtrade.configuration - INFO - Using config: config.json ...
+2025-09-30 16:00:02 - freqtrade.exchange - INFO - Using Exchange "Binance"
+2025-09-30 16:00:03 - freqtrade.optimize.backtesting - INFO - Loading data from 2025-09-01 to 2025-09-30
+2025-09-30 16:00:04 - freqtrade.optimize.backtesting - INFO - Running backtesting for Strategy Strategy001
+</code></pre></div>
+<p><strong>Execution Time</strong>:
+- 1 month data: about 5-30 seconds
+- 3 months data: about 30-60 seconds
+- 1 year data: about 2-5 minutes</p>
+<hr />
+<h3 id="55-complete-backtest-report-interpretation">5.5 Complete Backtest Report Interpretation<a class="headerlink" href="#55-complete-backtest-report-interpretation" title="Permanent link">&para;</a></h3>
+<p>After backtesting completes, multiple tables will be displayed. Let's interpret them one by one:</p>
+<h4 id="table-1-backtesting-report-core-report">📊 Table 1: BACKTESTING REPORT (Core Report)<a class="headerlink" href="#table-1-backtesting-report-core-report" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>                               BACKTESTING REPORT
+┏━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃     Pair ┃ Trades ┃ Avg Profit % ┃ Tot Profit USDT ┃ Tot Profit % ┃     Avg Duration ┃  Win  Draw  Loss  Win% ┃
+┡━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ BTC/USDT │      7 │         0.52 │           3.643 │         0.36 │ 3 days, 20:05:00 │    6     0     1  85.7 │
+│ ETH/USDT │      6 │        -0.98 │          -5.897 │        -0.59 │  4 days, 5:28:00 │    5     0     1  83.3 │
+│ BNB/USDT │     10 │         0.92 │           9.137 │         0.91 │  2 days, 7:17:00 │   10     0     0   100 │
+│ SOL/USDT │     17 │        -0.29 │          -4.912 │        -0.49 │   1 day, 3:23:00 │   15     0     2  88.2 │
+│ XRP/USDT │     16 │         0.21 │           3.366 │         0.34 │   1 day, 9:40:00 │   14     0     2  87.5 │
+│    TOTAL │     56 │          0.1 │           5.338 │         0.53 │  2 days, 2:11:00 │   50     0     6  89.3 │
+└──────────┴────────┴──────────────┴─────────────────┴──────────────┴──────────────────┴────────────────────────┘
+</code></pre></div>
+<p><strong>Column-by-Column Explanation</strong>:</p>
+<ol>
+<li><strong>Pair (Trading Pair)</strong></li>
+<li>Individual performance for each trading pair</li>
+<li>
+<p>TOTAL row is the summary of all trading pairs</p>
+</li>
+<li>
+<p><strong>Trades (Number of Trades)</strong></p>
+</li>
+<li>Number of completed trades</li>
+<li>⚠️ Too few (&lt;10): Insufficient sample, unreliable</li>
+<li>✅ Moderate (10-100): Reasonable</li>
+<li>
+<p>⚠️ Too many (&gt;200): Possible overtrading</p>
+</li>
+<li>
+<p><strong>Avg Profit % (Average Return Rate)</strong></p>
+</li>
+<li>Average profit/loss percentage per trade</li>
+<li><strong>Example</strong>: 0.52% means average profit of 0.52% per trade</li>
+<li>✅ &gt; 0.5%: Good</li>
+<li>
+<p>⚠️ &lt; 0.1%: May lose money after fees</p>
+</li>
+<li>
+<p><strong>Tot Profit USDT (Total Profit USDT)</strong></p>
+</li>
+<li>Total profit/loss for the trading pair (unit: USDT)</li>
+<li>
+<p><strong>Example</strong>: BTC/USDT earned 3.643 USDT</p>
+</li>
+<li>
+<p><strong>Tot Profit % (Total Return Rate)</strong></p>
+</li>
+<li>Total return rate relative to initial capital</li>
+<li><strong>Calculation</strong>: Total profit/loss / Initial capital</li>
+<li>
+<p><strong>Example</strong>: 0.36% means earned 3.6 USDT from 1000 USDT</p>
+</li>
+<li>
+<p><strong>Avg Duration (Average Position Time)</strong></p>
+</li>
+<li>Average holding time per trade</li>
+<li><strong>Example</strong>: 3 days, 20:05:00 = 3 days 20 hours 5 minutes</li>
+<li>⚠️ Too long: Low capital utilization, overnight risk</li>
+<li>
+<p>⚠️ Too short: High fee percentage</p>
+</li>
+<li>
+<p><strong>Win Draw Loss Win% (Win/Loss Statistics)</strong></p>
+</li>
+<li><strong>Win</strong>: Number of profitable trades</li>
+<li><strong>Draw</strong>: Number of breakeven trades</li>
+<li><strong>Loss</strong>: Number of losing trades</li>
+<li><strong>Win%</strong>: Win rate = Win / (Win + Loss)</li>
+<li><strong>Example</strong>: 6 wins, 0 draws, 1 loss, 85.7% win rate</li>
+</ol>
+<p><strong>Key Observations</strong>:
+- ✅ BNB/USDT performed best: 10 trades all wins, total return +0.91%
+- ❌ ETH/USDT performed worst: Total return -0.59%
+- ✅ Overall performance: 56 trades, 50 wins 6 losses, 89.3% win rate, total return +0.53%</p>
+<hr />
+<h4 id="table-2-left-open-trades-report-open-positions-report">📊 Table 2: LEFT OPEN TRADES REPORT (Open Positions Report)<a class="headerlink" href="#table-2-left-open-trades-report-open-positions-report" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>                                LEFT OPEN TRADES REPORT
+┏━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃     Pair ┃ Trades ┃ Avg Profit % ┃ Tot Profit USDT ┃ Tot Profit % ┃      Avg Duration ┃  Win  Draw  Loss  Win% ┃
+┡━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ ETH/USDT │      1 │         0.28 │           0.277 │         0.03 │  7 days, 10:40:00 │    1     0     0   100 │
+│ BNB/USDT │      1 │         0.17 │           0.167 │         0.02 │  7 days, 10:30:00 │    1     0     0   100 │
+│ XRP/USDT │      1 │        -0.76 │          -0.762 │        -0.08 │           4:10:00 │    0     0     1     0 │
+│ BTC/USDT │      1 │        -2.33 │          -2.313 │        -0.23 │ 12 days, 21:25:00 │    0     0     1     0 │
+│    TOTAL │      4 │        -0.66 │          -2.631 │        -0.26 │  6 days, 23:41:00 │    2     0     2  50.0 │
+└──────────┴────────┴──────────────┴─────────────────┴──────────────┴───────────────────┴────────────────────────┘
+</code></pre></div>
+<p><strong>Meaning</strong>:
+- Trades still open when backtesting ended
+- These trades are not included in the total profit above
+- ⚠️ <strong>Note</strong>: Open trades may be losing (like BTC/USDT -2.33%)</p>
+<p><strong>Why are there open trades?</strong>
+- Strategy is still waiting for sell signals
+- Backtest time ended but trades aren't completed
+- These trades would continue in live trading</p>
+<p><strong>How to evaluate?</strong>
+- Few open positions (&lt;5): Normal
+- Overall loss on open positions: Need attention, strategy exit conditions may be too strict</p>
+<hr />
+<h4 id="table-3-enter-tag-stats-entry-tag-statistics">📊 Table 3: ENTER TAG STATS (Entry Tag Statistics)<a class="headerlink" href="#table-3-enter-tag-stats-entry-tag-statistics" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>                                ENTER TAG STATS
+┏━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Enter Tag ┃ Entries ┃ Avg Profit % ┃ Tot Profit USDT ┃ Tot Profit % ┃    Avg Duration ┃  Win  Draw  Loss  Win% ┃
+┡━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩
+│     OTHER │      56 │          0.1 │           5.338 │         0.53 │ 2 days, 2:11:00 │   50     0     6  89.3 │
+│     TOTAL │      56 │          0.1 │           5.338 │         0.53 │ 2 days, 2:11:00 │   50     0     6  89.3 │
+└───────────┴─────────┴──────────────┴─────────────────┴──────────────┴─────────────────┴────────────────────────┘
+</code></pre></div>
+<p><strong>Meaning</strong>:
+- Statistics classified by entry reason
+- Strategy001 marks all entries as "OTHER" (default tag)
+- Advanced strategies can set multiple entry tags, showing which entry method works better</p>
+<p><strong>Example (Advanced Strategy)</strong>:
+<div class="highlight"><pre><span></span><code>Enter Tag    | Entries | Avg Profit %
+-------------+---------+--------------
+breakout     |      20 |         1.2%  ← Breakout entry performs well
+oversold     |      15 |        -0.5%  ← Oversold entry performs poorly
+</code></pre></div></p>
+<hr />
+<h4 id="table-4-exit-reason-stats-exit-reason-statistics">📊 Table 4: EXIT REASON STATS (Exit Reason Statistics)<a class="headerlink" href="#table-4-exit-reason-stats-exit-reason-statistics" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>                                 EXIT REASON STATS
+┏━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Exit Reason ┃ Exits ┃ Avg Profit % ┃ Tot Profit USDT ┃ Tot Profit % ┃      Avg Duration ┃  Win  Draw  Loss  Win% ┃
+┡━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩
+│         roi │     48 │         1.01 │          48.639 │         4.86 │  1 day, 10:01:00  │   48     0     0   100 │
+│  force_exit │      4 │        -0.66 │          -2.631 │        -0.26 │  6 days, 23:41:00  │    2     0     2  50.0 │
+│   stop_loss │      4 │       -10.18 │         -40.670 │        -4.07 │  5 days, 6:40:00  │    0     0     4     0 │
+│       TOTAL │     56 │          0.1 │           5.338 │         0.53 │  2 days, 2:11:00  │   50     0     6  89.3 │
+└─────────────┴───────┴──────────────┴─────────────────┴──────────────┴───────────────────┴────────────────────────┘
+</code></pre></div>
+<p><strong>This is one of the most important tables!</strong> Tells you how trades ended.</p>
+<p><strong>Exit Reason Explanations</strong>:</p>
+<ol>
+<li><strong>roi (Take Profit)</strong></li>
+<li>Automatically take profit when ROI target is reached</li>
+<li><strong>Example</strong>: 48 trades took profit through ROI, average return +1.01%</li>
+<li>
+<p>✅ Excellent performance: All profitable</p>
+</li>
+<li>
+<p><strong>exit_signal (Signal Sell)</strong></p>
+</li>
+<li>Strategy generates sell signal</li>
+<li><strong>Example</strong>: Not present in this backtest</li>
+<li>
+<p>📝 Strategy001 uses <code>exit_profit_only = True</code>, only responds to sell signals when profitable</p>
+</li>
+<li>
+<p><strong>stop_loss (Stop Loss)</strong></p>
+</li>
+<li>Stop loss triggered</li>
+<li><strong>Example</strong>: 4 stop losses, average loss -10.18%</li>
+<li>
+<p>⚠️ <strong>Warning</strong>: High stop loss ratio indicates strategy is risky</p>
+</li>
+<li>
+<p><strong>force_exit (Force Close)</strong></p>
+</li>
+<li>Open positions at backtest end are forcibly closed</li>
+<li><strong>Example</strong>: 4 trades, average -0.66%</li>
+<li>📝 These are the trades from the "Open Positions Report" above</li>
+</ol>
+<p><strong>Key Observations</strong>:
+- ✅ Most trades (48/56 = 85.7%) took profit through ROI
+- ⚠️ 4 stop losses caused -40.670 USDT in losses
+- 📊 Without stop losses, total return would be +46 USDT (5.338 + 40.670)</p>
+<hr />
+<h4 id="table-5-summary-metrics-summary-metrics">📊 Table 5: SUMMARY METRICS (Summary Metrics)<a class="headerlink" href="#table-5-summary-metrics-summary-metrics" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>                          SUMMARY METRICS
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Metric                        ┃ Value                           ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ Backtesting from              │ 2025-09-01 00:00:00             │
+│ Backtesting to                │ 2025-09-30 00:00:00             │
+│ Trading Mode                  │ Spot                            │
+│ Max open trades               │ 5                               │
+│                               │                                 │
+│ Total/Daily Avg Trades        │ 56 / 1.93                       │
+│ Starting balance              │ 1000 USDT                       │
+│ Final balance                 │ 1005.338 USDT                   │
+│ Absolute profit               │ 5.338 USDT                      │
+│ Total profit %                │ 0.53%                           │
+│ CAGR %                        │ 6.93%                           │
+│ Sortino                       │ 0.86                            │
+│ Sharpe                        │ 1.22                            │
+│ Calmar                        │ 9.71                            │
+│ SQN                           │ 0.24                            │
+│ Profit factor                 │ 1.12                            │
+│ Expectancy (Ratio)            │ 0.10 (0.01)                     │
+│ Avg. daily profit             │ 0.184 USDT                      │
+│ Avg. stake amount             │ 99.739 USDT                     │
+│ Total trade volume            │ 11198.536 USDT                  │
+│                               │                                 │
+│ Best Pair                     │ BNB/USDT 0.91%                  │
+│ Worst Pair                    │ ETH/USDT -0.59%                 │
+│ Best trade                    │ SOL/USDT 1.45%                  │
+│ Worst trade                   │ SOL/USDT -10.18%                │
+│ Best day                      │ 7.981 USDT                      │
+│ Worst day                     │ -29.492 USDT                    │
+│ Days win/draw/lose            │ 19 / 8 / 3                      │
+│ Min/Max/Avg. Duration Winners │ 0d 01:00 / 8d 02:35 / 1d 15:48  │
+│ Min/Max/Avg. Duration Losers  │ 0d 04:10 / 12d 21:25 / 5d 16:42 │
+│ Max Consecutive Wins / Loss   │ 40 / 3                          │
+│ Rejected Entry signals        │ 0                               │
+│ Entry/Exit Timeouts           │ 0 / 0                           │
+│                               │                                 │
+│ Min balance                   │ 1000.996 USDT                   │
+│ Max balance                   │ 1040.2 USDT                     │
+│ Max % of account underwater   │ 3.62%                           │
+│ Absolute drawdown             │ 37.676 USDT (3.62%)             │
+│ Drawdown duration             │ 4 days 07:15:00                 │
+│ Profit at drawdown start      │ 40.2 USDT                       │
+│ Profit at drawdown end        │ 2.524 USDT                      │
+│ Drawdown start                │ 2025-09-21 03:50:00             │
+│ Drawdown end                  │ 2025-09-25 11:05:00             │
+│ Market change                 │ 6.66%                           │
+└───────────────────────────────┴─────────────────────────────────┘
+</code></pre></div>
+<p><strong>Core Metrics Detailed Explanation</strong>:</p>
+<p><strong>📈 Profit Metrics</strong>
+- <strong>Total profit %</strong>: Total return rate 0.53%
+  - 1000 USDT → 1005.338 USDT
+- <strong>CAGR %</strong>: Annualized return rate 6.93%
+  - If this return rate continues for a year, annualized return 6.93%
+  - ⚠️ Note: This is just 1 month of data annualized, doesn't represent real annualized return
+- <strong>Avg. daily profit</strong>: Average daily profit 0.184 USDT
+  - Average profit of 0.184 USDT per day</p>
+<p><strong>📊 Risk Metrics</strong>
+- <strong>Max % of account underwater (Maximum Drawdown)</strong>: 3.62%
+  - Maximum decline from highest point to lowest point
+  - <strong>Example</strong>: Account highest 1040.2 USDT, lowest fell to 1002.524 USDT
+  - <strong>Calculation</strong>: (1040.2 - 1002.524) / 1040.2 = 3.62%
+  - ✅ &lt; 10%: Controllable risk
+  - ⚠️ 10-20%: Moderate risk
+  - ❌ &gt; 20%: High risk</p>
+<ul>
+<li><strong>Sharpe Ratio</strong>: 1.22</li>
+<li>Risk-adjusted return metric</li>
+<li>✅ &gt; 1.0: Good</li>
+<li>✅ &gt; 2.0: Excellent</li>
+<li>
+<p>❌ &lt; 0: Loss</p>
+</li>
+<li>
+<p><strong>Sortino Ratio</strong>: 0.86</p>
+</li>
+<li>Similar to Sharpe, but only considers downside risk</li>
+<li>✅ &gt; 1.0: Good</li>
+</ul>
+<p><strong>📉 Win/Loss Statistics</strong>
+- <strong>Win rate</strong>: 89.3% (50 wins / 56 trades)
+  - ✅ &gt; 60%: Good
+  - ⚠️ &lt; 50%: Need to improve profit/loss ratio</p>
+<ul>
+<li><strong>Profit factor</strong>: 1.12</li>
+<li>Total profit / Total loss</li>
+<li><strong>Calculation</strong>: (48.639 + ...other profits) / (40.670 + ...other losses)</li>
+<li>✅ &gt; 1.5: Excellent</li>
+<li>✅ &gt; 1.0: Profitable</li>
+<li>
+<p>❌ &lt; 1.0: Loss</p>
+</li>
+<li>
+<p><strong>Max Consecutive Wins / Loss</strong>: 40 consecutive wins / 3 consecutive losses</p>
+</li>
+<li>Longest winning and losing streaks</li>
+<li>⚠️ Long losing streaks can affect psychology</li>
+</ul>
+<p><strong>🔍 Other Key Metrics</strong>
+- <strong>Best trade / Worst trade</strong>: +1.45% / -10.18%
+  - Best and worst single trades
+  - <strong>Risk Warning</strong>: Worst trade -10.18% = strategy's stoploss</p>
+<ul>
+<li><strong>Days win/draw/lose</strong>: 19 profitable days / 8 breakeven / 3 losing days</li>
+<li>Daily profit/loss statistics</li>
+<li>
+<p>📊 19 out of 30 days were profitable</p>
+</li>
+<li>
+<p><strong>Market change</strong>: 6.66%</p>
+</li>
+<li>Market increase during same period</li>
+<li><strong>Comparison</strong>: Strategy earned 0.53%, market rose 6.66%</li>
+<li>⚠️ <strong>Underperformed market</strong>! Simply holding BTC might have been better</li>
+</ul>
+<hr />
+<h3 id="56-how-to-judge-strategy-quality">5.6 How to Judge Strategy Quality?<a class="headerlink" href="#56-how-to-judge-strategy-quality" title="Permanent link">&para;</a></h3>
+<p>Based on this backtest report, let's evaluate Strategy001:</p>
+<h4 id="advantages">✅ Advantages<a class="headerlink" href="#advantages" title="Permanent link">&para;</a></h4>
+<ol>
+<li><strong>High win rate</strong>: 89.3%, very stable</li>
+<li><strong>Small drawdown</strong>: 3.62%, controllable risk</li>
+<li><strong>High take-profit efficiency</strong>: 85.7% of trades took profit through ROI</li>
+<li><strong>Sharpe &gt; 1</strong>: Good risk-adjusted returns</li>
+</ol>
+<h4 id="disadvantages">❌ Disadvantages<a class="headerlink" href="#disadvantages" title="Permanent link">&para;</a></h4>
+<ol>
+<li><strong>Low returns</strong>: 0.53%, underperformed market (6.66%)</li>
+<li><strong>Large stop loss</strong>: -10% stop loss causes large single losses</li>
+<li><strong>Long holding time</strong>: Average 2 days, low capital utilization</li>
+<li><strong>Small sample</strong>: Only 56 trades</li>
+</ol>
+<h4 id="overall-evaluation">🎯 Overall Evaluation<a class="headerlink" href="#overall-evaluation" title="Permanent link">&para;</a></h4>
+<p><strong>Rating</strong>: ⭐⭐⭐ / ⭐⭐⭐⭐⭐</p>
+<p><strong>Applicable Scenarios</strong>:
+- ✅ Conservative investors
+- ✅ Range-bound markets
+- ❌ Bull markets (underperforms market)
+- ❌ Pursuing high returns</p>
+<p><strong>Recommendations</strong>:
+1. Can try Dry-run verification
+2. Need to optimize stop-loss strategy
+3. Consider reducing holding time
+4. Not recommended in bull markets</p>
+<hr />
+<h2 id="common-errors-and-solutions">🐛 Common Errors and Solutions<a class="headerlink" href="#common-errors-and-solutions" title="Permanent link">&para;</a></h2>
+<h3 id="error-1-no-data-found">Error 1: No data found<a class="headerlink" href="#error-1-no-data-found" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>ERROR - No data found. Terminating.
+</code></pre></div>
+<p><strong>Causes</strong>:
+- Timeframe mismatch (strategy uses 5m, but only 1h data downloaded)
+- No data in time range</p>
+<p><strong>Solution</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Check timeframe used by strategy</span>
+grep<span class="w"> </span><span class="s2">"timeframe"</span><span class="w"> </span>user_data/strategies/Strategy001.py
+<span class="c1"># Output: timeframe = '5m'</span>
+
+<span class="c1"># Download corresponding data</span>
+freqtrade<span class="w"> </span>download-data<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--days<span class="w"> </span><span class="m">30</span><span class="w"> </span>--timeframes<span class="w"> </span>5m
+</code></pre></div></p>
+<hr />
+<h3 id="error-2-strategy-not-found">Error 2: Strategy not found<a class="headerlink" href="#error-2-strategy-not-found" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>ERROR - Impossible to load Strategy 'Strategy001'
+</code></pre></div>
+<p><strong>Causes</strong>:
+- Strategy name spelling error
+- Strategy file not in strategies directory</p>
+<p><strong>Solution</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># List all available strategies</span>
+freqtrade<span class="w"> </span>list-strategies<span class="w"> </span>-c<span class="w"> </span>config.json
+
+<span class="c1"># Confirm strategy name (case sensitive)</span>
+</code></pre></div></p>
+<hr />
+<h3 id="error-3-timeframe-mismatch">Error 3: Timeframe mismatch<a class="headerlink" href="#error-3-timeframe-mismatch" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>ERROR - Timeframe '15m' is not available. Available: ['5m']
+</code></pre></div>
+<p><strong>Causes</strong>:
+- Backtest specified timeframe doesn't match downloaded data</p>
+<p><strong>Solution</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Method 1: Download corresponding timeframe data</span>
+freqtrade<span class="w"> </span>download-data<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--days<span class="w"> </span><span class="m">30</span><span class="w"> </span>--timeframes<span class="w"> </span>15m
+
+<span class="c1"># Method 2: Backtest using existing timeframe</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--timeframe<span class="w"> </span>5m
+</code></pre></div></p>
+<hr />
+<h2 id="practical-tasks">📝 Practical Tasks<a class="headerlink" href="#practical-tasks" title="Permanent link">&para;</a></h2>
+<h3 id="task-1-basic-backtesting-required">Task 1: Basic Backtesting (Required)<a class="headerlink" href="#task-1-basic-backtesting-required" title="Permanent link">&para;</a></h3>
+<p><strong>Objective</strong>: Complete your first backtest</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Backtest Strategy001 (2025-09-01 to 2025-09-30)</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timerange<span class="w"> </span><span class="m">20250901</span>-20250930
+
+<span class="c1"># 2. Record the following metrics:</span>
+-<span class="w"> </span>Total<span class="w"> </span>trades:<span class="w"> </span>_______
+-<span class="w"> </span>Win<span class="w"> </span>rate:<span class="w"> </span>_______
+-<span class="w"> </span>Total<span class="w"> </span><span class="k">return</span>:<span class="w"> </span>_______
+-<span class="w"> </span>Maximum<span class="w"> </span>drawdown:<span class="w"> </span>_______
+-<span class="w"> </span>Sharpe<span class="w"> </span>Ratio:<span class="w"> </span>_______
+</code></pre></div>
+<p><strong>Submission</strong>:
+- [ ] Backtest report screenshot
+- [ ] Key metrics record table
+- [ ] Your strategy evaluation (100-200 words)</p>
+<hr />
+<h3 id="task-2-error-diagnosis-optional">Task 2: Error Diagnosis (Optional)<a class="headerlink" href="#task-2-error-diagnosis-optional" title="Permanent link">&para;</a></h3>
+<p><strong>Objective</strong>: Familiarize with common errors and solutions</p>
+<p>Try executing the following "error" commands, observe error messages, and fix them:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Error 1: Non-existent strategy</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>NotExistStrategy
+
+<span class="c1"># Error 2: Non-existent trading pair</span>
+<span class="c1"># First edit config.json, add "FAKE/USDT" to pair_whitelist</span>
+
+<span class="c1"># Error 3: Timeframe without downloaded data</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--timeframe<span class="w"> </span>1h
+
+<span class="c1"># For each error:</span>
+<span class="c1"># 1. Record error message</span>
+<span class="c1"># 2. Analyze cause</span>
+<span class="c1"># 3. Write solution</span>
+</code></pre></div>
+<hr />
+<h3 id="task-3-comparative-analysis-advanced">Task 3: Comparative Analysis (Advanced)<a class="headerlink" href="#task-3-comparative-analysis-advanced" title="Permanent link">&para;</a></h3>
+<p><strong>Objective</strong>: Compare backtest results from different time ranges</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Backtest 1 month</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250901</span>-20250930
+
+<span class="c1"># Backtest 3 months (need to download data first)</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250701</span>-20250930
+</code></pre></div>
+<p>Create comparison table:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>1 Month</th>
+<th>3 Months</th>
+<th>Difference Analysis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Number of trades</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Win rate</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Total return</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Maximum drawdown</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Sharpe</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Thinking Questions</strong>:
+1. Are the 1-month and 3-month results very different?
+2. Which time range is more credible?
+3. If differences are large, what does that indicate?</p>
+<hr />
+<h2 id="extended-reading">📚 Extended Reading<a class="headerlink" href="#extended-reading" title="Permanent link">&para;</a></h2>
+<h3 id="recommended-articles">Recommended Articles<a class="headerlink" href="#recommended-articles" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://www.freqtrade.io/en/stable/backtesting/">Limitations of Backtesting</a></li>
+<li><a href="https://www.investopedia.com/terms/o/overfitting.asp">How to Avoid Overfitting</a></li>
+<li><a href="https://www.investopedia.com/terms/s/sharperatio.asp">Sharpe Ratio Explained</a></li>
+</ul>
+<h3 id="related-documentation">Related Documentation<a class="headerlink" href="#related-documentation" title="Permanent link">&para;</a></h3>
+<ul>
+<li>📄 <a href="../TESTING_GUIDE.md">TESTING_GUIDE.md</a> - Complete Testing Guide</li>
+<li>📄 <a href="../STRATEGY_SELECTION_GUIDE.md">STRATEGY_SELECTION_GUIDE.md</a> - Strategy Selection Guide</li>
+</ul>
+<hr />
+<h2 id="post-class-quiz">🎓 Post-Class Quiz<a class="headerlink" href="#post-class-quiz" title="Permanent link">&para;</a></h2>
+<h3 id="multiple-choice">Multiple Choice<a class="headerlink" href="#multiple-choice" title="Permanent link">&para;</a></h3>
+<ol>
+<li>What is the main purpose of backtesting?</li>
+<li>A. Predict future prices</li>
+<li>B. Evaluate strategy historical performance</li>
+<li>C. Guarantee live trading profits</li>
+<li>
+<p>D. Replace live trading</p>
+</li>
+<li>
+<p>What happens with a 90% win rate but 1:10 profit/loss ratio strategy?</p>
+</li>
+<li>A. Big profits</li>
+<li>B. Big losses</li>
+<li>C. Breakeven</li>
+<li>
+<p>D. Cannot determine</p>
+</li>
+<li>
+<p>What does maximum drawdown of 30% mean?</p>
+</li>
+<li>A. Maximum 30% loss per trade</li>
+<li>B. Fell 30% from highest to lowest point</li>
+<li>C. 70% win rate</li>
+<li>
+<p>D. 30% total loss</p>
+</li>
+<li>
+<p>What does Sharpe Ratio &lt; 0 indicate?</p>
+</li>
+<li>A. Strategy is profitable</li>
+<li>B. Strategy is losing</li>
+<li>C. Risk is too high</li>
+<li>
+<p>D. Insufficient data</p>
+</li>
+<li>
+<p>Why doesn't good backtesting guarantee good live trading?</p>
+</li>
+<li>A. History doesn't repeat</li>
+<li>B. Slippage and psychological factors exist</li>
+<li>C. Possible overfitting</li>
+<li>D. All of the above</li>
+</ol>
+<h3 id="calculation-problems">Calculation Problems<a class="headerlink" href="#calculation-problems" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>Initial capital 1000 USDT, final 1053 USDT, what is the total return rate?</p>
+</li>
+<li>
+<p>10 trades, 7 wins 3 losses, what is the win rate?</p>
+</li>
+<li>
+<p>Account rose from 1000 to 1200, then fell to 1100, what is the maximum drawdown?</p>
+</li>
+</ol>
+<h3 id="practical-problems">Practical Problems<a class="headerlink" href="#practical-problems" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Please explain this backtest result:</li>
+<li>Number of trades: 200</li>
+<li>Win rate: 45%</li>
+<li>Average profit: +2%</li>
+<li>Average loss: -1%</li>
+<li>
+<p>Is this strategy profitable or losing?</p>
+</li>
+<li>
+<p>If a strategy earns 50% in bull markets and loses 30% in bear markets, would you use it? Why?</p>
+</li>
+</ol>
+<p><strong>Answers at end</strong> ⬇️</p>
+<hr />
+<h2 id="learning-checklist">✅ Learning Checklist<a class="headerlink" href="#learning-checklist" title="Permanent link">&para;</a></h2>
+<p>Before proceeding to the next lesson, ensure you have:</p>
+<ul>
+<li>[ ] Understood what backtesting is and its purpose</li>
+<li>[ ] Able to execute basic backtesting commands</li>
+<li>[ ] Able to read and understand the 5 tables in backtest reports</li>
+<li>[ ] Know how to judge strategy quality</li>
+<li>[ ] Able to identify and resolve common errors</li>
+<li>[ ] Completed at least 3 backtests with different strategies/time ranges</li>
+<li>[ ] Understood limitations of backtesting</li>
+</ul>
+<p>If you have any questions, please return to the corresponding section for review, or ask in the community.</p>
+<hr />
+<h2 id="next-lesson-preview">🎯 Next Lesson Preview<a class="headerlink" href="#next-lesson-preview" title="Permanent link">&para;</a></h2>
+<p><strong>Lesson 6: Strategy Performance Analysis</strong></p>
+<p>In Lesson 6, we will:
+- Deep dive into how to evaluate strategy quality
+- Master multi-dimensional strategy comparison methods
+- Learn to create professional strategy comparison tables
+- Understand the importance and weighting of different metrics</p>
+<hr />
+<h2 id="post-class-discussion">💬 Post-Class Discussion<a class="headerlink" href="#post-class-discussion" title="Permanent link">&para;</a></h2>
+<h3 id="thinking-questions">Thinking Questions<a class="headerlink" href="#thinking-questions" title="Permanent link">&para;</a></h3>
+<ol>
+<li>What do you think constitutes a "good strategy"?</li>
+<li>If backtesting returns are high but drawdown is also large, would you use it?</li>
+<li>Backtesting 1 month vs backtesting 1 year, which is more important?</li>
+</ol>
+<h3 id="share-your-backtest-results">Share Your Backtest Results<a class="headerlink" href="#share-your-backtest-results" title="Permanent link">&para;</a></h3>
+<p>Welcome to share in the community:
+- Your first backtest results
+- Problems encountered and solutions
+- Evaluation of Strategy001</p>
+<hr />
+<h2 id="quiz-answers">📌 Quiz Answers<a class="headerlink" href="#quiz-answers" title="Permanent link">&para;</a></h2>
+<ol>
+<li>B</li>
+<li>B (9 small wins + 1 big loss = overall loss)</li>
+<li>B</li>
+<li>B</li>
+<li>D</li>
+<li>(1053 - 1000) / 1000 = 5.3%</li>
+<li>7 / 10 = 70%</li>
+<li>(1200 - 1100) / 1200 = 8.33%</li>
+<li>Profitable. Expected return = 45% × (-1%) + 55% × 2% = 0.65% &gt; 0</li>
+<li>No. Although it looks profitable, can't predict if future is bull or bear, too risky.</li>
+</ol>
+<hr />
+<p><strong>Happy learning! Ready for Lesson 6?</strong> 🚀</p>
+<hr />
+<p>📝 <strong>Course Feedback</strong>: If any part of this lesson is unclear, feel free to provide suggestions!</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,3588 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径">
+      
+      
+      
+        <link rel="canonical" href="https://henrylin99.github.io/freqtrade-tutorials/lesson-18-webui-api/">
+      
+      
+        <link rel="prev" href="../lesson-17-telegram-setup/">
+      
+      
+        <link rel="next" href="../lesson-19-visualization/">
+      
+      
+        
+          <link rel="alternate" href="./" hreflang="zh">
+        
+          <link rel="alternate" href="../en/lesson-18-webui-api/" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>第 18 课：Web UI 与 API 使用 - Freqtrade 实战教程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9784658154228475"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VGHZY4EELE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VGHZY4EELE");
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#18-web-ui-api" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="Freqtrade 实战教程" class="md-header__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Freqtrade 实战教程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第 18 课：Web UI 与 API 使用
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="选择当前语言">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../en/lesson-18-webui-api/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/henrylin99/freqtrade-tutorials" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../strategies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🇨🇳 中文教程
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Freqtrade 实战教程" class="md-nav__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Freqtrade 实战教程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/henrylin99/freqtrade-tutorials" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../strategies/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🇨🇳 中文教程
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🇨🇳 中文教程
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 1 课：量化交易与 Freqtrade 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-02-environment-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 2 课：Freqtrade 环境搭建
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-03-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 3 课：核心概念理解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-04-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 4 课：数据下载与管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-05-first-backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 5 课：第一次策略回测
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-06-strategy-performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 6 课：策略性能分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-07-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 7 课：多时间框架回测
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-08-strategy-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 8 课：策略批量对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-09-timerange-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 9 课：Freqtrade时间范围测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-10-pair-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 10 课：Freqtrade交易对选择与测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-11-hyperopt-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 11 课：Freqtrade参数优化入门（Hyperopt）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-12-advanced-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 12 课：高级策略分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-13-scoring-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 13 课：策略评分体系
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-14-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 14 课：风险管理与资金管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-15-portfolio-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 15 课：Freqtrade策略组合与分散
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-16-realtime-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 16 课：实时信号监控
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-17-telegram-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 17 课：Telegram 通知配置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 18 课：Web UI 与 API 使用
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 18 课：Web UI 与 API 使用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 课程概览
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#181-api-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.1 启用 API Server
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="18.1 启用 API Server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#api-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        什么是 API Server？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api-server_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        配置 API Server
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="配置 API Server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        编辑 config.json
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        生成安全密钥
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        安全注意事项
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api-freqtrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        启动带 API 的 Freqtrade
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api-server_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        验证 API Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#182-frequi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.2 FreqUI 使用
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="18.2 FreqUI 使用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#frequi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        什么是 FreqUI？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frequi_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        安装 FreqUI
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="安装 FreqUI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 1：使用官方托管版本
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 2：本地部署（推荐）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frequi_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FreqUI 界面介绍
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FreqUI 界面介绍">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 仪表盘（Dashboard）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-trades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 交易列表（Trades）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 性能统计（Performance）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-charts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 图表分析（Charts）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 配置管理（Settings）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. 日志查看（Logs）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#183-rest-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.3 REST API 使用
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="18.3 REST API 使用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API 端点概览
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API 端点概览">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        认证
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        常用 API 端点
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="常用 API 端点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-bot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 查看 Bot 状态
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 查看当前持仓
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 查看性能统计
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 强制买入
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 强制卖出
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-bot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. 停止/启动 Bot
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. 重载配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python 脚本示例
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#184" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.4 移动端访问
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="18.4 移动端访问">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#frequi_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        通过手机访问 FreqUI
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="通过手机访问 FreqUI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 1：同一局域网
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-tailscalezerotier" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 2：使用 Tailscale/ZeroTier（推荐）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 实践任务
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 实践任务">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-api-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 1：配置和启动 API Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-frequi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 2：使用 FreqUI 管理交易
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-rest-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 3：调用 REST API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 4：手机访问测试
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 常见问题
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 常见问题">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-frequi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题 1：无法访问 FreqUI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题 2：登录失败
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题 3：API 响应慢
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 核心要点总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔗 参考资料
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔗 参考资料">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#freqtrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Freqtrade 官方文档
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        配套文档
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工具推荐
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ➡️ 下一课预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 19 课：可视化分析工具
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-20-dry-run-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 20 课：模拟交易验证
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-21-exchange-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 21 课：交易所 API 配置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-22-pre-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 22 课：实盘前检查清单
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-23-small-capital-live/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 23 课：小资金实盘测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-1-order-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.1 课：实盘交易下单操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-2-stop-loss-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.2 课：实盘交易止损操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-3-futures-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.3 课：币安合约交易操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-4-leverage-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24.4 课：杠杆交易操作详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-trading-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 24 课：交易监控与调整
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-25-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 25 课：风险控制与心态管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-26-custom-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 26 课：自定义策略开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-27-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 27 课：多时间框架策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-28-grid-hft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 28 课：高频交易与网格策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-1-freqai-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29.1 课：FreqAI 深度实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-2-advanced-ml-strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29.2 课：高级机器学习策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning-enhanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29 课：机器学习基础与策略优化（增强版）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 29 课：机器学习与策略优化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-30-conclusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 30 课：总结与持续学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 课程概览
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#181-api-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.1 启用 API Server
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="18.1 启用 API Server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#api-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        什么是 API Server？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api-server_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        配置 API Server
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="配置 API Server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        编辑 config.json
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        生成安全密钥
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        安全注意事项
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api-freqtrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        启动带 API 的 Freqtrade
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api-server_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        验证 API Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#182-frequi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.2 FreqUI 使用
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="18.2 FreqUI 使用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#frequi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        什么是 FreqUI？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frequi_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        安装 FreqUI
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="安装 FreqUI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 1：使用官方托管版本
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 2：本地部署（推荐）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frequi_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FreqUI 界面介绍
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FreqUI 界面介绍">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 仪表盘（Dashboard）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-trades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 交易列表（Trades）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 性能统计（Performance）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-charts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 图表分析（Charts）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 配置管理（Settings）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. 日志查看（Logs）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#183-rest-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.3 REST API 使用
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="18.3 REST API 使用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API 端点概览
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API 端点概览">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        认证
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        常用 API 端点
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="常用 API 端点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-bot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 查看 Bot 状态
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 查看当前持仓
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 查看性能统计
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 强制买入
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 强制卖出
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-bot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. 停止/启动 Bot
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. 重载配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python 脚本示例
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#184" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.4 移动端访问
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="18.4 移动端访问">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#frequi_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        通过手机访问 FreqUI
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="通过手机访问 FreqUI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 1：同一局域网
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-tailscalezerotier" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法 2：使用 Tailscale/ZeroTier（推荐）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 实践任务
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 实践任务">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-api-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 1：配置和启动 API Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-frequi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 2：使用 FreqUI 管理交易
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-rest-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 3：调用 REST API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 4：手机访问测试
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 常见问题
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 常见问题">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-frequi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题 1：无法访问 FreqUI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题 2：登录失败
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题 3：API 响应慢
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 核心要点总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔗 参考资料
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔗 参考资料">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#freqtrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Freqtrade 官方文档
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        配套文档
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工具推荐
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ➡️ 下一课预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="18-web-ui-api">第 18 课：Web UI 与 API 使用<a class="headerlink" href="#18-web-ui-api" title="Permanent link">&para;</a></h1>
+<p><strong>⏱ 课时</strong>：1.5 小时
+<strong>🎯 学习目标</strong>：掌握图形界面和 API 操作
+<strong>📚 难度</strong>：⭐⭐ 实时信号</p>
+<hr />
+<h2 id="_1">📖 课程概览<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>通过 Web UI 和 API，你可以用图形界面管理交易机器人，不再依赖命令行。本课将教你如何启用 API Server，使用 FreqUI 进行可视化管理，以及通过 REST API 进行远程控制。</p>
+<hr />
+<h2 id="181-api-server">18.1 启用 API Server<a class="headerlink" href="#181-api-server" title="Permanent link">&para;</a></h2>
+<h3 id="api-server">什么是 API Server？<a class="headerlink" href="#api-server" title="Permanent link">&para;</a></h3>
+<p><strong>定义</strong>：Freqtrade 内置的 REST API 服务器，提供：
+- Web UI 数据接口
+- 远程控制功能
+- 实时数据查询
+- 交易操作接口</p>
+<h3 id="api-server_1">配置 API Server<a class="headerlink" href="#api-server_1" title="Permanent link">&para;</a></h3>
+<h4 id="configjson">编辑 config.json<a class="headerlink" href="#configjson" title="Permanent link">&para;</a></h4>
+<p>在配置文件中添加 API Server 配置：</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"api_server"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"listen_ip_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"listen_port"</span><span class="p">:</span><span class="w"> </span><span class="mi">8080</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"verbosity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"error"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"enable_openapi"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"jwt_secret_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"your-secret-key-change-this"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"ws_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"your-websocket-token-change-this"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"CORS_origins"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">    </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"freqtrader"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SuperSecretPassword123"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>配置说明</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>推荐值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>enabled</strong></td>
+<td>是否启用 API</td>
+<td>true</td>
+</tr>
+<tr>
+<td><strong>listen_ip_address</strong></td>
+<td>监听地址</td>
+<td>"127.0.0.1"（本地）或 "0.0.0.0"（远程访问）</td>
+</tr>
+<tr>
+<td><strong>listen_port</strong></td>
+<td>端口号</td>
+<td>8080</td>
+</tr>
+<tr>
+<td><strong>jwt_secret_key</strong></td>
+<td>JWT 密钥</td>
+<td>随机生成的长字符串</td>
+</tr>
+<tr>
+<td><strong>ws_token</strong></td>
+<td>WebSocket Token</td>
+<td>随机生成的长字符串</td>
+</tr>
+<tr>
+<td><strong>username</strong></td>
+<td>登录用户名</td>
+<td>自定义</td>
+</tr>
+<tr>
+<td><strong>password</strong></td>
+<td>登录密码</td>
+<td>强密码</td>
+</tr>
+</tbody>
+</table>
+<h4 id="_2">生成安全密钥<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 生成随机密钥</span>
+python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">"import secrets; print(secrets.token_urlsafe(32))"</span>
+
+<span class="c1"># 输出示例：</span>
+<span class="c1"># XYZ123abc-DEF456ghi-JKL789mno-PQR012stu</span>
+</code></pre></div>
+<p>将生成的密钥分别用于 <code>jwt_secret_key</code> 和 <code>ws_token</code>。</p>
+<h4 id="_3">安全注意事项<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
+<p>⚠️ <strong>重要安全提示</strong>：</p>
+<ol>
+<li><strong>更改默认密码</strong>：</li>
+<li>不要使用简单密码</li>
+<li>密码长度 &gt; 12 位</li>
+<li>
+<p>包含大小写字母、数字、特殊字符</p>
+</li>
+<li>
+<p><strong>本地访问优先</strong>：
+   <div class="highlight"><pre><span></span><code><span class="nt">"listen_ip_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1"</span><span class="w">  </span><span class="c1">// 只允许本机访问</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>远程访问需谨慎</strong>：
+   <div class="highlight"><pre><span></span><code><span class="nt">"listen_ip_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.0.0.0"</span><span class="w">  </span><span class="c1">// 允许外部访问</span>
+<span class="c1">// ⚠️ 必须配合防火墙和强密码使用</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>防火墙配置</strong>（远程访问时）：
+   <div class="highlight"><pre><span></span><code><span class="c1"># 只允许特定 IP 访问</span>
+sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span>from<span class="w"> </span>YOUR_IP_ADDRESS<span class="w"> </span>to<span class="w"> </span>any<span class="w"> </span>port<span class="w"> </span><span class="m">8080</span>
+
+<span class="c1"># 或使用 SSH 隧道（推荐）</span>
+ssh<span class="w"> </span>-L<span class="w"> </span><span class="m">8080</span>:localhost:8080<span class="w"> </span>user@your-server
+<span class="c1"># 然后在本地访问 http://localhost:8080</span>
+</code></pre></div></p>
+</li>
+</ol>
+<h3 id="api-freqtrade">启动带 API 的 Freqtrade<a class="headerlink" href="#api-freqtrade" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 激活环境</span>
+conda<span class="w"> </span>activate<span class="w"> </span>freqtrade
+
+<span class="c1"># 启动 Freqtrade（自动启动 API Server）</span>
+freqtrade<span class="w"> </span>trade<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--strategy<span class="w"> </span>Strategy001
+
+<span class="c1"># 输出中会看到：</span>
+<span class="c1"># INFO - Starting API Server on 127.0.0.1:8080</span>
+<span class="c1"># INFO - API Server started successfully</span>
+</code></pre></div>
+<h3 id="api-server_2">验证 API Server<a class="headerlink" href="#api-server_2" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 测试 API 是否运行</span>
+curl<span class="w"> </span>http://localhost:8080/api/v1/ping
+
+<span class="c1"># 输出：</span>
+<span class="c1"># {"status":"pong"}</span>
+</code></pre></div>
+<hr />
+<h2 id="182-frequi">18.2 FreqUI 使用<a class="headerlink" href="#182-frequi" title="Permanent link">&para;</a></h2>
+<h3 id="frequi">什么是 FreqUI？<a class="headerlink" href="#frequi" title="Permanent link">&para;</a></h3>
+<p><strong>FreqUI</strong> 是 Freqtrade 的官方 Web 界面，提供：
+- 📊 实时交易监控
+- 📈 性能统计图表
+- ⚙️ 配置管理
+- 🔄 交易控制
+- 📱 响应式设计（支持移动端）</p>
+<h3 id="frequi_1">安装 FreqUI<a class="headerlink" href="#frequi_1" title="Permanent link">&para;</a></h3>
+<h4 id="1">方法 1：使用官方托管版本<a class="headerlink" href="#1" title="Permanent link">&para;</a></h4>
+<p>直接访问：https://frequi.freqtrade.io/</p>
+<p><strong>优点</strong>：
+- ✅ 无需安装
+- ✅ 自动更新
+- ✅ 随时访问</p>
+<p><strong>配置连接</strong>：
+1. 在 FreqUI 点击右上角"设置"图标
+2. 输入你的 API 地址：<code>http://localhost:8080</code>
+3. 输入用户名和密码
+4. 点击"连接"</p>
+<h4 id="2">方法 2：本地部署（推荐）<a class="headerlink" href="#2" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 进入 Freqtrade 目录</span>
+<span class="nb">cd</span><span class="w"> </span>/path/to/freqtrade
+
+<span class="c1"># 下载 FreqUI</span>
+freqtrade<span class="w"> </span>install-ui
+
+<span class="c1"># FreqUI 将安装到 user_data/ui/</span>
+<span class="c1"># 启动 Freqtrade 后，访问 http://localhost:8080</span>
+</code></pre></div>
+<h3 id="frequi_2">FreqUI 界面介绍<a class="headerlink" href="#frequi_2" title="Permanent link">&para;</a></h3>
+<h4 id="1-dashboard">1. 仪表盘（Dashboard）<a class="headerlink" href="#1-dashboard" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>┌─────────────────────────────────────────────────────────┐
+│  Freqtrade Bot Status                                   │
+├─────────────────────────────────────────────────────────┤
+│  ● Running  |  Strategy: Strategy001  |  Timeframe: 5m │
+│                                                         │
+│  💰 Balance: 1,234.56 USDT                             │
+│  📈 Open Trades: 3                                      │
+│  💵 Open Profit: +15.67 USDT (+1.27%)                  │
+│  📊 Total Profit: +234.89 USDT (+23.49%)               │
+│  📉 Max Drawdown: -45.23 USDT (-4.52%)                 │
+│  🎯 Win Rate: 78.5%                                     │
+│  🔢 Total Trades: 142                                   │
+└─────────────────────────────────────────────────────────┘
+</code></pre></div>
+<p><strong>功能</strong>：
+- 实时账户概览
+- 关键指标显示
+- Bot 运行状态</p>
+<h4 id="2-trades">2. 交易列表（Trades）<a class="headerlink" href="#2-trades" title="Permanent link">&para;</a></h4>
+<p>显示当前持仓和历史交易：</p>
+<p><strong>开仓交易</strong>：
+<div class="highlight"><pre><span></span><code>┌──────┬──────────┬───────────┬───────────┬─────────┬─────────┐
+│ ID   │ Pair     │ Open Rate │ Current   │ Profit  │ Duration│
+├──────┼──────────┼───────────┼───────────┼─────────┼─────────┤
+│ 158  │ BTC/USDT │ 43,500    │ 43,850    │ +0.80%  │ 2h 15m  │
+│ 159  │ ETH/USDT │ 2,280     │ 2,295     │ +0.66%  │ 1h 45m  │
+│ 160  │ BNB/USDT │ 312       │ 315       │ +0.96%  │ 45m     │
+└──────┴──────────┴───────────┴───────────┴─────────┴─────────┘
+</code></pre></div></p>
+<p><strong>历史交易</strong>：
+- 查看所有已平仓交易
+- 按日期、交易对、收益筛选
+- 导出交易记录</p>
+<h4 id="3-performance">3. 性能统计（Performance）<a class="headerlink" href="#3-performance" title="Permanent link">&para;</a></h4>
+<p><strong>交易对表现</strong>：
+<div class="highlight"><pre><span></span><code>┌──────────┬────────┬─────────┬───────────┬──────────┐
+│ Pair     │ Trades │ Win %   │ Profit %  │ Avg %    │
+├──────────┼────────┼─────────┼───────────┼──────────┤
+│ BTC/USDT │ 35     │ 85.7%   │ +8.45%    │ +0.24%   │
+│ ETH/USDT │ 42     │ 81.0%   │ +10.22%   │ +0.24%   │
+│ BNB/USDT │ 28     │ 75.0%   │ +6.15%    │ +0.22%   │
+│ SOL/USDT │ 37     │ 78.4%   │ +7.83%    │ +0.21%   │
+└──────────┴────────┴─────────┴───────────┴──────────┘
+</code></pre></div></p>
+<p><strong>每日收益图表</strong>：
+- 📊 柱状图显示每日盈亏
+- 📈 累计收益曲线
+- 📉 回撤曲线</p>
+<h4 id="4-charts">4. 图表分析（Charts）<a class="headerlink" href="#4-charts" title="Permanent link">&para;</a></h4>
+<p><strong>K线图 + 指标</strong>：
+<div class="highlight"><pre><span></span><code>        价格
+         ↑
+   44000 │     ╱╲
+         │    ╱  ╲    ╱╲
+   43500 │───╱────╲──╱──╲─── EMA50
+         │          ╲╱
+   43000 │
+         │
+         └────────────────────────→ 时间
+              今天
+</code></pre></div></p>
+<p><strong>功能</strong>：
+- 查看实时 K 线图
+- 叠加技术指标
+- 标记买卖点
+- 缩放和移动</p>
+<h4 id="5-settings">5. 配置管理（Settings）<a class="headerlink" href="#5-settings" title="Permanent link">&para;</a></h4>
+<p><strong>可调整项</strong>：
+- 策略参数
+- 交易对白名单
+- 最大持仓数
+- 止损止盈
+- 通知设置</p>
+<p>⚠️ <strong>注意</strong>：某些配置需要重启 Bot 才能生效。</p>
+<h4 id="6-logs">6. 日志查看（Logs）<a class="headerlink" href="#6-logs" title="Permanent link">&para;</a></h4>
+<p>实时查看 Bot 日志：
+<div class="highlight"><pre><span></span><code>2025-09-30 10:05:00 - INFO - New candle for BTC/USDT - 5m
+2025-09-30 10:05:02 - INFO - Found BUY signal for BTC/USDT
+2025-09-30 10:05:03 - INFO - Buy order placed: BTC/USDT
+2025-09-30 10:05:05 - INFO - Buy order filled: BTC/USDT @ 43,500
+</code></pre></div></p>
+<p><strong>功能</strong>：
+- 实时日志流
+- 日志级别筛选（INFO/WARNING/ERROR）
+- 搜索功能
+- 导出日志</p>
+<hr />
+<h2 id="183-rest-api">18.3 REST API 使用<a class="headerlink" href="#183-rest-api" title="Permanent link">&para;</a></h2>
+<h3 id="api">API 端点概览<a class="headerlink" href="#api" title="Permanent link">&para;</a></h3>
+<p>Freqtrade 提供丰富的 REST API 端点。</p>
+<h4 id="_4">认证<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h4>
+<p>所有 API 请求需要 JWT 认证：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. 获取 Token</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8080/api/v1/token/login<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"username":"freqtrader","password":"SuperSecretPassword123"}'</span>
+
+<span class="c1"># 返回：</span>
+<span class="c1"># {"access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...","refresh_token":"..."}</span>
+
+<span class="c1"># 2. 使用 Token 访问 API</span>
+<span class="nv">TOKEN</span><span class="o">=</span><span class="s2">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."</span>
+
+curl<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://localhost:8080/api/v1/status<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span>
+</code></pre></div>
+<h3 id="api_1">常用 API 端点<a class="headerlink" href="#api_1" title="Permanent link">&para;</a></h3>
+<h4 id="1-bot">1. 查看 Bot 状态<a class="headerlink" href="#1-bot" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># GET /api/v1/status</span>
+curl<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://localhost:8080/api/v1/status<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span>
+
+<span class="c1"># 返回：</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">"dry_run"</span>:<span class="w"> </span>true,
+<span class="w">  </span><span class="s2">"state"</span>:<span class="w"> </span><span class="s2">"running"</span>,
+<span class="w">  </span><span class="s2">"strategy"</span>:<span class="w"> </span><span class="s2">"Strategy001"</span>,
+<span class="w">  </span><span class="s2">"timeframe"</span>:<span class="w"> </span><span class="s2">"5m"</span>,
+<span class="w">  </span><span class="s2">"open_trades"</span>:<span class="w"> </span><span class="m">3</span>,
+<span class="w">  </span><span class="s2">"max_open_trades"</span>:<span class="w"> </span><span class="m">5</span>,
+<span class="w">  </span><span class="s2">"stake_currency"</span>:<span class="w"> </span><span class="s2">"USDT"</span>,
+<span class="w">  </span><span class="s2">"stake_amount"</span>:<span class="w"> </span><span class="m">100</span>.0
+<span class="o">}</span>
+</code></pre></div>
+<h4 id="2_1">2. 查看当前持仓<a class="headerlink" href="#2_1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># GET /api/v1/trades</span>
+curl<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://localhost:8080/api/v1/trades<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span>
+
+<span class="c1"># 返回：</span>
+<span class="o">[</span>
+<span class="w">  </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">"trade_id"</span>:<span class="w"> </span><span class="m">158</span>,
+<span class="w">    </span><span class="s2">"pair"</span>:<span class="w"> </span><span class="s2">"BTC/USDT"</span>,
+<span class="w">    </span><span class="s2">"is_open"</span>:<span class="w"> </span>true,
+<span class="w">    </span><span class="s2">"open_rate"</span>:<span class="w"> </span><span class="m">43500</span>.00,
+<span class="w">    </span><span class="s2">"current_rate"</span>:<span class="w"> </span><span class="m">43850</span>.00,
+<span class="w">    </span><span class="s2">"profit_pct"</span>:<span class="w"> </span><span class="m">0</span>.80,
+<span class="w">    </span><span class="s2">"profit_abs"</span>:<span class="w"> </span><span class="m">8</span>.05,
+<span class="w">    </span><span class="s2">"open_date"</span>:<span class="w"> </span><span class="s2">"2025-09-30 10:05:03"</span>
+<span class="w">  </span><span class="o">}</span>,
+<span class="w">  </span>...
+<span class="o">]</span>
+</code></pre></div>
+<h4 id="3">3. 查看性能统计<a class="headerlink" href="#3" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># GET /api/v1/profit</span>
+curl<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://localhost:8080/api/v1/profit<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span>
+
+<span class="c1"># 返回：</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">"profit_closed_coin"</span>:<span class="w"> </span><span class="m">234</span>.89,
+<span class="w">  </span><span class="s2">"profit_closed_percent"</span>:<span class="w"> </span><span class="m">23</span>.49,
+<span class="w">  </span><span class="s2">"profit_all_coin"</span>:<span class="w"> </span><span class="m">250</span>.56,
+<span class="w">  </span><span class="s2">"profit_all_percent"</span>:<span class="w"> </span><span class="m">25</span>.06,
+<span class="w">  </span><span class="s2">"trade_count"</span>:<span class="w"> </span><span class="m">142</span>,
+<span class="w">  </span><span class="s2">"closed_trade_count"</span>:<span class="w"> </span><span class="m">139</span>,
+<span class="w">  </span><span class="s2">"winning_trades"</span>:<span class="w"> </span><span class="m">109</span>,
+<span class="w">  </span><span class="s2">"losing_trades"</span>:<span class="w"> </span><span class="m">30</span>,
+<span class="w">  </span><span class="s2">"win_rate"</span>:<span class="w"> </span><span class="m">78</span>.42
+<span class="o">}</span>
+</code></pre></div>
+<h4 id="4">4. 强制买入<a class="headerlink" href="#4" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># POST /api/v1/forcebuy</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8080/api/v1/forcebuy<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"pair":"BTC/USDT","price":43500}'</span>
+
+<span class="c1"># ⚠️ 慎用！绕过策略信号强制买入</span>
+</code></pre></div>
+<h4 id="5">5. 强制卖出<a class="headerlink" href="#5" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># POST /api/v1/forceexit</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8080/api/v1/forceexit<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"tradeid":"158"}'</span>
+
+<span class="c1"># 强制平仓指定交易</span>
+</code></pre></div>
+<h4 id="6-bot">6. 停止/启动 Bot<a class="headerlink" href="#6-bot" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># POST /api/v1/stop</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8080/api/v1/stop<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span>
+
+<span class="c1"># POST /api/v1/start</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8080/api/v1/start<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span>
+</code></pre></div>
+<h4 id="7">7. 重载配置<a class="headerlink" href="#7" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># POST /api/v1/reload_config</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8080/api/v1/reload_config<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span>
+
+<span class="c1"># 重新加载 config.json（无需重启）</span>
+</code></pre></div>
+<h3 id="python">Python 脚本示例<a class="headerlink" href="#python" title="Permanent link">&para;</a></h3>
+<p>使用 Python 调用 API：</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env python3</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">FreqtradeAPI</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="n">base_url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">token</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">login</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""登录获取 Token"""</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/v1/token/login"</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"username"</span><span class="p">:</span> <span class="n">username</span><span class="p">,</span> <span class="s2">"password"</span><span class="p">:</span> <span class="n">password</span><span class="p">}</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">token</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">"access_token"</span><span class="p">]</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"✅ 登录成功"</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"❌ 登录失败"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_status</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""获取 Bot 状态"""</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/v1/status"</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span><span class="p">}</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_open_trades</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""获取当前持仓"""</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/v1/trades"</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span><span class="p">}</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_profit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""获取盈亏统计"""</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/v1/profit"</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span><span class="p">}</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+<span class="c1"># 使用示例</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">api</span> <span class="o">=</span> <span class="n">FreqtradeAPI</span><span class="p">(</span>
+        <span class="n">base_url</span><span class="o">=</span><span class="s2">"http://localhost:8080"</span><span class="p">,</span>
+        <span class="n">username</span><span class="o">=</span><span class="s2">"freqtrader"</span><span class="p">,</span>
+        <span class="n">password</span><span class="o">=</span><span class="s2">"SuperSecretPassword123"</span>
+    <span class="p">)</span>
+
+    <span class="c1"># 查看状态</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">get_status</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Bot 状态: </span><span class="si">{</span><span class="n">status</span><span class="p">[</span><span class="s1">'state'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"策略: </span><span class="si">{</span><span class="n">status</span><span class="p">[</span><span class="s1">'strategy'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"当前持仓: </span><span class="si">{</span><span class="n">status</span><span class="p">[</span><span class="s1">'open_trades'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="c1"># 查看持仓</span>
+    <span class="n">trades</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">get_open_trades</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">持仓详情:"</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">trade</span> <span class="ow">in</span> <span class="n">trades</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">trade</span><span class="p">[</span><span class="s1">'is_open'</span><span class="p">]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">trade</span><span class="p">[</span><span class="s1">'pair'</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">trade</span><span class="p">[</span><span class="s1">'profit_pct'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+
+    <span class="c1"># 查看总收益</span>
+    <span class="n">profit</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">get_profit</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">总收益: </span><span class="si">{</span><span class="n">profit</span><span class="p">[</span><span class="s1">'profit_closed_percent'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"胜率: </span><span class="si">{</span><span class="n">profit</span><span class="p">[</span><span class="s1">'win_rate'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+</code></pre></div>
+<p>保存为 <code>freqtrade_api.py</code>，运行：
+<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>freqtrade_api.py
+</code></pre></div></p>
+<hr />
+<h2 id="184">18.4 移动端访问<a class="headerlink" href="#184" title="Permanent link">&para;</a></h2>
+<h3 id="frequi_3">通过手机访问 FreqUI<a class="headerlink" href="#frequi_3" title="Permanent link">&para;</a></h3>
+<h4 id="1_1">方法 1：同一局域网<a class="headerlink" href="#1_1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. 查看服务器 IP</span>
+ifconfig<span class="w">  </span><span class="c1"># Linux/Mac</span>
+ipconfig<span class="w">  </span><span class="c1"># Windows</span>
+
+<span class="c1"># 假设服务器 IP: 192.168.1.100</span>
+
+<span class="c1"># 2. 修改 config.json</span>
+<span class="s2">"listen_ip_address"</span>:<span class="w"> </span><span class="s2">"0.0.0.0"</span><span class="w">  </span><span class="c1"># 允许外部访问</span>
+
+<span class="c1"># 3. 在手机浏览器访问</span>
+http://192.168.1.100:8080
+</code></pre></div>
+<h4 id="2-tailscalezerotier">方法 2：使用 Tailscale/ZeroTier（推荐）<a class="headerlink" href="#2-tailscalezerotier" title="Permanent link">&para;</a></h4>
+<p>创建虚拟局域网，安全远程访问：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. 安装 Tailscale</span>
+curl<span class="w"> </span>-fsSL<span class="w"> </span>https://tailscale.com/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
+
+<span class="c1"># 2. 登录</span>
+sudo<span class="w"> </span>tailscale<span class="w"> </span>up
+
+<span class="c1"># 3. 获取 Tailscale IP</span>
+tailscale<span class="w"> </span>ip<span class="w"> </span>-4
+<span class="c1"># 输出：100.x.y.z</span>
+
+<span class="c1"># 4. 在手机上也安装 Tailscale，登录同一账号</span>
+
+<span class="c1"># 5. 手机访问</span>
+http://100.x.y.z:8080
+</code></pre></div>
+<p><strong>优点</strong>：
+- ✅ 加密连接
+- ✅ 无需公网 IP
+- ✅ 无需配置防火墙
+- ✅ 跨网络访问</p>
+<hr />
+<h2 id="_5">💡 实践任务<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h3 id="1-api-server">任务 1：配置和启动 API Server<a class="headerlink" href="#1-api-server" title="Permanent link">&para;</a></h3>
+<ol>
+<li>编辑 <code>config.json</code>，添加 API 配置</li>
+<li>生成安全密钥</li>
+<li>设置强密码</li>
+<li>启动 Freqtrade</li>
+<li>访问 http://localhost:8080</li>
+</ol>
+<h3 id="2-frequi">任务 2：使用 FreqUI 管理交易<a class="headerlink" href="#2-frequi" title="Permanent link">&para;</a></h3>
+<ol>
+<li>安装 FreqUI（<code>freqtrade install-ui</code>）</li>
+<li>登录 FreqUI</li>
+<li>熟悉各个界面</li>
+<li>查看当前持仓</li>
+<li>查看性能统计</li>
+</ol>
+<h3 id="3-rest-api">任务 3：调用 REST API<a class="headerlink" href="#3-rest-api" title="Permanent link">&para;</a></h3>
+<ol>
+<li>获取 API Token</li>
+<li>使用 curl 查询 Bot 状态</li>
+<li>查询当前持仓</li>
+<li>查询盈亏统计</li>
+<li>（可选）运行 Python 脚本</li>
+</ol>
+<h3 id="4_1">任务 4：手机访问测试<a class="headerlink" href="#4_1" title="Permanent link">&para;</a></h3>
+<ol>
+<li>配置允许外部访问</li>
+<li>在手机浏览器访问 FreqUI</li>
+<li>测试查看持仓和统计</li>
+<li>确认功能正常</li>
+</ol>
+<hr />
+<h2 id="_6">🔧 常见问题<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h3 id="1-frequi">问题 1：无法访问 FreqUI<a class="headerlink" href="#1-frequi" title="Permanent link">&para;</a></h3>
+<p><strong>现象</strong>：
+<div class="highlight"><pre><span></span><code>访问 http://localhost:8080 显示"无法访问此网站"
+</code></pre></div></p>
+<p><strong>检查步骤</strong>：
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. 确认 API Server 是否启动</span>
+grep<span class="w"> </span><span class="s2">"API Server"</span><span class="w"> </span>user_data/logs/freqtrade.log
+
+<span class="c1"># 2. 确认端口是否被占用</span>
+lsof<span class="w"> </span>-i<span class="w"> </span>:8080<span class="w">  </span><span class="c1"># Mac/Linux</span>
+netstat<span class="w"> </span>-ano<span class="w"> </span><span class="p">|</span><span class="w"> </span>findstr<span class="w"> </span>:8080<span class="w">  </span><span class="c1"># Windows</span>
+
+<span class="c1"># 3. 检查防火墙</span>
+sudo<span class="w"> </span>ufw<span class="w"> </span>status<span class="w">  </span><span class="c1"># Linux</span>
+</code></pre></div></p>
+<p><strong>解决方案</strong>：
+<div class="highlight"><pre><span></span><code><span class="c1"># 更改端口</span>
+<span class="s2">"listen_port"</span>:<span class="w"> </span><span class="m">8081</span>
+
+<span class="c1"># 或关闭占用 8080 的程序</span>
+</code></pre></div></p>
+<h3 id="2_2">问题 2：登录失败<a class="headerlink" href="#2_2" title="Permanent link">&para;</a></h3>
+<p><strong>现象</strong>：
+<div class="highlight"><pre><span></span><code>401 Unauthorized
+</code></pre></div></p>
+<p><strong>原因</strong>：
+- 用户名或密码错误
+- JWT 密钥配置错误</p>
+<p><strong>解决方案</strong>：
+<div class="highlight"><pre><span></span><code><span class="c1"># 重新生成密钥</span>
+python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">"import secrets; print(secrets.token_urlsafe(32))"</span>
+
+<span class="c1"># 更新 config.json</span>
+<span class="s2">"jwt_secret_key"</span>:<span class="w"> </span><span class="s2">"新生成的密钥"</span>
+
+<span class="c1"># 重启 Freqtrade</span>
+</code></pre></div></p>
+<h3 id="3api">问题 3：API 响应慢<a class="headerlink" href="#3api" title="Permanent link">&para;</a></h3>
+<p><strong>原因</strong>：
+- Bot 负载高
+- 数据库查询慢
+- 网络延迟</p>
+<p><strong>优化方法</strong>：
+<div class="highlight"><pre><span></span><code><span class="c1">// 减少 API 日志</span>
+<span class="nt">"verbosity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"error"</span>
+
+<span class="c1">// 使用更快的数据库</span>
+<span class="c1">// SQLite → PostgreSQL</span>
+</code></pre></div></p>
+<hr />
+<h2 id="_7">📌 核心要点总结<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>API Server 提供强大的管理能力</strong>：Web UI + REST API</li>
+<li><strong>FreqUI 是官方推荐界面</strong>：功能完善，易于使用</li>
+<li><strong>安全第一</strong>：强密码、本地访问优先、使用 VPN</li>
+<li><strong>REST API 可自动化</strong>：Python 脚本、监控告警</li>
+<li><strong>移动端访问很方便</strong>：随时随地监控交易</li>
+<li><strong>谨慎使用强制操作</strong>：forcebuy/forceexit 会绕过策略</li>
+</ol>
+<hr />
+<h2 id="_8">🔗 参考资料<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<h3 id="freqtrade">Freqtrade 官方文档<a class="headerlink" href="#freqtrade" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://www.freqtrade.io/en/stable/rest-api/">REST API 文档</a></li>
+<li><a href="https://www.freqtrade.io/en/stable/freq-ui/">FreqUI 使用指南</a></li>
+</ul>
+<h3 id="_9">配套文档<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<ul>
+<li>📄 <a href="../CONFIG_EXPLANATION.md">CONFIG_EXPLANATION.md</a> - API 服务器配置</li>
+</ul>
+<h3 id="_10">工具推荐<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://tailscale.com/">Tailscale</a> - 安全远程访问</li>
+<li><a href="https://www.postman.com/">Postman</a> - API 测试工具</li>
+</ul>
+<hr />
+<h2 id="_11">➡️ 下一课预告<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
+<p><strong>第 19 课：可视化分析工具</strong></p>
+<p>在下一课中，我们将学习：
+- 使用 plot-dataframe 生成图表
+- 分析买卖点的位置
+- 查看指标在图表上的表现
+- 优化策略的可视化方法</p>
+<p><strong>准备工作</strong>：
+- ✅ 确保 API Server 正常运行
+- ✅ 安装绘图依赖：<code>pip install plotly</code>
+- ✅ 准备要分析的策略</p>
+<hr />
+<p><strong>🎯 学习检验标准</strong>：
+- ✅ 成功启用 API Server
+- ✅ 能熟练使用 FreqUI 各功能
+- ✅ 会调用 REST API 查询数据
+- ✅ 能在移动端访问和监控</p>
+<p>完成这些任务后，你已经掌握了 Freqtrade 的图形化管理能力！🖥️📱</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

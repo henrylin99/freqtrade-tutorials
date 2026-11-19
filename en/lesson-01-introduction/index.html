@@ -1,0 +1,4260 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径">
+      
+      
+      
+        <link rel="canonical" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-01-introduction/">
+      
+      
+        <link rel="prev" href="../strategies/">
+      
+      
+        <link rel="next" href="../lesson-02-environment-setup/">
+      
+      
+        
+          <link rel="alternate" href="../../lesson-01-introduction/" hreflang="zh">
+        
+          <link rel="alternate" href="./" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>Lesson 1: Introduction to Quantitative Trading and Freqtrade - Freqtrade 实战教程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9784658154228475"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VGHZY4EELE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VGHZY4EELE");
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lesson-1-introduction-to-quantitative-trading-and-freqtrade" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Freqtrade 实战教程" class="md-header__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Freqtrade 实战教程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lesson 1: Introduction to Quantitative Trading and Freqtrade
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../lesson-01-introduction/" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../strategies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  English Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Freqtrade 实战教程" class="md-nav__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Freqtrade 实战教程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../strategies/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    English Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    English Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 1: Introduction to Quantitative Trading and Freqtrade
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 1: Introduction to Quantitative Trading and Freqtrade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#learning-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Learning Objectives
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-1-what-is-quantitative-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 Part 1: What is Quantitative Trading?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📖 Part 1: What is Quantitative Trading?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-traditional-trading-vs-quantitative-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Traditional Trading vs Quantitative Trading
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1 Traditional Trading vs Quantitative Trading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#traditional-trading-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Traditional Trading Method
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quantitative-trading-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quantitative Trading Method
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-definition-of-quantitative-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Definition of Quantitative Trading
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-a-simple-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 A Simple Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-2-advantages-and-risks-of-quantitative-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Part 2: Advantages and Risks of Quantitative Trading
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Part 2: Advantages and Risks of Quantitative Trading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-advantages-of-quantitative-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Advantages of Quantitative Trading
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 Advantages of Quantitative Trading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-eliminate-emotional-impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ 1. Eliminate Emotional Impact
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-247-round-the-clock-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ 2. 24/7 Round-the-Clock Trading
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-fast-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ 3. Fast Execution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-data-driven-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ 4. Data-Driven Decisions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-backtestable-and-optimizable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ 5. Backtestable and Optimizable
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-risks-and-challenges-of-quantitative-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Risks and Challenges of Quantitative Trading
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 Risks and Challenges of Quantitative Trading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-overfitting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚠️ 1. Overfitting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-technical-risks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚠️ 2. Technical Risks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-market-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚠️ 3. Market Changes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-black-swan-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚠️ 4. Black Swan Events
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-psychological-challenges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚠️ 5. Psychological Challenges
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-is-quantitative-trading-suitable-for-you" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Is Quantitative Trading Suitable for You?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 Is Quantitative Trading Suitable for You?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#people-suitable-for-quantitative-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ People Suitable for Quantitative Trading
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#people-not-suitable-for-quantitative-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❌ People Not Suitable for Quantitative Trading
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-3-what-is-freqtrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🤖 Part 3: What is Freqtrade?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🤖 Part 3: What is Freqtrade?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-introduction-to-freqtrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Introduction to Freqtrade
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-core-features-of-freqtrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Core Features of Freqtrade
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2 Core Features of Freqtrade">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#feature-1-strategy-backtesting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feature 1: Strategy Backtesting 🔍
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#feature-2-parameter-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feature 2: Parameter Optimization ⚡
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#feature-3-paper-trading-dry-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feature 3: Paper Trading (Dry-run) 🎮
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#feature-4-automated-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feature 4: Automated Trading 🤖
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#feature-5-visualization-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feature 5: Visualization Analysis 📊
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#feature-6-multi-exchange-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feature 6: Multi-Exchange Support 🌍
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-freqtrade-vs-other-trading-bots" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Freqtrade vs Other Trading Bots
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.3 Freqtrade vs Other Trading Bots">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comparison-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-choose-freqtrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Choose Freqtrade?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-what-can-freqtrade-do-what-cant-it-do" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 What Can Freqtrade Do? What Can't It Do?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.4 What Can Freqtrade Do? What Can&#39;t It Do?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-freqtrade-can-do" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ What Freqtrade Can Do
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-freqtrade-cannot-do" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❌ What Freqtrade Cannot Do
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-4-course-learning-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Part 4: Course Learning Path
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Part 4: Course Learning Path">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-course-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Course Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-learning-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Learning Recommendations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.2 Learning Recommendations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#learning-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📅 Learning Plan
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#learning-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 Learning Methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-required-prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Required Prerequisites
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.3 Required Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#must-have" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Must Have
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-not-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚠️ Recommended (Not Required)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#not-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❌ Not Required
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-required-learning-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Required Learning Resources
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.4 Required Learning Resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hardware-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💻 Hardware Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#capital-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💰 Capital Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#learning-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Learning Resources
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#important-risk-warning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚠️ Important Risk Warning
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚠️ Important Risk Warning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#before-starting-to-learn-please-understand" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Before starting to learn, please understand:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-lesson-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 Post-Lesson Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 Post-Lesson Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-self-assessment-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Self-Assessment (Required)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-register-exchange-account-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Register Exchange Account (Required)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-join-freqtrade-community-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: Join Freqtrade Community (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-4-reflection-and-discussion-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 4: Reflection and Discussion (Optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-lesson-quiz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎓 Post-Lesson Quiz
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 Post-Lesson Quiz">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multiple-choice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multiple Choice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#truefalse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        True/False
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learning-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Learning Checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-lesson-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Next Lesson Preview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quiz-answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Quiz Answers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-lesson-discussion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💬 Post-Lesson Discussion
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💬 Post-Lesson Discussion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#discussion-topics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Discussion Topics
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-02-environment-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 2: Freqtrade Environment Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-03-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 3: Understanding Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-04-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 4: Data Download and Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-05-first-backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 5: First Strategy Backtest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-06-strategy-performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 6: Strategy Performance Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-07-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 7: Multi-Timeframe Backtesting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-08-strategy-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 8: Strategy Batch Comparison
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-09-timerange-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 9: Time Range Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-10-pair-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 10: Trading Pair Selection and Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-11-hyperopt-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 11: Hyperopt Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-12-advanced-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 12: Advanced Strategy Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-13-scoring-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 13: Strategy Scoring System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-14-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 14: Risk and Money Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-15-portfolio-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 15: Strategy Portfolio and Diversification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-16-realtime-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 16: Real-time Signal Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-17-telegram-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 17: Telegram Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-18-webui-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 18: Web UI and API Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 19: Visualization Analysis Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-20-dry-run-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 20: Simulated Trading Validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-21-exchange-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 21: Exchange API Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-22-pre-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 22: Pre-Live Trading Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-23-small-capital-live/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 23: Small Capital Live Trading
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-1-order-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.1: Live Trading Order Placement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-2-stop-loss-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.2: Live Trading Stop Loss Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-3-futures-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.3: Binance Futures Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-4-leverage-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.4: Leverage Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-trading-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24: Trading Monitoring and Adjustment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-25-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 25: Risk Control and Psychology Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-26-custom-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 26: Custom Strategy Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-27-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 27: Multi-Timeframe Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-28-grid-hft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 28: HFT and Grid Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-1-freqai-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.1: FreqAI Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-2-advanced-ml-strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.2: Advanced ML Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning-enhanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: ML Basics and Strategy Optimization (Enhanced)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: Machine Learning and Strategy Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-30-conclusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 30: Conclusion and Continuous Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#learning-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Learning Objectives
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-1-what-is-quantitative-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 Part 1: What is Quantitative Trading?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📖 Part 1: What is Quantitative Trading?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-traditional-trading-vs-quantitative-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Traditional Trading vs Quantitative Trading
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1 Traditional Trading vs Quantitative Trading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#traditional-trading-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Traditional Trading Method
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quantitative-trading-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quantitative Trading Method
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-definition-of-quantitative-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Definition of Quantitative Trading
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-a-simple-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 A Simple Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-2-advantages-and-risks-of-quantitative-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Part 2: Advantages and Risks of Quantitative Trading
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Part 2: Advantages and Risks of Quantitative Trading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-advantages-of-quantitative-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Advantages of Quantitative Trading
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 Advantages of Quantitative Trading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-eliminate-emotional-impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ 1. Eliminate Emotional Impact
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-247-round-the-clock-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ 2. 24/7 Round-the-Clock Trading
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-fast-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ 3. Fast Execution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-data-driven-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ 4. Data-Driven Decisions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-backtestable-and-optimizable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ 5. Backtestable and Optimizable
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-risks-and-challenges-of-quantitative-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Risks and Challenges of Quantitative Trading
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 Risks and Challenges of Quantitative Trading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-overfitting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚠️ 1. Overfitting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-technical-risks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚠️ 2. Technical Risks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-market-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚠️ 3. Market Changes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-black-swan-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚠️ 4. Black Swan Events
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-psychological-challenges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚠️ 5. Psychological Challenges
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-is-quantitative-trading-suitable-for-you" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Is Quantitative Trading Suitable for You?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 Is Quantitative Trading Suitable for You?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#people-suitable-for-quantitative-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ People Suitable for Quantitative Trading
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#people-not-suitable-for-quantitative-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❌ People Not Suitable for Quantitative Trading
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-3-what-is-freqtrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🤖 Part 3: What is Freqtrade?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🤖 Part 3: What is Freqtrade?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-introduction-to-freqtrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Introduction to Freqtrade
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-core-features-of-freqtrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Core Features of Freqtrade
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2 Core Features of Freqtrade">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#feature-1-strategy-backtesting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feature 1: Strategy Backtesting 🔍
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#feature-2-parameter-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feature 2: Parameter Optimization ⚡
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#feature-3-paper-trading-dry-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feature 3: Paper Trading (Dry-run) 🎮
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#feature-4-automated-trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feature 4: Automated Trading 🤖
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#feature-5-visualization-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feature 5: Visualization Analysis 📊
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#feature-6-multi-exchange-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feature 6: Multi-Exchange Support 🌍
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-freqtrade-vs-other-trading-bots" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Freqtrade vs Other Trading Bots
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.3 Freqtrade vs Other Trading Bots">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comparison-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-choose-freqtrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Choose Freqtrade?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-what-can-freqtrade-do-what-cant-it-do" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 What Can Freqtrade Do? What Can't It Do?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.4 What Can Freqtrade Do? What Can&#39;t It Do?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-freqtrade-can-do" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ What Freqtrade Can Do
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-freqtrade-cannot-do" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❌ What Freqtrade Cannot Do
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-4-course-learning-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Part 4: Course Learning Path
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Part 4: Course Learning Path">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-course-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Course Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-learning-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Learning Recommendations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.2 Learning Recommendations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#learning-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📅 Learning Plan
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#learning-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 Learning Methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-required-prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Required Prerequisites
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.3 Required Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#must-have" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Must Have
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-not-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚠️ Recommended (Not Required)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#not-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❌ Not Required
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-required-learning-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Required Learning Resources
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.4 Required Learning Resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hardware-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💻 Hardware Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#capital-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💰 Capital Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#learning-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Learning Resources
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#important-risk-warning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚠️ Important Risk Warning
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚠️ Important Risk Warning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#before-starting-to-learn-please-understand" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Before starting to learn, please understand:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-lesson-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 Post-Lesson Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 Post-Lesson Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-self-assessment-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Self-Assessment (Required)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-register-exchange-account-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Register Exchange Account (Required)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-join-freqtrade-community-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: Join Freqtrade Community (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-4-reflection-and-discussion-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 4: Reflection and Discussion (Optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-lesson-quiz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎓 Post-Lesson Quiz
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 Post-Lesson Quiz">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multiple-choice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multiple Choice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#truefalse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        True/False
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learning-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Learning Checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-lesson-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Next Lesson Preview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quiz-answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Quiz Answers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-lesson-discussion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💬 Post-Lesson Discussion
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💬 Post-Lesson Discussion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#discussion-topics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Discussion Topics
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="lesson-1-introduction-to-quantitative-trading-and-freqtrade">Lesson 1: Introduction to Quantitative Trading and Freqtrade<a class="headerlink" href="#lesson-1-introduction-to-quantitative-trading-and-freqtrade" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>📚 <strong>Course Series</strong>: Complete Freqtrade Quantitative Trading Tutorial Course
+📖 <strong>Part</strong>: Part 1 - Basic Introduction
+⏱ <strong>Duration</strong>: 1.5 hours
+🎯 <strong>Difficulty</strong>: ⭐ Beginner Level</p>
+</blockquote>
+<hr />
+<h2 id="learning-objectives">🎯 Learning Objectives<a class="headerlink" href="#learning-objectives" title="Permanent link">&para;</a></h2>
+<p>After completing this lesson, you will be able to:
+- ✅ Understand what quantitative trading is
+- ✅ Know the advantages and risks of quantitative trading
+- ✅ Recognize Freqtrade and its features
+- ✅ Clarify your learning path and goals
+- ✅ Prepare mentally for learning quantitative trading</p>
+<hr />
+<h2 id="part-1-what-is-quantitative-trading">📖 Part 1: What is Quantitative Trading?<a class="headerlink" href="#part-1-what-is-quantitative-trading" title="Permanent link">&para;</a></h2>
+<h3 id="11-traditional-trading-vs-quantitative-trading">1.1 Traditional Trading vs Quantitative Trading<a class="headerlink" href="#11-traditional-trading-vs-quantitative-trading" title="Permanent link">&para;</a></h3>
+<h4 id="traditional-trading-method">Traditional Trading Method<a class="headerlink" href="#traditional-trading-method" title="Permanent link">&para;</a></h4>
+<p><strong>Xiao Ming's Trading Day</strong>:
+<div class="highlight"><pre><span></span><code>9:00 AM  - Check crypto prices, BTC down 5%, feeling panicked
+10:00 AM - Friend says it will rise, immediately buy
+12:00 PM - Up 2%, hesitate whether to sell
+3:00 PM  - Dropped back, regret not selling
+8:00 PM  - Can't stand it anymore, cut losses at -3%
+Next day - BTC surges 10%, regret selling last night...
+</code></pre></div></p>
+<p><strong>Problems</strong>:
+- 😰 Emotional decisions (fear, greed)
+- ⏰ Tiring to watch the screen (24-hour market)
+- 🎲 High luck component (based on feelings)
+- 📉 Often buy high and sell low</p>
+<hr />
+<h4 id="quantitative-trading-method">Quantitative Trading Method<a class="headerlink" href="#quantitative-trading-method" title="Permanent link">&para;</a></h4>
+<p><strong>A Trading Bot's Day</strong>:
+<div class="highlight"><pre><span></span><code><span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">current_price</span> <span class="o">=</span> <span class="n">get_real_time_price</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">EMA20_crosses_above_EMA50</span> <span class="ow">and</span> <span class="n">price_above_EMA20</span><span class="p">:</span>
+        <span class="n">buy</span><span class="p">(</span><span class="mi">100</span> <span class="n">USDT</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"✅ Buy signal triggered"</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">profit</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="o">%</span> <span class="ow">or</span> <span class="n">loss</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="o">%</span><span class="p">:</span>
+        <span class="n">sell</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"✅ Sell signal triggered"</span><span class="p">)</span>
+
+    <span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="n">_minutes</span><span class="p">)</span>
+</code></pre></div></p>
+<p><strong>Characteristics</strong>:
+- 🤖 Rule-based decisions (strict execution)
+- ⚡ 24/7 non-stop (capture every opportunity)
+- 📊 Data-driven (based on historical statistics)
+- 🎯 Strong discipline (unaffected by emotions)</p>
+<hr />
+<h3 id="12-definition-of-quantitative-trading">1.2 Definition of Quantitative Trading<a class="headerlink" href="#12-definition-of-quantitative-trading" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p><strong>Quantitative Trading</strong>: A trading method that uses mathematical models and computer programs to automatically execute buy/sell decisions based on preset trading strategies.</p>
+</blockquote>
+<p><strong>Three Core Elements</strong>:</p>
+<div class="highlight"><pre><span></span><code>Strategy → Data → Execution
+    ↓        ↓       ↓
+   Rules   History  Automation
+</code></pre></div>
+<ol>
+<li><strong>Strategy</strong></li>
+<li>When to buy? When to sell?</li>
+<li>
+<p>Example: Buy on EMA golden cross, sell on death cross</p>
+</li>
+<li>
+<p><strong>Data</strong></p>
+</li>
+<li>Historical prices, volumes, technical indicators</li>
+<li>
+<p>Used for backtesting and optimization</p>
+</li>
+<li>
+<p><strong>Execution</strong></p>
+</li>
+<li>Automatic order placement, stop-loss, take-profit</li>
+<li>No manual intervention required</li>
+</ol>
+<hr />
+<h3 id="13-a-simple-example">1.3 A Simple Example<a class="headerlink" href="#13-a-simple-example" title="Permanent link">&para;</a></h3>
+<p><strong>Strategy Description</strong>: Buy when Bitcoin's 20-day moving average crosses above the 50-day moving average, sell when it crosses below.</p>
+<p><strong>Code Implementation</strong> (Pseudocode):
+<div class="highlight"><pre><span></span><code><span class="c1"># Check once a day</span>
+<span class="k">for</span> <span class="n">each_day</span> <span class="ow">in</span> <span class="n">historical_data</span><span class="p">:</span>
+    <span class="n">MA20</span> <span class="o">=</span> <span class="n">average_price_of_last_20_days</span>
+    <span class="n">MA50</span> <span class="o">=</span> <span class="n">average_price_of_last_50_days</span>
+
+    <span class="k">if</span> <span class="n">MA20</span> <span class="n">just</span> <span class="n">crossed</span> <span class="n">above</span> <span class="n">MA50</span><span class="p">:</span>
+        <span class="n">buy</span><span class="p">(</span><span class="mi">1000</span> <span class="n">USDT</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">MA20</span> <span class="n">just</span> <span class="n">crossed</span> <span class="n">below</span> <span class="n">MA50</span><span class="p">:</span>
+        <span class="n">sell</span><span class="p">()</span>
+</code></pre></div></p>
+<p><strong>Backtest Results</strong> (Assumed):
+- 📅 Test Period: Full year 2024
+- 💰 Initial Capital: 10,000 USDT
+- 📈 Final Capital: 12,500 USDT
+- 🎯 Return Rate: +25%
+- 📊 Win Rate: 65%</p>
+<p><strong>Conclusion</strong>: This strategy performed well in 2024, but doesn't guarantee effectiveness in 2025!</p>
+<hr />
+<h2 id="part-2-advantages-and-risks-of-quantitative-trading">🚀 Part 2: Advantages and Risks of Quantitative Trading<a class="headerlink" href="#part-2-advantages-and-risks-of-quantitative-trading" title="Permanent link">&para;</a></h2>
+<h3 id="21-advantages-of-quantitative-trading">2.1 Advantages of Quantitative Trading<a class="headerlink" href="#21-advantages-of-quantitative-trading" title="Permanent link">&para;</a></h3>
+<h4 id="1-eliminate-emotional-impact">✅ 1. Eliminate Emotional Impact<a class="headerlink" href="#1-eliminate-emotional-impact" title="Permanent link">&para;</a></h4>
+<p><strong>Case: Panic Selling</strong>
+<div class="highlight"><pre><span></span><code>Traditional Trader:
+BTC down 10% → Panic → Cut losses → Next day recovers → Regret
+
+Quantitative Trader:
+BTC down 10% → Bot checks strategy → Sell conditions not met → Continue holding → Next day profit
+</code></pre></div></p>
+<p><strong>Advantages</strong>:
+- Won't sell prematurely due to fear
+- Won't chase highs due to greed
+- Strictly execute preset rules</p>
+<hr />
+<h4 id="2-247-round-the-clock-trading">✅ 2. 24/7 Round-the-Clock Trading<a class="headerlink" href="#2-247-round-the-clock-trading" title="Permanent link">&para;</a></h4>
+<p><strong>Cryptocurrency Market Characteristics</strong>:
+- 🌏 Global market, 24/7 trading
+- 🌙 Best trading opportunities may appear late at night
+- ⏰ Humans can't watch the screen continuously</p>
+<p><strong>Quantitative Trading Solution</strong>:
+<div class="highlight"><pre><span></span><code>Human: Asleep 😴
+Bot: Detects buy signal → Automatic buy → Wake up to 3% profit next day ✅
+</code></pre></div></p>
+<hr />
+<h4 id="3-fast-execution">✅ 3. Fast Execution<a class="headerlink" href="#3-fast-execution" title="Permanent link">&para;</a></h4>
+<p><strong>Speed Comparison</strong>:
+| Operation | Manual | Bot |
+|-----------|--------|-----|
+| Detect Signal | 1-5 minutes | &lt; 1 second |
+| Place Order | 30-60 seconds | &lt; 0.1 second |
+| Monitor Simultaneously | 1-3 pairs | Unlimited |</p>
+<p><strong>Actual Impact</strong>:
+- In fast-moving markets, 0.1% price difference can determine profit/loss
+- Bots can monitor 50+ trading pairs simultaneously
+- High-frequency strategies (minute-level) can only be done by machines</p>
+<hr />
+<h4 id="4-data-driven-decisions">✅ 4. Data-Driven Decisions<a class="headerlink" href="#4-data-driven-decisions" title="Permanent link">&para;</a></h4>
+<p><strong>Traditional Method</strong>:
+<div class="highlight"><pre><span></span><code>"I think this coin will rise" ← Subjective judgment
+"Friend recommended, should be reliable" ← Blind following
+"Chart looks like it will break out" ← Empiricism
+</code></pre></div></p>
+<p><strong>Quantitative Method</strong>:
+<div class="highlight"><pre><span></span><code>Backtest 1000 historical trades → Strategy has 70% win rate, average profit 2%
+Statistical analysis: Strategy performs well in ranging markets, poorly in trending markets
+→ Use only in ranging markets
+</code></pre></div></p>
+<hr />
+<h4 id="5-backtestable-and-optimizable">✅ 5. Backtestable and Optimizable<a class="headerlink" href="#5-backtestable-and-optimizable" title="Permanent link">&para;</a></h4>
+<p><strong>Advantage Process</strong>:
+<div class="highlight"><pre><span></span><code>Design Strategy → Backtest Validation → Find Problems → Optimize Parameters → Backtest Again → Live Test
+</code></pre></div></p>
+<p><strong>Comparison</strong>:
+- Traditional: Can only test with real money 💸
+- Quantitative: "Free" testing with historical data 📊</p>
+<hr />
+<h3 id="22-risks-and-challenges-of-quantitative-trading">2.2 Risks and Challenges of Quantitative Trading<a class="headerlink" href="#22-risks-and-challenges-of-quantitative-trading" title="Permanent link">&para;</a></h3>
+<h4 id="1-overfitting">⚠️ 1. Overfitting<a class="headerlink" href="#1-overfitting" title="Permanent link">&para;</a></h4>
+<p><strong>What is Overfitting?</strong></p>
+<p>Imagine an extreme strategy:
+<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="n">date</span> <span class="o">==</span> <span class="s2">"2024-03-15"</span> <span class="ow">and</span> <span class="n">time</span> <span class="o">==</span> <span class="s2">"14:23"</span><span class="p">:</span>
+    <span class="n">buy</span> <span class="n">BTC</span>
+<span class="k">if</span> <span class="n">date</span> <span class="o">==</span> <span class="s2">"2024-03-16"</span> <span class="ow">and</span> <span class="n">time</span> <span class="o">==</span> <span class="s2">"09:47"</span><span class="p">:</span>
+    <span class="n">sell</span> <span class="n">BTC</span>
+</code></pre></div></p>
+<p><strong>Backtest Result</strong>: Perfect! Caught a historic surge 📈</p>
+<p><strong>Live Trading Result</strong>: Completely ineffective, because history doesn't repeat exactly 📉</p>
+<p><strong>How to Avoid</strong>:
+- ✅ Test strategy in different time periods
+- ✅ Keep strategy logic simple, not overly complex
+- ✅ Reserve out-of-sample data for testing
+- ✅ Test at least 1+ year of data</p>
+<hr />
+<h4 id="2-technical-risks">⚠️ 2. Technical Risks<a class="headerlink" href="#2-technical-risks" title="Permanent link">&para;</a></h4>
+<p><strong>Possible Technical Issues</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Impact</th>
+<th>Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Network Disconnection</td>
+<td>Miss trading opportunities</td>
+<td>10% drop during network outage</td>
+</tr>
+<tr>
+<td>Program Crash</td>
+<td>Cannot execute stop-loss</td>
+<td>Server down, losses expand</td>
+</tr>
+<tr>
+<td>API Limits</td>
+<td>Cannot place orders</td>
+<td>Exchange API limit reached, banned</td>
+</tr>
+<tr>
+<td>Data Errors</td>
+<td>Wrong decisions</td>
+<td>Price data delay, buy at high point</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Countermeasures</strong>:
+- ✅ Use stable servers (VPS)
+- ✅ Set up network monitoring and auto-restart
+- ✅ Use multiple exchanges (backup)
+- ✅ Set maximum loss limits</p>
+<hr />
+<h4 id="3-market-changes">⚠️ 3. Market Changes<a class="headerlink" href="#3-market-changes" title="Permanent link">&para;</a></h4>
+<p><strong>Reasons for Strategy Failure</strong>:</p>
+<div class="highlight"><pre><span></span><code>2024 Strategy: Ranging market, mean reversion strategy performs well ✅
+2025 Market: Bull market, mean reversion strategy loses ❌
+
+Reason: Market characteristics have changed
+</code></pre></div>
+<p><strong>Response</strong>:
+- ✅ Continuously monitor strategy performance
+- ✅ Regular backtesting and optimization
+- ✅ Prepare multiple strategies for different market conditions
+- ✅ Set up early warning for strategy failure</p>
+<hr />
+<h4 id="4-black-swan-events">⚠️ 4. Black Swan Events<a class="headerlink" href="#4-black-swan-events" title="Permanent link">&para;</a></h4>
+<p><strong>What are Black Swans?</strong>
+- Extreme rare market events
+- Rarely appear in historical data
+- Cannot be predicted by backtesting</p>
+<p><strong>Cases</strong>:
+- March 12, 2020: BTC dropped 50% in a single day
+- May 2022: LUNA collapse, from $80 to $0.0001
+- Exchange bankruptcy (FTX incident)</p>
+<p><strong>Response</strong>:
+- ✅ Set strict stop-losses
+- ✅ Diversify investments (don't all-in one coin)
+- ✅ Only invest money you can afford to lose
+- ✅ Maintain appropriate cash reserves</p>
+<hr />
+<h4 id="5-psychological-challenges">⚠️ 5. Psychological Challenges<a class="headerlink" href="#5-psychological-challenges" title="Permanent link">&para;</a></h4>
+<p><strong>Even with quantitative trading, you'll encounter psychological issues</strong>:</p>
+<div class="highlight"><pre><span></span><code>Backtest Return: +50%
+Live Trading 1 month: -5%
+
+Your Reaction:
+❌ "This strategy has problems, stop it immediately!"
+✅ "Backtest was 1 year of data, 1 month drawdown is normal, continue observing"
+</code></pre></div>
+<p><strong>Common Psychological Traps</strong>:
+- Frequently modify strategies (pursuing perfection)
+- Stop when seeing losses (lack of patience)
+- Increase position after profit (greed)
+- Manually intervene with the bot (distrust the strategy)</p>
+<p><strong>Response</strong>:
+- ✅ Create trading plan and execute strictly
+- ✅ Keep trading diary, analyze psychological changes
+- ✅ Give strategies enough validation time (at least 3-6 months)
+- ✅ Accept that strategies have both profits and losses</p>
+<hr />
+<h3 id="23-is-quantitative-trading-suitable-for-you">2.3 Is Quantitative Trading Suitable for You?<a class="headerlink" href="#23-is-quantitative-trading-suitable-for-you" title="Permanent link">&para;</a></h3>
+<h4 id="people-suitable-for-quantitative-trading">✅ People Suitable for Quantitative Trading<a class="headerlink" href="#people-suitable-for-quantitative-trading" title="Permanent link">&para;</a></h4>
+<ul>
+<li>📊 <strong>Like data analysis</strong>: Willing to study historical data and statistical patterns</li>
+<li>💻 <strong>Have basic programming skills</strong>: Can read and understand code, make simple modifications</li>
+<li>⏰ <strong>Have patience</strong>: Accept that strategies need time to validate</li>
+<li>🎯 <strong>Have discipline</strong>: Can strictly execute trading plans</li>
+<li>💰 <strong>Risk tolerance</strong>: Only invest spare money</li>
+</ul>
+<hr />
+<h4 id="people-not-suitable-for-quantitative-trading">❌ People Not Suitable for Quantitative Trading<a class="headerlink" href="#people-not-suitable-for-quantitative-trading" title="Permanent link">&para;</a></h4>
+<ul>
+<li>🎲 <strong>Like gambling excitement</strong>: Pursue overnight wealth</li>
+<li>😰 <strong>Highly emotional</strong>: Panic when seeing losses</li>
+<li>⏱ <strong>Lack patience</strong>: Expect immediate profits</li>
+<li>💸 <strong>Use loans or essential funds</strong>: Cannot afford losses</li>
+<li>🚫 <strong>Completely non-technical</strong>: Unwilling to learn</li>
+</ul>
+<hr />
+<h2 id="part-3-what-is-freqtrade">🤖 Part 3: What is Freqtrade?<a class="headerlink" href="#part-3-what-is-freqtrade" title="Permanent link">&para;</a></h2>
+<h3 id="31-introduction-to-freqtrade">3.1 Introduction to Freqtrade<a class="headerlink" href="#31-introduction-to-freqtrade" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p><strong>Freqtrade</strong> is a free, open-source cryptocurrency trading bot written in Python that supports strategy development, backtesting, optimization, and automated trading.</p>
+</blockquote>
+<p><strong>Official Information</strong>:
+- 🌐 Official Website: https://www.freqtrade.io/
+- 💻 GitHub: https://github.com/freqtrade/freqtrade
+- ⭐ Stars: 28,000+
+- 👥 Contributors: 500+
+- 📅 First Release: 2017</p>
+<hr />
+<h3 id="32-core-features-of-freqtrade">3.2 Core Features of Freqtrade<a class="headerlink" href="#32-core-features-of-freqtrade" title="Permanent link">&para;</a></h3>
+<h4 id="feature-1-strategy-backtesting">Feature 1: Strategy Backtesting 🔍<a class="headerlink" href="#feature-1-strategy-backtesting" title="Permanent link">&para;</a></h4>
+<p><strong>Purpose</strong>: Validate strategies with historical data</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Test strategy with one command</span>
+freqtrade<span class="w"> </span>backtesting<span class="w"> </span>--strategy<span class="w"> </span>MyStrategy<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20240101</span>-20241231
+
+<span class="c1"># Output:</span>
+<span class="c1"># Number of trades: 150</span>
+<span class="c1"># Win rate: 65%</span>
+<span class="c1"># Total return: +35%</span>
+<span class="c1"># Max drawdown: -12%</span>
+</code></pre></div>
+<p><strong>Value</strong>:
+- Avoid testing directly with real money
+- Quickly validate strategy feasibility
+- Discover strategy strengths and weaknesses</p>
+<hr />
+<h4 id="feature-2-parameter-optimization">Feature 2: Parameter Optimization ⚡<a class="headerlink" href="#feature-2-parameter-optimization" title="Permanent link">&para;</a></h4>
+<p><strong>Problem</strong>: Strategies have many parameters, how to find the best combination?</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># For example, what should these parameters be set to?</span>
+<span class="n">RSI_threshold</span> <span class="o">=</span> <span class="err">?</span>   <span class="c1"># Choose between 30-70</span>
+<span class="n">MA_period</span> <span class="o">=</span> <span class="err">?</span>       <span class="c1"># Choose between 10-50</span>
+<span class="n">stop_loss</span> <span class="o">=</span> <span class="err">?</span>       <span class="c1"># -5% or -10%?</span>
+</code></pre></div>
+<p><strong>Freqtrade's Solution</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Automatically test 1000 parameter combinations</span>
+freqtrade<span class="w"> </span>hyperopt<span class="w"> </span>--strategy<span class="w"> </span>MyStrategy<span class="w"> </span>--epochs<span class="w"> </span><span class="m">1000</span>
+
+<span class="c1"># Output best parameters:</span>
+<span class="c1"># RSI_threshold = 35</span>
+<span class="c1"># MA_period = 23</span>
+<span class="c1"># stop_loss = -7%</span>
+</code></pre></div>
+<hr />
+<h4 id="feature-3-paper-trading-dry-run">Feature 3: Paper Trading (Dry-run) 🎮<a class="headerlink" href="#feature-3-paper-trading-dry-run" title="Permanent link">&para;</a></h4>
+<p><strong>Purpose</strong>: Test with virtual funds in real-time, no real money</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Start paper trading</span>
+freqtrade<span class="w"> </span>trade<span class="w"> </span>--strategy<span class="w"> </span>MyStrategy<span class="w"> </span>--dry-run
+
+<span class="c1"># System will:</span>
+<span class="c1"># ✅ Get real-time market data</span>
+<span class="c1"># ✅ Execute real buy/sell logic</span>
+<span class="c1"># ❌ But won't actually place orders</span>
+<span class="c1"># ✅ Record all trading results</span>
+</code></pre></div>
+<p><strong>Value</strong>:
+- Zero-cost strategy validation
+- Discover potential live trading issues
+- Build confidence in the strategy</p>
+<hr />
+<h4 id="feature-4-automated-trading">Feature 4: Automated Trading 🤖<a class="headerlink" href="#feature-4-automated-trading" title="Permanent link">&para;</a></h4>
+<p><strong>Purpose</strong>: Execute trades for real</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Start live trading</span>
+freqtrade<span class="w"> </span>trade<span class="w"> </span>--strategy<span class="w"> </span>MyStrategy
+
+<span class="c1"># Bot will automatically:</span>
+<span class="c1"># ✅ Monitor market</span>
+<span class="c1"># ✅ Discover buy/sell signals</span>
+<span class="c1"># ✅ Auto place orders</span>
+<span class="c1"># ✅ Auto stop-loss/take-profit</span>
+<span class="c1"># ✅ Record trading logs</span>
+</code></pre></div>
+<p><strong>Value</strong>:
+- 24/7 continuous trading
+- Strict execution of strategy rules
+- No emotional decisions</p>
+<hr />
+<h4 id="feature-5-visualization-analysis">Feature 5: Visualization Analysis 📊<a class="headerlink" href="#feature-5-visualization-analysis" title="Permanent link">&para;</a></h4>
+<p><strong>Purpose</strong>: Generate charts to analyze strategies</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Generate strategy charts</span>
+freqtrade<span class="w"> </span>plot-dataframe<span class="w"> </span>--strategy<span class="w"> </span>MyStrategy<span class="w"> </span>--pairs<span class="w"> </span>BTC/USDT
+
+<span class="c1"># Output: Interactive charts with buy/sell point markers</span>
+</code></pre></div>
+<p><strong>Example Chart Elements</strong>:
+- 🟢 Green arrows = Buy signals
+- 🔴 Red arrows = Sell signals
+- 📈 Candlestick charts
+- 📊 Technical indicators (EMA, RSI, etc.)</p>
+<hr />
+<h4 id="feature-6-multi-exchange-support">Feature 6: Multi-Exchange Support 🌍<a class="headerlink" href="#feature-6-multi-exchange-support" title="Permanent link">&para;</a></h4>
+<p><strong>Supported Major Exchanges</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Exchange</th>
+<th>Spot</th>
+<th>Futures</th>
+<th>Recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Binance</td>
+<td>✅</td>
+<td>✅</td>
+<td>⭐⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td>OKX</td>
+<td>✅</td>
+<td>✅</td>
+<td>⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td>Bybit</td>
+<td>✅</td>
+<td>✅</td>
+<td>⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td>Kraken</td>
+<td>✅</td>
+<td>❌</td>
+<td>⭐⭐⭐</td>
+</tr>
+<tr>
+<td>Gate.io</td>
+<td>✅</td>
+<td>✅</td>
+<td>⭐⭐⭐</td>
+</tr>
+<tr>
+<td>KuCoin</td>
+<td>✅</td>
+<td>✅</td>
+<td>⭐⭐⭐</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Switch Exchanges by Just Modifying Configuration</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"exchange"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"binance"</span><span class="w">  </span><span class="c1">// Change to "okx" or "bybit"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h3 id="33-freqtrade-vs-other-trading-bots">3.3 Freqtrade vs Other Trading Bots<a class="headerlink" href="#33-freqtrade-vs-other-trading-bots" title="Permanent link">&para;</a></h3>
+<h4 id="comparison-table">Comparison Table<a class="headerlink" href="#comparison-table" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Freqtrade</th>
+<th>TradingView</th>
+<th>3Commas</th>
+<th>Write Your Own Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Open Source</strong></td>
+<td>✅ Free</td>
+<td>❌ Paid</td>
+<td>❌ Paid</td>
+<td>✅ Free</td>
+</tr>
+<tr>
+<td><strong>Flexibility</strong></td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐⭐⭐</td>
+<td>⭐⭐</td>
+<td>⭐⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td><strong>Ease of Use</strong></td>
+<td>⭐⭐⭐</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐⭐⭐⭐</td>
+<td>⭐</td>
+</tr>
+<tr>
+<td><strong>Backtesting</strong></td>
+<td>✅ Powerful</td>
+<td>✅ Basic</td>
+<td>❌ None</td>
+<td>❌ Need to implement yourself</td>
+</tr>
+<tr>
+<td><strong>Community</strong></td>
+<td>✅ Active</td>
+<td>✅ Active</td>
+<td>⚠️ Average</td>
+<td>❌ None</td>
+</tr>
+<tr>
+<td><strong>Learning Curve</strong></td>
+<td>⭐⭐⭐</td>
+<td>⭐⭐</td>
+<td>⭐⭐</td>
+<td>⭐⭐⭐⭐⭐</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h4 id="why-choose-freqtrade">Why Choose Freqtrade?<a class="headerlink" href="#why-choose-freqtrade" title="Permanent link">&para;</a></h4>
+<p><strong>✅ Advantages</strong>:
+1. <strong>Completely Free</strong>: No subscription fees
+2. <strong>Open Source &amp; Transparent</strong>: Code is public, secure and reliable
+3. <strong>Powerful Features</strong>: Backtesting, optimization, and live trading all-in-one
+4. <strong>Active Community</strong>: Quick answers to questions
+5. <strong>Customizable</strong>: Full control over strategy logic</p>
+<p><strong>⚠️ Disadvantages</strong>:
+1. <strong>Requires Programming Basics</strong>: At least able to read Python
+2. <strong>Requires Self-Configuration</strong>: Not just a few clicks to use
+3. <strong>Steeper Learning Curve</strong>: Takes time to master</p>
+<hr />
+<h3 id="34-what-can-freqtrade-do-what-cant-it-do">3.4 What Can Freqtrade Do? What Can't It Do?<a class="headerlink" href="#34-what-can-freqtrade-do-what-cant-it-do" title="Permanent link">&para;</a></h3>
+<h4 id="what-freqtrade-can-do">✅ What Freqtrade Can Do<a class="headerlink" href="#what-freqtrade-can-do" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>✅ Spot trading (buy/sell cryptocurrencies)
+✅ Futures trading (long/short positions)
+✅ Grid trading
+✅ DCA (Dollar Cost Averaging) strategies
+✅ Multiple pairs running simultaneously
+✅ Stop-loss and take-profit
+✅ Risk management
+✅ Telegram notifications
+✅ Web UI monitoring
+✅ Data visualization
+</code></pre></div>
+<h4 id="what-freqtrade-cannot-do">❌ What Freqtrade Cannot Do<a class="headerlink" href="#what-freqtrade-cannot-do" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>❌ Predict future prices (no crystal ball)
+❌ Guarantee profits (all strategies have risks)
+❌ Complete hands-off (needs your monitoring and maintenance)
+❌ Auto-generate perfect strategies (needs your design and optimization)
+❌ Handle all market conditions (black swan events are hard to handle)
+</code></pre></div>
+<hr />
+<h2 id="part-4-course-learning-path">📚 Part 4: Course Learning Path<a class="headerlink" href="#part-4-course-learning-path" title="Permanent link">&para;</a></h2>
+<h3 id="41-course-overview">4.1 Course Overview<a class="headerlink" href="#41-course-overview" title="Permanent link">&para;</a></h3>
+<p><strong>Complete 30-Lesson System</strong>:</p>
+<div class="highlight"><pre><span></span><code>Part 1: Basic Introduction (Lessons 1-4)
+└─ Environment setup, core concepts, data download
+
+Part 2: Backtesting Practice (Lessons 5-10)
+└─ Backtesting commands, performance analysis, strategy comparison
+
+Part 3: Strategy Optimization (Lessons 11-15)
+└─ Hyperopt, scoring systems, risk management
+
+Part 4: Real-time Signals (Lessons 16-20)
+└─ Dry-run, Telegram, visualization
+
+Part 5: Live Trading (Lessons 21-25)
+└─ API configuration, small capital testing, monitoring
+
+Part 6: Advanced Topics (Lessons 26-30)
+└─ Custom strategies, AI, multi-timeframe
+</code></pre></div>
+<hr />
+<h3 id="42-learning-recommendations">4.2 Learning Recommendations<a class="headerlink" href="#42-learning-recommendations" title="Permanent link">&para;</a></h3>
+<h4 id="learning-plan">📅 Learning Plan<a class="headerlink" href="#learning-plan" title="Permanent link">&para;</a></h4>
+<p><strong>2-3 lessons per week, complete in 8-12 weeks</strong></p>
+<div class="highlight"><pre><span></span><code>Weeks 1-2: Basic Introduction (Lessons 1-4)
+Weeks 3-4: Backtesting Practice (Lessons 5-10)
+Weeks 5-6: Strategy Optimization (Lessons 11-15)
+Weeks 7-8: Real-time Signals (Lessons 16-20)
+Weeks 9-10: Paper Trading Validation
+Weeks 11-12: Small Capital Live Testing (Optional)
+</code></pre></div>
+<hr />
+<h4 id="learning-methods">📖 Learning Methods<a class="headerlink" href="#learning-methods" title="Permanent link">&para;</a></h4>
+<ol>
+<li><strong>Theory + Practice Combination</strong></li>
+<li>Each lesson has practical tasks</li>
+<li>
+<p>Must complete at least 80% of tasks to proceed to next lesson</p>
+</li>
+<li>
+<p><strong>Keep Learning Notes</strong></p>
+</li>
+<li>Record problems encountered and solutions</li>
+<li>
+<p>Create your own command cheat sheet</p>
+</li>
+<li>
+<p><strong>Join Community</strong></p>
+</li>
+<li><a href="https://discord.gg/p7nuUNVfP7">Freqtrade Discord</a></li>
+<li>
+<p><a href="https://github.com/freqtrade/freqtrade/discussions">GitHub Discussions</a></p>
+</li>
+<li>
+<p><strong>Don't Rush to Live Trading</strong></p>
+</li>
+<li>Complete at least lessons 1-20</li>
+<li>Run paper trading for at least 2 weeks</li>
+<li>Consider live trading only after stable strategy performance</li>
+</ol>
+<hr />
+<h3 id="43-required-prerequisites">4.3 Required Prerequisites<a class="headerlink" href="#43-required-prerequisites" title="Permanent link">&para;</a></h3>
+<h4 id="must-have">✅ Must Have<a class="headerlink" href="#must-have" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Basic Computer Skills</strong>: Can use computer, browser</li>
+<li><strong>Command Line Basics</strong>: Know how to open terminal, execute commands</li>
+<li><strong>English Reading Ability</strong>: Most documentation is in English</li>
+<li><strong>Basic Investment Knowledge</strong>: Know what buy, sell, stop-loss mean</li>
+</ul>
+<h4 id="recommended-not-required">⚠️ Recommended (Not Required)<a class="headerlink" href="#recommended-not-required" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Basic Python</strong>: Can read simple Python code</li>
+<li><strong>Technical Analysis Basics</strong>: Know what moving averages, RSI, MACD are</li>
+<li><strong>Trading Experience</strong>: Have traded cryptocurrencies on exchanges</li>
+</ul>
+<h4 id="not-required">❌ Not Required<a class="headerlink" href="#not-required" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Advanced Programming</strong>: Don't need to be a programmer</li>
+<li><strong>Complex Mathematics</strong>: Don't need advanced math</li>
+<li><strong>Extensive Experience</strong>: Complete beginners can learn</li>
+</ul>
+<hr />
+<h3 id="44-required-learning-resources">4.4 Required Learning Resources<a class="headerlink" href="#44-required-learning-resources" title="Permanent link">&para;</a></h3>
+<h4 id="hardware-requirements">💻 Hardware Requirements<a class="headerlink" href="#hardware-requirements" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Minimum Configuration:
+- CPU: Dual-core
+- Memory: 4GB
+- Hard Drive: 20GB free space
+- Network: Stable internet connection
+
+Recommended Configuration:
+- CPU: Quad-core
+- Memory: 8GB
+- Hard Drive: 50GB SSD
+- Network: 100Mbps+
+</code></pre></div>
+<hr />
+<h4 id="capital-requirements">💰 Capital Requirements<a class="headerlink" href="#capital-requirements" title="Permanent link">&para;</a></h4>
+<p><strong>Learning Phase (Lessons 1-20)</strong>:
+- ✅ $0 (Use demo accounts)</p>
+<p><strong>Live Testing (Lessons 21-25)</strong>:
+- ⚠️ Recommended $100-500 (Money you can afford to lose)</p>
+<p><strong>Formal Trading</strong>:
+- Depends on personal situation
+- Beginners recommend not exceeding 10% of total assets</p>
+<hr />
+<h4 id="learning-resources">📚 Learning Resources<a class="headerlink" href="#learning-resources" title="Permanent link">&para;</a></h4>
+<p><strong>Supporting Documentation</strong>:
+- 📄 <a href="../TESTING_GUIDE.md">TESTING_GUIDE.md</a> - Testing Command Guide
+- 📄 <a href="../STRATEGY_SELECTION_GUIDE.md">STRATEGY_SELECTION_GUIDE.md</a> - Strategy Selection Guide
+- 📄 <a href="../CONFIG_EXPLANATION.md">CONFIG_EXPLANATION.md</a> - Configuration File Details
+- 📄 <a href="../TROUBLESHOOTING.md">TROUBLESHOOTING.md</a> - Troubleshooting Guide</p>
+<p><strong>Official Resources</strong>:
+- 📖 <a href="https://www.freqtrade.io/en/stable/">Freqtrade Official Documentation</a>
+- 💻 <a href="https://github.com/freqtrade/freqtrade">GitHub Repository</a>
+- 💬 <a href="https://discord.gg/p7nuUNVfP7">Discord Community</a></p>
+<hr />
+<h2 id="important-risk-warning">⚠️ Important Risk Warning<a class="headerlink" href="#important-risk-warning" title="Permanent link">&para;</a></h2>
+<h3 id="before-starting-to-learn-please-understand">Before starting to learn, please understand:<a class="headerlink" href="#before-starting-to-learn-please-understand" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Quantitative trading has risks and may lead to capital loss</strong></li>
+<li>Even the best strategies can lose money</li>
+<li>
+<p>Past performance does not represent the future</p>
+</li>
+<li>
+<p><strong>This course is for educational purposes only</strong></p>
+</li>
+<li>Does not constitute investment advice</li>
+<li>
+<p>You are responsible for all trading decisions</p>
+</li>
+<li>
+<p><strong>Always start with paper trading</strong></p>
+</li>
+<li>Complete at least 2 weeks of dry-run testing</li>
+<li>
+<p>Consider live trading only after stable strategy performance</p>
+</li>
+<li>
+<p><strong>Only invest money you can afford to lose</strong></p>
+</li>
+<li>Don't trade with borrowed money</li>
+<li>Don't use essential living funds</li>
+<li>
+<p>Beginners recommend not exceeding 5-10% of total assets</p>
+</li>
+<li>
+<p><strong>Keep learning and be cautious</strong></p>
+</li>
+<li>Markets are constantly changing</li>
+<li>Need to continuously optimize strategies</li>
+<li>Don't expect overnight wealth</li>
+</ol>
+<hr />
+<h2 id="post-lesson-tasks">📝 Post-Lesson Tasks<a class="headerlink" href="#post-lesson-tasks" title="Permanent link">&para;</a></h2>
+<h3 id="task-1-self-assessment-required">Task 1: Self-Assessment (Required)<a class="headerlink" href="#task-1-self-assessment-required" title="Permanent link">&para;</a></h3>
+<p>Answer the following questions to assess if you're suitable for learning quantitative trading:</p>
+<ol>
+<li><strong>What are your learning goals?</strong></li>
+<li>[ ] Learn quantitative trading knowledge</li>
+<li>[ ] Develop automated trading strategies</li>
+<li>[ ] Make profits from live trading</li>
+<li>
+<p>[ ] Other: ___________</p>
+</li>
+<li>
+<p><strong>How many hours per week can you dedicate to learning?</strong></p>
+</li>
+<li>[ ] &lt; 3 hours</li>
+<li>[ ] 3-5 hours</li>
+<li>[ ] 5-10 hours</li>
+<li>
+<p>[ ] &gt; 10 hours</p>
+</li>
+<li>
+<p><strong>Your risk tolerance?</strong></p>
+</li>
+<li>[ ] Conservative (cannot accept any losses)</li>
+<li>[ ] Moderate (can accept small losses)</li>
+<li>[ ] Balanced (can accept some drawdown)</li>
+<li>
+<p>[ ] Aggressive (pursue high returns, accept high risks)</p>
+</li>
+<li>
+<p><strong>Your expected returns from quantitative trading?</strong></p>
+</li>
+<li>[ ] 5-10% annual (conservative)</li>
+<li>[ ] 10-20% annual (reasonable)</li>
+<li>[ ] 20-50% annual (optimistic)</li>
+<li>
+<p>[ ] &gt; 50% annual (unrealistic)</p>
+</li>
+<li>
+<p><strong>Do you have programming experience?</strong></p>
+</li>
+<li>[ ] None (but willing to learn)</li>
+<li>[ ] Some Python</li>
+<li>[ ] Can program but not familiar with Python</li>
+<li>[ ] Proficient in Python</li>
+</ol>
+<p><strong>Recommendations</strong>:
+- If you chose "Conservative" and expect "&gt; 50%", reconsider
+- If you have &lt; 3 hours per week, extend your learning period
+- If you have no programming experience, learn Python basics first</p>
+<hr />
+<h3 id="task-2-register-exchange-account-required">Task 2: Register Exchange Account (Required)<a class="headerlink" href="#task-2-register-exchange-account-required" title="Permanent link">&para;</a></h3>
+<p><strong>Goal</strong>: Prepare for future learning</p>
+<p><strong>Steps</strong>:
+1. Choose an exchange (recommend Binance or OKX)
+2. Register account (complete identity verification)
+3. Familiarize yourself with trading interface
+4. <strong>Do not deposit funds yet</strong> (not needed for learning phase)</p>
+<p><strong>Recommended Exchanges</strong>:
+- <strong>Binance</strong>
+  - Pros: Largest global, good liquidity, low fees
+  - Cons: Restricted in some regions
+  - Link: https://www.binance.com/</p>
+<ul>
+<li><strong>OKX</strong></li>
+<li>Pros: Good Chinese support, powerful features</li>
+<li>Cons: Slightly smaller than Binance</li>
+<li>Link: https://www.okx.com/</li>
+</ul>
+<p>⚠️ <strong>Note</strong>: This course uses demo accounts, real accounts only for learning the interface.</p>
+<hr />
+<h3 id="task-3-join-freqtrade-community-recommended">Task 3: Join Freqtrade Community (Recommended)<a class="headerlink" href="#task-3-join-freqtrade-community-recommended" title="Permanent link">&para;</a></h3>
+<p><strong>Goal</strong>: Get help and communicate</p>
+<p><strong>Steps</strong>:
+1. Join <a href="https://discord.gg/p7nuUNVfP7">Freqtrade Discord</a>
+2. Briefly introduce yourself in #introductions channel
+3. Browse #general and #strategy channels
+4. Bookmark <a href="https://www.freqtrade.io/en/stable/">official documentation</a></p>
+<hr />
+<h3 id="task-4-reflection-and-discussion-optional">Task 4: Reflection and Discussion (Optional)<a class="headerlink" href="#task-4-reflection-and-discussion-optional" title="Permanent link">&para;</a></h3>
+<p><strong>Thought Questions</strong>:</p>
+<ol>
+<li>
+<p><strong>What do you think is the biggest advantage of quantitative trading?</strong></p>
+</li>
+<li>
+<p><strong>If a strategy has 100% backtest returns, would you use real money directly? Why?</strong></p>
+</li>
+<li>
+<p><strong>Assuming you have 10,000 USDT, how much would you invest in quantitative trading?</strong></p>
+</li>
+<li>
+<p><strong>What other questions do you have about Freqtrade?</strong></p>
+</li>
+</ol>
+<p>Welcome to share your thoughts in the community!</p>
+<hr />
+<h2 id="post-lesson-quiz">🎓 Post-Lesson Quiz<a class="headerlink" href="#post-lesson-quiz" title="Permanent link">&para;</a></h2>
+<h3 id="multiple-choice">Multiple Choice<a class="headerlink" href="#multiple-choice" title="Permanent link">&para;</a></h3>
+<ol>
+<li>What is the biggest advantage of quantitative trading?</li>
+<li>A. Can predict future prices</li>
+<li>B. Guaranteed profits</li>
+<li>C. Eliminate emotional impact</li>
+<li>
+<p>D. No knowledge required</p>
+</li>
+<li>
+<p>What is overfitting?</p>
+</li>
+<li>A. Strategy is too simple</li>
+<li>B. Strategy performs well in historical data but ineffective in live trading</li>
+<li>C. Strategy loses money</li>
+<li>
+<p>D. Strategy is too complex</p>
+</li>
+<li>
+<p>What is Freqtrade?</p>
+</li>
+<li>A. Paid trading software</li>
+<li>B. Backtesting tool only</li>
+<li>C. Open source trading bot</li>
+<li>
+<p>D. An exchange</p>
+</li>
+<li>
+<p>What is the most important mindset for learning quantitative trading?</p>
+</li>
+<li>A. Pursue huge profits</li>
+<li>B. Believe in overnight wealth</li>
+<li>C. Caution, patience, continuous learning</li>
+<li>
+<p>D. Complete reliance on bots</p>
+</li>
+<li>
+<p>Which of the following is NOT a Freqtrade feature?</p>
+</li>
+<li>A. Strategy backtesting</li>
+<li>B. Parameter optimization</li>
+<li>C. Predict future prices</li>
+<li>D. Automated trading</li>
+</ol>
+<h3 id="truefalse">True/False<a class="headerlink" href="#truefalse" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>Strategies with good backtest performance will definitely make money in live trading. ( )</p>
+</li>
+<li>
+<p>Quantitative trading requires no human intervention at all. ( )</p>
+</li>
+<li>
+<p>Beginners should start with demo accounts for testing. ( )</p>
+</li>
+<li>
+<p>If the strategy is good, you can invest all your capital. ( )</p>
+</li>
+<li>
+<p>When markets change, strategies need adjustment and optimization. ( )</p>
+</li>
+</ol>
+<p><strong>Answers at the end</strong> ⬇️</p>
+<hr />
+<h2 id="learning-checklist">✅ Learning Checklist<a class="headerlink" href="#learning-checklist" title="Permanent link">&para;</a></h2>
+<p>Before proceeding to Lesson 2, ensure you have:</p>
+<ul>
+<li>[ ] Understood what quantitative trading is</li>
+<li>[ ] Learned the advantages and risks of quantitative trading</li>
+<li>[ ] Recognized Freqtrade and its features</li>
+<li>[ ] Clarified your learning goals</li>
+<li>[ ] Assessed if you're suitable for learning quantitative trading</li>
+<li>[ ] Registered exchange account (no deposit yet)</li>
+<li>[ ] Joined Freqtrade community</li>
+<li>[ ] Completed post-lesson quiz (accuracy &gt; 80%)</li>
+</ul>
+<p>If you have any questions, review the relevant sections or ask in the community.</p>
+<hr />
+<h2 id="next-lesson-preview">🎯 Next Lesson Preview<a class="headerlink" href="#next-lesson-preview" title="Permanent link">&para;</a></h2>
+<p><strong>Lesson 2: Freqtrade Environment Setup</strong></p>
+<p>In Lesson 2, we will:
+- Install Python and Conda environment
+- Install Freqtrade
+- Configure the first config.json file
+- Run the first Freqtrade command
+- Verify the environment is correct</p>
+<p><strong>Preparation</strong>:
+- Ensure computer has 20GB free space
+- Prepare 1-2 hours of complete time
+- Keep network connection stable</p>
+<hr />
+<h2 id="quiz-answers">📌 Quiz Answers<a class="headerlink" href="#quiz-answers" title="Permanent link">&para;</a></h2>
+<ol>
+<li>C - Eliminate emotional impact</li>
+<li>B - Strategy performs well in historical data but ineffective in live trading</li>
+<li>C - Open source trading bot</li>
+<li>C - Caution, patience, continuous learning</li>
+<li>C - Predict future prices</li>
+<li>❌ False (history doesn't represent the future)</li>
+<li>❌ False (requires monitoring and maintenance)</li>
+<li>✅ True</li>
+<li>❌ False (only invest money you can afford to lose)</li>
+<li>✅ True</li>
+</ol>
+<hr />
+<h2 id="post-lesson-discussion">💬 Post-Lesson Discussion<a class="headerlink" href="#post-lesson-discussion" title="Permanent link">&para;</a></h2>
+<h3 id="discussion-topics">Discussion Topics<a class="headerlink" href="#discussion-topics" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Share your quantitative trading goals</strong></li>
+<li>What goals do you hope to achieve through this course?</li>
+<li>
+<p>How much time and capital do you plan to invest?</p>
+</li>
+<li>
+<p><strong>Your concerns about quantitative trading</strong></p>
+</li>
+<li>What risks worry you most?</li>
+<li>
+<p>Which part interests you most?</p>
+</li>
+<li>
+<p><strong>Learning Partner Recruitment</strong></p>
+</li>
+<li>Find partners to learn together</li>
+<li>Form study groups to supervise each other</li>
+</ol>
+<p>Welcome to discuss in the community's #course-discussion channel!</p>
+<hr />
+<p><strong>Congratulations on completing Lesson 1! Ready to move on to practical sessions?</strong> 🚀</p>
+<p>Next lesson we will officially install Freqtrade and begin your quantitative trading journey!</p>
+<hr />
+<p>📝 <strong>Course Feedback</strong>: If any part of this lesson is unclear, feel free to provide suggestions!</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

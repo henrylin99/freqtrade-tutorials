@@ -1,0 +1,3787 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Freqtrade 量化交易中文实战教程（含英文版）— 从环境搭建到实盘的完整学习路径">
+      
+      
+      
+        <link rel="canonical" href="https://henrylin99.github.io/freqtrade-tutorials/en/lesson-04-data-management/">
+      
+      
+        <link rel="prev" href="../lesson-03-core-concepts/">
+      
+      
+        <link rel="next" href="../lesson-05-first-backtest/">
+      
+      
+        
+          <link rel="alternate" href="../../lesson-04-data-management/" hreflang="zh">
+        
+          <link rel="alternate" href="./" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>Lesson 4: Data Download and Management - Freqtrade 实战教程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9784658154228475"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VGHZY4EELE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VGHZY4EELE");
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lesson-4-data-download-and-management" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Freqtrade 实战教程" class="md-header__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Freqtrade 实战教程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lesson 4: Data Download and Management
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="切换浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../lesson-04-data-management/" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../strategies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  English Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Freqtrade 实战教程" class="md-nav__button md-logo" aria-label="Freqtrade 实战教程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Freqtrade 实战教程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/henrylin99/freqtrade-tutorials" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    henrylin99/freqtrade-tutorials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../strategies/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    English Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    English Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 1: Introduction to Quantitative Trading and Freqtrade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-02-environment-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 2: Freqtrade Environment Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-03-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 3: Understanding Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 4: Data Download and Management
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 4: Data Download and Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#course-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 Course Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#41-timeframe-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Timeframe Selection
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 Timeframe Selection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-a-timeframe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is a Timeframe?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#timeframes-and-trading-styles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Timeframes and Trading Styles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Timeframes and Trading Styles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-ultra-short-term-1m-5m" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Ultra Short-term (1m - 5m)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-short-term-15m-1h" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Short-term (15m - 1h)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-medium-to-long-term-4h-1d" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Medium to Long-term (4h - 1d)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-volume-vs-signal-quality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Volume vs Signal Quality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selection-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Selection Recommendations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#42-downloading-historical-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Downloading Historical Data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.2 Downloading Historical Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#activate-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Activate Environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basic-download-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Download Commands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic Download Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-download-default-trading-pairs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Download Default Trading Pairs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-download-specified-trading-pairs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Download Specified Trading Pairs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-download-multiple-timeframes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Download Multiple Timeframes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batch-download" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Batch Download
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Batch Download">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#download-multiple-trading-pairs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Download Multiple Trading Pairs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#download-longer-time-range" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Download Longer Time Range
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#download-by-specified-date-range" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Download by Specified Date Range
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#incremental-updates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Incremental Updates
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#43-data-format-and-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Data Format and Storage
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.3 Data Format and Storage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-storage-formats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Storage Formats
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Storage Formats">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-json-format-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. JSON Format (Default)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-parquet-format-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Parquet Format (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-directory-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Directory Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#view-downloaded-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        View Downloaded Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-integrity-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Integrity Check
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#44-data-updates-and-maintenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Data Updates and Maintenance
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.4 Data Updates and Maintenance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scheduled-update-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scheduled Update Strategies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Scheduled Update Strategies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#method-1-manual-updates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 1: Manual Updates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-2-using-cron-scheduled-tasks-linuxmacos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 2: Using Cron Scheduled Tasks (Linux/macOS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-3-using-windows-task-scheduler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 3: Using Windows Task Scheduler
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Cleanup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#storage-space-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Storage Space Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Storage Space Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#estimate-storage-needs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estimate Storage Needs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optimize-storage-space" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optimize Storage Space
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Practical Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 Practical Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-basic-data-download" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Basic Data Download
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-multiple-pairs-and-timeframes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Multiple Pairs and Timeframes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-view-data-statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: View Data Statistics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-4-test-error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 4: Test Error Handling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-5-data-format-conversion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 5: Data Format Conversion
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quiz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Quiz
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Quiz">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Answers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advanced-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#thinking-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Thinking Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-issues-and-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 Common Issues and Solutions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 Common Issues and Solutions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#issue-1-slow-download-speed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Issue 1: Slow Download Speed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#issue-2-download-failure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Issue 2: Download Failure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#issue-3-incomplete-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Issue 3: Incomplete Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#issue-4-insufficient-disk-space" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Issue 4: Insufficient Disk Space
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-download-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Data Download Best Practices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Data Download Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-timeframe-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Timeframe Selection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-data-period" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Data Period
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-number-of-trading-pairs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Number of Trading Pairs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-storage-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Storage Optimization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reference-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔗 Reference Documentation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔗 Reference Documentation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#freqtrade-official-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Freqtrade Official Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#related-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-points-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Key Points Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-lesson-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ➡️ Next Lesson Preview
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-05-first-backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 5: First Strategy Backtest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-06-strategy-performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 6: Strategy Performance Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-07-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 7: Multi-Timeframe Backtesting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-08-strategy-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 8: Strategy Batch Comparison
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-09-timerange-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 9: Time Range Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-10-pair-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 10: Trading Pair Selection and Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-11-hyperopt-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 11: Hyperopt Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-12-advanced-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 12: Advanced Strategy Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-13-scoring-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 13: Strategy Scoring System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-14-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 14: Risk and Money Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-15-portfolio-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 15: Strategy Portfolio and Diversification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-16-realtime-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 16: Real-time Signal Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-17-telegram-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 17: Telegram Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-18-webui-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 18: Web UI and API Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 19: Visualization Analysis Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-20-dry-run-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 20: Simulated Trading Validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-21-exchange-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 21: Exchange API Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-22-pre-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 22: Pre-Live Trading Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-23-small-capital-live/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 23: Small Capital Live Trading
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-1-order-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.1: Live Trading Order Placement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-2-stop-loss-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.2: Live Trading Stop Loss Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-3-futures-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.3: Binance Futures Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-4-leverage-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24.4: Leverage Trading Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-24-trading-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 24: Trading Monitoring and Adjustment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-25-risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 25: Risk Control and Psychology Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-26-custom-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 26: Custom Strategy Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-27-multi-timeframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 27: Multi-Timeframe Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-28-grid-hft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 28: HFT and Grid Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-1-freqai-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.1: FreqAI Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-2-advanced-ml-strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29.2: Advanced ML Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning-enhanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: ML Basics and Strategy Optimization (Enhanced)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-29-machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 29: Machine Learning and Strategy Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-30-conclusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lesson 30: Conclusion and Continuous Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#course-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 Course Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#41-timeframe-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Timeframe Selection
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 Timeframe Selection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-a-timeframe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is a Timeframe?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#timeframes-and-trading-styles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Timeframes and Trading Styles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Timeframes and Trading Styles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-ultra-short-term-1m-5m" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Ultra Short-term (1m - 5m)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-short-term-15m-1h" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Short-term (15m - 1h)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-medium-to-long-term-4h-1d" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Medium to Long-term (4h - 1d)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-volume-vs-signal-quality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Volume vs Signal Quality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selection-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Selection Recommendations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#42-downloading-historical-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Downloading Historical Data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.2 Downloading Historical Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#activate-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Activate Environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basic-download-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Download Commands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic Download Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-download-default-trading-pairs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Download Default Trading Pairs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-download-specified-trading-pairs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Download Specified Trading Pairs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-download-multiple-timeframes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Download Multiple Timeframes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batch-download" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Batch Download
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Batch Download">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#download-multiple-trading-pairs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Download Multiple Trading Pairs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#download-longer-time-range" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Download Longer Time Range
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#download-by-specified-date-range" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Download by Specified Date Range
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#incremental-updates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Incremental Updates
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#43-data-format-and-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Data Format and Storage
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.3 Data Format and Storage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-storage-formats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Storage Formats
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Storage Formats">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-json-format-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. JSON Format (Default)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-parquet-format-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Parquet Format (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-directory-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Directory Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#view-downloaded-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        View Downloaded Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-integrity-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Integrity Check
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#44-data-updates-and-maintenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Data Updates and Maintenance
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.4 Data Updates and Maintenance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scheduled-update-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scheduled Update Strategies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Scheduled Update Strategies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#method-1-manual-updates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 1: Manual Updates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-2-using-cron-scheduled-tasks-linuxmacos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 2: Using Cron Scheduled Tasks (Linux/macOS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-3-using-windows-task-scheduler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 3: Using Windows Task Scheduler
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Cleanup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#storage-space-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Storage Space Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Storage Space Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#estimate-storage-needs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estimate Storage Needs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optimize-storage-space" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optimize Storage Space
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Practical Tasks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 Practical Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-basic-data-download" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 1: Basic Data Download
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-multiple-pairs-and-timeframes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 2: Multiple Pairs and Timeframes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-view-data-statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 3: View Data Statistics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-4-test-error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 4: Test Error Handling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-5-data-format-conversion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task 5: Data Format Conversion
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quiz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Quiz
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Quiz">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Answers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advanced-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#thinking-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Thinking Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-issues-and-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 Common Issues and Solutions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 Common Issues and Solutions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#issue-1-slow-download-speed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Issue 1: Slow Download Speed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#issue-2-download-failure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Issue 2: Download Failure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#issue-3-incomplete-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Issue 3: Incomplete Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#issue-4-insufficient-disk-space" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Issue 4: Insufficient Disk Space
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-download-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Data Download Best Practices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Data Download Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-timeframe-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Timeframe Selection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-data-period" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Data Period
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-number-of-trading-pairs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Number of Trading Pairs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-storage-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Storage Optimization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reference-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔗 Reference Documentation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔗 Reference Documentation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#freqtrade-official-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Freqtrade Official Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#related-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-points-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Key Points Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-lesson-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ➡️ Next Lesson Preview
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="lesson-4-data-download-and-management">Lesson 4: Data Download and Management<a class="headerlink" href="#lesson-4-data-download-and-management" title="Permanent link">&para;</a></h1>
+<p><strong>⏱ Duration</strong>: 1.5 hours
+<strong>🎯 Learning Objectives</strong>: Master market data download and management
+<strong>📚 Difficulty</strong>: ⭐ Beginner</p>
+<hr />
+<h2 id="course-overview">📖 Course Overview<a class="headerlink" href="#course-overview" title="Permanent link">&para;</a></h2>
+<p>Historical data is the foundation of quantitative trading. Without data, you cannot backtest the historical performance of strategies. This lesson will teach you how to download, manage, and maintain market data, preparing you for upcoming backtesting practice.</p>
+<hr />
+<h2 id="41-timeframe-selection">4.1 Timeframe Selection<a class="headerlink" href="#41-timeframe-selection" title="Permanent link">&para;</a></h2>
+<h3 id="what-is-a-timeframe">What is a Timeframe?<a class="headerlink" href="#what-is-a-timeframe" title="Permanent link">&para;</a></h3>
+<p>A timeframe refers to the time length represented by each candle (candlestick). Common timeframes include:</p>
+<table>
+<thead>
+<tr>
+<th>Timeframe</th>
+<th>Description</th>
+<th>Daily Candles</th>
+<th>Data Volume (30 days)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1m</strong></td>
+<td>1 minute</td>
+<td>1,440</td>
+<td>43,200 candles</td>
+</tr>
+<tr>
+<td><strong>5m</strong></td>
+<td>5 minutes</td>
+<td>288</td>
+<td>8,640 candles</td>
+</tr>
+<tr>
+<td><strong>15m</strong></td>
+<td>15 minutes</td>
+<td>96</td>
+<td>2,880 candles</td>
+</tr>
+<tr>
+<td><strong>1h</strong></td>
+<td>1 hour</td>
+<td>24</td>
+<td>720 candles</td>
+</tr>
+<tr>
+<td><strong>4h</strong></td>
+<td>4 hours</td>
+<td>6</td>
+<td>180 candles</td>
+</tr>
+<tr>
+<td><strong>1d</strong></td>
+<td>1 day</td>
+<td>1</td>
+<td>30 candles</td>
+</tr>
+</tbody>
+</table>
+<h3 id="timeframes-and-trading-styles">Timeframes and Trading Styles<a class="headerlink" href="#timeframes-and-trading-styles" title="Permanent link">&para;</a></h3>
+<p>Different timeframes suit different trading styles:</p>
+<h4 id="1-ultra-short-term-1m-5m">1. Ultra Short-term (1m - 5m)<a class="headerlink" href="#1-ultra-short-term-1m-5m" title="Permanent link">&para;</a></h4>
+<p><strong>Characteristics</strong>:
+- Very high trading frequency (dozens to hundreds of trades per day)
+- High percentage of transaction costs
+- Requires fast execution, sensitive to latency
+- Many signal noises, many false signals</p>
+<p><strong>Suitable for</strong>:
+- Full-time traders
+- High-frequency trading systems
+- Accounts with low transaction fees</p>
+<p><strong>Risks</strong>:
+- Overtrading
+- Transaction costs eroding profits
+- High psychological pressure</p>
+<h4 id="2-short-term-15m-1h">2. Short-term (15m - 1h)<a class="headerlink" href="#2-short-term-15m-1h" title="Permanent link">&para;</a></h4>
+<p><strong>Characteristics</strong>:
+- Mainly day trading (5-20 trades per day)
+- Balances signal quality and quantity
+- Moderate transaction cost impact
+- Suitable for beginners to practice</p>
+<p><strong>Suitable for</strong>:
+- Quantitative trading beginners
+- Those with some time to monitor markets
+- Those who want to see results quickly</p>
+<p><strong>Recommended Reasons</strong>:
+- ✅ Fast data download
+- ✅ Fast backtesting
+- ✅ Good signal quality
+- ✅ Controllable transaction costs</p>
+<h4 id="3-medium-to-long-term-4h-1d">3. Medium to Long-term (4h - 1d)<a class="headerlink" href="#3-medium-to-long-term-4h-1d" title="Permanent link">&para;</a></h4>
+<p><strong>Characteristics</strong>:
+- Swing trading (few trades per week)
+- Few but high-quality signals
+- Low percentage of transaction costs
+- Overnight risk needs consideration</p>
+<p><strong>Suitable for</strong>:
+- Part-time traders
+- Those who don't want frequent monitoring
+- Those with larger capital</p>
+<p><strong>Risks</strong>:
+- Large single-trade volatility
+- Overnight news risk
+- Low capital utilization efficiency</p>
+<h3 id="data-volume-vs-signal-quality">Data Volume vs Signal Quality<a class="headerlink" href="#data-volume-vs-signal-quality" title="Permanent link">&para;</a></h3>
+<p>This is a classic trade-off:</p>
+<div class="highlight"><pre><span></span><code>Smaller Timeframe ───────────────────────→ Larger Timeframe
+│                                              │
+├─ More signals, but more noise                │
+├─ Frequent trading, high transaction fees    │
+├─ Large data volume, high storage pressure    │
+│                                              │
+│                                    Fewer signals, but higher quality ─┤
+│                                    Less trading, low transaction fees ─┤
+│                                    Small data volume, easy storage ─┤
+</code></pre></div>
+<h3 id="selection-recommendations">Selection Recommendations<a class="headerlink" href="#selection-recommendations" title="Permanent link">&para;</a></h3>
+<p><strong>Beginner Recommendations</strong>:
+- <strong>Main timeframe</strong>: 5m or 15m
+- <strong>Auxiliary timeframe</strong>: 1h (for trend confirmation)
+- <strong>Data period</strong>: 30-90 days</p>
+<p><strong>Advanced Users</strong>:
+- Choose based on strategy type
+- Multi-timeframe combinations
+- Prepare at least 6+ months of data</p>
+<hr />
+<h2 id="42-downloading-historical-data">4.2 Downloading Historical Data<a class="headerlink" href="#42-downloading-historical-data" title="Permanent link">&para;</a></h2>
+<h3 id="activate-environment">Activate Environment<a class="headerlink" href="#activate-environment" title="Permanent link">&para;</a></h3>
+<p>First ensure Freqtrade environment is activated:
+<div class="highlight"><pre><span></span><code><span class="c1"># Activate Conda environment</span>
+conda<span class="w"> </span>activate<span class="w"> </span>freqtrade
+
+<span class="c1"># Verify environment</span>
+freqtrade<span class="w"> </span>--version
+</code></pre></div></p>
+<h3 id="basic-download-commands">Basic Download Commands<a class="headerlink" href="#basic-download-commands" title="Permanent link">&para;</a></h3>
+<h4 id="1-download-default-trading-pairs">1. Download Default Trading Pairs<a class="headerlink" href="#1-download-default-trading-pairs" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Download trading pairs configured in config.json, recent 30 days, 5-minute data</span>
+freqtrade<span class="w"> </span>download-data<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--days<span class="w"> </span><span class="m">30</span><span class="w"> </span>--timeframes<span class="w"> </span>5m
+</code></pre></div>
+<p><strong>Output Example</strong>:
+<div class="highlight"><pre><span></span><code>2025-09-30 10:00:00 - freqtrade.data.history - INFO - Downloading pair BTC/USDT, interval 5m.
+2025-09-30 10:00:05 - freqtrade.data.history - INFO - BTC/USDT, 5m: 8640 candles downloaded.
+</code></pre></div></p>
+<h4 id="2-download-specified-trading-pairs">2. Download Specified Trading Pairs<a class="headerlink" href="#2-download-specified-trading-pairs" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Download specified trading pairs</span>
+freqtrade<span class="w"> </span>download-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--pairs<span class="w"> </span>BTC/USDT<span class="w"> </span>ETH/USDT<span class="w"> </span>BNB/USDT<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--days<span class="w"> </span><span class="m">30</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timeframes<span class="w"> </span>5m
+</code></pre></div>
+<h4 id="3-download-multiple-timeframes">3. Download Multiple Timeframes<a class="headerlink" href="#3-download-multiple-timeframes" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Download multiple timeframes simultaneously</span>
+freqtrade<span class="w"> </span>download-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--pairs<span class="w"> </span>BTC/USDT<span class="w"> </span>ETH/USDT<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--days<span class="w"> </span><span class="m">90</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timeframes<span class="w"> </span>1m<span class="w"> </span>5m<span class="w"> </span>15m<span class="w"> </span>1h<span class="w"> </span>1d
+</code></pre></div>
+<h3 id="batch-download">Batch Download<a class="headerlink" href="#batch-download" title="Permanent link">&para;</a></h3>
+<h4 id="download-multiple-trading-pairs">Download Multiple Trading Pairs<a class="headerlink" href="#download-multiple-trading-pairs" title="Permanent link">&para;</a></h4>
+<p>Create trading pairs list file <code>pairs.json</code>:
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"exchange"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"pair_whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">"BTC/USDT"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"ETH/USDT"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"BNB/USDT"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"SOL/USDT"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"XRP/USDT"</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p>Download using list:
+<div class="highlight"><pre><span></span><code>freqtrade<span class="w"> </span>download-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>pairs.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--exchange<span class="w"> </span>binance<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--days<span class="w"> </span><span class="m">90</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timeframes<span class="w"> </span>5m<span class="w"> </span>1h
+</code></pre></div></p>
+<h4 id="download-longer-time-range">Download Longer Time Range<a class="headerlink" href="#download-longer-time-range" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Download recent 180 days data (about 6 months)</span>
+freqtrade<span class="w"> </span>download-data<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--days<span class="w"> </span><span class="m">180</span><span class="w"> </span>--timeframes<span class="w"> </span>5m
+
+<span class="c1"># Download 1 year data</span>
+freqtrade<span class="w"> </span>download-data<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--days<span class="w"> </span><span class="m">365</span><span class="w"> </span>--timeframes<span class="w"> </span>1h
+</code></pre></div>
+<h3 id="download-by-specified-date-range">Download by Specified Date Range<a class="headerlink" href="#download-by-specified-date-range" title="Permanent link">&para;</a></h3>
+<p>Use <code>--timerange</code> parameter to precisely control dates:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Download data from September 1 to September 30, 2025</span>
+freqtrade<span class="w"> </span>download-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timerange<span class="w"> </span><span class="m">20250901</span>-20250930<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timeframes<span class="w"> </span>5m
+
+<span class="c1"># From a certain date to now</span>
+freqtrade<span class="w"> </span>download-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timerange<span class="w"> </span><span class="m">20250801</span>-<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timeframes<span class="w"> </span>5m
+
+<span class="c1"># All data before a certain date</span>
+freqtrade<span class="w"> </span>download-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timerange<span class="w"> </span>-20250930<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timeframes<span class="w"> </span>5m
+</code></pre></div>
+<h3 id="incremental-updates">Incremental Updates<a class="headerlink" href="#incremental-updates" title="Permanent link">&para;</a></h3>
+<p>If data has been downloaded before, running the command again will automatically update incrementally:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># First download (September 1-15)</span>
+freqtrade<span class="w"> </span>download-data<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250901</span>-20250915<span class="w"> </span>--timeframes<span class="w"> </span>5m
+
+<span class="c1"># Incremental update (will only download September 16-30)</span>
+freqtrade<span class="w"> </span>download-data<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250901</span>-20250930<span class="w"> </span>--timeframes<span class="w"> </span>5m
+</code></pre></div>
+<hr />
+<h2 id="43-data-format-and-storage">4.3 Data Format and Storage<a class="headerlink" href="#43-data-format-and-storage" title="Permanent link">&para;</a></h2>
+<h3 id="data-storage-formats">Data Storage Formats<a class="headerlink" href="#data-storage-formats" title="Permanent link">&para;</a></h3>
+<p>Freqtrade supports two data storage formats:</p>
+<h4 id="1-json-format-default">1. JSON Format (Default)<a class="headerlink" href="#1-json-format-default" title="Permanent link">&para;</a></h4>
+<p><strong>Advantages</strong>:
+- Human readable
+- Easy to debug
+- Good compatibility</p>
+<p><strong>Disadvantages</strong>:
+- Larger files
+- Slower reading</p>
+<p><strong>Example File</strong>:
+<div class="highlight"><pre><span></span><code>user_data/data/binance/BTC_USDT-5m.json
+</code></pre></div></p>
+<p><strong>File Content Snippet</strong>:
+<div class="highlight"><pre><span></span><code><span class="p">[</span>
+<span class="w">  </span><span class="p">[</span><span class="mi">1693526400000</span><span class="p">,</span><span class="w"> </span><span class="mf">25945.32</span><span class="p">,</span><span class="w"> </span><span class="mf">25950.00</span><span class="p">,</span><span class="w"> </span><span class="mf">25940.00</span><span class="p">,</span><span class="w"> </span><span class="mf">25948.15</span><span class="p">,</span><span class="w"> </span><span class="mf">124.5</span><span class="p">],</span>
+<span class="w">  </span><span class="p">[</span><span class="mi">1693526700000</span><span class="p">,</span><span class="w"> </span><span class="mf">25948.15</span><span class="p">,</span><span class="w"> </span><span class="mf">25955.20</span><span class="p">,</span><span class="w"> </span><span class="mf">25945.00</span><span class="p">,</span><span class="w"> </span><span class="mf">25952.30</span><span class="p">,</span><span class="w"> </span><span class="mf">98.3</span><span class="p">]</span>
+<span class="p">]</span>
+</code></pre></div>
+Format: <code>[timestamp, open, high, low, close, volume]</code></p>
+<h4 id="2-parquet-format-recommended">2. Parquet Format (Recommended)<a class="headerlink" href="#2-parquet-format-recommended" title="Permanent link">&para;</a></h4>
+<p><strong>Advantages</strong>:
+- Small files (high compression)
+- Fast reading
+- Suitable for large data volumes</p>
+<p><strong>Disadvantages</strong>:
+- Binary format, not directly viewable
+- Requires additional library support</p>
+<p><strong>Configuration Method</strong>:
+Add to <code>config.json</code>:
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"dataformat_ohlcv"</span><span class="p">:</span><span class="w"> </span><span class="s2">"parquet"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"dataformat_trades"</span><span class="p">:</span><span class="w"> </span><span class="s2">"parquet"</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p><strong>Example File</strong>:
+<div class="highlight"><pre><span></span><code>user_data/data/binance/BTC_USDT-5m.parquet
+</code></pre></div></p>
+<h3 id="data-directory-structure">Data Directory Structure<a class="headerlink" href="#data-directory-structure" title="Permanent link">&para;</a></h3>
+<p>Standard data directory structure:</p>
+<div class="highlight"><pre><span></span><code>user_data/
+└── data/
+    └── binance/                    # Exchange name
+        ├── BTC_USDT-1m.json        # BTC/USDT 1-minute data
+        ├── BTC_USDT-5m.json        # BTC/USDT 5-minute data
+        ├── BTC_USDT-1h.json        # BTC/USDT 1-hour data
+        ├── ETH_USDT-5m.json        # ETH/USDT 5-minute data
+        └── .metadata/              # Metadata directory
+</code></pre></div>
+<h3 id="view-downloaded-data">View Downloaded Data<a class="headerlink" href="#view-downloaded-data" title="Permanent link">&para;</a></h3>
+<p>Use <code>list-data</code> command to view local data:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># View all downloaded data</span>
+freqtrade<span class="w"> </span>list-data<span class="w"> </span>-c<span class="w"> </span>config.json
+
+<span class="c1"># View specific trading pairs</span>
+freqtrade<span class="w"> </span>list-data<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--pairs<span class="w"> </span>BTC/USDT<span class="w"> </span>ETH/USDT
+</code></pre></div>
+<p><strong>Output Example</strong>:
+<div class="highlight"><pre><span></span><code>┏━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━┓
+┃ Pair       ┃ Timeframe┃ From              ┃ To                ┃ Candles ┃
+┡━━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━┩
+│ BTC/USDT   │ 5m       │ 2025-09-01 00:00  │ 2025-09-30 23:55  │ 8,640   │
+│ BTC/USDT   │ 1h       │ 2025-09-01 00:00  │ 2025-09-30 23:00  │ 720     │
+│ ETH/USDT   │ 5m       │ 2025-09-01 00:00  │ 2025-09-30 23:55  │ 8,640   │
+└────────────┴──────────┴───────────────────┴───────────────────┴─────────┘
+</code></pre></div></p>
+<h3 id="data-integrity-check">Data Integrity Check<a class="headerlink" href="#data-integrity-check" title="Permanent link">&para;</a></h3>
+<p>Check if data has gaps:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Check data gaps</span>
+freqtrade<span class="w"> </span>list-data<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--show-timerange
+</code></pre></div>
+<p>If gaps are found, re-download:
+<div class="highlight"><pre><span></span><code>freqtrade<span class="w"> </span>download-data<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--timerange<span class="w"> </span><span class="m">20250901</span>-20250930<span class="w"> </span>--timeframes<span class="w"> </span>5m
+</code></pre></div></p>
+<hr />
+<h2 id="44-data-updates-and-maintenance">4.4 Data Updates and Maintenance<a class="headerlink" href="#44-data-updates-and-maintenance" title="Permanent link">&para;</a></h2>
+<h3 id="scheduled-update-strategies">Scheduled Update Strategies<a class="headerlink" href="#scheduled-update-strategies" title="Permanent link">&para;</a></h3>
+<h4 id="method-1-manual-updates">Method 1: Manual Updates<a class="headerlink" href="#method-1-manual-updates" title="Permanent link">&para;</a></h4>
+<p>Run manually weekly or monthly:
+<div class="highlight"><pre><span></span><code><span class="c1"># Update recent 7 days data</span>
+freqtrade<span class="w"> </span>download-data<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--days<span class="w"> </span><span class="m">7</span><span class="w"> </span>--timeframes<span class="w"> </span>5m<span class="w"> </span>1h
+</code></pre></div></p>
+<h4 id="method-2-using-cron-scheduled-tasks-linuxmacos">Method 2: Using Cron Scheduled Tasks (Linux/macOS)<a class="headerlink" href="#method-2-using-cron-scheduled-tasks-linuxmacos" title="Permanent link">&para;</a></h4>
+<p>Edit crontab:
+<div class="highlight"><pre><span></span><code>crontab<span class="w"> </span>-e
+</code></pre></div></p>
+<p>Add scheduled task (updates at 2 AM daily):
+<div class="highlight"><pre><span></span><code>0 2 * * * /path/to/conda/envs/freqtrade/bin/freqtrade download-data -c /path/to/config.json --days 7 --timeframes 5m
+</code></pre></div></p>
+<h4 id="method-3-using-windows-task-scheduler">Method 3: Using Windows Task Scheduler<a class="headerlink" href="#method-3-using-windows-task-scheduler" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Open "Task Scheduler"</li>
+<li>Create Basic Task</li>
+<li>Trigger: Daily 2:00 AM</li>
+<li>Action: Start program</li>
+<li>Program: <code>C:\Users\YourName\anaconda3\envs\freqtrade\Scripts\freqtrade.exe</code></li>
+<li>Arguments: <code>download-data -c C:\path\to\config.json --days 7 --timeframes 5m</code></li>
+</ol>
+<h3 id="data-cleanup">Data Cleanup<a class="headerlink" href="#data-cleanup" title="Permanent link">&para;</a></h3>
+<p>Delete unwanted data:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Delete specific trading pair data</span>
+rm<span class="w"> </span>user_data/data/binance/DOGE_USDT-5m.json
+
+<span class="c1"># Clear entire data directory</span>
+rm<span class="w"> </span>-rf<span class="w"> </span>user_data/data/binance/*
+</code></pre></div>
+<h3 id="storage-space-management">Storage Space Management<a class="headerlink" href="#storage-space-management" title="Permanent link">&para;</a></h3>
+<h4 id="estimate-storage-needs">Estimate Storage Needs<a class="headerlink" href="#estimate-storage-needs" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Number of Pairs</th>
+<th>Timeframes</th>
+<th>Days</th>
+<th>Format</th>
+<th>Estimated Size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>5m</td>
+<td>30</td>
+<td>JSON</td>
+<td>~2 MB</td>
+</tr>
+<tr>
+<td>1</td>
+<td>5m</td>
+<td>365</td>
+<td>JSON</td>
+<td>~24 MB</td>
+</tr>
+<tr>
+<td>10</td>
+<td>5m + 1h</td>
+<td>365</td>
+<td>JSON</td>
+<td>~300 MB</td>
+</tr>
+<tr>
+<td>50</td>
+<td>1m + 5m + 1h</td>
+<td>365</td>
+<td>JSON</td>
+<td>~2 GB</td>
+</tr>
+<tr>
+<td>50</td>
+<td>1m + 5m + 1h</td>
+<td>365</td>
+<td>Parquet</td>
+<td>~500 MB</td>
+</tr>
+</tbody>
+</table>
+<h4 id="optimize-storage-space">Optimize Storage Space<a class="headerlink" href="#optimize-storage-space" title="Permanent link">&para;</a></h4>
+<ol>
+<li><strong>Use Parquet format</strong> (saves 60-80% space)</li>
+<li><strong>Keep only needed timeframes</strong></li>
+<li><strong>Regularly delete old data</strong> (keep 6-12 months)</li>
+<li><strong>Delete data for non-trading pairs</strong></li>
+</ol>
+<hr />
+<h2 id="practical-tasks">💡 Practical Tasks<a class="headerlink" href="#practical-tasks" title="Permanent link">&para;</a></h2>
+<h3 id="task-1-basic-data-download">Task 1: Basic Data Download<a class="headerlink" href="#task-1-basic-data-download" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Download BTC/USDT recent 30 days 5-minute data</span>
+conda<span class="w"> </span>activate<span class="w"> </span>freqtrade
+freqtrade<span class="w"> </span>download-data<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--pairs<span class="w"> </span>BTC/USDT<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--days<span class="w"> </span><span class="m">30</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timeframes<span class="w"> </span>5m
+</code></pre></div>
+<p>Verify download success:
+<div class="highlight"><pre><span></span><code>freqtrade<span class="w"> </span>list-data<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--pairs<span class="w"> </span>BTC/USDT
+</code></pre></div></p>
+<h3 id="task-2-multiple-pairs-and-timeframes">Task 2: Multiple Pairs and Timeframes<a class="headerlink" href="#task-2-multiple-pairs-and-timeframes" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Download BTC, ETH, BNB 5m and 1h data</span>
+freqtrade<span class="w"> </span>download-data<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--pairs<span class="w"> </span>BTC/USDT<span class="w"> </span>ETH/USDT<span class="w"> </span>BNB/USDT<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--days<span class="w"> </span><span class="m">30</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timeframes<span class="w"> </span>5m<span class="w"> </span>1h
+</code></pre></div>
+<h3 id="task-3-view-data-statistics">Task 3: View Data Statistics<a class="headerlink" href="#task-3-view-data-statistics" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># View all downloaded data</span>
+freqtrade<span class="w"> </span>list-data<span class="w"> </span>-c<span class="w"> </span>config.json
+
+<span class="c1"># Record the following information:</span>
+<span class="c1"># - How many trading pairs?</span>
+<span class="c1"># - How many candles per pair?</span>
+<span class="c1"># - Start and end dates of data?</span>
+</code></pre></div>
+<h3 id="task-4-test-error-handling">Task 4: Test Error Handling<a class="headerlink" href="#task-4-test-error-handling" title="Permanent link">&para;</a></h3>
+<p>Try downloading a non-existent trading pair:
+<div class="highlight"><pre><span></span><code>freqtrade<span class="w"> </span>download-data<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--pairs<span class="w"> </span>INVALIDPAIR/USDT<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--days<span class="w"> </span><span class="m">30</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timeframes<span class="w"> </span>5m
+</code></pre></div></p>
+<p>Observe error messages and understand how Freqtrade handles invalid pairs.</p>
+<h3 id="task-5-data-format-conversion">Task 5: Data Format Conversion<a class="headerlink" href="#task-5-data-format-conversion" title="Permanent link">&para;</a></h3>
+<p>Convert JSON format to Parquet:
+<div class="highlight"><pre><span></span><code><span class="c1"># Convert data format</span>
+freqtrade<span class="w"> </span>convert-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--format-from<span class="w"> </span>json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--format-to<span class="w"> </span>parquet<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span>config.json
+</code></pre></div></p>
+<p>Compare file size differences:
+<div class="highlight"><pre><span></span><code><span class="c1"># Linux/macOS</span>
+du<span class="w"> </span>-sh<span class="w"> </span>user_data/data/binance/*.json
+du<span class="w"> </span>-sh<span class="w"> </span>user_data/data/binance/*.parquet
+
+<span class="c1"># Windows</span>
+dir<span class="w"> </span>user_data<span class="se">\d</span>ata<span class="se">\b</span>inance
+</code></pre></div></p>
+<hr />
+<h2 id="quiz">📚 Quiz<a class="headerlink" href="#quiz" title="Permanent link">&para;</a></h2>
+<h3 id="basic-questions">Basic Questions<a class="headerlink" href="#basic-questions" title="Permanent link">&para;</a></h3>
+<ol>
+<li>How many candles approximately for downloading 30 days of 1-minute data?</li>
+<li>What's the difference between <code>--days 30</code> and <code>--timerange 20250901-20250930</code>?</li>
+<li>If a strategy uses 15m timeframe but only 5m data is downloaded, what will happen in backtesting?</li>
+</ol>
+<h3 id="answers">Answers<a class="headerlink" href="#answers" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>43,200 candles</strong> (1440 candles/day × 30 days)</li>
+<li><code>--days 30</code> is 30 days back from today; <code>--timerange</code> specifies exact date range</li>
+<li><strong>Backtesting will fail</strong> because the required timeframe data is missing</li>
+</ol>
+<h3 id="advanced-questions">Advanced Questions<a class="headerlink" href="#advanced-questions" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Why is Parquet format more suitable than JSON for large data volumes?</li>
+<li>How much storage space is needed to download 1 year of 1-minute data (1 trading pair)?</li>
+<li>How does incremental download work?</li>
+</ol>
+<h3 id="thinking-questions">Thinking Questions<a class="headerlink" href="#thinking-questions" title="Permanent link">&para;</a></h3>
+<ol>
+<li>If an exchange goes down during a period, will downloaded data have gaps?</li>
+<li>Will data for the same trading pair differ between exchanges?</li>
+<li>Why recommend 5m or 15m instead of 1m for beginners?</li>
+</ol>
+<hr />
+<h2 id="common-issues-and-solutions">🔧 Common Issues and Solutions<a class="headerlink" href="#common-issues-and-solutions" title="Permanent link">&para;</a></h2>
+<h3 id="issue-1-slow-download-speed">Issue 1: Slow Download Speed<a class="headerlink" href="#issue-1-slow-download-speed" title="Permanent link">&para;</a></h3>
+<p><strong>Cause</strong>: Network issues or exchange rate limiting</p>
+<p><strong>Solution</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Use proxy (if needed)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">HTTP_PROXY</span><span class="o">=</span>http://127.0.0.1:7890
+<span class="nb">export</span><span class="w"> </span><span class="nv">HTTPS_PROXY</span><span class="o">=</span>http://127.0.0.1:7890
+freqtrade<span class="w"> </span>download-data<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--days<span class="w"> </span><span class="m">30</span><span class="w"> </span>--timeframes<span class="w"> </span>5m
+</code></pre></div></p>
+<h3 id="issue-2-download-failure">Issue 2: Download Failure<a class="headerlink" href="#issue-2-download-failure" title="Permanent link">&para;</a></h3>
+<p><strong>Error Message</strong>:
+<div class="highlight"><pre><span></span><code>Exchange binance does not support fetching OHLCV data for BTC/USDT
+</code></pre></div></p>
+<p><strong>Cause</strong>: Incorrect trading pair name or exchange doesn't support it</p>
+<p><strong>Solution</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Check exchange supported pairs</span>
+freqtrade<span class="w"> </span>list-pairs<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--quote<span class="w"> </span>USDT
+
+<span class="c1"># Use correct trading pair name</span>
+freqtrade<span class="w"> </span>download-data<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span>--pairs<span class="w"> </span>BTC/USDT<span class="w"> </span>--days<span class="w"> </span><span class="m">30</span><span class="w"> </span>--timeframes<span class="w"> </span>5m
+</code></pre></div></p>
+<h3 id="issue-3-incomplete-data">Issue 3: Incomplete Data<a class="headerlink" href="#issue-3-incomplete-data" title="Permanent link">&para;</a></h3>
+<p><strong>Phenomenon</strong>: Data missing prompt during backtesting</p>
+<p><strong>Solution</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Re-download complete data</span>
+freqtrade<span class="w"> </span>download-data<span class="w"> </span>-c<span class="w"> </span>config.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timerange<span class="w"> </span><span class="m">20250901</span>-20250930<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timeframes<span class="w"> </span>5m<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--erase<span class="w">  </span><span class="c1"># Force re-download</span>
+</code></pre></div></p>
+<h3 id="issue-4-insufficient-disk-space">Issue 4: Insufficient Disk Space<a class="headerlink" href="#issue-4-insufficient-disk-space" title="Permanent link">&para;</a></h3>
+<p><strong>Solution</strong>:
+1. Delete unwanted data
+2. Convert to Parquet format
+3. Keep only commonly used timeframes</p>
+<hr />
+<h2 id="data-download-best-practices">📊 Data Download Best Practices<a class="headerlink" href="#data-download-best-practices" title="Permanent link">&para;</a></h2>
+<h3 id="1-timeframe-selection">1. Timeframe Selection<a class="headerlink" href="#1-timeframe-selection" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Beginner</strong>: 5m + 1h (balances speed and quality)</li>
+<li><strong>Advanced</strong>: 1m + 5m + 15m + 1h (multi-timeframe analysis)</li>
+<li><strong>Professional</strong>: Full cycle (1m to 1d)</li>
+</ul>
+<h3 id="2-data-period">2. Data Period<a class="headerlink" href="#2-data-period" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Strategy Development</strong>: 30-90 days (fast iteration)</li>
+<li><strong>Strategy Validation</strong>: 180-365 days (stability testing)</li>
+<li><strong>Production</strong>: 365+ days (covers various market conditions)</li>
+</ul>
+<h3 id="3-number-of-trading-pairs">3. Number of Trading Pairs<a class="headerlink" href="#3-number-of-trading-pairs" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Beginner</strong>: 1-3 mainstream coins (BTC/ETH/BNB)</li>
+<li><strong>Advanced</strong>: 5-10 trading pairs (diversified testing)</li>
+<li><strong>Professional</strong>: 20-50 trading pairs (portfolio)</li>
+</ul>
+<h3 id="4-storage-optimization">4. Storage Optimization<a class="headerlink" href="#4-storage-optimization" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Prioritize <strong>Parquet format</strong></li>
+<li>Regularly clean <strong>old data older than 6 months</strong></li>
+<li>Keep only <strong>actively trading pair data</strong></li>
+</ul>
+<hr />
+<h2 id="reference-documentation">🔗 Reference Documentation<a class="headerlink" href="#reference-documentation" title="Permanent link">&para;</a></h2>
+<h3 id="freqtrade-official-documentation">Freqtrade Official Documentation<a class="headerlink" href="#freqtrade-official-documentation" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://www.freqtrade.io/en/stable/data-download/">Data Download Documentation</a></li>
+<li><a href="https://www.freqtrade.io/en/stable/data-analysis/">Data Analysis Tools</a></li>
+</ul>
+<h3 id="related-documentation">Related Documentation<a class="headerlink" href="#related-documentation" title="Permanent link">&para;</a></h3>
+<ul>
+<li>📄 <a href="../TESTING_GUIDE.md">TESTING_GUIDE.md</a> - Data download section</li>
+<li>📄 <a href="../CONFIG_EXPLANATION.md">CONFIG_EXPLANATION.md</a> - Exchange configuration</li>
+</ul>
+<hr />
+<h2 id="key-points-summary">📌 Key Points Summary<a class="headerlink" href="#key-points-summary" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Timeframe determines trading style</strong>: Short cycle = high frequency, long cycle = swing</li>
+<li><strong>Beginner recommend 5m or 15m</strong>: Balance speed and quality</li>
+<li><strong>Regularly update data</strong>: Keep data current</li>
+<li><strong>Use Parquet format</strong>: Save space, improve speed</li>
+<li><strong>Data integrity check</strong>: Avoid backtesting errors</li>
+</ol>
+<hr />
+<h2 id="next-lesson-preview">➡️ Next Lesson Preview<a class="headerlink" href="#next-lesson-preview" title="Permanent link">&para;</a></h2>
+<p><strong>Lesson 5: First Strategy Backtest</strong></p>
+<p>In the next lesson, we will:
+- Run first complete strategy backtest
+- Learn to interpret backtest reports
+- Understand key performance indicators
+- Analyze exit reason statistics</p>
+<p><strong>Preparation</strong>:
+- ✅ Ensure BTC/USDT 30 days 5m data downloaded
+- ✅ Confirm Strategy001 strategy exists
+- ✅ Read <a href="../TESTING_GUIDE.md">TESTING_GUIDE.md</a> basic backtesting section</p>
+<hr />
+<p><strong>🎯 Learning Verification Standards</strong>:
+- ✅ Can independently download historical data for any trading pair
+- ✅ Understand applicable scenarios for different timeframes
+- ✅ Can use <code>list-data</code> to view local data
+- ✅ Can estimate data storage space requirements</p>
+<p>After completing these tasks, you have the data foundation needed for backtesting! Ready to enter the exciting backtesting practice session! 🚀</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>
