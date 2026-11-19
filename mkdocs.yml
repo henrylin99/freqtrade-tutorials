@@ -4,6 +4,8 @@ site_url: https://henrylin99.github.io/freqtrade-tutorials/
 repo_url: https://github.com/henrylin99/freqtrade-tutorials
 repo_name: henrylin99/freqtrade-tutorials
 
+copyright: © 2026 Freqtrade 实战教程 · 仅供学习交流，不构成投资建议
+
 theme:
   name: material
   custom_dir: overrides
