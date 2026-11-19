@@ -1,3 +1,7 @@
+---
+title: 主页
+---
+
 !!! info "English"
     Click the link to switch to the English version: **[Freqtrade Practical Tutorials →](en/)**
 

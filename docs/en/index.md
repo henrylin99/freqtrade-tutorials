@@ -1,5 +1,9 @@
+---
+title: Freqtrade Practical Tutorials
+---
+
 !!! info "中文"
-    点击链接，切换到中文版本：**[Freqtrade 实战教程 →](../)**
+    点击链接，切换到中文版本：**[Freqtrade 实战教程 →](/freqtrade-tutorials/)**
 
 # Freqtrade Practical Tutorials
 

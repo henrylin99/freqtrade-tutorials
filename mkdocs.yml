@@ -52,7 +52,7 @@ plugins:
           name: English
           build: true
           nav_translations:
-            中文教程: "English Tutorials"
+            🇨🇳 中文教程: "English Tutorials"
             策略代码: "Strategy Source Code"
             第 1 课：量化交易与 Freqtrade 简介: "Lesson 1: Introduction to Quantitative Trading and Freqtrade"
             第 2 课：Freqtrade 环境搭建: "Lesson 2: Freqtrade Environment Setup"
