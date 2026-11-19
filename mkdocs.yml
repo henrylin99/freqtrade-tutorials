@@ -6,6 +6,7 @@ repo_name: henrylin99/freqtrade-tutorials
 
 theme:
   name: material
+  custom_dir: overrides
   language: zh
   features:
     - navigation.tabs
