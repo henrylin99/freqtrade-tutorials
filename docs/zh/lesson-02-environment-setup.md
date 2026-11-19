@@ -640,17 +640,24 @@ pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 
 **解决方案**：
 
+> 💡 自 TA-Lib Python 0.6.x（2025 年起）官方已提供各平台预编译 wheel，**直接 pip 安装即可**，无需再先安装 C 库。旧的 `TA-Lib-binary` 第三方包已停止维护并从 PyPI 下架，请勿使用。
+
 ```bash
+# 首选：直接安装（macOS / Linux / Windows 通用，自带预编译 wheel）
+pip install TA-Lib
+
+# 仅当上述安装失败（极老系统/非主流平台）才需要先装 C 库：
 # macOS
 brew install ta-lib
-pip install TA-Lib
-
 # Ubuntu/Debian
 sudo apt-get install libta-lib0-dev
-pip install TA-Lib
+pip install TA-Lib --no-binary :all:
+```
 
-# Windows
-pip install TA-Lib-binary
+安装后验证：
+
+```bash
+python -c "import talib; print(talib.__version__)"
 ```
 
 ---

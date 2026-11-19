@@ -640,17 +640,24 @@ pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 
 **Solution**:
 
+> 💡 Since TA-Lib Python 0.6.x (2025+), official prebuilt wheels are available for all platforms — **a plain pip install just works**, no C library needed. The old third-party `TA-Lib-binary` package is unmaintained and removed from PyPI; do not use it.
+
 ```bash
+# Preferred: direct install (works on macOS / Linux / Windows, ships prebuilt wheels)
+pip install TA-Lib
+
+# Only if the above fails (very old systems / exotic platforms), install the C library first:
 # macOS
 brew install ta-lib
-pip install TA-Lib
-
 # Ubuntu/Debian
 sudo apt-get install libta-lib0-dev
-pip install TA-Lib
+pip install TA-Lib --no-binary :all:
+```
 
-# Windows
-pip install TA-Lib-binary
+Verify the installation:
+
+```bash
+python -c "import talib; print(talib.__version__)"
 ```
 
 ---
