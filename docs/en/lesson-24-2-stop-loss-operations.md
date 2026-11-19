@@ -1,3 +1,7 @@
+---
+title: "Lesson 24.2: Live Trading Stop Loss Operations Detailed Guide"
+---
+
 # Lesson 24.2: Live Trading Stop Loss Operations Detailed Guide
 
 **⏱ Duration**: 2 hours

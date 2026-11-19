@@ -1,3 +1,7 @@
+---
+title: "Lesson 24.3: Binance Futures Trading Operations Detailed Guide"
+---
+
 # Lesson 24.3: Binance Futures Trading Operations Detailed Guide
 
 **⏱ Duration**: 2.5 hours

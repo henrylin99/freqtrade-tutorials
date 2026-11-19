@@ -1,3 +1,7 @@
+---
+title: "Lesson 30: Conclusion and Continuous Learning"
+---
+
 # Lesson 30: Conclusion and Continuous Learning
 
 **⏱ Duration**: 1 hour

@@ -1,3 +1,7 @@
+---
+title: "Lesson 13: Strategy Scoring System"
+---
+
 # Lesson 13: Strategy Scoring System
 
 **⏱ Duration**: 1.5 hours

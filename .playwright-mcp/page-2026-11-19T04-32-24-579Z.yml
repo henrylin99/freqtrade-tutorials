@@ -1,0 +1,2079 @@
+- generic [active] [ref=f3e1]:
+  - link "跳转至" [ref=f3e2] [cursor=pointer]:
+    - /url: "#_1"
+  - banner [ref=f3e3]:
+    - navigation "页眉" [ref=f3e4]:
+      - link "fuyao_demo · 扶摇数据查询终端" [ref=f3e5] [cursor=pointer]:
+        - /url: ..
+      - generic [ref=f3e9]:
+        - generic: fuyao_demo · 扶摇数据查询终端
+        - generic [ref=f3e1904]: 接口目录
+      - generic [ref=f3e12]:
+        - radio "切换深色模式"
+        - generic "切换深色模式" [ref=f3e13] [cursor=pointer]
+        - radio "切换浅色模式"
+      - dialog [ref=f3e16]:
+        - search [ref=f3e17]:
+          - generic [ref=f3e18]:
+            - textbox "搜索" [ref=f3e19]
+            - navigation "查找":
+              - button "清空当前内容"
+          - generic: 键入以开始搜索
+      - link [ref=f3e24] [cursor=pointer]:
+        - /url: https://github.com/henrylin99/thx_quant
+        - generic [ref=f3e28]:
+          - text: henrylin99/thx_quant
+          - list [ref=f3e29]:
+            - listitem [ref=f3e30]: "1"
+            - listitem [ref=f3e31]: "3"
+  - generic [ref=f3e32]:
+    - navigation "标签":
+      - generic:
+        - list:
+          - listitem:
+            - link "首页":
+              - /url: ..
+          - listitem:
+            - link "使用":
+              - /url: ../usage/
+          - listitem:
+            - link "开发":
+              - /url: ../architecture/
+          - listitem:
+            - link "参考":
+              - /url: ./
+    - main [ref=f3e44]:
+      - generic [ref=f3e45]:
+        - navigation "导航栏" [ref=f3e49]:
+          - list [ref=f3e50]:
+            - listitem [ref=f3e51]:
+              - generic: 参考
+              - navigation "参考" [ref=f3e52]:
+                - list [ref=f3e53]:
+                  - listitem [ref=f3e54]:
+                    - link "接口目录" [ref=f3e55] [cursor=pointer]:
+                      - /url: ./
+                  - listitem [ref=f3e57]:
+                    - link "扶摇 API 契约手册" [ref=f3e58] [cursor=pointer]:
+                      - /url: ../api-contract/
+        - navigation "目录" [ref=f3e63]:
+          - list [ref=f3e65]:
+            - listitem [ref=f3e66]:
+              - link "行情快照（3）" [ref=f3e67] [cursor=pointer]:
+                - /url: "#3"
+              - navigation "行情快照（3）" [ref=f3e69]:
+                - list [ref=f3e70]:
+                  - listitem [ref=f3e71]:
+                    - link "A 股全市场实时快照（分页）" [ref=f3e72] [cursor=pointer]:
+                      - /url: "#a"
+                  - listitem [ref=f3e74]:
+                    - link "个股实时快照（批量）" [ref=f3e75] [cursor=pointer]:
+                      - /url: "#_2"
+                  - listitem [ref=f3e77]:
+                    - link "指数实时快照" [ref=f3e78] [cursor=pointer]:
+                      - /url: "#_3"
+            - listitem [ref=f3e80]:
+              - link "指数（2）" [ref=f3e81] [cursor=pointer]:
+                - /url: "#2"
+              - navigation "指数（2）" [ref=f3e83]:
+                - list [ref=f3e84]:
+                  - listitem [ref=f3e85]:
+                    - link "同花顺指数目录" [ref=f3e86] [cursor=pointer]:
+                      - /url: "#_4"
+                  - listitem [ref=f3e88]:
+                    - link "同花顺指数成分股" [ref=f3e89] [cursor=pointer]:
+                      - /url: "#_5"
+            - listitem [ref=f3e91]:
+              - link "历史K线（1）" [ref=f3e92] [cursor=pointer]:
+                - /url: "#k1"
+              - navigation "历史K线（1）" [ref=f3e94]:
+                - list [ref=f3e95]:
+                  - listitem [ref=f3e96]:
+                    - link "个股历史 K 线" [ref=f3e97] [cursor=pointer]:
+                      - /url: "#k"
+            - listitem [ref=f3e99]:
+              - link "财务与估值（2）" [ref=f3e100] [cursor=pointer]:
+                - /url: "#2_1"
+              - navigation "财务与估值（2）" [ref=f3e102]:
+                - list [ref=f3e103]:
+                  - listitem [ref=f3e104]:
+                    - link "财务报表（三大表）" [ref=f3e105] [cursor=pointer]:
+                      - /url: "#_6"
+                  - listitem [ref=f3e107]:
+                    - link "估值快照" [ref=f3e108] [cursor=pointer]:
+                      - /url: "#_7"
+            - listitem [ref=f3e110]:
+              - link "日历与竞价（5）" [ref=f3e111] [cursor=pointer]:
+                - /url: "#5"
+              - navigation "日历与竞价（5）" [ref=f3e113]:
+                - list [ref=f3e114]:
+                  - listitem [ref=f3e115]:
+                    - link "交易日历" [ref=f3e116] [cursor=pointer]:
+                      - /url: "#_8"
+                  - listitem [ref=f3e118]:
+                    - link "盘前竞价短线风向标" [ref=f3e119] [cursor=pointer]:
+                      - /url: "#_9"
+                  - listitem [ref=f3e121]:
+                    - link "集合竞价快照" [ref=f3e122] [cursor=pointer]:
+                      - /url: "#_10"
+                  - listitem [ref=f3e124]:
+                    - link "集合竞价个股机会筛选" [ref=f3e125] [cursor=pointer]:
+                      - /url: "#_11"
+                  - listitem [ref=f3e127]:
+                    - link "竞价机会可选日期" [ref=f3e128] [cursor=pointer]:
+                      - /url: "#_12"
+            - listitem [ref=f3e130]:
+              - link "特色数据（12）" [ref=f3e131] [cursor=pointer]:
+                - /url: "#12"
+              - navigation "特色数据（12）" [ref=f3e133]:
+                - list [ref=f3e134]:
+                  - listitem [ref=f3e135]:
+                    - link "涨停股票池" [ref=f3e136] [cursor=pointer]:
+                      - /url: "#_13"
+                  - listitem [ref=f3e138]:
+                    - link "跌停股票池" [ref=f3e139] [cursor=pointer]:
+                      - /url: "#_14"
+                  - listitem [ref=f3e141]:
+                    - link "炸板股票池" [ref=f3e142] [cursor=pointer]:
+                      - /url: "#_15"
+                  - listitem [ref=f3e144]:
+                    - link "连板天梯" [ref=f3e145] [cursor=pointer]:
+                      - /url: "#_16"
+                  - listitem [ref=f3e147]:
+                    - link "同花顺热股榜" [ref=f3e148] [cursor=pointer]:
+                      - /url: "#_17"
+                  - listitem [ref=f3e150]:
+                    - link "热股飙升榜" [ref=f3e151] [cursor=pointer]:
+                      - /url: "#_18"
+                  - listitem [ref=f3e153]:
+                    - link "历史热股排行" [ref=f3e154] [cursor=pointer]:
+                      - /url: "#_19"
+                  - listitem [ref=f3e156]:
+                    - link "个股热榜排名走势" [ref=f3e157] [cursor=pointer]:
+                      - /url: "#_20"
+                  - listitem [ref=f3e159]:
+                    - link "个股异动原因（全市场列表）" [ref=f3e160] [cursor=pointer]:
+                      - /url: "#_21"
+                  - listitem [ref=f3e162]:
+                    - link "个股异动原因（按代码查询）" [ref=f3e163] [cursor=pointer]:
+                      - /url: "#_22"
+                  - listitem [ref=f3e165]:
+                    - link "异动股票监控名单" [ref=f3e166] [cursor=pointer]:
+                      - /url: "#_23"
+                  - listitem [ref=f3e168]:
+                    - link "龙虎榜" [ref=f3e169] [cursor=pointer]:
+                      - /url: "#_24"
+            - listitem [ref=f3e171]:
+              - link "标的检索（1）" [ref=f3e172] [cursor=pointer]:
+                - /url: "#1"
+              - navigation "标的检索（1）" [ref=f3e174]:
+                - list [ref=f3e175]:
+                  - listitem [ref=f3e176]:
+                    - link "标的模糊搜索" [ref=f3e177] [cursor=pointer]:
+                      - /url: "#_25"
+            - listitem [ref=f3e179]:
+              - link "基金（15）" [ref=f3e180] [cursor=pointer]:
+                - /url: "#15"
+              - navigation "基金（15）" [ref=f3e182]:
+                - list [ref=f3e183]:
+                  - listitem [ref=f3e184]:
+                    - link "基金基本资料" [ref=f3e185] [cursor=pointer]:
+                      - /url: "#_26"
+                  - listitem [ref=f3e187]:
+                    - link "场内基金实时快照" [ref=f3e188] [cursor=pointer]:
+                      - /url: "#_27"
+                  - listitem [ref=f3e190]:
+                    - link "ETF 历史日线" [ref=f3e191] [cursor=pointer]:
+                      - /url: "#etf"
+                  - listitem [ref=f3e193]:
+                    - link "基金净值序列" [ref=f3e194] [cursor=pointer]:
+                      - /url: "#_28"
+                  - listitem [ref=f3e196]:
+                    - link "基金区间收益与排名" [ref=f3e197] [cursor=pointer]:
+                      - /url: "#_29"
+                  - listitem [ref=f3e199]:
+                    - link "基金最大回撤" [ref=f3e200] [cursor=pointer]:
+                      - /url: "#_30"
+                  - listitem [ref=f3e202]:
+                    - link "基金重仓持仓" [ref=f3e203] [cursor=pointer]:
+                      - /url: "#_31"
+                  - listitem [ref=f3e205]:
+                    - link "基金持有人结构" [ref=f3e206] [cursor=pointer]:
+                      - /url: "#_32"
+                  - listitem [ref=f3e208]:
+                    - link "基金前十大持有人" [ref=f3e209] [cursor=pointer]:
+                      - /url: "#_33"
+                  - listitem [ref=f3e211]:
+                    - link "基金资产配置" [ref=f3e212] [cursor=pointer]:
+                      - /url: "#_34"
+                  - listitem [ref=f3e214]:
+                    - link "基金行业配置" [ref=f3e215] [cursor=pointer]:
+                      - /url: "#_35"
+                  - listitem [ref=f3e217]:
+                    - link "基金经理详情" [ref=f3e218] [cursor=pointer]:
+                      - /url: "#_36"
+                  - listitem [ref=f3e220]:
+                    - link "基金诊断" [ref=f3e221] [cursor=pointer]:
+                      - /url: "#_37"
+                  - listitem [ref=f3e223]:
+                    - link "基金历史分红" [ref=f3e224] [cursor=pointer]:
+                      - /url: "#_38"
+                  - listitem [ref=f3e226]:
+                    - link "基金公司详情" [ref=f3e227] [cursor=pointer]:
+                      - /url: "#_39"
+            - listitem [ref=f3e229]:
+              - link "错误码速查" [ref=f3e230] [cursor=pointer]:
+                - /url: "#_40"
+        - article [ref=f3e233]:
+          - heading [level=1] [ref=f3e234]:
+            - text: 接口目录
+            - link "¶" [ref=f3e235] [cursor=pointer]:
+              - /url: "#_1"
+          - generic [ref=f3e237]:
+            - text: 本地后端地址
+            - textbox "本地后端地址 （默认 http://127.0.0.1:5010，改完自动保存；需先启动 fuyao_demo）" [ref=f3e238]: http://127.0.0.1:5010
+            - text: （默认 http://127.0.0.1:5010，改完自动保存；需先启动 fuyao_demo）
+          - paragraph [ref=f3e239]:
+            - text: 共
+            - strong [ref=f3e240]: "41"
+            - text: 个接口 / 8 个分组。本页由
+            - code [ref=f3e241]: scripts/gen_endpoint_catalog.py
+            - text: 从
+            - code [ref=f3e242]: fuyao_registry.py
+            - text: 自动生成，
+            - strong [ref=f3e243]: 请勿手改
+            - text: 。
+          - generic [ref=f3e244]:
+            - paragraph [ref=f3e245]: 在线调试
+            - paragraph [ref=f3e246]:
+              - text: 每个接口下方有「参数表单 + 查询按钮」——点击后直接请求你本机运行的 fuyao_demo 后端，返回数据自动渲染成表格。需要先启动后端：
+              - code [ref=f3e247]: cd backend && .venv/bin/python app.py
+              - text: 。
+          - heading [level=2] [ref=f3e248]:
+            - text: 行情快照（3）
+            - link "¶" [ref=f3e249] [cursor=pointer]:
+              - /url: "#3"
+          - heading [level=3] [ref=f3e250]:
+            - text: A 股全市场实时快照（分页）
+            - link "¶" [ref=f3e251] [cursor=pointer]:
+              - /url: "#a"
+          - paragraph [ref=f3e252]:
+            - code [ref=f3e253]: /api/a-share/prices/snapshot
+            - text: · 难度 ★ · 可视化：表格
+          - paragraph [ref=f3e254]: 全市场 A 股实时快照，支持 limit/offset 分页（单页 6000 可覆盖全市场），或改传 thscodes 做批量查询（≤100 只）。二选一：传了 thscodes 则忽略分页参数。
+          - table [ref=f3e257]:
+            - rowgroup [ref=f3e258]:
+              - row [ref=f3e259]:
+                - columnheader "参数" [ref=f3e260]
+                - columnheader "类型" [ref=f3e261]
+                - columnheader "必填" [ref=f3e262]
+                - columnheader "默认" [ref=f3e263]
+                - columnheader "说明" [ref=f3e264]
+            - rowgroup [ref=f3e265]:
+              - row [ref=f3e266]:
+                - cell [ref=f3e267]:
+                  - code [ref=f3e268]: limit
+                - cell "整数" [ref=f3e269]
+                - cell [ref=f3e270]
+                - cell "6000" [ref=f3e271]
+                - cell "分页模式单页条数" [ref=f3e272]
+              - row [ref=f3e273]:
+                - cell [ref=f3e274]:
+                  - code [ref=f3e275]: offset
+                - cell "整数" [ref=f3e276]
+                - cell [ref=f3e277]
+                - cell "0" [ref=f3e278]
+                - cell "分页起始偏移" [ref=f3e279]
+              - row [ref=f3e280]:
+                - cell [ref=f3e281]:
+                  - code [ref=f3e282]: thscodes
+                - cell "代码列表" [ref=f3e283]
+                - cell [ref=f3e284]
+                - cell [ref=f3e285]
+                - cell "逗号分隔，≤100 只，如 600519.SH,000001.SZ；传则忽略分页" [ref=f3e286]
+          - generic [ref=f3e287]:
+            - generic [ref=f3e288]:
+              - generic [ref=f3e289]:
+                - generic [ref=f3e290]: 单页条数分页模式单页条数
+                - spinbutton "单页条数 分页模式单页条数" [ref=f3e291]: "20"
+              - generic [ref=f3e292]:
+                - generic [ref=f3e293]: 偏移量分页起始偏移
+                - spinbutton "偏移量 分页起始偏移" [ref=f3e294]
+              - generic [ref=f3e295]:
+                - generic [ref=f3e296]: 代码批量逗号分隔，≤100 只，如 600519.SH,000001.SZ；传则忽略分页
+                - textbox "代码批量 逗号分隔，≤100 只，如 600519.SH,000001.SZ；传则忽略分页" [ref=f3e297]:
+                  - /placeholder: ""
+            - button "查询" [ref=f3e299] [cursor=pointer]
+          - blockquote [ref=f3e300]:
+            - paragraph [ref=f3e301]: ⚠️ 字段双命名坑：实测返回 high_price/low_price/prev_price，官方文档写 highest_price/lowest_price/prev_close_price，取值时两者都试。 ⚠️ thscodes 批量上限 100 只，超量会被服务端拒绝（1003）。
+          - heading [level=3] [ref=f3e302]:
+            - text: 个股实时快照（批量）
+            - link "¶" [ref=f3e303] [cursor=pointer]:
+              - /url: "#_2"
+          - paragraph [ref=f3e304]:
+            - code [ref=f3e305]: /api/a-share/prices/snapshot?thscodes=…
+            - text: · 难度 ★ · 可视化：表格
+          - paragraph [ref=f3e306]: 按 thscodes 批量查询实时快照（快照分页接口的批量形态），返回 item 数组。
+          - table [ref=f3e309]:
+            - rowgroup [ref=f3e310]:
+              - row [ref=f3e311]:
+                - columnheader "参数" [ref=f3e312]
+                - columnheader "类型" [ref=f3e313]
+                - columnheader "必填" [ref=f3e314]
+                - columnheader "默认" [ref=f3e315]
+                - columnheader "说明" [ref=f3e316]
+            - rowgroup [ref=f3e317]:
+              - row [ref=f3e318]:
+                - cell [ref=f3e319]:
+                  - code [ref=f3e320]: thscodes
+                - cell "代码列表" [ref=f3e321]
+                - cell "✅" [ref=f3e322]
+                - cell [ref=f3e323]
+                - cell "逗号分隔，≤100 只" [ref=f3e324]
+          - generic [ref=f3e325]:
+            - generic [ref=f3e327]:
+              - generic [ref=f3e328]: 股票代码 *逗号分隔，≤100 只
+              - textbox "股票代码 * 逗号分隔，≤100 只" [ref=f3e329]:
+                - /placeholder: 600519.SH,000001.SZ,300750.SZ
+                - text: 600519.SH,000001.SZ,300750.SZ
+            - generic [ref=f3e330]:
+              - button "查询" [ref=f3e331] [cursor=pointer]
+              - generic [ref=f3e1906]: ✅ 38 ms
+            - generic [ref=f3e1907]:
+              - paragraph [ref=f3e1908]: 共 3 行
+              - table [ref=f3e1910]:
+                - rowgroup [ref=f3e1911]:
+                  - row [ref=f3e1912]:
+                    - columnheader "high_price" [ref=f3e1913]
+                    - columnheader "last_price" [ref=f3e1914]
+                    - columnheader "low_price" [ref=f3e1915]
+                    - columnheader "open_price" [ref=f3e1916]
+                    - columnheader "prev_price" [ref=f3e1917]
+                    - columnheader "price_change" [ref=f3e1918]
+                    - columnheader "price_change_ratio_pct" [ref=f3e1919]
+                    - columnheader "thscode" [ref=f3e1920]
+                    - columnheader "ticker" [ref=f3e1921]
+                    - columnheader "turnover" [ref=f3e1922]
+                    - columnheader "volume" [ref=f3e1923]
+                - rowgroup [ref=f3e1924]:
+                  - row [ref=f3e1925]:
+                    - cell "1459.74" [ref=f3e1926]
+                    - cell "1450.99" [ref=f3e1927]
+                    - cell "1432.1" [ref=f3e1928]
+                    - cell "1442" [ref=f3e1929]
+                    - cell "1442.66" [ref=f3e1930]
+                    - cell "8.33" [ref=f3e1931]
+                    - cell "0.577406" [ref=f3e1932]
+                    - cell "600519.SH" [ref=f3e1933]
+                    - cell "600519" [ref=f3e1934]
+                    - cell "3097690700" [ref=f3e1935]
+                    - cell "2143508" [ref=f3e1936]
+                  - row [ref=f3e1937]:
+                    - cell "12.26" [ref=f3e1938]
+                    - cell "12.04" [ref=f3e1939]
+                    - cell "12.03" [ref=f3e1940]
+                    - cell "12.2" [ref=f3e1941]
+                    - cell "12.2" [ref=f3e1942]
+                    - cell "-0.16" [ref=f3e1943]
+                    - cell "-1.311475" [ref=f3e1944]
+                    - cell "000001.SZ" [ref=f3e1945]
+                    - cell "000001" [ref=f3e1946]
+                    - cell "1033772490" [ref=f3e1947]
+                    - cell "85204521" [ref=f3e1948]
+                  - row [ref=f3e1949]:
+                    - cell "240.79" [ref=f3e1950]
+                    - cell "236.82" [ref=f3e1951]
+                    - cell "233.61" [ref=f3e1952]
+                    - cell "239.93" [ref=f3e1953]
+                    - cell "241.01" [ref=f3e1954]
+                    - cell "-4.19" [ref=f3e1955]
+                    - cell "-1.738517" [ref=f3e1956]
+                    - cell "300750.SZ" [ref=f3e1957]
+                    - cell "300750" [ref=f3e1958]
+                    - cell "4457485700" [ref=f3e1959]
+                    - cell "18870079" [ref=f3e1960]
+          - blockquote [ref=f3e332]:
+            - paragraph [ref=f3e333]: ⚠️ 单次 ≤100 只。thscode 格式：600519.SH / 000001.SZ / 300750.SZ / 688981.SH。
+          - heading [level=3] [ref=f3e334]:
+            - text: 指数实时快照
+            - link "¶" [ref=f3e335] [cursor=pointer]:
+              - /url: "#_3"
+          - paragraph [ref=f3e336]:
+            - code [ref=f3e337]: /api/a-share-index/prices/snapshot
+            - text: · 难度 ★★ · 可视化：表格
+          - paragraph [ref=f3e338]: 沪深交易所指数 + 同花顺板块指数的实时快照，返回 (item[], timestamp)。
+          - table [ref=f3e341]:
+            - rowgroup [ref=f3e342]:
+              - row [ref=f3e343]:
+                - columnheader "参数" [ref=f3e344]
+                - columnheader "类型" [ref=f3e345]
+                - columnheader "必填" [ref=f3e346]
+                - columnheader "默认" [ref=f3e347]
+                - columnheader "说明" [ref=f3e348]
+            - rowgroup [ref=f3e349]:
+              - row [ref=f3e350]:
+                - cell [ref=f3e351]:
+                  - code [ref=f3e352]: thscodes
+                - cell "代码列表" [ref=f3e353]
+                - cell "✅" [ref=f3e354]
+                - cell [ref=f3e355]
+                - cell "逗号分隔，≤100 只" [ref=f3e356]
+          - generic [ref=f3e357]:
+            - generic [ref=f3e359]:
+              - generic [ref=f3e360]: 指数代码 *逗号分隔，≤100 只
+              - textbox "指数代码 * 逗号分隔，≤100 只" [ref=f3e361]:
+                - /placeholder: 000001.SH,399001.SZ,000300.SH
+                - text: 000001.SH,399001.SZ,000300.SH,399006.SZ
+            - button "查询" [ref=f3e363] [cursor=pointer]
+          - blockquote [ref=f3e364]:
+            - paragraph [ref=f3e365]: ⚠️ 无北交所指数；未知代码会导致整批 1002 连坐——先过滤再请求。 ⚠️ 同花顺板块指数代码可从「指数目录」接口获取（如 885742.SH 等 ths 板块）。
+          - heading [level=2] [ref=f3e366]:
+            - text: 指数（2）
+            - link "¶" [ref=f3e367] [cursor=pointer]:
+              - /url: "#2"
+          - heading [level=3] [ref=f3e368]:
+            - text: 同花顺指数目录
+            - link "¶" [ref=f3e369] [cursor=pointer]:
+              - /url: "#_4"
+          - paragraph [ref=f3e370]:
+            - code [ref=f3e371]: /api/a-share-index/catalog/ths-index-list
+            - text: · 难度 ★ · 可视化：表格
+          - paragraph [ref=f3e372]: 同花顺自有指数目录（行业/概念板块指数），tag 可空=全部。实测 industry 约 320 条、cn_concept 约 390 条。
+          - table [ref=f3e375]:
+            - rowgroup [ref=f3e376]:
+              - row [ref=f3e377]:
+                - columnheader "参数" [ref=f3e378]
+                - columnheader "类型" [ref=f3e379]
+                - columnheader "必填" [ref=f3e380]
+                - columnheader "默认" [ref=f3e381]
+                - columnheader "说明" [ref=f3e382]
+            - rowgroup [ref=f3e383]:
+              - row [ref=f3e384]:
+                - cell [ref=f3e385]:
+                  - code [ref=f3e386]: tag
+                - cell "下拉" [ref=f3e387]
+                - cell [ref=f3e388]
+                - cell [ref=f3e389]
+                - cell "industry=行业 / cn_concept=概念 / 空=全部" [ref=f3e390]
+          - generic [ref=f3e391]:
+            - generic [ref=f3e393]:
+              - generic [ref=f3e394]: 分类industry=行业 / cn_concept=概念 / 空=全部
+              - combobox "分类 industry=行业 / cn_concept=概念 / 空=全部" [ref=f3e395]:
+                - option
+                - option "industry" [selected]
+                - option "cn_concept"
+            - button "查询" [ref=f3e397] [cursor=pointer]
+          - blockquote [ref=f3e398]:
+            - paragraph [ref=f3e399]: ⚠️ 本接口是「指数快照」「指数成分股」的同花顺板块指数代码来源。
+          - heading [level=3] [ref=f3e400]:
+            - text: 同花顺指数成分股
+            - link "¶" [ref=f3e401] [cursor=pointer]:
+              - /url: "#_5"
+          - paragraph [ref=f3e402]:
+            - code [ref=f3e403]: /api/a-share-index/constituents/ths-stock-list
+            - text: · 难度 ★ · 可视化：表格
+          - paragraph [ref=f3e404]: 按同花顺指数代码查成分股列表（thscode/ticker/name）。thscode 可从指数目录接口取得。
+          - table [ref=f3e407]:
+            - rowgroup [ref=f3e408]:
+              - row [ref=f3e409]:
+                - columnheader "参数" [ref=f3e410]
+                - columnheader "类型" [ref=f3e411]
+                - columnheader "必填" [ref=f3e412]
+                - columnheader "默认" [ref=f3e413]
+                - columnheader "说明" [ref=f3e414]
+            - rowgroup [ref=f3e415]:
+              - row [ref=f3e416]:
+                - cell [ref=f3e417]:
+                  - code [ref=f3e418]: thscode
+                - cell "文本" [ref=f3e419]
+                - cell "✅" [ref=f3e420]
+                - cell [ref=f3e421]
+                - cell "同花顺指数代码" [ref=f3e422]
+          - generic [ref=f3e423]:
+            - generic [ref=f3e425]:
+              - generic [ref=f3e426]: 指数代码 *同花顺指数代码
+              - textbox "指数代码 * 同花顺指数代码" [ref=f3e427]:
+                - /placeholder: 如 885742.SH
+                - text: 885742.SH
+            - button "查询" [ref=f3e429] [cursor=pointer]
+          - blockquote [ref=f3e430]:
+            - paragraph [ref=f3e431]: ⚠️ 传入非指数代码会返回 1002；先用指数目录接口拿到合法 thscode。
+          - heading [level=2] [ref=f3e432]:
+            - text: 历史K线（1）
+            - link "¶" [ref=f3e433] [cursor=pointer]:
+              - /url: "#k1"
+          - heading [level=3] [ref=f3e434]:
+            - text: 个股历史 K 线
+            - link "¶" [ref=f3e435] [cursor=pointer]:
+              - /url: "#k"
+          - paragraph [ref=f3e436]:
+            - code [ref=f3e437]: /api/a-share/prices/historical
+            - text: · 难度 ★★ · 可视化：K线
+          - paragraph [ref=f3e438]: 单标的 OHLCV 历史K线，interval=1d（日线），窗口 ≤10 年。日期参数转成北京时间零点 epoch ms 传入。
+          - table [ref=f3e441]:
+            - rowgroup [ref=f3e442]:
+              - row [ref=f3e443]:
+                - columnheader "参数" [ref=f3e444]
+                - columnheader "类型" [ref=f3e445]
+                - columnheader "必填" [ref=f3e446]
+                - columnheader "默认" [ref=f3e447]
+                - columnheader "说明" [ref=f3e448]
+            - rowgroup [ref=f3e449]:
+              - row [ref=f3e450]:
+                - cell [ref=f3e451]:
+                  - code [ref=f3e452]: thscode
+                - cell "文本" [ref=f3e453]
+                - cell "✅" [ref=f3e454]
+                - cell [ref=f3e455]
+                - cell [ref=f3e456]
+              - row [ref=f3e457]:
+                - cell [ref=f3e458]:
+                  - code [ref=f3e459]: start_ms
+                - cell "日期" [ref=f3e460]
+                - cell [ref=f3e461]
+                - cell [ref=f3e462]
+                - cell "转北京时间零点 epoch ms" [ref=f3e463]
+              - row [ref=f3e464]:
+                - cell [ref=f3e465]:
+                  - code [ref=f3e466]: end_ms
+                - cell "日期" [ref=f3e467]
+                - cell [ref=f3e468]
+                - cell [ref=f3e469]
+                - cell [ref=f3e470]
+          - generic [ref=f3e471]:
+            - generic [ref=f3e472]:
+              - generic [ref=f3e473]:
+                - generic [ref=f3e474]: 股票代码 *
+                - textbox "股票代码 *" [ref=f3e475]:
+                  - /placeholder: 600519.SH
+                  - text: 600519.SH
+              - generic [ref=f3e476]:
+                - generic [ref=f3e477]: 开始日期转北京时间零点 epoch ms
+                - textbox "开始日期 转北京时间零点 epoch ms" [ref=f3e478]:
+                  - /placeholder: ""
+                  - text: 2026-09-01
+              - generic [ref=f3e479]:
+                - generic [ref=f3e480]: 结束日期
+                - textbox "结束日期" [ref=f3e481]:
+                  - /placeholder: ""
+                  - text: 2026-11-13
+            - button "查询" [ref=f3e483] [cursor=pointer]
+          - blockquote [ref=f3e484]:
+            - paragraph [ref=f3e485]: ⚠️ adjust 锁定 none：服务端前复权有逐日漂移，禁用（复权因子可走全市场 dump 自算）。 ⚠️ start/end 均可空=默认最近区间；超 10 年窗口服务端拒绝。 ⚠️ date_ms 时间口径：北京时间零点的 epoch ms，按 UTC 解析会偏一天。
+          - heading [level=2] [ref=f3e486]:
+            - text: 财务与估值（2）
+            - link "¶" [ref=f3e487] [cursor=pointer]:
+              - /url: "#2_1"
+          - heading [level=3] [ref=f3e488]:
+            - text: 财务报表（三大表）
+            - link "¶" [ref=f3e489] [cursor=pointer]:
+              - /url: "#_6"
+          - paragraph [ref=f3e490]:
+            - code [ref=f3e491]: "/api/a-share/financials/{income-statements|balance-sheets|cash-flow-statements}"
+            - text: · 难度 ★★ · 可视化：表格
+          - paragraph [ref=f3e492]: 单标的财务报表，table 选择利润表/资产负债表/现金流量表，period=quarterly（单季）/annual，单次 ≤20 期。
+          - table [ref=f3e495]:
+            - rowgroup [ref=f3e496]:
+              - row [ref=f3e497]:
+                - columnheader "参数" [ref=f3e498]
+                - columnheader "类型" [ref=f3e499]
+                - columnheader "必填" [ref=f3e500]
+                - columnheader "默认" [ref=f3e501]
+                - columnheader "说明" [ref=f3e502]
+            - rowgroup [ref=f3e503]:
+              - row [ref=f3e504]:
+                - cell [ref=f3e505]:
+                  - code [ref=f3e506]: thscode
+                - cell "文本" [ref=f3e507]
+                - cell "✅" [ref=f3e508]
+                - cell [ref=f3e509]
+                - cell [ref=f3e510]
+              - row [ref=f3e511]:
+                - cell [ref=f3e512]:
+                  - code [ref=f3e513]: table
+                - cell "下拉" [ref=f3e514]
+                - cell [ref=f3e515]
+                - cell [ref=f3e516]
+                - cell "income=利润表 / balance_sheet=资产负债表 / cash_flow=现金流量表" [ref=f3e517]
+              - row [ref=f3e518]:
+                - cell [ref=f3e519]:
+                  - code [ref=f3e520]: period
+                - cell "下拉" [ref=f3e521]
+                - cell [ref=f3e522]
+                - cell [ref=f3e523]
+                - cell [ref=f3e524]
+              - row [ref=f3e525]:
+                - cell [ref=f3e526]:
+                  - code [ref=f3e527]: limit
+                - cell "整数" [ref=f3e528]
+                - cell [ref=f3e529]
+                - cell "8" [ref=f3e530]
+                - cell "≤20" [ref=f3e531]
+          - generic [ref=f3e532]:
+            - generic [ref=f3e533]:
+              - generic [ref=f3e534]:
+                - generic [ref=f3e535]: 股票代码 *
+                - textbox "股票代码 *" [ref=f3e536]:
+                  - /placeholder: 600519.SH
+                  - text: 600519.SH
+              - generic [ref=f3e537]:
+                - generic [ref=f3e538]: 报表类型income=利润表 / balance_sheet=资产负债表 / cash_flow=现金流量表
+                - combobox "报表类型 income=利润表 / balance_sheet=资产负债表 / cash_flow=现金流量表" [ref=f3e539]:
+                  - option "income" [selected]
+                  - option "balance_sheet"
+                  - option "cash_flow"
+              - generic [ref=f3e540]:
+                - generic [ref=f3e541]: 周期
+                - combobox "周期" [ref=f3e542]:
+                  - option "quarterly" [selected]
+                  - option "annual"
+              - generic [ref=f3e543]:
+                - generic [ref=f3e544]: 期数上限≤20
+                - spinbutton "期数上限 ≤20" [ref=f3e545]: "8"
+            - button "查询" [ref=f3e547] [cursor=pointer]
+          - blockquote [ref=f3e548]:
+            - paragraph [ref=f3e549]: ⚠️ 公司尚未披露报告期时返回 5003。 ⚠️ 返回为逐期数组，字段非常多，教学时关注 revenue/net_profit 等核心科目即可。
+          - heading [level=3] [ref=f3e550]:
+            - text: 估值快照
+            - link "¶" [ref=f3e551] [cursor=pointer]:
+              - /url: "#_7"
+          - paragraph [ref=f3e552]:
+            - code [ref=f3e553]: /api/a-share/valuations/snapshot
+            - text: · 难度 ★ · 可视化：表格
+          - paragraph [ref=f3e554]: 按代码批量查询估值快照：pe_ttm / pe_mrq / pb_mrq / ps_ttm / pcf_ttm。
+          - table [ref=f3e557]:
+            - rowgroup [ref=f3e558]:
+              - row [ref=f3e559]:
+                - columnheader "参数" [ref=f3e560]
+                - columnheader "类型" [ref=f3e561]
+                - columnheader "必填" [ref=f3e562]
+                - columnheader "默认" [ref=f3e563]
+                - columnheader "说明" [ref=f3e564]
+            - rowgroup [ref=f3e565]:
+              - row [ref=f3e566]:
+                - cell [ref=f3e567]:
+                  - code [ref=f3e568]: thscodes
+                - cell "代码列表" [ref=f3e569]
+                - cell "✅" [ref=f3e570]
+                - cell [ref=f3e571]
+                - cell "逗号分隔，≤100 只" [ref=f3e572]
+          - generic [ref=f3e573]:
+            - generic [ref=f3e575]:
+              - generic [ref=f3e576]: 股票代码 *逗号分隔，≤100 只
+              - textbox "股票代码 * 逗号分隔，≤100 只" [ref=f3e577]:
+                - /placeholder: 600519.SH,000001.SZ,300750.SZ
+                - text: 600519.SH,000001.SZ,300750.SZ,688981.SH
+            - button "查询" [ref=f3e579] [cursor=pointer]
+          - blockquote [ref=f3e580]:
+            - paragraph [ref=f3e581]: ⚠️ 单次 ≤100 只；仅当前快照，无历史序列（历史估值需自行按日归档）。
+          - heading [level=2] [ref=f3e582]:
+            - text: 日历与竞价（5）
+            - link "¶" [ref=f3e583] [cursor=pointer]:
+              - /url: "#5"
+          - heading [level=3] [ref=f3e584]:
+            - text: 交易日历
+            - link "¶" [ref=f3e585] [cursor=pointer]:
+              - /url: "#_8"
+          - paragraph [ref=f3e586]:
+            - code [ref=f3e587]: /api/a-share/calendar/trading-days
+            - text: · 难度 ★ · 可视化：表格
+          - paragraph [ref=f3e588]: "交易日历，固定返回近一年窗口，item: {date_ms, date}。"
+          - button "查询" [ref=f3e591] [cursor=pointer]
+          - blockquote [ref=f3e592]:
+            - paragraph [ref=f3e593]: ⚠️ date_ms 字段是北京时间零点 epoch ms——用来体会扶摇的时间口径最直观。
+          - heading [level=3] [ref=f3e594]:
+            - text: 盘前竞价短线风向标
+            - link "¶" [ref=f3e595] [cursor=pointer]:
+              - /url: "#_9"
+          - paragraph [ref=f3e596]:
+            - code [ref=f3e597]: /api/a-share/auction/short-term-benchmark
+            - text: · 难度 ★★ · 可视化：表格
+          - paragraph [ref=f3e598]: 盘前集合竞价的短线风向标数据（date 可空=最近交易日，支持一年内历史）。
+          - table [ref=f3e601]:
+            - rowgroup [ref=f3e602]:
+              - row [ref=f3e603]:
+                - columnheader "参数" [ref=f3e604]
+                - columnheader "类型" [ref=f3e605]
+                - columnheader "必填" [ref=f3e606]
+                - columnheader "默认" [ref=f3e607]
+                - columnheader "说明" [ref=f3e608]
+            - rowgroup [ref=f3e609]:
+              - row [ref=f3e610]:
+                - cell [ref=f3e611]:
+                  - code [ref=f3e612]: date
+                - cell "日期" [ref=f3e613]
+                - cell [ref=f3e614]
+                - cell [ref=f3e615]
+                - cell [ref=f3e616]
+          - generic [ref=f3e617]:
+            - generic [ref=f3e619]:
+              - generic [ref=f3e620]: 日期
+              - textbox "日期" [ref=f3e621]:
+                - /placeholder: ""
+            - button "查询" [ref=f3e623] [cursor=pointer]
+          - blockquote [ref=f3e624]:
+            - paragraph [ref=f3e625]: ⚠️ date 格式 yyyy-MM-dd。
+          - heading [level=3] [ref=f3e626]:
+            - text: 集合竞价快照
+            - link "¶" [ref=f3e627] [cursor=pointer]:
+              - /url: "#_10"
+          - paragraph [ref=f3e628]:
+            - code [ref=f3e629]: /api/a-share/auction/snapshot
+            - text: · 难度 ★★ · 可视化：表格
+          - paragraph [ref=f3e630]: 按代码批量查询集合竞价快照：竞价价/竞价涨幅/竞价量额/未匹配量/竞价换手/量比等。stage=live（实时）/ final（终态）。
+          - table [ref=f3e633]:
+            - rowgroup [ref=f3e634]:
+              - row [ref=f3e635]:
+                - columnheader "参数" [ref=f3e636]
+                - columnheader "类型" [ref=f3e637]
+                - columnheader "必填" [ref=f3e638]
+                - columnheader "默认" [ref=f3e639]
+                - columnheader "说明" [ref=f3e640]
+            - rowgroup [ref=f3e641]:
+              - row [ref=f3e642]:
+                - cell [ref=f3e643]:
+                  - code [ref=f3e644]: thscodes
+                - cell "代码列表" [ref=f3e645]
+                - cell "✅" [ref=f3e646]
+                - cell [ref=f3e647]
+                - cell "逗号分隔，≤100 只" [ref=f3e648]
+              - row [ref=f3e649]:
+                - cell [ref=f3e650]:
+                  - code [ref=f3e651]: stage
+                - cell "下拉" [ref=f3e652]
+                - cell [ref=f3e653]
+                - cell [ref=f3e654]
+                - cell [ref=f3e655]
+          - generic [ref=f3e656]:
+            - generic [ref=f3e657]:
+              - generic [ref=f3e658]:
+                - generic [ref=f3e659]: 股票代码 *逗号分隔，≤100 只
+                - textbox "股票代码 * 逗号分隔，≤100 只" [ref=f3e660]:
+                  - /placeholder: 600519.SH,000001.SZ
+                  - text: 600519.SH,000001.SZ,300750.SZ
+              - generic [ref=f3e661]:
+                - generic [ref=f3e662]: 阶段
+                - combobox "阶段" [ref=f3e663]:
+                  - option
+                  - option "live" [selected]
+                  - option "final"
+            - button "查询" [ref=f3e665] [cursor=pointer]
+          - blockquote [ref=f3e666]:
+            - paragraph [ref=f3e667]: ⚠️ 文档写 finallive，实测合法值为 live / final —— 扶摇文档与实测差异的经典案例。 ⚠️ auction_pct 为百分数原值；bid_change_ratio 为小数比例，口径不同注意区分。
+          - heading [level=3] [ref=f3e668]:
+            - text: 集合竞价个股机会筛选
+            - link "¶" [ref=f3e669] [cursor=pointer]:
+              - /url: "#_11"
+          - paragraph [ref=f3e670]:
+            - code [ref=f3e671]: /api/a-share/special-data/auction-stock-opportunities
+            - text: · 难度 ★★★ · 可视化：表格
+          - paragraph [ref=f3e672]: 竞价阶段的个股机会名单（warn_type 告警类型分组），支持按市场/剔除ST/排序/分页。size 范围 1~20。
+          - table [ref=f3e675]:
+            - rowgroup [ref=f3e676]:
+              - row [ref=f3e677]:
+                - columnheader "参数" [ref=f3e678]
+                - columnheader "类型" [ref=f3e679]
+                - columnheader "必填" [ref=f3e680]
+                - columnheader "默认" [ref=f3e681]
+                - columnheader "说明" [ref=f3e682]
+            - rowgroup [ref=f3e683]:
+              - row [ref=f3e684]:
+                - cell [ref=f3e685]:
+                  - code [ref=f3e686]: date
+                - cell "日期" [ref=f3e687]
+                - cell [ref=f3e688]
+                - cell [ref=f3e689]
+                - cell "yyyy-MM-dd，须在可选日期集合内" [ref=f3e690]
+              - row [ref=f3e691]:
+                - cell [ref=f3e692]:
+                  - code [ref=f3e693]: market
+                - cell "下拉" [ref=f3e694]
+                - cell [ref=f3e695]
+                - cell [ref=f3e696]
+                - cell [ref=f3e697]
+              - row [ref=f3e698]:
+                - cell [ref=f3e699]:
+                  - code [ref=f3e700]: exclude_st
+                - cell "开关" [ref=f3e701]
+                - cell [ref=f3e702]
+                - cell [ref=f3e703]
+                - cell [ref=f3e704]
+              - row [ref=f3e705]:
+                - cell [ref=f3e706]:
+                  - code [ref=f3e707]: sort_by
+                - cell "文本" [ref=f3e708]
+                - cell [ref=f3e709]
+                - cell [ref=f3e710]
+                - cell [ref=f3e711]
+              - row [ref=f3e712]:
+                - cell [ref=f3e713]:
+                  - code [ref=f3e714]: sort_order
+                - cell "下拉" [ref=f3e715]
+                - cell [ref=f3e716]
+                - cell [ref=f3e717]
+                - cell [ref=f3e718]
+              - row [ref=f3e719]:
+                - cell [ref=f3e720]:
+                  - code [ref=f3e721]: page
+                - cell "整数" [ref=f3e722]
+                - cell [ref=f3e723]
+                - cell "1" [ref=f3e724]
+                - cell [ref=f3e725]
+              - row [ref=f3e726]:
+                - cell [ref=f3e727]:
+                  - code [ref=f3e728]: size
+                - cell "整数" [ref=f3e729]
+                - cell [ref=f3e730]
+                - cell "20" [ref=f3e731]
+                - cell "1~20" [ref=f3e732]
+          - generic [ref=f3e733]:
+            - generic [ref=f3e734]:
+              - generic [ref=f3e735]:
+                - generic [ref=f3e736]: 日期yyyy-MM-dd，须在可选日期集合内
+                - textbox "日期 yyyy-MM-dd，须在可选日期集合内" [ref=f3e737]:
+                  - /placeholder: ""
+              - generic [ref=f3e738]:
+                - generic [ref=f3e739]: 市场
+                - combobox "市场" [ref=f3e740]:
+                  - option [selected]
+                  - option "SH"
+                  - option "SZ"
+                  - option "BJ"
+              - generic [ref=f3e741]:
+                - generic [ref=f3e742]: 剔除ST
+                - combobox "剔除ST" [ref=f3e743]:
+                  - option "true" [selected]
+                  - option "false"
+              - generic [ref=f3e744]:
+                - generic [ref=f3e745]: 排序字段
+                - textbox "排序字段" [ref=f3e746]:
+                  - /placeholder: ""
+              - generic [ref=f3e747]:
+                - generic [ref=f3e748]: 排序方向
+                - combobox "排序方向" [ref=f3e749]:
+                  - option [selected]
+                  - option "asc"
+                  - option "desc"
+              - generic [ref=f3e750]:
+                - generic [ref=f3e751]: 页码
+                - spinbutton "页码" [ref=f3e752]
+              - generic [ref=f3e753]:
+                - generic [ref=f3e754]: 每页条数1~20
+                - spinbutton "每页条数 1~20" [ref=f3e755]
+            - button "查询" [ref=f3e757] [cursor=pointer]
+          - blockquote [ref=f3e758]:
+            - paragraph [ref=f3e759]: ⚠️ date 必须在「竞价机会可选日期」集合内（见下一接口），否则 1002。 ⚠️ bid_change_ratio 为小数比例；related_block 是关联板块 JSON 字符串。
+          - heading [level=3] [ref=f3e760]:
+            - text: 竞价机会可选日期
+            - link "¶" [ref=f3e761] [cursor=pointer]:
+              - /url: "#_12"
+          - paragraph [ref=f3e762]:
+            - code [ref=f3e763]: /api/a-share/special-data/auction-opportunity-dates
+            - text: · 难度 ★ · 可视化：表格
+          - paragraph [ref=f3e764]: 返回集合竞价机会接口可用的日期集合（dates 升序）与 latest_date（默认查询日）。
+          - button "查询" [ref=f3e767] [cursor=pointer]
+          - blockquote [ref=f3e768]:
+            - paragraph [ref=f3e769]: ⚠️ 做「机会筛选」前先调本接口拿合法 date，可避免 1002。
+          - heading [level=2] [ref=f3e770]:
+            - text: 特色数据（12）
+            - link "¶" [ref=f3e771] [cursor=pointer]:
+              - /url: "#12"
+          - heading [level=3] [ref=f3e772]:
+            - text: 涨停股票池
+            - link "¶" [ref=f3e773] [cursor=pointer]:
+              - /url: "#_13"
+          - paragraph [ref=f3e774]:
+            - code [ref=f3e775]: /api/a-share/special-data/limit-up-pool
+            - text: · 难度 ★ · 可视化：表格
+          - paragraph [ref=f3e776]: 当日涨停股池：连板数/涨停时间/涨停原因/封单金额等。date_ms 可空=最近交易日；支持按连板数等排序分页。
+          - table [ref=f3e779]:
+            - rowgroup [ref=f3e780]:
+              - row [ref=f3e781]:
+                - columnheader "参数" [ref=f3e782]
+                - columnheader "类型" [ref=f3e783]
+                - columnheader "必填" [ref=f3e784]
+                - columnheader "默认" [ref=f3e785]
+                - columnheader "说明" [ref=f3e786]
+            - rowgroup [ref=f3e787]:
+              - row [ref=f3e788]:
+                - cell [ref=f3e789]:
+                  - code [ref=f3e790]: date_ms
+                - cell "日期" [ref=f3e791]
+                - cell [ref=f3e792]
+                - cell [ref=f3e793]
+                - cell [ref=f3e794]
+              - row [ref=f3e795]:
+                - cell [ref=f3e796]:
+                  - code [ref=f3e797]: page
+                - cell "整数" [ref=f3e798]
+                - cell [ref=f3e799]
+                - cell "1" [ref=f3e800]
+                - cell [ref=f3e801]
+              - row [ref=f3e802]:
+                - cell [ref=f3e803]:
+                  - code [ref=f3e804]: size
+                - cell "整数" [ref=f3e805]
+                - cell [ref=f3e806]
+                - cell "100" [ref=f3e807]
+                - cell [ref=f3e808]
+              - row [ref=f3e809]:
+                - cell [ref=f3e810]:
+                  - code [ref=f3e811]: sort_field
+                - cell "下拉" [ref=f3e812]
+                - cell [ref=f3e813]
+                - cell "continue_day_cnt" [ref=f3e814]
+                - cell [ref=f3e815]
+              - row [ref=f3e816]:
+                - cell [ref=f3e817]:
+                  - code [ref=f3e818]: sort_dir
+                - cell "下拉" [ref=f3e819]
+                - cell [ref=f3e820]
+                - cell "desc" [ref=f3e821]
+                - cell [ref=f3e822]
+          - generic [ref=f3e823]:
+            - generic [ref=f3e824]:
+              - generic [ref=f3e825]:
+                - generic [ref=f3e826]: 日期
+                - textbox "日期" [ref=f3e827]:
+                  - /placeholder: ""
+              - generic [ref=f3e828]:
+                - generic [ref=f3e829]: 页码
+                - spinbutton "页码" [ref=f3e830]
+              - generic [ref=f3e831]:
+                - generic [ref=f3e832]: 每页条数
+                - spinbutton "每页条数" [ref=f3e833]
+              - generic [ref=f3e834]:
+                - generic [ref=f3e835]: 排序字段
+                - combobox "排序字段" [ref=f3e836]:
+                  - option "continue_day_cnt" [selected]
+                  - option "last_price"
+                  - option "seal_money"
+                  - option "limit_up_time"
+              - generic [ref=f3e837]:
+                - generic [ref=f3e838]: 排序方向
+                - combobox "排序方向" [ref=f3e839]:
+                  - option "desc" [selected]
+                  - option "asc"
+            - button "查询" [ref=f3e841] [cursor=pointer]
+          - blockquote [ref=f3e842]:
+            - paragraph [ref=f3e843]: ⚠️ date_ms 为北京时间零点 epoch ms；非交易日不传 date_ms 返回空集（total=0）而非报错。 ⚠️ continue_day_text（如「5连板」）与 continue_day_cnt（数值）同时提供。
+          - heading [level=3] [ref=f3e844]:
+            - text: 跌停股票池
+            - link "¶" [ref=f3e845] [cursor=pointer]:
+              - /url: "#_14"
+          - paragraph [ref=f3e846]:
+            - code [ref=f3e847]: /api/a-share/special-data/limit-down-pool
+            - text: · 难度 ★ · 可视化：表格
+          - paragraph [ref=f3e848]: 当日跌停股池：首次/最终跌停时间、换手率等。date_ms 口径同涨停池。
+          - table [ref=f3e851]:
+            - rowgroup [ref=f3e852]:
+              - row [ref=f3e853]:
+                - columnheader "参数" [ref=f3e854]
+                - columnheader "类型" [ref=f3e855]
+                - columnheader "必填" [ref=f3e856]
+                - columnheader "默认" [ref=f3e857]
+                - columnheader "说明" [ref=f3e858]
+            - rowgroup [ref=f3e859]:
+              - row [ref=f3e860]:
+                - cell [ref=f3e861]:
+                  - code [ref=f3e862]: date_ms
+                - cell "日期" [ref=f3e863]
+                - cell [ref=f3e864]
+                - cell [ref=f3e865]
+                - cell [ref=f3e866]
+              - row [ref=f3e867]:
+                - cell [ref=f3e868]:
+                  - code [ref=f3e869]: page
+                - cell "整数" [ref=f3e870]
+                - cell [ref=f3e871]
+                - cell "1" [ref=f3e872]
+                - cell [ref=f3e873]
+              - row [ref=f3e874]:
+                - cell [ref=f3e875]:
+                  - code [ref=f3e876]: size
+                - cell "整数" [ref=f3e877]
+                - cell [ref=f3e878]
+                - cell "100" [ref=f3e879]
+                - cell [ref=f3e880]
+          - generic [ref=f3e881]:
+            - generic [ref=f3e882]:
+              - generic [ref=f3e883]:
+                - generic [ref=f3e884]: 日期
+                - textbox "日期" [ref=f3e885]:
+                  - /placeholder: ""
+              - generic [ref=f3e886]:
+                - generic [ref=f3e887]: 页码
+                - spinbutton "页码" [ref=f3e888]
+              - generic [ref=f3e889]:
+                - generic [ref=f3e890]: 每页条数
+                - spinbutton "每页条数" [ref=f3e891]
+            - button "查询" [ref=f3e893] [cursor=pointer]
+          - blockquote [ref=f3e894]:
+            - paragraph [ref=f3e895]: ⚠️ 字段：first_limit_time / last_limit_time / turnover_ratio_pct。
+          - heading [level=3] [ref=f3e896]:
+            - text: 炸板股票池
+            - link "¶" [ref=f3e897] [cursor=pointer]:
+              - /url: "#_15"
+          - paragraph [ref=f3e898]:
+            - code [ref=f3e899]: /api/a-share/special-data/limit-break-pool
+            - text: · 难度 ★ · 可视化：表格
+          - paragraph [ref=f3e900]: 曾涨停后开板的股票池：open_times（炸板次数）、换手率等。date_ms 口径同涨停池。
+          - table [ref=f3e903]:
+            - rowgroup [ref=f3e904]:
+              - row [ref=f3e905]:
+                - columnheader "参数" [ref=f3e906]
+                - columnheader "类型" [ref=f3e907]
+                - columnheader "必填" [ref=f3e908]
+                - columnheader "默认" [ref=f3e909]
+                - columnheader "说明" [ref=f3e910]
+            - rowgroup [ref=f3e911]:
+              - row [ref=f3e912]:
+                - cell [ref=f3e913]:
+                  - code [ref=f3e914]: date_ms
+                - cell "日期" [ref=f3e915]
+                - cell [ref=f3e916]
+                - cell [ref=f3e917]
+                - cell [ref=f3e918]
+              - row [ref=f3e919]:
+                - cell [ref=f3e920]:
+                  - code [ref=f3e921]: page
+                - cell "整数" [ref=f3e922]
+                - cell [ref=f3e923]
+                - cell "1" [ref=f3e924]
+                - cell [ref=f3e925]
+              - row [ref=f3e926]:
+                - cell [ref=f3e927]:
+                  - code [ref=f3e928]: size
+                - cell "整数" [ref=f3e929]
+                - cell [ref=f3e930]
+                - cell "100" [ref=f3e931]
+                - cell [ref=f3e932]
+          - generic [ref=f3e933]:
+            - generic [ref=f3e934]:
+              - generic [ref=f3e935]:
+                - generic [ref=f3e936]: 日期
+                - textbox "日期" [ref=f3e937]:
+                  - /placeholder: ""
+              - generic [ref=f3e938]:
+                - generic [ref=f3e939]: 页码
+                - spinbutton "页码" [ref=f3e940]
+              - generic [ref=f3e941]:
+                - generic [ref=f3e942]: 每页条数
+                - spinbutton "每页条数" [ref=f3e943]
+            - button "查询" [ref=f3e945] [cursor=pointer]
+          - blockquote [ref=f3e946]:
+            - paragraph [ref=f3e947]: ⚠️ 炸板率 = 炸板数 /（涨停数 + 炸板数），是市场分歧度的常用指标——可用涨停池+本接口自行计算。
+          - heading [level=3] [ref=f3e948]:
+            - text: 连板天梯
+            - link "¶" [ref=f3e949] [cursor=pointer]:
+              - /url: "#_16"
+          - paragraph [ref=f3e950]:
+            - code [ref=f3e951]: /api/a-share/special-data/limit-up-ladder
+            - text: · 难度 ★★ · 可视化：天梯矩阵
+          - paragraph [ref=f3e952]: 近 30 个交易日的连板天梯矩阵。boards 键：two_board → seven_over（2板至7板及以上），每档为个股列表（board_num/seal_nextday/sign_level）。
+          - button "查询" [ref=f3e955] [cursor=pointer]
+          - blockquote [ref=f3e956]:
+            - paragraph [ref=f3e957]: ⚠️ seal_nextday=次日是否封板，可用于统计连板晋级率。 ⚠️ boards 是「档位→个股列表」的嵌套结构，前端用矩阵视图渲染。
+          - heading [level=3] [ref=f3e958]:
+            - text: 同花顺热股榜
+            - link "¶" [ref=f3e959] [cursor=pointer]:
+              - /url: "#_17"
+          - paragraph [ref=f3e960]:
+            - code [ref=f3e961]: /api/a-share/special-data/hot-stock-list
+            - text: · 难度 ★ · 可视化：条形图
+          - paragraph [ref=f3e962]: "同花顺热股 Top30（period: day 日榜 / hour 小时榜），含热度值与排名变化。"
+          - table [ref=f3e965]:
+            - rowgroup [ref=f3e966]:
+              - row [ref=f3e967]:
+                - columnheader "参数" [ref=f3e968]
+                - columnheader "类型" [ref=f3e969]
+                - columnheader "必填" [ref=f3e970]
+                - columnheader "默认" [ref=f3e971]
+                - columnheader "说明" [ref=f3e972]
+            - rowgroup [ref=f3e973]:
+              - row [ref=f3e974]:
+                - cell [ref=f3e975]:
+                  - code [ref=f3e976]: period
+                - cell "下拉" [ref=f3e977]
+                - cell [ref=f3e978]
+                - cell "day" [ref=f3e979]
+                - cell [ref=f3e980]
+          - generic [ref=f3e981]:
+            - generic [ref=f3e983]:
+              - generic [ref=f3e984]: 周期
+              - combobox "周期" [ref=f3e985]:
+                - option "day" [selected]
+                - option "hour"
+            - button "查询" [ref=f3e987] [cursor=pointer]
+          - blockquote [ref=f3e988]:
+            - paragraph [ref=f3e989]: ⚠️ heat 为字符串数值；rank_trend ∈ up/down/flat。
+          - heading [level=3] [ref=f3e990]:
+            - text: 热股飙升榜
+            - link "¶" [ref=f3e991] [cursor=pointer]:
+              - /url: "#_18"
+          - paragraph [ref=f3e992]:
+            - code [ref=f3e993]: /api/a-share/special-data/skyrocket-list
+            - text: · 难度 ★ · 可视化：条形图
+          - paragraph [ref=f3e994]: "热度飙升最快的 Top30（period: day/hour），观察热度异动的入口。"
+          - table [ref=f3e997]:
+            - rowgroup [ref=f3e998]:
+              - row [ref=f3e999]:
+                - columnheader "参数" [ref=f3e1000]
+                - columnheader "类型" [ref=f3e1001]
+                - columnheader "必填" [ref=f3e1002]
+                - columnheader "默认" [ref=f3e1003]
+                - columnheader "说明" [ref=f3e1004]
+            - rowgroup [ref=f3e1005]:
+              - row [ref=f3e1006]:
+                - cell [ref=f3e1007]:
+                  - code [ref=f3e1008]: period
+                - cell "下拉" [ref=f3e1009]
+                - cell [ref=f3e1010]
+                - cell "day" [ref=f3e1011]
+                - cell [ref=f3e1012]
+          - generic [ref=f3e1013]:
+            - generic [ref=f3e1015]:
+              - generic [ref=f3e1016]: 周期
+              - combobox "周期" [ref=f3e1017]:
+                - option "day" [selected]
+                - option "hour"
+            - button "查询" [ref=f3e1019] [cursor=pointer]
+          - blockquote [ref=f3e1020]:
+            - paragraph [ref=f3e1021]: ⚠️ 与热股榜对比：热股榜看「绝对热度」，飙升榜看「热度变化」。
+          - heading [level=3] [ref=f3e1022]:
+            - text: 历史热股排行
+            - link "¶" [ref=f3e1023] [cursor=pointer]:
+              - /url: "#_19"
+          - paragraph [ref=f3e1024]:
+            - code [ref=f3e1025]: /api/a-share/special-data/hot-stock-list-history
+            - text: · 难度 ★★ · 可视化：表格
+          - paragraph [ref=f3e1026]: "指定日期的历史热股 Top30（date: yyyy-MM-dd，仅支持一年内）。"
+          - table [ref=f3e1029]:
+            - rowgroup [ref=f3e1030]:
+              - row [ref=f3e1031]:
+                - columnheader "参数" [ref=f3e1032]
+                - columnheader "类型" [ref=f3e1033]
+                - columnheader "必填" [ref=f3e1034]
+                - columnheader "默认" [ref=f3e1035]
+                - columnheader "说明" [ref=f3e1036]
+            - rowgroup [ref=f3e1037]:
+              - row [ref=f3e1038]:
+                - cell [ref=f3e1039]:
+                  - code [ref=f3e1040]: date
+                - cell "日期" [ref=f3e1041]
+                - cell "✅" [ref=f3e1042]
+                - cell [ref=f3e1043]
+                - cell [ref=f3e1044]
+          - generic [ref=f3e1045]:
+            - generic [ref=f3e1047]:
+              - generic [ref=f3e1048]: 日期 *
+              - textbox "日期 *" [ref=f3e1049]:
+                - /placeholder: ""
+            - button "查询" [ref=f3e1051] [cursor=pointer]
+          - blockquote [ref=f3e1052]:
+            - paragraph [ref=f3e1053]: ⚠️ date 格式非法返回 1002，超出一年返回 1003——错误码教学的典型案例。
+          - heading [level=3] [ref=f3e1054]:
+            - text: 个股热榜排名走势
+            - link "¶" [ref=f3e1055] [cursor=pointer]:
+              - /url: "#_20"
+          - paragraph [ref=f3e1056]:
+            - code [ref=f3e1057]: /api/a-share/special-data/hot-stock-rank-trend
+            - text: · 难度 ★★ · 可视化：表格
+          - paragraph [ref=f3e1058]: 单只股票在热榜上的逐日排名走势（窗口与日期均限一年内），返回全部点位不做 Top30 截断。
+          - table [ref=f3e1061]:
+            - rowgroup [ref=f3e1062]:
+              - row [ref=f3e1063]:
+                - columnheader "参数" [ref=f3e1064]
+                - columnheader "类型" [ref=f3e1065]
+                - columnheader "必填" [ref=f3e1066]
+                - columnheader "默认" [ref=f3e1067]
+                - columnheader "说明" [ref=f3e1068]
+            - rowgroup [ref=f3e1069]:
+              - row [ref=f3e1070]:
+                - cell [ref=f3e1071]:
+                  - code [ref=f3e1072]: thscode
+                - cell "文本" [ref=f3e1073]
+                - cell "✅" [ref=f3e1074]
+                - cell [ref=f3e1075]
+                - cell [ref=f3e1076]
+              - row [ref=f3e1077]:
+                - cell [ref=f3e1078]:
+                  - code [ref=f3e1079]: start_date
+                - cell "日期" [ref=f3e1080]
+                - cell "✅" [ref=f3e1081]
+                - cell [ref=f3e1082]
+                - cell [ref=f3e1083]
+              - row [ref=f3e1084]:
+                - cell [ref=f3e1085]:
+                  - code [ref=f3e1086]: end_date
+                - cell "日期" [ref=f3e1087]
+                - cell "✅" [ref=f3e1088]
+                - cell [ref=f3e1089]
+                - cell [ref=f3e1090]
+          - generic [ref=f3e1091]:
+            - generic [ref=f3e1092]:
+              - generic [ref=f3e1093]:
+                - generic [ref=f3e1094]: 股票代码 *
+                - textbox "股票代码 *" [ref=f3e1095]:
+                  - /placeholder: 600519.SH
+              - generic [ref=f3e1096]:
+                - generic [ref=f3e1097]: 开始日期 *
+                - textbox "开始日期 *" [ref=f3e1098]:
+                  - /placeholder: ""
+              - generic [ref=f3e1099]:
+                - generic [ref=f3e1100]: 结束日期 *
+                - textbox "结束日期 *" [ref=f3e1101]:
+                  - /placeholder: ""
+            - button "查询" [ref=f3e1103] [cursor=pointer]
+          - blockquote [ref=f3e1104]:
+            - paragraph [ref=f3e1105]: ⚠️ start_date > end_date 时服务端返回 1004。
+          - heading [level=3] [ref=f3e1106]:
+            - text: 个股异动原因（全市场列表）
+            - link "¶" [ref=f3e1107] [cursor=pointer]:
+              - /url: "#_21"
+          - paragraph [ref=f3e1108]:
+            - code [ref=f3e1109]: /api/a-share/special-data/anomaly-analysis-list
+            - text: · 难度 ★★ · 可视化：表格
+          - paragraph [ref=f3e1110]: 当日个股异动原因列表（自然语言解读 + 关键词），tag_codes 多值 OR 过滤。
+          - table [ref=f3e1113]:
+            - rowgroup [ref=f3e1114]:
+              - row [ref=f3e1115]:
+                - columnheader "参数" [ref=f3e1116]
+                - columnheader "类型" [ref=f3e1117]
+                - columnheader "必填" [ref=f3e1118]
+                - columnheader "默认" [ref=f3e1119]
+                - columnheader "说明" [ref=f3e1120]
+            - rowgroup [ref=f3e1121]:
+              - row [ref=f3e1122]:
+                - cell [ref=f3e1123]:
+                  - code [ref=f3e1124]: tag_codes
+                - cell "代码列表" [ref=f3e1125]
+                - cell [ref=f3e1126]
+                - cell [ref=f3e1127]
+                - cell "逗号分隔多值 OR" [ref=f3e1128]
+          - generic [ref=f3e1129]:
+            - generic [ref=f3e1131]:
+              - generic [ref=f3e1132]: 异动标签逗号分隔多值 OR
+              - textbox "异动标签 逗号分隔多值 OR" [ref=f3e1133]:
+                - /placeholder: LIMIT_UP,SHARP_RISE
+            - button "查询" [ref=f3e1135] [cursor=pointer]
+          - blockquote [ref=f3e1136]:
+            - paragraph [ref=f3e1137]: ⚠️ 合法标签：LIMIT_UP / LIMIT_DOWN / SHARP_RISE / SHARP_FALL / RAPID_RALLY / RAPID_DECLINE（服务端大小写不敏感）。 ⚠️ 当日数据暂不可用时返回 3002（多为盘前/非交易日）。
+          - heading [level=3] [ref=f3e1138]:
+            - text: 个股异动原因（按代码查询）
+            - link "¶" [ref=f3e1139] [cursor=pointer]:
+              - /url: "#_22"
+          - paragraph [ref=f3e1140]:
+            - code [ref=f3e1141]: /api/a-share/special-data/anomaly-analysis-stock
+            - text: · 难度 ★★ · 可视化：表格
+          - paragraph [ref=f3e1142]: 按代码批量查询当日异动原因（去重前 ≤50 个），返回按请求顺序排列；当日无异动的代码被服务端忽略。
+          - table [ref=f3e1145]:
+            - rowgroup [ref=f3e1146]:
+              - row [ref=f3e1147]:
+                - columnheader "参数" [ref=f3e1148]
+                - columnheader "类型" [ref=f3e1149]
+                - columnheader "必填" [ref=f3e1150]
+                - columnheader "默认" [ref=f3e1151]
+                - columnheader "说明" [ref=f3e1152]
+            - rowgroup [ref=f3e1153]:
+              - row [ref=f3e1154]:
+                - cell [ref=f3e1155]:
+                  - code [ref=f3e1156]: thscodes
+                - cell "代码列表" [ref=f3e1157]
+                - cell "✅" [ref=f3e1158]
+                - cell [ref=f3e1159]
+                - cell "逗号分隔，≤50 个" [ref=f3e1160]
+          - generic [ref=f3e1161]:
+            - generic [ref=f3e1163]:
+              - generic [ref=f3e1164]: 股票代码 *逗号分隔，≤50 个
+              - textbox "股票代码 * 逗号分隔，≤50 个" [ref=f3e1165]:
+                - /placeholder: 600519.SH,000001.SZ
+            - button "查询" [ref=f3e1167] [cursor=pointer]
+          - blockquote [ref=f3e1168]:
+            - paragraph [ref=f3e1169]: ⚠️ 上限 50 个（与其他接口的 100 不同）——批量上限各接口不一致，是踩坑高发区。
+          - heading [level=3] [ref=f3e1170]:
+            - text: 异动股票监控名单
+            - link "¶" [ref=f3e1171] [cursor=pointer]:
+              - /url: "#_23"
+          - paragraph [ref=f3e1172]:
+            - code [ref=f3e1173]: /api/a-share/special-data/abnormal-monitor-list
+            - text: · 难度 ★★ · 可视化：表格
+          - paragraph [ref=f3e1174]: "交易所异动监控名单（state: current 当前 / history 历史），monitor_label 1/2=严重异动，其它=重点监控。"
+          - table [ref=f3e1177]:
+            - rowgroup [ref=f3e1178]:
+              - row [ref=f3e1179]:
+                - columnheader "参数" [ref=f3e1180]
+                - columnheader "类型" [ref=f3e1181]
+                - columnheader "必填" [ref=f3e1182]
+                - columnheader "默认" [ref=f3e1183]
+                - columnheader "说明" [ref=f3e1184]
+            - rowgroup [ref=f3e1185]:
+              - row [ref=f3e1186]:
+                - cell [ref=f3e1187]:
+                  - code [ref=f3e1188]: state
+                - cell "下拉" [ref=f3e1189]
+                - cell [ref=f3e1190]
+                - cell "current" [ref=f3e1191]
+                - cell [ref=f3e1192]
+              - row [ref=f3e1193]:
+                - cell [ref=f3e1194]:
+                  - code [ref=f3e1195]: page
+                - cell "整数" [ref=f3e1196]
+                - cell [ref=f3e1197]
+                - cell "1" [ref=f3e1198]
+                - cell [ref=f3e1199]
+              - row [ref=f3e1200]:
+                - cell [ref=f3e1201]:
+                  - code [ref=f3e1202]: size
+                - cell "整数" [ref=f3e1203]
+                - cell [ref=f3e1204]
+                - cell "30" [ref=f3e1205]
+                - cell "≤30" [ref=f3e1206]
+          - generic [ref=f3e1207]:
+            - generic [ref=f3e1208]:
+              - generic [ref=f3e1209]:
+                - generic [ref=f3e1210]: 状态
+                - combobox "状态" [ref=f3e1211]:
+                  - option "current" [selected]
+                  - option "history"
+              - generic [ref=f3e1212]:
+                - generic [ref=f3e1213]: 页码
+                - spinbutton "页码" [ref=f3e1214]
+              - generic [ref=f3e1215]:
+                - generic [ref=f3e1216]: 每页条数≤30
+                - spinbutton "每页条数 ≤30" [ref=f3e1217]
+            - button "查询" [ref=f3e1219] [cursor=pointer]
+          - blockquote [ref=f3e1220]:
+            - paragraph [ref=f3e1221]: ⚠️ size ≤30，分页从 1 起；end_date_ms 可空表示监控仍在进行。
+          - heading [level=3] [ref=f3e1222]:
+            - text: 龙虎榜
+            - link "¶" [ref=f3e1223] [cursor=pointer]:
+              - /url: "#_24"
+          - paragraph [ref=f3e1224]:
+            - code [ref=f3e1225]: /api/a-share/special-data/dragon-tiger-list
+            - text: · 难度 ★★ · 可视化：表格
+          - paragraph [ref=f3e1226]: 龙虎榜数据：board_type = all 全部 / org 机构 / hot_money 游资；date 可空=最近发布日。
+          - table [ref=f3e1229]:
+            - rowgroup [ref=f3e1230]:
+              - row [ref=f3e1231]:
+                - columnheader "参数" [ref=f3e1232]
+                - columnheader "类型" [ref=f3e1233]
+                - columnheader "必填" [ref=f3e1234]
+                - columnheader "默认" [ref=f3e1235]
+                - columnheader "说明" [ref=f3e1236]
+            - rowgroup [ref=f3e1237]:
+              - row [ref=f3e1238]:
+                - cell [ref=f3e1239]:
+                  - code [ref=f3e1240]: board_type
+                - cell "下拉" [ref=f3e1241]
+                - cell [ref=f3e1242]
+                - cell "all" [ref=f3e1243]
+                - cell [ref=f3e1244]
+              - row [ref=f3e1245]:
+                - cell [ref=f3e1246]:
+                  - code [ref=f3e1247]: date
+                - cell "日期" [ref=f3e1248]
+                - cell [ref=f3e1249]
+                - cell [ref=f3e1250]
+                - cell [ref=f3e1251]
+          - generic [ref=f3e1252]:
+            - generic [ref=f3e1253]:
+              - generic [ref=f3e1254]:
+                - generic [ref=f3e1255]: 榜单类型
+                - combobox "榜单类型" [ref=f3e1256]:
+                  - option "all" [selected]
+                  - option "org"
+                  - option "hot_money"
+              - generic [ref=f3e1257]:
+                - generic [ref=f3e1258]: 日期
+                - textbox "日期" [ref=f3e1259]:
+                  - /placeholder: ""
+            - button "查询" [ref=f3e1261] [cursor=pointer]
+          - blockquote [ref=f3e1262]:
+            - paragraph [ref=f3e1263]: ⚠️ date 可空时服务端自动取最近发布日（非交易日自动回退），与涨停池「非交易日返回空集」的行为不同。
+          - heading [level=2] [ref=f3e1264]:
+            - text: 标的检索（1）
+            - link "¶" [ref=f3e1265] [cursor=pointer]:
+              - /url: "#1"
+          - heading [level=3] [ref=f3e1266]:
+            - text: 标的模糊搜索
+            - link "¶" [ref=f3e1267] [cursor=pointer]:
+              - /url: "#_25"
+          - paragraph [ref=f3e1268]:
+            - code [ref=f3e1269]: /api/meta/tickers/search
+            - text: · 难度 ★ · 可视化：表格
+          - paragraph [ref=f3e1270]: 名称/代码模糊匹配（用于搜索联想），返回 thscode/ticker/name/exchange/asset_type/currency。
+          - table [ref=f3e1273]:
+            - rowgroup [ref=f3e1274]:
+              - row [ref=f3e1275]:
+                - columnheader "参数" [ref=f3e1276]
+                - columnheader "类型" [ref=f3e1277]
+                - columnheader "必填" [ref=f3e1278]
+                - columnheader "默认" [ref=f3e1279]
+                - columnheader "说明" [ref=f3e1280]
+            - rowgroup [ref=f3e1281]:
+              - row [ref=f3e1282]:
+                - cell [ref=f3e1283]:
+                  - code [ref=f3e1284]: query
+                - cell "文本" [ref=f3e1285]
+                - cell "✅" [ref=f3e1286]
+                - cell [ref=f3e1287]
+                - cell [ref=f3e1288]
+              - row [ref=f3e1289]:
+                - cell [ref=f3e1290]:
+                  - code [ref=f3e1291]: asset_type
+                - cell "下拉" [ref=f3e1292]
+                - cell [ref=f3e1293]
+                - cell "a-share" [ref=f3e1294]
+                - cell [ref=f3e1295]
+              - row [ref=f3e1296]:
+                - cell [ref=f3e1297]:
+                  - code [ref=f3e1298]: limit
+                - cell "整数" [ref=f3e1299]
+                - cell [ref=f3e1300]
+                - cell "10" [ref=f3e1301]
+                - cell [ref=f3e1302]
+          - generic [ref=f3e1303]:
+            - generic [ref=f3e1304]:
+              - generic [ref=f3e1305]:
+                - generic [ref=f3e1306]: 关键词 *
+                - textbox "关键词 *" [ref=f3e1307]:
+                  - /placeholder: 贵州茅台 或 600519
+                  - text: 贵州茅台
+              - generic [ref=f3e1308]:
+                - generic [ref=f3e1309]: 资产类型
+                - combobox "资产类型" [ref=f3e1310]:
+                  - option "a-share" [selected]
+                  - option "a-share-index"
+                  - option "fund"
+              - generic [ref=f3e1311]:
+                - generic [ref=f3e1312]: 条数
+                - spinbutton "条数" [ref=f3e1313]
+            - button "查询" [ref=f3e1315] [cursor=pointer]
+          - blockquote [ref=f3e1316]:
+            - paragraph [ref=f3e1317]: ⚠️ 其他接口都要 thscode，忘了代码时先用本接口反查——推荐作为所有页面的前置工具。
+          - heading [level=2] [ref=f3e1318]:
+            - text: 基金（15）
+            - link "¶" [ref=f3e1319] [cursor=pointer]:
+              - /url: "#15"
+          - heading [level=3] [ref=f3e1320]:
+            - text: 基金基本资料
+            - link "¶" [ref=f3e1321] [cursor=pointer]:
+              - /url: "#_26"
+          - paragraph [ref=f3e1322]:
+            - code [ref=f3e1323]: /api/fund/profile/detail
+            - text: · 难度 ★ · 可视化：表格
+          - paragraph [ref=f3e1324]: 基金档案：名称/成立日/管理人/基金经理/规模/单位净值等。manager_info 里的 manager_id 是「基金经理详情」的入参。
+          - table [ref=f3e1327]:
+            - rowgroup [ref=f3e1328]:
+              - row [ref=f3e1329]:
+                - columnheader "参数" [ref=f3e1330]
+                - columnheader "类型" [ref=f3e1331]
+                - columnheader "必填" [ref=f3e1332]
+                - columnheader "默认" [ref=f3e1333]
+                - columnheader "说明" [ref=f3e1334]
+            - rowgroup [ref=f3e1335]:
+              - row [ref=f3e1336]:
+                - cell [ref=f3e1337]:
+                  - code [ref=f3e1338]: thscode
+                - cell "文本" [ref=f3e1339]
+                - cell "✅" [ref=f3e1340]
+                - cell [ref=f3e1341]
+                - cell "场内如 510300.SH，场外如 000001.OF" [ref=f3e1342]
+          - generic [ref=f3e1343]:
+            - generic [ref=f3e1345]:
+              - generic [ref=f3e1346]: 基金代码 *场内如 510300.SH，场外如 000001.OF
+              - textbox "基金代码 * 场内如 510300.SH，场外如 000001.OF" [ref=f3e1347]:
+                - /placeholder: 510300.SH
+                - text: 510300.SH
+            - button "查询" [ref=f3e1349] [cursor=pointer]
+          - blockquote [ref=f3e1350]:
+            - paragraph [ref=f3e1351]: ⚠️ 基金接口均为单只查询，thscodes 逗号多值不支持。 ⚠️ company_id / manager_id 分别从本接口取值后再查「基金公司」「基金经理」——链式查询教学案例。
+          - heading [level=3] [ref=f3e1352]:
+            - text: 场内基金实时快照
+            - link "¶" [ref=f3e1353] [cursor=pointer]:
+              - /url: "#_27"
+          - paragraph [ref=f3e1354]:
+            - code [ref=f3e1355]: /api/fund/market/snapshot
+            - text: · 难度 ★ · 可视化：表格
+          - paragraph [ref=f3e1356]: 场内基金（仅 ETF/LOF）实时行情快照，单只查询。
+          - table [ref=f3e1359]:
+            - rowgroup [ref=f3e1360]:
+              - row [ref=f3e1361]:
+                - columnheader "参数" [ref=f3e1362]
+                - columnheader "类型" [ref=f3e1363]
+                - columnheader "必填" [ref=f3e1364]
+                - columnheader "默认" [ref=f3e1365]
+                - columnheader "说明" [ref=f3e1366]
+            - rowgroup [ref=f3e1367]:
+              - row [ref=f3e1368]:
+                - cell [ref=f3e1369]:
+                  - code [ref=f3e1370]: thscode
+                - cell "文本" [ref=f3e1371]
+                - cell "✅" [ref=f3e1372]
+                - cell [ref=f3e1373]
+                - cell [ref=f3e1374]
+          - generic [ref=f3e1375]:
+            - generic [ref=f3e1377]:
+              - generic [ref=f3e1378]: 基金代码 *
+              - textbox "基金代码 *" [ref=f3e1379]:
+                - /placeholder: 510300.SH
+                - text: 510300.SH
+            - button "查询" [ref=f3e1381] [cursor=pointer]
+          - blockquote [ref=f3e1382]:
+            - paragraph [ref=f3e1383]: ⚠️ 场外基金走场内接口返回 3004。
+          - heading [level=3] [ref=f3e1384]:
+            - text: ETF 历史日线
+            - link "¶" [ref=f3e1385] [cursor=pointer]:
+              - /url: "#etf"
+          - paragraph [ref=f3e1386]:
+            - code [ref=f3e1387]: /api/fund/market/historical
+            - text: · 难度 ★★ · 可视化：K线
+          - paragraph [ref=f3e1388]: ETF 前复权历史日线（仅 ETF，LOF 不支持），窗口 ≤5 自然年。adjust 固定 null（服务端已做前复权）。
+          - table [ref=f3e1391]:
+            - rowgroup [ref=f3e1392]:
+              - row [ref=f3e1393]:
+                - columnheader "参数" [ref=f3e1394]
+                - columnheader "类型" [ref=f3e1395]
+                - columnheader "必填" [ref=f3e1396]
+                - columnheader "默认" [ref=f3e1397]
+                - columnheader "说明" [ref=f3e1398]
+            - rowgroup [ref=f3e1399]:
+              - row [ref=f3e1400]:
+                - cell [ref=f3e1401]:
+                  - code [ref=f3e1402]: thscode
+                - cell "文本" [ref=f3e1403]
+                - cell "✅" [ref=f3e1404]
+                - cell [ref=f3e1405]
+                - cell [ref=f3e1406]
+              - row [ref=f3e1407]:
+                - cell [ref=f3e1408]:
+                  - code [ref=f3e1409]: start_ms
+                - cell "日期" [ref=f3e1410]
+                - cell "✅" [ref=f3e1411]
+                - cell [ref=f3e1412]
+                - cell [ref=f3e1413]
+              - row [ref=f3e1414]:
+                - cell [ref=f3e1415]:
+                  - code [ref=f3e1416]: end_ms
+                - cell "日期" [ref=f3e1417]
+                - cell "✅" [ref=f3e1418]
+                - cell [ref=f3e1419]
+                - cell [ref=f3e1420]
+          - generic [ref=f3e1421]:
+            - generic [ref=f3e1422]:
+              - generic [ref=f3e1423]:
+                - generic [ref=f3e1424]: ETF 代码 *
+                - textbox "ETF 代码 *" [ref=f3e1425]:
+                  - /placeholder: 510300.SH
+                  - text: 510300.SH
+              - generic [ref=f3e1426]:
+                - generic [ref=f3e1427]: 开始日期 *
+                - textbox "开始日期 *" [ref=f3e1428]:
+                  - /placeholder: ""
+                  - text: 2026-08-01
+              - generic [ref=f3e1429]:
+                - generic [ref=f3e1430]: 结束日期 *
+                - textbox "结束日期 *" [ref=f3e1431]:
+                  - /placeholder: ""
+                  - text: 2026-11-13
+            - button "查询" [ref=f3e1433] [cursor=pointer]
+          - blockquote [ref=f3e1434]:
+            - paragraph [ref=f3e1435]: ⚠️ 仅 ETF；窗口超 5 自然年返回 1003；start/end 转北京时间零点 epoch ms。
+          - heading [level=3] [ref=f3e1436]:
+            - text: 基金净值序列
+            - link "¶" [ref=f3e1437] [cursor=pointer]:
+              - /url: "#_28"
+          - paragraph [ref=f3e1438]:
+            - code [ref=f3e1439]: /api/fund/performance/nav
+            - text: · 难度 ★ · 可视化：表格
+          - paragraph [ref=f3e1440]: "净值序列（range: week/month/quarter/fyear…，缺省仅最新一条；nav_type: unit 单位净值 / adj 累计/复权净值）。"
+          - table [ref=f3e1443]:
+            - rowgroup [ref=f3e1444]:
+              - row [ref=f3e1445]:
+                - columnheader "参数" [ref=f3e1446]
+                - columnheader "类型" [ref=f3e1447]
+                - columnheader "必填" [ref=f3e1448]
+                - columnheader "默认" [ref=f3e1449]
+                - columnheader "说明" [ref=f3e1450]
+            - rowgroup [ref=f3e1451]:
+              - row [ref=f3e1452]:
+                - cell [ref=f3e1453]:
+                  - code [ref=f3e1454]: thscode
+                - cell "文本" [ref=f3e1455]
+                - cell "✅" [ref=f3e1456]
+                - cell [ref=f3e1457]
+                - cell [ref=f3e1458]
+              - row [ref=f3e1459]:
+                - cell [ref=f3e1460]:
+                  - code [ref=f3e1461]: range
+                - cell "下拉" [ref=f3e1462]
+                - cell [ref=f3e1463]
+                - cell [ref=f3e1464]
+                - cell [ref=f3e1465]
+              - row [ref=f3e1466]:
+                - cell [ref=f3e1467]:
+                  - code [ref=f3e1468]: nav_type
+                - cell "下拉" [ref=f3e1469]
+                - cell [ref=f3e1470]
+                - cell "unit,adj" [ref=f3e1471]
+                - cell [ref=f3e1472]
+          - generic [ref=f3e1473]:
+            - generic [ref=f3e1474]:
+              - generic [ref=f3e1475]:
+                - generic [ref=f3e1476]: 基金代码 *
+                - textbox "基金代码 *" [ref=f3e1477]:
+                  - /placeholder: 510300.SH
+                  - text: 510300.SH
+              - generic [ref=f3e1478]:
+                - generic [ref=f3e1479]: 区间
+                - combobox "区间" [ref=f3e1480]:
+                  - option
+                  - option "week"
+                  - option "month"
+                  - option "quarter"
+                  - option "half"
+                  - option "fyear" [selected]
+                  - option "now"
+              - generic [ref=f3e1481]:
+                - generic [ref=f3e1482]: 净值类型
+                - combobox "净值类型" [ref=f3e1483]:
+                  - option "unit" [selected]
+                  - option "adj"
+                  - option "unit,adj"
+            - button "查询" [ref=f3e1485] [cursor=pointer]
+          - blockquote [ref=f3e1486]:
+            - paragraph [ref=f3e1487]: ⚠️ range 缺省只返回最新一条，想画曲线记得传 range。
+          - heading [level=3] [ref=f3e1488]:
+            - text: 基金区间收益与排名
+            - link "¶" [ref=f3e1489] [cursor=pointer]:
+              - /url: "#_29"
+          - paragraph [ref=f3e1490]:
+            - code [ref=f3e1491]: /api/fund/performance/returns
+            - text: · 难度 ★ · 可视化：收益卡片
+          - paragraph [ref=f3e1492]:
+            - text: 各区间收益（return_
+            - emphasis [ref=f3e1493]: ）、同类均值（peer_average_
+            - text: ）与同类排名（rank_*）。
+          - table [ref=f3e1496]:
+            - rowgroup [ref=f3e1497]:
+              - row [ref=f3e1498]:
+                - columnheader "参数" [ref=f3e1499]
+                - columnheader "类型" [ref=f3e1500]
+                - columnheader "必填" [ref=f3e1501]
+                - columnheader "默认" [ref=f3e1502]
+                - columnheader "说明" [ref=f3e1503]
+            - rowgroup [ref=f3e1504]:
+              - row [ref=f3e1505]:
+                - cell [ref=f3e1506]:
+                  - code [ref=f3e1507]: thscode
+                - cell "文本" [ref=f3e1508]
+                - cell "✅" [ref=f3e1509]
+                - cell [ref=f3e1510]
+                - cell [ref=f3e1511]
+          - generic [ref=f3e1512]:
+            - generic [ref=f3e1514]:
+              - generic [ref=f3e1515]: 基金代码 *
+              - textbox "基金代码 *" [ref=f3e1516]:
+                - /placeholder: 510300.SH
+                - text: 510300.SH
+            - button "查询" [ref=f3e1518] [cursor=pointer]
+          - blockquote [ref=f3e1519]:
+            - paragraph [ref=f3e1520]: ⚠️ 返回为扁平 dict，前端用卡片视图对比「收益 vs 同类均值」。
+          - heading [level=3] [ref=f3e1521]:
+            - text: 基金最大回撤
+            - link "¶" [ref=f3e1522] [cursor=pointer]:
+              - /url: "#_30"
+          - paragraph [ref=f3e1523]:
+            - code [ref=f3e1524]: /api/fund/performance/drawdowns
+            - text: · 难度 ★ · 可视化：收益卡片
+          - paragraph [ref=f3e1525]: 各区间最大回撤（week..now；nowyear=今年以来 / now=成立以来）。
+          - table [ref=f3e1528]:
+            - rowgroup [ref=f3e1529]:
+              - row [ref=f3e1530]:
+                - columnheader "参数" [ref=f3e1531]
+                - columnheader "类型" [ref=f3e1532]
+                - columnheader "必填" [ref=f3e1533]
+                - columnheader "默认" [ref=f3e1534]
+                - columnheader "说明" [ref=f3e1535]
+            - rowgroup [ref=f3e1536]:
+              - row [ref=f3e1537]:
+                - cell [ref=f3e1538]:
+                  - code [ref=f3e1539]: thscode
+                - cell "文本" [ref=f3e1540]
+                - cell "✅" [ref=f3e1541]
+                - cell [ref=f3e1542]
+                - cell [ref=f3e1543]
+          - generic [ref=f3e1544]:
+            - generic [ref=f3e1546]:
+              - generic [ref=f3e1547]: 基金代码 *
+              - textbox "基金代码 *" [ref=f3e1548]:
+                - /placeholder: 510300.SH
+                - text: 510300.SH
+            - button "查询" [ref=f3e1550] [cursor=pointer]
+          - blockquote [ref=f3e1551]:
+            - paragraph [ref=f3e1552]: ⚠️ now / nowyear 是特殊区间键，其余为 week/month 等常规区间。
+          - heading [level=3] [ref=f3e1553]:
+            - text: 基金重仓持仓
+            - link "¶" [ref=f3e1554] [cursor=pointer]:
+              - /url: "#_31"
+          - paragraph [ref=f3e1555]:
+            - code [ref=f3e1556]: /api/fund/portfolio/holdings
+            - text: · 难度 ★ · 可视化：表格
+          - paragraph [ref=f3e1557]: 最新重仓持仓：顶层汇总（股票/债券/基金占比、前十大集中度）+ item 个股明细。
+          - table [ref=f3e1560]:
+            - rowgroup [ref=f3e1561]:
+              - row [ref=f3e1562]:
+                - columnheader "参数" [ref=f3e1563]
+                - columnheader "类型" [ref=f3e1564]
+                - columnheader "必填" [ref=f3e1565]
+                - columnheader "默认" [ref=f3e1566]
+                - columnheader "说明" [ref=f3e1567]
+            - rowgroup [ref=f3e1568]:
+              - row [ref=f3e1569]:
+                - cell [ref=f3e1570]:
+                  - code [ref=f3e1571]: thscode
+                - cell "文本" [ref=f3e1572]
+                - cell "✅" [ref=f3e1573]
+                - cell [ref=f3e1574]
+                - cell [ref=f3e1575]
+          - generic [ref=f3e1576]:
+            - generic [ref=f3e1578]:
+              - generic [ref=f3e1579]: 基金代码 *
+              - textbox "基金代码 *" [ref=f3e1580]:
+                - /placeholder: 510300.SH
+                - text: 510300.SH
+            - button "查询" [ref=f3e1582] [cursor=pointer]
+          - blockquote [ref=f3e1583]:
+            - paragraph [ref=f3e1584]: ⚠️ 顶层 summary 与 item[] 并存的结构——解析时先看汇总再看明细。
+          - heading [level=3] [ref=f3e1585]:
+            - text: 基金持有人结构
+            - link "¶" [ref=f3e1586] [cursor=pointer]:
+              - /url: "#_32"
+          - paragraph [ref=f3e1587]:
+            - code [ref=f3e1588]: /api/fund/holders/detail
+            - text: · 难度 ★★ · 可视化：表格
+          - paragraph [ref=f3e1589]: 持有人结构逐期序列：机构/个人占比、户数；merge_scope = all / merged（合并）/ separate（分份额）。
+          - table [ref=f3e1592]:
+            - rowgroup [ref=f3e1593]:
+              - row [ref=f3e1594]:
+                - columnheader "参数" [ref=f3e1595]
+                - columnheader "类型" [ref=f3e1596]
+                - columnheader "必填" [ref=f3e1597]
+                - columnheader "默认" [ref=f3e1598]
+                - columnheader "说明" [ref=f3e1599]
+            - rowgroup [ref=f3e1600]:
+              - row [ref=f3e1601]:
+                - cell [ref=f3e1602]:
+                  - code [ref=f3e1603]: thscode
+                - cell "文本" [ref=f3e1604]
+                - cell "✅" [ref=f3e1605]
+                - cell [ref=f3e1606]
+                - cell [ref=f3e1607]
+              - row [ref=f3e1608]:
+                - cell [ref=f3e1609]:
+                  - code [ref=f3e1610]: merge_scope
+                - cell "下拉" [ref=f3e1611]
+                - cell [ref=f3e1612]
+                - cell "all" [ref=f3e1613]
+                - cell [ref=f3e1614]
+          - generic [ref=f3e1615]:
+            - generic [ref=f3e1616]:
+              - generic [ref=f3e1617]:
+                - generic [ref=f3e1618]: 基金代码 *
+                - textbox "基金代码 *" [ref=f3e1619]:
+                  - /placeholder: 510300.SH
+                  - text: 510300.SH
+              - generic [ref=f3e1620]:
+                - generic [ref=f3e1621]: 合并口径
+                - combobox "合并口径" [ref=f3e1622]:
+                  - option "all" [selected]
+                  - option "merged"
+                  - option "separate"
+            - button "查询" [ref=f3e1624] [cursor=pointer]
+          - blockquote [ref=f3e1625]:
+            - paragraph [ref=f3e1626]: ⚠️ 机构占比变化是观察资金属性的常用维度。
+          - heading [level=3] [ref=f3e1627]:
+            - text: 基金前十大持有人
+            - link "¶" [ref=f3e1628] [cursor=pointer]:
+              - /url: "#_33"
+          - paragraph [ref=f3e1629]:
+            - code [ref=f3e1630]: /api/fund/holders/top
+            - text: · 难度 ★★ · 可视化：表格
+          - paragraph [ref=f3e1631]: 前十大持有人（limit ≤10）。
+          - table [ref=f3e1634]:
+            - rowgroup [ref=f3e1635]:
+              - row [ref=f3e1636]:
+                - columnheader "参数" [ref=f3e1637]
+                - columnheader "类型" [ref=f3e1638]
+                - columnheader "必填" [ref=f3e1639]
+                - columnheader "默认" [ref=f3e1640]
+                - columnheader "说明" [ref=f3e1641]
+            - rowgroup [ref=f3e1642]:
+              - row [ref=f3e1643]:
+                - cell [ref=f3e1644]:
+                  - code [ref=f3e1645]: thscode
+                - cell "文本" [ref=f3e1646]
+                - cell "✅" [ref=f3e1647]
+                - cell [ref=f3e1648]
+                - cell [ref=f3e1649]
+              - row [ref=f3e1650]:
+                - cell [ref=f3e1651]:
+                  - code [ref=f3e1652]: limit
+                - cell "整数" [ref=f3e1653]
+                - cell [ref=f3e1654]
+                - cell "10" [ref=f3e1655]
+                - cell "≤10" [ref=f3e1656]
+          - generic [ref=f3e1657]:
+            - generic [ref=f3e1658]:
+              - generic [ref=f3e1659]:
+                - generic [ref=f3e1660]: 基金代码 *
+                - textbox "基金代码 *" [ref=f3e1661]:
+                  - /placeholder: 510300.SH
+                  - text: 510300.SH
+              - generic [ref=f3e1662]:
+                - generic [ref=f3e1663]: 条数≤10
+                - spinbutton "条数 ≤10" [ref=f3e1664]
+            - button "查询" [ref=f3e1666] [cursor=pointer]
+          - blockquote [ref=f3e1667]:
+            - paragraph [ref=f3e1668]: ⚠️ limit 上限 10。
+          - heading [level=3] [ref=f3e1669]:
+            - text: 基金资产配置
+            - link "¶" [ref=f3e1670] [cursor=pointer]:
+              - /url: "#_34"
+          - paragraph [ref=f3e1671]:
+            - code [ref=f3e1672]: /api/fund/portfolio/asset-allocation
+            - text: · 难度 ★★ · 可视化：表格
+          - paragraph [ref=f3e1673]: 历史逐报告期资产配置：股票/债券/存款/其他占比。
+          - table [ref=f3e1676]:
+            - rowgroup [ref=f3e1677]:
+              - row [ref=f3e1678]:
+                - columnheader "参数" [ref=f3e1679]
+                - columnheader "类型" [ref=f3e1680]
+                - columnheader "必填" [ref=f3e1681]
+                - columnheader "默认" [ref=f3e1682]
+                - columnheader "说明" [ref=f3e1683]
+            - rowgroup [ref=f3e1684]:
+              - row [ref=f3e1685]:
+                - cell [ref=f3e1686]:
+                  - code [ref=f3e1687]: thscode
+                - cell "文本" [ref=f3e1688]
+                - cell "✅" [ref=f3e1689]
+                - cell [ref=f3e1690]
+                - cell [ref=f3e1691]
+          - generic [ref=f3e1692]:
+            - generic [ref=f3e1694]:
+              - generic [ref=f3e1695]: 基金代码 *
+              - textbox "基金代码 *" [ref=f3e1696]:
+                - /placeholder: 510300.SH
+                - text: 510300.SH
+            - button "查询" [ref=f3e1698] [cursor=pointer]
+          - blockquote [ref=f3e1699]:
+            - paragraph [ref=f3e1700]: ⚠️ 报告期口径为季度，最新一期可能有披露滞后。
+          - heading [level=3] [ref=f3e1701]:
+            - text: 基金行业配置
+            - link "¶" [ref=f3e1702] [cursor=pointer]:
+              - /url: "#_35"
+          - paragraph [ref=f3e1703]:
+            - code [ref=f3e1704]: /api/fund/portfolio/industry-allocation
+            - text: · 难度 ★★ · 可视化：表格
+          - paragraph [ref=f3e1705]: 历史逐报告期行业配置（report_period 如 2026Q2 + industry_name/ratio_pct）。
+          - table [ref=f3e1708]:
+            - rowgroup [ref=f3e1709]:
+              - row [ref=f3e1710]:
+                - columnheader "参数" [ref=f3e1711]
+                - columnheader "类型" [ref=f3e1712]
+                - columnheader "必填" [ref=f3e1713]
+                - columnheader "默认" [ref=f3e1714]
+                - columnheader "说明" [ref=f3e1715]
+            - rowgroup [ref=f3e1716]:
+              - row [ref=f3e1717]:
+                - cell [ref=f3e1718]:
+                  - code [ref=f3e1719]: thscode
+                - cell "文本" [ref=f3e1720]
+                - cell "✅" [ref=f3e1721]
+                - cell [ref=f3e1722]
+                - cell [ref=f3e1723]
+          - generic [ref=f3e1724]:
+            - generic [ref=f3e1726]:
+              - generic [ref=f3e1727]: 基金代码 *
+              - textbox "基金代码 *" [ref=f3e1728]:
+                - /placeholder: 510300.SH
+                - text: 510300.SH
+            - button "查询" [ref=f3e1730] [cursor=pointer]
+          - blockquote [ref=f3e1731]:
+            - paragraph [ref=f3e1732]: ⚠️ 可与「同花顺指数目录」的行业指数结合，观察基金调仓与行业轮动。
+          - heading [level=3] [ref=f3e1733]:
+            - text: 基金经理详情
+            - link "¶" [ref=f3e1734] [cursor=pointer]:
+              - /url: "#_36"
+          - paragraph [ref=f3e1735]:
+            - code [ref=f3e1736]: /api/fund/managers/detail
+            - text: · 难度 ★★★ · 可视化：表格
+          - paragraph [ref=f3e1737]: 基金经理详情（任职经历/在管规模）。manager_id 从「基金基本资料」的 manager_info 中获取，不能用名称代替。
+          - table [ref=f3e1740]:
+            - rowgroup [ref=f3e1741]:
+              - row [ref=f3e1742]:
+                - columnheader "参数" [ref=f3e1743]
+                - columnheader "类型" [ref=f3e1744]
+                - columnheader "必填" [ref=f3e1745]
+                - columnheader "默认" [ref=f3e1746]
+                - columnheader "说明" [ref=f3e1747]
+            - rowgroup [ref=f3e1748]:
+              - row [ref=f3e1749]:
+                - cell [ref=f3e1750]:
+                  - code [ref=f3e1751]: manager_id
+                - cell "文本" [ref=f3e1752]
+                - cell "✅" [ref=f3e1753]
+                - cell [ref=f3e1754]
+                - cell "先从基金基本资料接口获取" [ref=f3e1755]
+          - generic [ref=f3e1756]:
+            - generic [ref=f3e1758]:
+              - generic [ref=f3e1759]: 经理 ID *先从基金基本资料接口获取
+              - textbox "经理 ID * 先从基金基本资料接口获取" [ref=f3e1760]:
+                - /placeholder: ""
+            - button "查询" [ref=f3e1762] [cursor=pointer]
+          - blockquote [ref=f3e1763]:
+            - paragraph [ref=f3e1764]: ⚠️ 链式查询：基金资料 → manager_id → 经理详情，体现扶摇接口间的引用关系。
+          - heading [level=3] [ref=f3e1765]:
+            - text: 基金诊断
+            - link "¶" [ref=f3e1766] [cursor=pointer]:
+              - /url: "#_37"
+          - paragraph [ref=f3e1767]:
+            - code [ref=f3e1768]: /api/fund/diagnostics/detail
+            - text: · 难度 ★★★ · 可视化：表格
+          - paragraph [ref=f3e1769]: 基金诊断详情（诊断维度/同类对比/韧性指标），上游结构原样透传，结构较深。
+          - table [ref=f3e1772]:
+            - rowgroup [ref=f3e1773]:
+              - row [ref=f3e1774]:
+                - columnheader "参数" [ref=f3e1775]
+                - columnheader "类型" [ref=f3e1776]
+                - columnheader "必填" [ref=f3e1777]
+                - columnheader "默认" [ref=f3e1778]
+                - columnheader "说明" [ref=f3e1779]
+            - rowgroup [ref=f3e1780]:
+              - row [ref=f3e1781]:
+                - cell [ref=f3e1782]:
+                  - code [ref=f3e1783]: thscode
+                - cell "文本" [ref=f3e1784]
+                - cell "✅" [ref=f3e1785]
+                - cell [ref=f3e1786]
+                - cell [ref=f3e1787]
+          - generic [ref=f3e1788]:
+            - generic [ref=f3e1790]:
+              - generic [ref=f3e1791]: 基金代码 *
+              - textbox "基金代码 *" [ref=f3e1792]:
+                - /placeholder: 510300.SH
+                - text: 510300.SH
+            - button "查询" [ref=f3e1794] [cursor=pointer]
+          - blockquote [ref=f3e1795]:
+            - paragraph [ref=f3e1796]: ⚠️ 返回结构与其它接口差异较大（透传上游），解析时建议先打印原始 JSON 摸结构。
+          - heading [level=3] [ref=f3e1797]:
+            - text: 基金历史分红
+            - link "¶" [ref=f3e1798] [cursor=pointer]:
+              - /url: "#_38"
+          - paragraph [ref=f3e1799]:
+            - code [ref=f3e1800]: /api/fund/corporate-actions/dividends
+            - text: · 难度 ★ · 可视化：表格
+          - paragraph [ref=f3e1801]: 历史分红汇总（dividend_count/dividend_total）+ 逐条每 10 份分红金额与除息日。
+          - table [ref=f3e1804]:
+            - rowgroup [ref=f3e1805]:
+              - row [ref=f3e1806]:
+                - columnheader "参数" [ref=f3e1807]
+                - columnheader "类型" [ref=f3e1808]
+                - columnheader "必填" [ref=f3e1809]
+                - columnheader "默认" [ref=f3e1810]
+                - columnheader "说明" [ref=f3e1811]
+            - rowgroup [ref=f3e1812]:
+              - row [ref=f3e1813]:
+                - cell [ref=f3e1814]:
+                  - code [ref=f3e1815]: thscode
+                - cell "文本" [ref=f3e1816]
+                - cell "✅" [ref=f3e1817]
+                - cell [ref=f3e1818]
+                - cell [ref=f3e1819]
+          - generic [ref=f3e1820]:
+            - generic [ref=f3e1822]:
+              - generic [ref=f3e1823]: 基金代码 *
+              - textbox "基金代码 *" [ref=f3e1824]:
+                - /placeholder: 510300.SH
+                - text: 510300.SH
+            - button "查询" [ref=f3e1826] [cursor=pointer]
+          - blockquote [ref=f3e1827]:
+            - paragraph [ref=f3e1828]: ⚠️ 顶层汇总 + 明细并存结构，与「重仓持仓」一致。
+          - heading [level=3] [ref=f3e1829]:
+            - text: 基金公司详情
+            - link "¶" [ref=f3e1830] [cursor=pointer]:
+              - /url: "#_39"
+          - paragraph [ref=f3e1831]:
+            - code [ref=f3e1832]: /api/fund/companies/detail
+            - text: · 难度 ★★★ · 可视化：表格
+          - paragraph [ref=f3e1833]: 基金公司详情。company_id 从「基金基本资料」获取，不能用名称代替。
+          - table [ref=f3e1836]:
+            - rowgroup [ref=f3e1837]:
+              - row [ref=f3e1838]:
+                - columnheader "参数" [ref=f3e1839]
+                - columnheader "类型" [ref=f3e1840]
+                - columnheader "必填" [ref=f3e1841]
+                - columnheader "默认" [ref=f3e1842]
+                - columnheader "说明" [ref=f3e1843]
+            - rowgroup [ref=f3e1844]:
+              - row [ref=f3e1845]:
+                - cell [ref=f3e1846]:
+                  - code [ref=f3e1847]: company_id
+                - cell "文本" [ref=f3e1848]
+                - cell "✅" [ref=f3e1849]
+                - cell [ref=f3e1850]
+                - cell "先从基金基本资料接口获取" [ref=f3e1851]
+          - generic [ref=f3e1852]:
+            - generic [ref=f3e1854]:
+              - generic [ref=f3e1855]: 公司 ID *先从基金基本资料接口获取
+              - textbox "公司 ID * 先从基金基本资料接口获取" [ref=f3e1856]:
+                - /placeholder: ""
+            - button "查询" [ref=f3e1858] [cursor=pointer]
+          - blockquote [ref=f3e1859]:
+            - paragraph [ref=f3e1860]: ⚠️ 又一个链式查询入参：基金资料 → company_id → 公司详情。
+          - heading [level=2] [ref=f3e1861]:
+            - text: 错误码速查
+            - link "¶" [ref=f3e1862] [cursor=pointer]:
+              - /url: "#_40"
+          - table [ref=f3e1865]:
+            - rowgroup [ref=f3e1866]:
+              - row [ref=f3e1867]:
+                - columnheader "code" [ref=f3e1868]
+                - columnheader "含义" [ref=f3e1869]
+            - rowgroup [ref=f3e1870]:
+              - row [ref=f3e1871]:
+                - cell "4001" [ref=f3e1872]
+                - cell "请求过于频繁（限频）" [ref=f3e1873]
+              - row [ref=f3e1874]:
+                - cell "1002" [ref=f3e1875]
+                - cell "无效代码或非交易日" [ref=f3e1876]
+              - row [ref=f3e1877]:
+                - cell "1003" [ref=f3e1878]
+                - cell "超出批量/窗口上限（如批量 >100 只、热股历史超一年、ETF 历史窗口超 5 自然年）" [ref=f3e1879]
+              - row [ref=f3e1880]:
+                - cell "1004" [ref=f3e1881]
+                - cell "参数组合非法（如热榜走势 start_date > end_date）" [ref=f3e1882]
+              - row [ref=f3e1883]:
+                - cell "3001" [ref=f3e1884]
+                - cell "标的不存在（基金接口）" [ref=f3e1885]
+              - row [ref=f3e1886]:
+                - cell "3002" [ref=f3e1887]
+                - cell "数据未就绪（如当日异动原因暂不可用、场外基金走场内接口）" [ref=f3e1888]
+              - row [ref=f3e1889]:
+                - cell "3004" [ref=f3e1890]
+                - cell "不支持的数据类型（如场外基金查询场内快照）" [ref=f3e1891]
+              - row [ref=f3e1892]:
+                - cell "5003" [ref=f3e1893]
+                - cell "未披露报告期（财务接口，公司尚未披露该期报表）" [ref=f3e1894]
+              - row [ref=f3e1895]:
+                - cell "no_key" [ref=f3e1896]
+                - cell "本地未配置 FUYAO_API_KEY，请在 backend/.env 中设置" [ref=f3e1897]
+      - button "回到页面顶部"
+    - contentinfo [ref=f3e1898]:
+      - generic [ref=f3e1901]:
+        - generic [ref=f3e1902]: © 2026 fuyao_demo · 仅供学习交流
+        - text: Made with
+        - link "Material for MkDocs" [ref=f3e1903] [cursor=pointer]:
+          - /url: https://squidfunk.github.io/mkdocs-material/

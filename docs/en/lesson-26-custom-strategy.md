@@ -1,3 +1,7 @@
+---
+title: "Lesson 26: Custom Strategy Development"
+---
+
 # Lesson 26: Custom Strategy Development
 
 **⏱ Duration**: 2.5 hours

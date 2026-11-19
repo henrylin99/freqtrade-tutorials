@@ -1,3 +1,7 @@
+---
+title: "Lesson 25: Risk Control and Psychology Management"
+---
+
 # Lesson 25: Risk Control and Psychology Management
 
 **⏱ Duration**: 1.5 hours

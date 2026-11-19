@@ -1,3 +1,7 @@
+---
+title: "Lesson 18: Web UI and API Usage"
+---
+
 # Lesson 18: Web UI and API Usage
 
 **⏱ Duration**: 1.5 hours

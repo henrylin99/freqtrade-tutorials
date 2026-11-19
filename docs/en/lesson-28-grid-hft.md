@@ -1,3 +1,7 @@
+---
+title: "Lesson 28: High-Frequency Trading and Grid Strategies"
+---
+
 # Lesson 28: High-Frequency Trading and Grid Strategies
 
 **⏱ Duration**: 2 hours

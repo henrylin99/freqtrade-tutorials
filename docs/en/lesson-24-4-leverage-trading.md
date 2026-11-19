@@ -1,3 +1,7 @@
+---
+title: "Lesson 24.4: Leverage Trading Operations Detailed Guide"
+---
+
 # Lesson 24.4: Leverage Trading Operations Detailed Guide
 
 **⏱ Duration**: 2 hours

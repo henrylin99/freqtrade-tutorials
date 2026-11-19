@@ -1,3 +1,7 @@
+---
+title: "Lesson 14: Risk Management"
+---
+
 # Lesson 14: Risk Management
 
 **⏱ Duration**: 2 hours

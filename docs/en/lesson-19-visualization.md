@@ -1,3 +1,7 @@
+---
+title: "Lesson 19: Visualization Analysis Tools"
+---
+
 # Lesson 19: Visualization Analysis Tools
 
 **⏱ Duration**: 1.5 hours

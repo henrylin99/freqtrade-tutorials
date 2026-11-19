@@ -1,3 +1,7 @@
+---
+title: "Lesson 12: Advanced Strategy Analysis"
+---
+
 # Lesson 12: Advanced Strategy Analysis
 
 **⏱ Duration**: 2 hours

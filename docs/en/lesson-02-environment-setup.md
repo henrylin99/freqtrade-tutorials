@@ -1,3 +1,7 @@
+---
+title: "Lesson 2: Freqtrade Environment Setup"
+---
+
 # Lesson 2: Freqtrade Environment Setup
 
 > 📚 **Course Series**: Complete Freqtrade Quantitative Trading Course

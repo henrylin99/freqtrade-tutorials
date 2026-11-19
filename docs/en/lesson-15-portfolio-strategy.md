@@ -1,3 +1,7 @@
+---
+title: "Lesson 15: Strategy Portfolio and Diversification"
+---
+
 # Lesson 15: Strategy Portfolio and Diversification
 
 **⏱ Duration**: 1.5 hours

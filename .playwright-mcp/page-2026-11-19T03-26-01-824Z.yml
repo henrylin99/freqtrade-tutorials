@@ -1,0 +1,297 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]: 扶摇数据终端
+      - generic [ref=e7]: fuyao · 同花顺金融数据 API
+    - navigation [ref=e8]:
+      - link "全部接口" [ref=e9] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e10]:
+        - generic [ref=e11]: 行情快照
+        - link "A 股全市场实时快照（分页）" [ref=e12] [cursor=pointer]:
+          - /url: /ep/snapshot-page
+        - link "个股实时快照（批量）" [ref=e13] [cursor=pointer]:
+          - /url: /ep/price-snapshot-batch
+        - link "指数实时快照" [ref=e14] [cursor=pointer]:
+          - /url: /ep/index-snapshot
+      - generic [ref=e15]:
+        - generic [ref=e16]: 指数
+        - link "同花顺指数目录" [ref=e17] [cursor=pointer]:
+          - /url: /ep/ths-index-catalog
+        - link "同花顺指数成分股" [ref=e18] [cursor=pointer]:
+          - /url: /ep/ths-index-constituents
+      - generic [ref=e19]:
+        - generic [ref=e20]: 历史K线
+        - link "个股历史 K 线" [ref=e21] [cursor=pointer]:
+          - /url: /ep/historical-kline
+      - generic [ref=e22]:
+        - generic [ref=e23]: 财务与估值
+        - link "财务报表（三大表）" [ref=e24] [cursor=pointer]:
+          - /url: /ep/financial-statement
+        - link "估值快照" [ref=e25] [cursor=pointer]:
+          - /url: /ep/valuations-snapshot
+      - generic [ref=e26]:
+        - generic [ref=e27]: 日历与竞价
+        - link "交易日历" [ref=e28] [cursor=pointer]:
+          - /url: /ep/trading-days
+        - link "盘前竞价短线风向标" [ref=e29] [cursor=pointer]:
+          - /url: /ep/short-term-benchmark
+        - link "集合竞价快照" [ref=e30] [cursor=pointer]:
+          - /url: /ep/auction-snapshot
+        - link "集合竞价个股机会筛选" [ref=e31] [cursor=pointer]:
+          - /url: /ep/auction-stock-opportunities
+        - link "竞价机会可选日期" [ref=e32] [cursor=pointer]:
+          - /url: /ep/auction-opportunity-dates
+      - generic [ref=e33]:
+        - generic [ref=e34]: 特色数据
+        - link "涨停股票池" [ref=e35] [cursor=pointer]:
+          - /url: /ep/limit-up-pool
+        - link "跌停股票池" [ref=e36] [cursor=pointer]:
+          - /url: /ep/limit-down-pool
+        - link "炸板股票池" [ref=e37] [cursor=pointer]:
+          - /url: /ep/limit-break-pool
+        - link "连板天梯" [ref=e38] [cursor=pointer]:
+          - /url: /ep/limit-up-ladder
+        - link "同花顺热股榜" [ref=e39] [cursor=pointer]:
+          - /url: /ep/hot-stock-list
+        - link "热股飙升榜" [ref=e40] [cursor=pointer]:
+          - /url: /ep/skyrocket-list
+        - link "历史热股排行" [ref=e41] [cursor=pointer]:
+          - /url: /ep/hot-stock-list-history
+        - link "个股热榜排名走势" [ref=e42] [cursor=pointer]:
+          - /url: /ep/hot-stock-rank-trend
+        - link "个股异动原因（全市场列表）" [ref=e43] [cursor=pointer]:
+          - /url: /ep/anomaly-analysis-list
+        - link "个股异动原因（按代码查询）" [ref=e44] [cursor=pointer]:
+          - /url: /ep/anomaly-analysis-stock
+        - link "异动股票监控名单" [ref=e45] [cursor=pointer]:
+          - /url: /ep/abnormal-monitor-list
+        - link "龙虎榜" [ref=e46] [cursor=pointer]:
+          - /url: /ep/dragon-tiger-list
+      - generic [ref=e47]:
+        - generic [ref=e48]: 标的检索
+        - link "标的模糊搜索" [ref=e49] [cursor=pointer]:
+          - /url: /ep/ticker-search
+      - generic [ref=e50]:
+        - generic [ref=e51]: 基金
+        - link "基金基本资料" [ref=e52] [cursor=pointer]:
+          - /url: /ep/fund-profile
+        - link "场内基金实时快照" [ref=e53] [cursor=pointer]:
+          - /url: /ep/fund-market-snapshot
+        - link "ETF 历史日线" [ref=e54] [cursor=pointer]:
+          - /url: /ep/fund-historical
+        - link "基金净值序列" [ref=e55] [cursor=pointer]:
+          - /url: /ep/fund-nav
+        - link "基金区间收益与排名" [ref=e56] [cursor=pointer]:
+          - /url: /ep/fund-returns
+        - link "基金最大回撤" [ref=e57] [cursor=pointer]:
+          - /url: /ep/fund-drawdowns
+        - link "基金重仓持仓" [ref=e58] [cursor=pointer]:
+          - /url: /ep/fund-holdings
+        - link "基金持有人结构" [ref=e59] [cursor=pointer]:
+          - /url: /ep/fund-holders-detail
+        - link "基金前十大持有人" [ref=e60] [cursor=pointer]:
+          - /url: /ep/fund-holders-top
+        - link "基金资产配置" [ref=e61] [cursor=pointer]:
+          - /url: /ep/fund-asset-allocation
+        - link "基金行业配置" [ref=e62] [cursor=pointer]:
+          - /url: /ep/fund-industry-allocation
+        - link "基金经理详情" [ref=e63] [cursor=pointer]:
+          - /url: /ep/fund-manager-detail
+        - link "基金诊断" [ref=e64] [cursor=pointer]:
+          - /url: /ep/fund-diagnostics
+        - link "基金历史分红" [ref=e65] [cursor=pointer]:
+          - /url: /ep/fund-dividends
+        - link "基金公司详情" [ref=e66] [cursor=pointer]:
+          - /url: /ep/fund-company
+  - main [ref=e67]:
+    - generic [ref=e68]:
+      - generic [ref=e70]:
+        - heading "全部接口" [level=1] [ref=e71]
+        - paragraph [ref=e72]: 共 41 个接口，每个接口一个查询页面：填参数 → 查询 → 表格 / 图表 / JSON。
+      - generic [ref=e73]:
+        - heading "行情快照" [level=2] [ref=e74]
+        - generic [ref=e75]:
+          - link "A 股全市场实时快照（分页） /api/a-share/prices/snapshot" [ref=e76] [cursor=pointer]:
+            - /url: /ep/snapshot-page
+            - generic [ref=e77]: A 股全市场实时快照（分页）
+            - generic [ref=e79]: /api/a-share/prices/snapshot
+          - link "个股实时快照（批量） /api/a-share/prices/snapshot?thscodes=…" [ref=e80] [cursor=pointer]:
+            - /url: /ep/price-snapshot-batch
+            - generic [ref=e81]: 个股实时快照（批量）
+            - generic [ref=e83]: /api/a-share/prices/snapshot?thscodes=…
+          - link "指数实时快照 /api/a-share-index/prices/snapshot" [ref=e84] [cursor=pointer]:
+            - /url: /ep/index-snapshot
+            - generic [ref=e85]: 指数实时快照
+            - generic [ref=e87]: /api/a-share-index/prices/snapshot
+      - generic [ref=e88]:
+        - heading "指数" [level=2] [ref=e89]
+        - generic [ref=e90]:
+          - link "同花顺指数目录 /api/a-share-index/catalog/ths-index-list" [ref=e91] [cursor=pointer]:
+            - /url: /ep/ths-index-catalog
+            - generic [ref=e92]: 同花顺指数目录
+            - generic [ref=e94]: /api/a-share-index/catalog/ths-index-list
+          - link "同花顺指数成分股 /api/a-share-index/constituents/ths-stock-list" [ref=e95] [cursor=pointer]:
+            - /url: /ep/ths-index-constituents
+            - generic [ref=e96]: 同花顺指数成分股
+            - generic [ref=e98]: /api/a-share-index/constituents/ths-stock-list
+      - generic [ref=e99]:
+        - heading "历史K线" [level=2] [ref=e100]
+        - link "个股历史 K 线 /api/a-share/prices/historical" [ref=e102] [cursor=pointer]:
+          - /url: /ep/historical-kline
+          - generic [ref=e103]: 个股历史 K 线
+          - generic [ref=e105]: /api/a-share/prices/historical
+      - generic [ref=e106]:
+        - heading "财务与估值" [level=2] [ref=e107]
+        - generic [ref=e108]:
+          - 'link "财务报表（三大表） /api/a-share/financials/{income-statements|balance-sheets|cash-flow-statements}" [ref=e109] [cursor=pointer]':
+            - /url: /ep/financial-statement
+            - generic [ref=e110]: 财务报表（三大表）
+            - generic [ref=e112]: "/api/a-share/financials/{income-statements|balance-sheets|cash-flow-statements}"
+          - link "估值快照 /api/a-share/valuations/snapshot" [ref=e113] [cursor=pointer]:
+            - /url: /ep/valuations-snapshot
+            - generic [ref=e114]: 估值快照
+            - generic [ref=e116]: /api/a-share/valuations/snapshot
+      - generic [ref=e117]:
+        - heading "日历与竞价" [level=2] [ref=e118]
+        - generic [ref=e119]:
+          - link "交易日历 /api/a-share/calendar/trading-days" [ref=e120] [cursor=pointer]:
+            - /url: /ep/trading-days
+            - generic [ref=e121]: 交易日历
+            - generic [ref=e123]: /api/a-share/calendar/trading-days
+          - link "盘前竞价短线风向标 /api/a-share/auction/short-term-benchmark" [ref=e124] [cursor=pointer]:
+            - /url: /ep/short-term-benchmark
+            - generic [ref=e125]: 盘前竞价短线风向标
+            - generic [ref=e127]: /api/a-share/auction/short-term-benchmark
+          - link "集合竞价快照 /api/a-share/auction/snapshot" [ref=e128] [cursor=pointer]:
+            - /url: /ep/auction-snapshot
+            - generic [ref=e129]: 集合竞价快照
+            - generic [ref=e131]: /api/a-share/auction/snapshot
+          - link "集合竞价个股机会筛选 /api/a-share/special-data/auction-stock-opportunities" [ref=e132] [cursor=pointer]:
+            - /url: /ep/auction-stock-opportunities
+            - generic [ref=e133]: 集合竞价个股机会筛选
+            - generic [ref=e135]: /api/a-share/special-data/auction-stock-opportunities
+          - link "竞价机会可选日期 /api/a-share/special-data/auction-opportunity-dates" [ref=e136] [cursor=pointer]:
+            - /url: /ep/auction-opportunity-dates
+            - generic [ref=e137]: 竞价机会可选日期
+            - generic [ref=e139]: /api/a-share/special-data/auction-opportunity-dates
+      - generic [ref=e140]:
+        - heading "特色数据" [level=2] [ref=e141]
+        - generic [ref=e142]:
+          - link "涨停股票池 /api/a-share/special-data/limit-up-pool" [ref=e143] [cursor=pointer]:
+            - /url: /ep/limit-up-pool
+            - generic [ref=e144]: 涨停股票池
+            - generic [ref=e146]: /api/a-share/special-data/limit-up-pool
+          - link "跌停股票池 /api/a-share/special-data/limit-down-pool" [ref=e147] [cursor=pointer]:
+            - /url: /ep/limit-down-pool
+            - generic [ref=e148]: 跌停股票池
+            - generic [ref=e150]: /api/a-share/special-data/limit-down-pool
+          - link "炸板股票池 /api/a-share/special-data/limit-break-pool" [ref=e151] [cursor=pointer]:
+            - /url: /ep/limit-break-pool
+            - generic [ref=e152]: 炸板股票池
+            - generic [ref=e154]: /api/a-share/special-data/limit-break-pool
+          - link "连板天梯 /api/a-share/special-data/limit-up-ladder" [ref=e155] [cursor=pointer]:
+            - /url: /ep/limit-up-ladder
+            - generic [ref=e156]: 连板天梯
+            - generic [ref=e158]: /api/a-share/special-data/limit-up-ladder
+          - link "同花顺热股榜 /api/a-share/special-data/hot-stock-list" [ref=e159] [cursor=pointer]:
+            - /url: /ep/hot-stock-list
+            - generic [ref=e160]: 同花顺热股榜
+            - generic [ref=e162]: /api/a-share/special-data/hot-stock-list
+          - link "热股飙升榜 /api/a-share/special-data/skyrocket-list" [ref=e163] [cursor=pointer]:
+            - /url: /ep/skyrocket-list
+            - generic [ref=e164]: 热股飙升榜
+            - generic [ref=e166]: /api/a-share/special-data/skyrocket-list
+          - link "历史热股排行 /api/a-share/special-data/hot-stock-list-history" [ref=e167] [cursor=pointer]:
+            - /url: /ep/hot-stock-list-history
+            - generic [ref=e168]: 历史热股排行
+            - generic [ref=e170]: /api/a-share/special-data/hot-stock-list-history
+          - link "个股热榜排名走势 /api/a-share/special-data/hot-stock-rank-trend" [ref=e171] [cursor=pointer]:
+            - /url: /ep/hot-stock-rank-trend
+            - generic [ref=e172]: 个股热榜排名走势
+            - generic [ref=e174]: /api/a-share/special-data/hot-stock-rank-trend
+          - link "个股异动原因（全市场列表） /api/a-share/special-data/anomaly-analysis-list" [ref=e175] [cursor=pointer]:
+            - /url: /ep/anomaly-analysis-list
+            - generic [ref=e176]: 个股异动原因（全市场列表）
+            - generic [ref=e178]: /api/a-share/special-data/anomaly-analysis-list
+          - link "个股异动原因（按代码查询） /api/a-share/special-data/anomaly-analysis-stock" [ref=e179] [cursor=pointer]:
+            - /url: /ep/anomaly-analysis-stock
+            - generic [ref=e180]: 个股异动原因（按代码查询）
+            - generic [ref=e182]: /api/a-share/special-data/anomaly-analysis-stock
+          - link "异动股票监控名单 /api/a-share/special-data/abnormal-monitor-list" [ref=e183] [cursor=pointer]:
+            - /url: /ep/abnormal-monitor-list
+            - generic [ref=e184]: 异动股票监控名单
+            - generic [ref=e186]: /api/a-share/special-data/abnormal-monitor-list
+          - link "龙虎榜 /api/a-share/special-data/dragon-tiger-list" [ref=e187] [cursor=pointer]:
+            - /url: /ep/dragon-tiger-list
+            - generic [ref=e188]: 龙虎榜
+            - generic [ref=e190]: /api/a-share/special-data/dragon-tiger-list
+      - generic [ref=e191]:
+        - heading "标的检索" [level=2] [ref=e192]
+        - link "标的模糊搜索 /api/meta/tickers/search" [ref=e194] [cursor=pointer]:
+          - /url: /ep/ticker-search
+          - generic [ref=e195]: 标的模糊搜索
+          - generic [ref=e197]: /api/meta/tickers/search
+      - generic [ref=e198]:
+        - heading "基金" [level=2] [ref=e199]
+        - generic [ref=e200]:
+          - link "基金基本资料 /api/fund/profile/detail" [ref=e201] [cursor=pointer]:
+            - /url: /ep/fund-profile
+            - generic [ref=e202]: 基金基本资料
+            - generic [ref=e204]: /api/fund/profile/detail
+          - link "场内基金实时快照 /api/fund/market/snapshot" [ref=e205] [cursor=pointer]:
+            - /url: /ep/fund-market-snapshot
+            - generic [ref=e206]: 场内基金实时快照
+            - generic [ref=e208]: /api/fund/market/snapshot
+          - link "ETF 历史日线 /api/fund/market/historical" [ref=e209] [cursor=pointer]:
+            - /url: /ep/fund-historical
+            - generic [ref=e210]: ETF 历史日线
+            - generic [ref=e212]: /api/fund/market/historical
+          - link "基金净值序列 /api/fund/performance/nav" [ref=e213] [cursor=pointer]:
+            - /url: /ep/fund-nav
+            - generic [ref=e214]: 基金净值序列
+            - generic [ref=e216]: /api/fund/performance/nav
+          - link "基金区间收益与排名 /api/fund/performance/returns" [ref=e217] [cursor=pointer]:
+            - /url: /ep/fund-returns
+            - generic [ref=e218]: 基金区间收益与排名
+            - generic [ref=e220]: /api/fund/performance/returns
+          - link "基金最大回撤 /api/fund/performance/drawdowns" [ref=e221] [cursor=pointer]:
+            - /url: /ep/fund-drawdowns
+            - generic [ref=e222]: 基金最大回撤
+            - generic [ref=e224]: /api/fund/performance/drawdowns
+          - link "基金重仓持仓 /api/fund/portfolio/holdings" [ref=e225] [cursor=pointer]:
+            - /url: /ep/fund-holdings
+            - generic [ref=e226]: 基金重仓持仓
+            - generic [ref=e228]: /api/fund/portfolio/holdings
+          - link "基金持有人结构 /api/fund/holders/detail" [ref=e229] [cursor=pointer]:
+            - /url: /ep/fund-holders-detail
+            - generic [ref=e230]: 基金持有人结构
+            - generic [ref=e232]: /api/fund/holders/detail
+          - link "基金前十大持有人 /api/fund/holders/top" [ref=e233] [cursor=pointer]:
+            - /url: /ep/fund-holders-top
+            - generic [ref=e234]: 基金前十大持有人
+            - generic [ref=e236]: /api/fund/holders/top
+          - link "基金资产配置 /api/fund/portfolio/asset-allocation" [ref=e237] [cursor=pointer]:
+            - /url: /ep/fund-asset-allocation
+            - generic [ref=e238]: 基金资产配置
+            - generic [ref=e240]: /api/fund/portfolio/asset-allocation
+          - link "基金行业配置 /api/fund/portfolio/industry-allocation" [ref=e241] [cursor=pointer]:
+            - /url: /ep/fund-industry-allocation
+            - generic [ref=e242]: 基金行业配置
+            - generic [ref=e244]: /api/fund/portfolio/industry-allocation
+          - link "基金经理详情 /api/fund/managers/detail" [ref=e245] [cursor=pointer]:
+            - /url: /ep/fund-manager-detail
+            - generic [ref=e246]: 基金经理详情
+            - generic [ref=e248]: /api/fund/managers/detail
+          - link "基金诊断 /api/fund/diagnostics/detail" [ref=e249] [cursor=pointer]:
+            - /url: /ep/fund-diagnostics
+            - generic [ref=e250]: 基金诊断
+            - generic [ref=e252]: /api/fund/diagnostics/detail
+          - link "基金历史分红 /api/fund/corporate-actions/dividends" [ref=e253] [cursor=pointer]:
+            - /url: /ep/fund-dividends
+            - generic [ref=e254]: 基金历史分红
+            - generic [ref=e256]: /api/fund/corporate-actions/dividends
+          - link "基金公司详情 /api/fund/companies/detail" [ref=e257] [cursor=pointer]:
+            - /url: /ep/fund-company
+            - generic [ref=e258]: 基金公司详情
+            - generic [ref=e260]: /api/fund/companies/detail

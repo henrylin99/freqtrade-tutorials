@@ -1,3 +1,7 @@
+---
+title: "Lesson 8: Strategy Batch Comparison"
+---
+
 # Lesson 8: Strategy Batch Comparison
 
 **⏱ Duration**: 1.5 hours

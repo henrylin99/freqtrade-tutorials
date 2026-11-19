@@ -1,3 +1,7 @@
+---
+title: "Lesson 21: Exchange API Configuration"
+---
+
 # Lesson 21: Exchange API Configuration
 
 **⏱ Duration**: 1.5 hours

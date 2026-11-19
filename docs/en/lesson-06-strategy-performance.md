@@ -1,3 +1,7 @@
+---
+title: "Lesson 6: Strategy Performance Analysis"
+---
+
 # Lesson 6: Strategy Performance Analysis
 
 **⏱ Duration**: 2 hours

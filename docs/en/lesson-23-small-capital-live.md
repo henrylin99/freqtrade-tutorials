@@ -1,3 +1,7 @@
+---
+title: "Lesson 23: Small Capital Live Trading"
+---
+
 # Lesson 23: Small Capital Live Trading
 
 **⏱ Duration**: 2 hours

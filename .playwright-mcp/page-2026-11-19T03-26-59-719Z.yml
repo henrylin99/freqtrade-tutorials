@@ -1,0 +1,10 @@
+- generic [ref=f1e3]:
+  - complementary [ref=f1e4]:
+    - generic [ref=f1e5]:
+      - generic [ref=f1e6]: 扶摇数据终端
+      - generic [ref=f1e7]: fuyao · 同花顺金融数据 API
+    - navigation [ref=f1e8]:
+      - link "全部接口" [ref=f1e9] [cursor=pointer]:
+        - /url: /
+  - main [ref=f1e10]:
+    - generic [ref=f1e11]: 加载接口清单…

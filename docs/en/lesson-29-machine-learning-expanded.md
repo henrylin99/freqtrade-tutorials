@@ -1,3 +1,7 @@
+---
+title: "Lesson 29: Machine Learning and Strategy Optimization (Expanded)"
+---
+
 # Lesson 29: Machine Learning and Strategy Optimization (Expanded)
 
 **⏱ Duration**: 3.5 hours

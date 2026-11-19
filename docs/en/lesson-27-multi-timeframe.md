@@ -1,3 +1,7 @@
+---
+title: "Lesson 27: Multi-Timeframe Strategies"
+---
+
 # Lesson 27: Multi-Timeframe Strategies
 
 **⏱ Duration**: 2 hours

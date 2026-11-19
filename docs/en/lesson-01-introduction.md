@@ -1,3 +1,7 @@
+---
+title: "Lesson 1: Introduction to Quantitative Trading and Freqtrade"
+---
+
 # Lesson 1: Introduction to Quantitative Trading and Freqtrade
 
 > 📚 **Course Series**: Complete Freqtrade Quantitative Trading Tutorial Course

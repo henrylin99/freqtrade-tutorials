@@ -1,3 +1,7 @@
+---
+title: "Lesson 22: Pre-Live Trading Checklist"
+---
+
 # Lesson 22: Pre-Live Trading Checklist
 
 **⏱ Duration**: 2 hours

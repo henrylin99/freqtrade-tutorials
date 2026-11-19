@@ -1,3 +1,7 @@
+---
+title: "Lesson 24.1: Live Trading Order Placement Detailed Guide"
+---
+
 # Lesson 24.1: Live Trading Order Placement Detailed Guide
 
 **⏱ Duration**: 1.5 hours

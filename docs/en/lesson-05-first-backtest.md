@@ -1,3 +1,7 @@
+---
+title: Lesson 5: First Strategy Backtest
+---
+
 # Lesson 5: First Strategy Backtest
 
 > 📚 **Course Series**: Complete Freqtrade Quantitative Trading Course

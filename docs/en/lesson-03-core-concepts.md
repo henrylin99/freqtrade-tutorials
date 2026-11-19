@@ -1,3 +1,7 @@
+---
+title: "Lesson 3: Understanding Core Concepts"
+---
+
 # Lesson 3: Understanding Core Concepts
 
 **⏱ Duration**: 1.5 hours

@@ -1,3 +1,7 @@
+---
+title: "Lesson 7: Multi-Timeframe Backtesting"
+---
+
 # Lesson 7: Multi-Timeframe Backtesting
 
 **⏱ Duration**: 2 hours

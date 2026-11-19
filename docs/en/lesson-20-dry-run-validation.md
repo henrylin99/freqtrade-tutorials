@@ -1,3 +1,7 @@
+---
+title: "Lesson 20: Simulated Trading Validation"
+---
+
 # Lesson 20: Simulated Trading Validation
 
 **⏱ Duration**: 2 hours

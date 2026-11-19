@@ -1,3 +1,7 @@
+---
+title: "Lesson 16: Real-time Signal Monitoring"
+---
+
 # Lesson 16: Real-time Signal Monitoring
 
 **⏱ Duration**: 2 hours

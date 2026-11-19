@@ -1,3 +1,7 @@
+---
+title: "Lesson 10: Trading Pair Selection and Testing"
+---
+
 # Lesson 10: Trading Pair Selection and Testing
 
 **⏱ Duration**: 1.5 hours

@@ -1,3 +1,7 @@
+---
+title: "Lesson 9: Time Range Testing"
+---
+
 # Lesson 9: Time Range Testing
 
 **⏱ Duration**: 1.5 hours

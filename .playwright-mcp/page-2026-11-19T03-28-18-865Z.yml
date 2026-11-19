@@ -1,0 +1,149 @@
+- generic [ref=f2e3]:
+  - complementary [ref=f2e4]:
+    - generic [ref=f2e5]:
+      - generic [ref=f2e6]: 扶摇数据终端
+      - generic [ref=f2e7]: fuyao · 同花顺金融数据 API
+    - navigation [ref=f2e8]:
+      - link "全部接口" [ref=f2e9] [cursor=pointer]:
+        - /url: /
+      - generic [ref=f2e10]:
+        - generic [ref=f2e11]: 行情快照
+        - link "A 股全市场实时快照（分页）" [ref=f2e12] [cursor=pointer]:
+          - /url: /ep/snapshot-page
+        - link "个股实时快照（批量）" [ref=f2e13] [cursor=pointer]:
+          - /url: /ep/price-snapshot-batch
+        - link "指数实时快照" [ref=f2e14] [cursor=pointer]:
+          - /url: /ep/index-snapshot
+      - generic [ref=f2e15]:
+        - generic [ref=f2e16]: 指数
+        - link "同花顺指数目录" [ref=f2e17] [cursor=pointer]:
+          - /url: /ep/ths-index-catalog
+        - link "同花顺指数成分股" [ref=f2e18] [cursor=pointer]:
+          - /url: /ep/ths-index-constituents
+      - generic [ref=f2e19]:
+        - generic [ref=f2e20]: 历史K线
+        - link "个股历史 K 线" [ref=f2e21] [cursor=pointer]:
+          - /url: /ep/historical-kline
+      - generic [ref=f2e22]:
+        - generic [ref=f2e23]: 财务与估值
+        - link "财务报表（三大表）" [ref=f2e24] [cursor=pointer]:
+          - /url: /ep/financial-statement
+        - link "估值快照" [ref=f2e25] [cursor=pointer]:
+          - /url: /ep/valuations-snapshot
+      - generic [ref=f2e26]:
+        - generic [ref=f2e27]: 日历与竞价
+        - link "交易日历" [ref=f2e28] [cursor=pointer]:
+          - /url: /ep/trading-days
+        - link "盘前竞价短线风向标" [ref=f2e29] [cursor=pointer]:
+          - /url: /ep/short-term-benchmark
+        - link "集合竞价快照" [ref=f2e30] [cursor=pointer]:
+          - /url: /ep/auction-snapshot
+        - link "集合竞价个股机会筛选" [ref=f2e31] [cursor=pointer]:
+          - /url: /ep/auction-stock-opportunities
+        - link "竞价机会可选日期" [ref=f2e32] [cursor=pointer]:
+          - /url: /ep/auction-opportunity-dates
+      - generic [ref=f2e33]:
+        - generic [ref=f2e34]: 特色数据
+        - link "涨停股票池" [ref=f2e35] [cursor=pointer]:
+          - /url: /ep/limit-up-pool
+        - link "跌停股票池" [ref=f2e36] [cursor=pointer]:
+          - /url: /ep/limit-down-pool
+        - link "炸板股票池" [ref=f2e37] [cursor=pointer]:
+          - /url: /ep/limit-break-pool
+        - link "连板天梯" [ref=f2e38] [cursor=pointer]:
+          - /url: /ep/limit-up-ladder
+        - link "同花顺热股榜" [ref=f2e39] [cursor=pointer]:
+          - /url: /ep/hot-stock-list
+        - link "热股飙升榜" [ref=f2e40] [cursor=pointer]:
+          - /url: /ep/skyrocket-list
+        - link "历史热股排行" [ref=f2e41] [cursor=pointer]:
+          - /url: /ep/hot-stock-list-history
+        - link "个股热榜排名走势" [ref=f2e42] [cursor=pointer]:
+          - /url: /ep/hot-stock-rank-trend
+        - link "个股异动原因（全市场列表）" [ref=f2e43] [cursor=pointer]:
+          - /url: /ep/anomaly-analysis-list
+        - link "个股异动原因（按代码查询）" [ref=f2e44] [cursor=pointer]:
+          - /url: /ep/anomaly-analysis-stock
+        - link "异动股票监控名单" [ref=f2e45] [cursor=pointer]:
+          - /url: /ep/abnormal-monitor-list
+        - link "龙虎榜" [ref=f2e46] [cursor=pointer]:
+          - /url: /ep/dragon-tiger-list
+      - generic [ref=f2e47]:
+        - generic [ref=f2e48]: 标的检索
+        - link "标的模糊搜索" [ref=f2e49] [cursor=pointer]:
+          - /url: /ep/ticker-search
+      - generic [ref=f2e50]:
+        - generic [ref=f2e51]: 基金
+        - link "基金基本资料" [ref=f2e52] [cursor=pointer]:
+          - /url: /ep/fund-profile
+        - link "场内基金实时快照" [ref=f2e53] [cursor=pointer]:
+          - /url: /ep/fund-market-snapshot
+        - link "ETF 历史日线" [ref=f2e54] [cursor=pointer]:
+          - /url: /ep/fund-historical
+        - link "基金净值序列" [ref=f2e55] [cursor=pointer]:
+          - /url: /ep/fund-nav
+        - link "基金区间收益与排名" [ref=f2e56] [cursor=pointer]:
+          - /url: /ep/fund-returns
+        - link "基金最大回撤" [ref=f2e57] [cursor=pointer]:
+          - /url: /ep/fund-drawdowns
+        - link "基金重仓持仓" [ref=f2e58] [cursor=pointer]:
+          - /url: /ep/fund-holdings
+        - link "基金持有人结构" [ref=f2e59] [cursor=pointer]:
+          - /url: /ep/fund-holders-detail
+        - link "基金前十大持有人" [ref=f2e60] [cursor=pointer]:
+          - /url: /ep/fund-holders-top
+        - link "基金资产配置" [ref=f2e61] [cursor=pointer]:
+          - /url: /ep/fund-asset-allocation
+        - link "基金行业配置" [ref=f2e62] [cursor=pointer]:
+          - /url: /ep/fund-industry-allocation
+        - link "基金经理详情" [ref=f2e63] [cursor=pointer]:
+          - /url: /ep/fund-manager-detail
+        - link "基金诊断" [ref=f2e64] [cursor=pointer]:
+          - /url: /ep/fund-diagnostics
+        - link "基金历史分红" [ref=f2e65] [cursor=pointer]:
+          - /url: /ep/fund-dividends
+        - link "基金公司详情" [ref=f2e66] [cursor=pointer]:
+          - /url: /ep/fund-company
+  - main [ref=f2e67]:
+    - generic [ref=f2e68]:
+      - generic [ref=f2e69]:
+        - generic [ref=f2e70]:
+          - heading "个股历史 K 线" [level=1] [ref=f2e71]
+          - paragraph [ref=f2e72]: 单标的 OHLCV 历史K线，interval=1d（日线），窗口 ≤10 年。日期参数转成北京时间零点 epoch ms 传入。
+        - generic [ref=f2e73]: /api/a-share/prices/historical
+      - generic [ref=f2e74]:
+        - heading "查询条件" [level=2] [ref=f2e76]
+        - list [ref=f2e78]:
+          - listitem [ref=f2e79]: adjust 锁定 none：服务端前复权有逐日漂移，禁用（复权因子可走全市场 dump 自算）。
+          - listitem [ref=f2e80]: start/end 均可空=默认最近区间；超 10 年窗口服务端拒绝。
+          - listitem [ref=f2e81]: date_ms 时间口径：北京时间零点的 epoch ms，按 UTC 解析会偏一天。
+        - generic [ref=f2e82]:
+          - generic [ref=f2e83]:
+            - generic [ref=f2e84]:
+              - code [ref=f2e85]: thscode
+              - emphasis [ref=f2e86]: "*"
+              - generic [ref=f2e87]: 股票代码
+            - textbox "thscode * 股票代码" [ref=f2e88]:
+              - /placeholder: 600519.SH
+              - text: 600519.SH
+          - generic [ref=f2e89]:
+            - generic [ref=f2e90]:
+              - code [ref=f2e91]: start_ms
+              - generic [ref=f2e92]: 开始日期
+            - textbox "start_ms 开始日期 转北京时间零点 epoch ms" [ref=f2e93]: 2026-09-01
+            - generic [ref=f2e94]: 转北京时间零点 epoch ms
+          - generic [ref=f2e95]:
+            - generic [ref=f2e96]:
+              - code [ref=f2e97]: end_ms
+              - generic [ref=f2e98]: 结束日期
+            - textbox "end_ms 结束日期" [ref=f2e99]: 2026-11-13
+        - button "查询" [ref=f2e100] [cursor=pointer]
+      - generic [ref=f2e102]:
+        - heading "查询结果" [level=2] [ref=f2e103]
+        - generic [ref=f2e105]:
+          - text: 耗时
+          - generic [ref=f2e106]: 201 ms
+        - generic [ref=f2e107]:
+          - button "表格" [ref=f2e108] [cursor=pointer]
+          - button "图表" [ref=f2e109] [cursor=pointer]
+          - button "JSON" [ref=f2e110] [cursor=pointer]

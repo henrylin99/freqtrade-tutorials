@@ -1,3 +1,7 @@
+---
+title: "Lesson 4: Data Download and Management"
+---
+
 # Lesson 4: Data Download and Management
 
 **⏱ Duration**: 1.5 hours

@@ -1,3 +1,7 @@
+---
+title: "Lesson 24: Trading Monitoring and Adjustment"
+---
+
 # Lesson 24: Trading Monitoring and Adjustment
 
 **⏱ Duration**: 1.5 hours

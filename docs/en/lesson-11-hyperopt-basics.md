@@ -1,3 +1,7 @@
+---
+title: "Lesson 11: Hyperopt Basics"
+---
+
 # Lesson 11: Hyperopt Basics
 
 **⏱ Duration**: 2 hours
